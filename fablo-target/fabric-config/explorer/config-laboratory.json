@@ -1,0 +1,9 @@
+{
+  "network-configs": {
+    "network-laboratory": {
+      "name": "Network of laboratory",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-laboratory.json"
+    }
+  },
+  "license": "Apache-2.0"
+}

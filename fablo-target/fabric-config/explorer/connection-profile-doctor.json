@@ -1,0 +1,63 @@
+{
+  "name": "fablo-test-network-doctor",
+  "description": "Connection profile for Hyperledger Explorer in Fablo network",
+  "version": "1.0.0",
+  "client": {
+    "organization": "doctor",
+    "tlsEnable": true,
+    "enableAuthentication": true,
+    "adminCredential": {
+      "id": "admin",
+      "password": "adminpw"
+    },
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "organizations": {
+    "doctor": {
+      "mspid": "doctorMSP",
+      "adminPrivateKey": {
+        "path": "/tmp/crypto/peerOrganizations/doctor.healthcare.com/users/Admin@doctor.healthcare.com/msp/keystore/priv-key.pem"
+      },
+      "peers": [
+        "peer0.doctor.healthcare.com",
+        "peer1.doctor.healthcare.com",
+        "peer2.doctor.healthcare.com"
+      ],
+      "signedCert": {
+        "path": "/tmp/crypto/peerOrganizations/doctor.healthcare.com/users/Admin@doctor.healthcare.com/msp/signcerts/Admin@doctor.healthcare.com-cert.pem"
+      }
+    }
+  },
+  "peers": {
+    "peer0.doctor.healthcare.com": {
+      "url": "grpcs://peer0.doctor.healthcare.com:7061",
+      "tlsCACerts": {
+        "path": "/tmp/crypto/peerOrganizations/doctor.healthcare.com/msp/tlscacerts/tlsca.doctor.healthcare.com-cert.pem"
+      }
+    },
+    "peer1.doctor.healthcare.com": {
+      "url": "grpcs://peer1.doctor.healthcare.com:7062",
+      "tlsCACerts": {
+        "path": "/tmp/crypto/peerOrganizations/doctor.healthcare.com/msp/tlscacerts/tlsca.doctor.healthcare.com-cert.pem"
+      }
+    },
+    "peer2.doctor.healthcare.com": {
+      "url": "grpcs://peer2.doctor.healthcare.com:7063",
+      "tlsCACerts": {
+        "path": "/tmp/crypto/peerOrganizations/doctor.healthcare.com/msp/tlscacerts/tlsca.doctor.healthcare.com-cert.pem"
+      }
+    }
+  },
+  "channels": {
+    "healthcare-channel": {
+      "peers": {}
+    }
+  }
+}

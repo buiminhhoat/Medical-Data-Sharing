@@ -1,0 +1,9 @@
+{
+  "network-configs": {
+    "network-pharmacy": {
+      "name": "Network of pharmacy",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-pharmacy.json"
+    }
+  },
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,9 @@
+{
+  "network-configs": {
+    "network-insurance": {
+      "name": "Network of insurance",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-insurance.json"
+    }
+  },
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,9 @@
+{
+  "network-configs": {
+    "network-doctor": {
+      "name": "Network of doctor",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-doctor.json"
+    }
+  },
+  "license": "Apache-2.0"
+}

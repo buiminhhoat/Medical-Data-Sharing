@@ -1,0 +1,8 @@
+PeerOrgs:
+  - Name: laboratory
+    Domain: laboratory.healthcare.com
+    Specs:
+    Template:
+      Count: 3
+    Users:
+      Count: 1

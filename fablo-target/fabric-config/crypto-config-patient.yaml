@@ -1,0 +1,8 @@
+PeerOrgs:
+  - Name: patient
+    Domain: patient.healthcare.com
+    Specs:
+    Template:
+      Count: 3
+    Users:
+      Count: 1
