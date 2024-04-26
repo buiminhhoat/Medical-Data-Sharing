@@ -26,9 +26,7 @@
         "path": "/tmp/crypto/peerOrganizations/patient.healthcare.com/users/Admin@patient.healthcare.com/msp/keystore/priv-key.pem"
       },
       "peers": [
-        "peer0.patient.healthcare.com",
-        "peer1.patient.healthcare.com",
-        "peer2.patient.healthcare.com"
+        "peer0.patient.healthcare.com"
       ],
       "signedCert": {
         "path": "/tmp/crypto/peerOrganizations/patient.healthcare.com/users/Admin@patient.healthcare.com/msp/signcerts/Admin@patient.healthcare.com-cert.pem"
@@ -38,18 +36,6 @@
   "peers": {
     "peer0.patient.healthcare.com": {
       "url": "grpcs://peer0.patient.healthcare.com:7041",
-      "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/patient.healthcare.com/msp/tlscacerts/tlsca.patient.healthcare.com-cert.pem"
-      }
-    },
-    "peer1.patient.healthcare.com": {
-      "url": "grpcs://peer1.patient.healthcare.com:7042",
-      "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/patient.healthcare.com/msp/tlscacerts/tlsca.patient.healthcare.com-cert.pem"
-      }
-    },
-    "peer2.patient.healthcare.com": {
-      "url": "grpcs://peer2.patient.healthcare.com:7043",
       "tlsCACerts": {
         "path": "/tmp/crypto/peerOrganizations/patient.healthcare.com/msp/tlscacerts/tlsca.patient.healthcare.com-cert.pem"
       }

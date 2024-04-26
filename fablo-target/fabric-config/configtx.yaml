@@ -74,12 +74,6 @@ Organizations:
           - Host: peer0.patient.healthcare.com
             Port: 7041
 
-          - Host: peer1.patient.healthcare.com
-            Port: 7042
-
-          - Host: peer2.patient.healthcare.com
-            Port: 7043
-
     - &doctor
       Name: doctorMSP
       ID: doctorMSP
@@ -102,12 +96,6 @@ Organizations:
       AnchorPeers:
           - Host: peer0.doctor.healthcare.com
             Port: 7061
-
-          - Host: peer1.doctor.healthcare.com
-            Port: 7062
-
-          - Host: peer2.doctor.healthcare.com
-            Port: 7063
 
     - &pharmacy
       Name: pharmacyMSP
@@ -132,12 +120,6 @@ Organizations:
           - Host: peer0.pharmacy.healthcare.com
             Port: 7081
 
-          - Host: peer1.pharmacy.healthcare.com
-            Port: 7082
-
-          - Host: peer2.pharmacy.healthcare.com
-            Port: 7083
-
     - &laboratory
       Name: laboratoryMSP
       ID: laboratoryMSP
@@ -161,12 +143,6 @@ Organizations:
           - Host: peer0.laboratory.healthcare.com
             Port: 7101
 
-          - Host: peer1.laboratory.healthcare.com
-            Port: 7102
-
-          - Host: peer2.laboratory.healthcare.com
-            Port: 7103
-
     - &insurance
       Name: insuranceMSP
       ID: insuranceMSP
@@ -189,12 +165,6 @@ Organizations:
       AnchorPeers:
           - Host: peer0.insurance.healthcare.com
             Port: 7121
-
-          - Host: peer1.insurance.healthcare.com
-            Port: 7122
-
-          - Host: peer2.insurance.healthcare.com
-            Port: 7123
 
 ################################################################################
 #   SECTION: Application

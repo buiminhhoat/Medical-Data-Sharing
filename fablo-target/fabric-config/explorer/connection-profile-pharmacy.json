@@ -26,9 +26,7 @@
         "path": "/tmp/crypto/peerOrganizations/pharmacy.healthcare.com/users/Admin@pharmacy.healthcare.com/msp/keystore/priv-key.pem"
       },
       "peers": [
-        "peer0.pharmacy.healthcare.com",
-        "peer1.pharmacy.healthcare.com",
-        "peer2.pharmacy.healthcare.com"
+        "peer0.pharmacy.healthcare.com"
       ],
       "signedCert": {
         "path": "/tmp/crypto/peerOrganizations/pharmacy.healthcare.com/users/Admin@pharmacy.healthcare.com/msp/signcerts/Admin@pharmacy.healthcare.com-cert.pem"
@@ -38,18 +36,6 @@
   "peers": {
     "peer0.pharmacy.healthcare.com": {
       "url": "grpcs://peer0.pharmacy.healthcare.com:7081",
-      "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/pharmacy.healthcare.com/msp/tlscacerts/tlsca.pharmacy.healthcare.com-cert.pem"
-      }
-    },
-    "peer1.pharmacy.healthcare.com": {
-      "url": "grpcs://peer1.pharmacy.healthcare.com:7082",
-      "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/pharmacy.healthcare.com/msp/tlscacerts/tlsca.pharmacy.healthcare.com-cert.pem"
-      }
-    },
-    "peer2.pharmacy.healthcare.com": {
-      "url": "grpcs://peer2.pharmacy.healthcare.com:7083",
       "tlsCACerts": {
         "path": "/tmp/crypto/peerOrganizations/pharmacy.healthcare.com/msp/tlscacerts/tlsca.pharmacy.healthcare.com-cert.pem"
       }

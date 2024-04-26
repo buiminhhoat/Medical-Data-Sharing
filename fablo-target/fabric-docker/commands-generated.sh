@@ -43,34 +43,14 @@ installChannels() {
   printHeadline "Creating 'healthcare-channel' on patient/peer0" "U1F63B"
   docker exec -i cli.patient.healthcare.com bash -c "source scripts/channel_fns.sh; createChannelAndJoinTls 'healthcare-channel' 'patientMSP' 'peer0.patient.healthcare.com:7041' 'crypto/users/Admin@patient.healthcare.com/msp' 'crypto/users/Admin@patient.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
 
-  printItalics "Joining 'healthcare-channel' on  patient/peer1" "U1F638"
-  docker exec -i cli.patient.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'patientMSP' 'peer1.patient.healthcare.com:7042' 'crypto/users/Admin@patient.healthcare.com/msp' 'crypto/users/Admin@patient.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  patient/peer2" "U1F638"
-  docker exec -i cli.patient.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'patientMSP' 'peer2.patient.healthcare.com:7043' 'crypto/users/Admin@patient.healthcare.com/msp' 'crypto/users/Admin@patient.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
   printItalics "Joining 'healthcare-channel' on  doctor/peer0" "U1F638"
   docker exec -i cli.doctor.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'doctorMSP' 'peer0.doctor.healthcare.com:7061' 'crypto/users/Admin@doctor.healthcare.com/msp' 'crypto/users/Admin@doctor.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  doctor/peer1" "U1F638"
-  docker exec -i cli.doctor.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'doctorMSP' 'peer1.doctor.healthcare.com:7062' 'crypto/users/Admin@doctor.healthcare.com/msp' 'crypto/users/Admin@doctor.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  doctor/peer2" "U1F638"
-  docker exec -i cli.doctor.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'doctorMSP' 'peer2.doctor.healthcare.com:7063' 'crypto/users/Admin@doctor.healthcare.com/msp' 'crypto/users/Admin@doctor.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
   printItalics "Joining 'healthcare-channel' on  pharmacy/peer0" "U1F638"
   docker exec -i cli.pharmacy.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'pharmacyMSP' 'peer0.pharmacy.healthcare.com:7081' 'crypto/users/Admin@pharmacy.healthcare.com/msp' 'crypto/users/Admin@pharmacy.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  pharmacy/peer1" "U1F638"
-  docker exec -i cli.pharmacy.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'pharmacyMSP' 'peer1.pharmacy.healthcare.com:7082' 'crypto/users/Admin@pharmacy.healthcare.com/msp' 'crypto/users/Admin@pharmacy.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  pharmacy/peer2" "U1F638"
-  docker exec -i cli.pharmacy.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'pharmacyMSP' 'peer2.pharmacy.healthcare.com:7083' 'crypto/users/Admin@pharmacy.healthcare.com/msp' 'crypto/users/Admin@pharmacy.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
   printItalics "Joining 'healthcare-channel' on  laboratory/peer0" "U1F638"
   docker exec -i cli.laboratory.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'laboratoryMSP' 'peer0.laboratory.healthcare.com:7101' 'crypto/users/Admin@laboratory.healthcare.com/msp' 'crypto/users/Admin@laboratory.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  laboratory/peer1" "U1F638"
-  docker exec -i cli.laboratory.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'laboratoryMSP' 'peer1.laboratory.healthcare.com:7102' 'crypto/users/Admin@laboratory.healthcare.com/msp' 'crypto/users/Admin@laboratory.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  laboratory/peer2" "U1F638"
-  docker exec -i cli.laboratory.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'laboratoryMSP' 'peer2.laboratory.healthcare.com:7103' 'crypto/users/Admin@laboratory.healthcare.com/msp' 'crypto/users/Admin@laboratory.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
   printItalics "Joining 'healthcare-channel' on  insurance/peer0" "U1F638"
   docker exec -i cli.insurance.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'insuranceMSP' 'peer0.insurance.healthcare.com:7121' 'crypto/users/Admin@insurance.healthcare.com/msp' 'crypto/users/Admin@insurance.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  insurance/peer1" "U1F638"
-  docker exec -i cli.insurance.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'insuranceMSP' 'peer1.insurance.healthcare.com:7122' 'crypto/users/Admin@insurance.healthcare.com/msp' 'crypto/users/Admin@insurance.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
-  printItalics "Joining 'healthcare-channel' on  insurance/peer2" "U1F638"
-  docker exec -i cli.insurance.healthcare.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'healthcare-channel' 'insuranceMSP' 'peer2.insurance.healthcare.com:7123' 'crypto/users/Admin@insurance.healthcare.com/msp' 'crypto/users/Admin@insurance.healthcare.com/tls' 'crypto-orderer/tlsca.orderer.healthcare.com-cert.pem' 'orderer0.orderers-group.orderer.healthcare.com:7030';"
 }
 
 installChaincodes() {
@@ -80,28 +60,18 @@ installChaincodes() {
     chaincodeBuild "chaincode1" "java" "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-java" "16"
     chaincodePackage "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "chaincode1" "$version" "java" printHeadline "Installing 'chaincode1' for patient" "U1F60E"
     chaincodeInstall "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.patient.healthcare.com" "peer1.patient.healthcare.com:7042" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.patient.healthcare.com" "peer2.patient.healthcare.com:7043" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
     chaincodeApprove "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
     printHeadline "Installing 'chaincode1' for doctor" "U1F60E"
     chaincodeInstall "cli.doctor.healthcare.com" "peer0.doctor.healthcare.com:7061" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.doctor.healthcare.com" "peer1.doctor.healthcare.com:7062" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.doctor.healthcare.com" "peer2.doctor.healthcare.com:7063" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
     chaincodeApprove "cli.doctor.healthcare.com" "peer0.doctor.healthcare.com:7061" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
     printHeadline "Installing 'chaincode1' for pharmacy" "U1F60E"
     chaincodeInstall "cli.pharmacy.healthcare.com" "peer0.pharmacy.healthcare.com:7081" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.pharmacy.healthcare.com" "peer1.pharmacy.healthcare.com:7082" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.pharmacy.healthcare.com" "peer2.pharmacy.healthcare.com:7083" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
     chaincodeApprove "cli.pharmacy.healthcare.com" "peer0.pharmacy.healthcare.com:7081" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
     printHeadline "Installing 'chaincode1' for laboratory" "U1F60E"
     chaincodeInstall "cli.laboratory.healthcare.com" "peer0.laboratory.healthcare.com:7101" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.laboratory.healthcare.com" "peer1.laboratory.healthcare.com:7102" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.laboratory.healthcare.com" "peer2.laboratory.healthcare.com:7103" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
     chaincodeApprove "cli.laboratory.healthcare.com" "peer0.laboratory.healthcare.com:7101" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
     printHeadline "Installing 'chaincode1' for insurance" "U1F60E"
     chaincodeInstall "cli.insurance.healthcare.com" "peer0.insurance.healthcare.com:7121" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.insurance.healthcare.com" "peer1.insurance.healthcare.com:7122" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-    chaincodeInstall "cli.insurance.healthcare.com" "peer2.insurance.healthcare.com:7123" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
     chaincodeApprove "cli.insurance.healthcare.com" "peer0.insurance.healthcare.com:7121" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
     printItalics "Committing chaincode 'chaincode1' on channel 'healthcare-channel' as 'patient'" "U1F618"
     chaincodeCommit "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" "peer0.patient.healthcare.com:7041,peer0.doctor.healthcare.com:7061,peer0.pharmacy.healthcare.com:7081,peer0.laboratory.healthcare.com:7101,peer0.insurance.healthcare.com:7121" "crypto-peer/peer0.patient.healthcare.com/tls/ca.crt,crypto-peer/peer0.doctor.healthcare.com/tls/ca.crt,crypto-peer/peer0.pharmacy.healthcare.com/tls/ca.crt,crypto-peer/peer0.laboratory.healthcare.com/tls/ca.crt,crypto-peer/peer0.insurance.healthcare.com/tls/ca.crt" ""
@@ -131,28 +101,18 @@ installChaincode() {
       chaincodeBuild "chaincode1" "java" "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-java" "16"
       chaincodePackage "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "chaincode1" "$version" "java" printHeadline "Installing 'chaincode1' for patient" "U1F60E"
       chaincodeInstall "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.patient.healthcare.com" "peer1.patient.healthcare.com:7042" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.patient.healthcare.com" "peer2.patient.healthcare.com:7043" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printHeadline "Installing 'chaincode1' for doctor" "U1F60E"
       chaincodeInstall "cli.doctor.healthcare.com" "peer0.doctor.healthcare.com:7061" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.doctor.healthcare.com" "peer1.doctor.healthcare.com:7062" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.doctor.healthcare.com" "peer2.doctor.healthcare.com:7063" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.doctor.healthcare.com" "peer0.doctor.healthcare.com:7061" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printHeadline "Installing 'chaincode1' for pharmacy" "U1F60E"
       chaincodeInstall "cli.pharmacy.healthcare.com" "peer0.pharmacy.healthcare.com:7081" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.pharmacy.healthcare.com" "peer1.pharmacy.healthcare.com:7082" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.pharmacy.healthcare.com" "peer2.pharmacy.healthcare.com:7083" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.pharmacy.healthcare.com" "peer0.pharmacy.healthcare.com:7081" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printHeadline "Installing 'chaincode1' for laboratory" "U1F60E"
       chaincodeInstall "cli.laboratory.healthcare.com" "peer0.laboratory.healthcare.com:7101" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.laboratory.healthcare.com" "peer1.laboratory.healthcare.com:7102" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.laboratory.healthcare.com" "peer2.laboratory.healthcare.com:7103" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.laboratory.healthcare.com" "peer0.laboratory.healthcare.com:7101" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printHeadline "Installing 'chaincode1' for insurance" "U1F60E"
       chaincodeInstall "cli.insurance.healthcare.com" "peer0.insurance.healthcare.com:7121" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.insurance.healthcare.com" "peer1.insurance.healthcare.com:7122" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.insurance.healthcare.com" "peer2.insurance.healthcare.com:7123" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.insurance.healthcare.com" "peer0.insurance.healthcare.com:7121" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printItalics "Committing chaincode 'chaincode1' on channel 'healthcare-channel' as 'patient'" "U1F618"
       chaincodeCommit "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" "peer0.patient.healthcare.com:7041,peer0.doctor.healthcare.com:7061,peer0.pharmacy.healthcare.com:7081,peer0.laboratory.healthcare.com:7101,peer0.insurance.healthcare.com:7121" "crypto-peer/peer0.patient.healthcare.com/tls/ca.crt,crypto-peer/peer0.doctor.healthcare.com/tls/ca.crt,crypto-peer/peer0.pharmacy.healthcare.com/tls/ca.crt,crypto-peer/peer0.laboratory.healthcare.com/tls/ca.crt,crypto-peer/peer0.insurance.healthcare.com/tls/ca.crt" ""
@@ -208,28 +168,18 @@ upgradeChaincode() {
       chaincodeBuild "chaincode1" "java" "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-java" "16"
       chaincodePackage "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "chaincode1" "$version" "java" printHeadline "Installing 'chaincode1' for patient" "U1F60E"
       chaincodeInstall "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.patient.healthcare.com" "peer1.patient.healthcare.com:7042" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.patient.healthcare.com" "peer2.patient.healthcare.com:7043" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printHeadline "Installing 'chaincode1' for doctor" "U1F60E"
       chaincodeInstall "cli.doctor.healthcare.com" "peer0.doctor.healthcare.com:7061" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.doctor.healthcare.com" "peer1.doctor.healthcare.com:7062" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.doctor.healthcare.com" "peer2.doctor.healthcare.com:7063" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.doctor.healthcare.com" "peer0.doctor.healthcare.com:7061" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printHeadline "Installing 'chaincode1' for pharmacy" "U1F60E"
       chaincodeInstall "cli.pharmacy.healthcare.com" "peer0.pharmacy.healthcare.com:7081" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.pharmacy.healthcare.com" "peer1.pharmacy.healthcare.com:7082" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.pharmacy.healthcare.com" "peer2.pharmacy.healthcare.com:7083" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.pharmacy.healthcare.com" "peer0.pharmacy.healthcare.com:7081" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printHeadline "Installing 'chaincode1' for laboratory" "U1F60E"
       chaincodeInstall "cli.laboratory.healthcare.com" "peer0.laboratory.healthcare.com:7101" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.laboratory.healthcare.com" "peer1.laboratory.healthcare.com:7102" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.laboratory.healthcare.com" "peer2.laboratory.healthcare.com:7103" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.laboratory.healthcare.com" "peer0.laboratory.healthcare.com:7101" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printHeadline "Installing 'chaincode1' for insurance" "U1F60E"
       chaincodeInstall "cli.insurance.healthcare.com" "peer0.insurance.healthcare.com:7121" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.insurance.healthcare.com" "peer1.insurance.healthcare.com:7122" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
-      chaincodeInstall "cli.insurance.healthcare.com" "peer2.insurance.healthcare.com:7123" "chaincode1" "$version" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem"
       chaincodeApprove "cli.insurance.healthcare.com" "peer0.insurance.healthcare.com:7121" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" ""
       printItalics "Committing chaincode 'chaincode1' on channel 'healthcare-channel' as 'patient'" "U1F618"
       chaincodeCommit "cli.patient.healthcare.com" "peer0.patient.healthcare.com:7041" "healthcare-channel" "chaincode1" "$version" "orderer0.orderers-group.orderer.healthcare.com:7030" "" "false" "crypto-orderer/tlsca.orderer.healthcare.com-cert.pem" "peer0.patient.healthcare.com:7041,peer0.doctor.healthcare.com:7061,peer0.pharmacy.healthcare.com:7081,peer0.laboratory.healthcare.com:7101,peer0.insurance.healthcare.com:7121" "crypto-peer/peer0.patient.healthcare.com/tls/ca.crt,crypto-peer/peer0.doctor.healthcare.com/tls/ca.crt,crypto-peer/peer0.pharmacy.healthcare.com/tls/ca.crt,crypto-peer/peer0.laboratory.healthcare.com/tls/ca.crt,crypto-peer/peer0.insurance.healthcare.com/tls/ca.crt" ""
@@ -287,43 +237,11 @@ networkDown() {
     echo "Removing image $image..."
     docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
   done
-  for container in $(docker ps -a | grep "dev-peer1.patient.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer1.patient.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
-  for container in $(docker ps -a | grep "dev-peer2.patient.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer2.patient.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
   for container in $(docker ps -a | grep "dev-peer0.doctor.healthcare.com-chaincode1" | awk '{print $1}'); do
     echo "Removing container $container..."
     docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
   done
   for image in $(docker images "dev-peer0.doctor.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
-  for container in $(docker ps -a | grep "dev-peer1.doctor.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer1.doctor.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
-  for container in $(docker ps -a | grep "dev-peer2.doctor.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer2.doctor.healthcare.com-chaincode1*" -q); do
     echo "Removing image $image..."
     docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
   done
@@ -335,22 +253,6 @@ networkDown() {
     echo "Removing image $image..."
     docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
   done
-  for container in $(docker ps -a | grep "dev-peer1.pharmacy.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer1.pharmacy.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
-  for container in $(docker ps -a | grep "dev-peer2.pharmacy.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer2.pharmacy.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
   for container in $(docker ps -a | grep "dev-peer0.laboratory.healthcare.com-chaincode1" | awk '{print $1}'); do
     echo "Removing container $container..."
     docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
@@ -359,43 +261,11 @@ networkDown() {
     echo "Removing image $image..."
     docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
   done
-  for container in $(docker ps -a | grep "dev-peer1.laboratory.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer1.laboratory.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
-  for container in $(docker ps -a | grep "dev-peer2.laboratory.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer2.laboratory.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
   for container in $(docker ps -a | grep "dev-peer0.insurance.healthcare.com-chaincode1" | awk '{print $1}'); do
     echo "Removing container $container..."
     docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
   done
   for image in $(docker images "dev-peer0.insurance.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
-  for container in $(docker ps -a | grep "dev-peer1.insurance.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer1.insurance.healthcare.com-chaincode1*" -q); do
-    echo "Removing image $image..."
-    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
-  done
-  for container in $(docker ps -a | grep "dev-peer2.insurance.healthcare.com-chaincode1" | awk '{print $1}'); do
-    echo "Removing container $container..."
-    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
-  done
-  for image in $(docker images "dev-peer2.insurance.healthcare.com-chaincode1*" -q); do
     echo "Removing image $image..."
     docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
   done

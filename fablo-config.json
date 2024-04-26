@@ -31,7 +31,7 @@
         "domain": "patient.healthcare.com"
       },
       "peer": {
-        "instances": 3,
+        "instances": 1,
         "db": "CouchDb"
       },
       "tools": {
@@ -45,7 +45,7 @@
         "domain": "doctor.healthcare.com"
       },
       "peer": {
-        "instances": 3,
+        "instances": 1,
         "db": "CouchDb"
       },
       "tools": {
@@ -59,7 +59,7 @@
         "domain": "pharmacy.healthcare.com"
       },
       "peer": {
-        "instances": 3,
+        "instances": 1,
         "db": "CouchDb"
       },
       "tools": {
@@ -73,7 +73,7 @@
         "domain": "laboratory.healthcare.com"
       },
       "peer": {
-        "instances": 3,
+        "instances": 1,
         "db": "CouchDb"
       },
       "tools": {
@@ -87,7 +87,7 @@
         "domain": "insurance.healthcare.com"
       },
       "peer": {
-        "instances": 3,
+        "instances": 1,
         "db": "CouchDb"
       },
       "tools": {
@@ -103,31 +103,31 @@
         {
           "name": "patient",
           "peers": [
-            "peer0", "peer1", "peer2"
+            "peer0"
           ]
         },
         {
           "name": "doctor",
           "peers": [
-            "peer0", "peer1", "peer2"
+            "peer0"
           ]
         },
         {
           "name": "pharmacy",
           "peers": [
-            "peer0", "peer1", "peer2"
+            "peer0"
           ]
         },
         {
           "name": "laboratory",
           "peers": [
-            "peer0", "peer1", "peer2"
+            "peer0"
           ]
         },
         {
           "name": "insurance",
           "peers": [
-            "peer0", "peer1", "peer2"
+            "peer0"
           ]
         }
       ]

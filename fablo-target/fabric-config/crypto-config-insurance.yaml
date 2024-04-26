@@ -3,6 +3,6 @@ PeerOrgs:
     Domain: insurance.healthcare.com
     Specs:
     Template:
-      Count: 3
+      Count: 1
     Users:
       Count: 1

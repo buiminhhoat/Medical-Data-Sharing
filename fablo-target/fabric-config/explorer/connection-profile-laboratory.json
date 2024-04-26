@@ -26,9 +26,7 @@
         "path": "/tmp/crypto/peerOrganizations/laboratory.healthcare.com/users/Admin@laboratory.healthcare.com/msp/keystore/priv-key.pem"
       },
       "peers": [
-        "peer0.laboratory.healthcare.com",
-        "peer1.laboratory.healthcare.com",
-        "peer2.laboratory.healthcare.com"
+        "peer0.laboratory.healthcare.com"
       ],
       "signedCert": {
         "path": "/tmp/crypto/peerOrganizations/laboratory.healthcare.com/users/Admin@laboratory.healthcare.com/msp/signcerts/Admin@laboratory.healthcare.com-cert.pem"
@@ -38,18 +36,6 @@
   "peers": {
     "peer0.laboratory.healthcare.com": {
       "url": "grpcs://peer0.laboratory.healthcare.com:7101",
-      "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/laboratory.healthcare.com/msp/tlscacerts/tlsca.laboratory.healthcare.com-cert.pem"
-      }
-    },
-    "peer1.laboratory.healthcare.com": {
-      "url": "grpcs://peer1.laboratory.healthcare.com:7102",
-      "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/laboratory.healthcare.com/msp/tlscacerts/tlsca.laboratory.healthcare.com-cert.pem"
-      }
-    },
-    "peer2.laboratory.healthcare.com": {
-      "url": "grpcs://peer2.laboratory.healthcare.com:7103",
       "tlsCACerts": {
         "path": "/tmp/crypto/peerOrganizations/laboratory.healthcare.com/msp/tlscacerts/tlsca.laboratory.healthcare.com-cert.pem"
       }

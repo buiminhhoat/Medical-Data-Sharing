@@ -26,9 +26,7 @@
         "path": "/tmp/crypto/peerOrganizations/insurance.healthcare.com/users/Admin@insurance.healthcare.com/msp/keystore/priv-key.pem"
       },
       "peers": [
-        "peer0.insurance.healthcare.com",
-        "peer1.insurance.healthcare.com",
-        "peer2.insurance.healthcare.com"
+        "peer0.insurance.healthcare.com"
       ],
       "signedCert": {
         "path": "/tmp/crypto/peerOrganizations/insurance.healthcare.com/users/Admin@insurance.healthcare.com/msp/signcerts/Admin@insurance.healthcare.com-cert.pem"
@@ -38,18 +36,6 @@
   "peers": {
     "peer0.insurance.healthcare.com": {
       "url": "grpcs://peer0.insurance.healthcare.com:7121",
-      "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/insurance.healthcare.com/msp/tlscacerts/tlsca.insurance.healthcare.com-cert.pem"
-      }
-    },
-    "peer1.insurance.healthcare.com": {
-      "url": "grpcs://peer1.insurance.healthcare.com:7122",
-      "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/insurance.healthcare.com/msp/tlscacerts/tlsca.insurance.healthcare.com-cert.pem"
-      }
-    },
-    "peer2.insurance.healthcare.com": {
-      "url": "grpcs://peer2.insurance.healthcare.com:7123",
       "tlsCACerts": {
         "path": "/tmp/crypto/peerOrganizations/insurance.healthcare.com/msp/tlscacerts/tlsca.insurance.healthcare.com-cert.pem"
       }

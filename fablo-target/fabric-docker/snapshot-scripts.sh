@@ -6,20 +6,10 @@ __getOrdererAndPeerNodes() {
       orderer1.orderers-group.orderer.healthcare.com
       orderer2.orderers-group.orderer.healthcare.com
       peer0.patient.healthcare.com
-      peer1.patient.healthcare.com
-      peer2.patient.healthcare.com
       peer0.doctor.healthcare.com
-      peer1.doctor.healthcare.com
-      peer2.doctor.healthcare.com
       peer0.pharmacy.healthcare.com
-      peer1.pharmacy.healthcare.com
-      peer2.pharmacy.healthcare.com
       peer0.laboratory.healthcare.com
-      peer1.laboratory.healthcare.com
-      peer2.laboratory.healthcare.com
       peer0.insurance.healthcare.com
-      peer1.insurance.healthcare.com
-      peer2.insurance.healthcare.com
   "
 }
 
