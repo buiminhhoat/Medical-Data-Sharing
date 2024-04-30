@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthRestAPIs {
-    @GetMapping(value = "/signUp")
+    @PostMapping(value = "/signup")
     public String signUp() throws AuthException {
         try {
             String userIdentityId = "1";
