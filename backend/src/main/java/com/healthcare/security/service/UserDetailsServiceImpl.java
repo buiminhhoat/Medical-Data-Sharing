@@ -1,7 +1,7 @@
 package com.healthcare.security.service;
 
 import com.healthcare.model.Patient;
-import com.healthcare.model.Users;
+import com.healthcare.model.User;
 import com.healthcare.repository.PatientRepository;
 import com.healthcare.security.dto.UserPrinciple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users users = getUser(username);
-        return UserPrinciple.build(users);
+        User user = getUser(username);
+        return UserPrinciple.build(user);
     }
 
-    public Users getUser(String email) {
+    public User getUser(String email) {
         Patient patient = patientRepository.findByUsername(email);
         if (patient != null) {
             return patient;

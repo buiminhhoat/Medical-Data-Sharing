@@ -18,7 +18,7 @@ import java.util.Collection;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public abstract class Users implements Serializable, UserDetails {
+public abstract class User implements Serializable, UserDetails {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")

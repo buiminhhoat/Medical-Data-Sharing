@@ -1,7 +1,7 @@
 package com.healthcare.security.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.healthcare.model.Users;
+import com.healthcare.model.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,13 +36,13 @@ public class UserPrinciple implements UserDetails {
     public static UserPrinciple build(Object obj) {
         List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
 
-        String userRole = ((Users) obj).getRole();
+        String userRole = ((User) obj).getRole();
         auth.add(new SimpleGrantedAuthority(userRole));
 
         return new UserPrinciple(
-                ((Users) obj).getId(),
-                ((Users) obj).getEmail(),
-                ((Users) obj).getPassword(),
+                ((User) obj).getId(),
+                ((User) obj).getEmail(),
+                ((User) obj).getPassword(),
                 auth);
     }
 

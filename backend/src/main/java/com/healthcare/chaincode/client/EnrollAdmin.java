@@ -35,11 +35,16 @@ public class EnrollAdmin {
         final EnrollmentRequest enrollmentRequestTLS = new EnrollmentRequest();
         enrollmentRequestTLS.addHost("localhost");
         enrollmentRequestTLS.setProfile("tls");
-        Enrollment enrollment = caClient.enroll(orgConfigParams.get("caAdminUsername"), orgConfigParams.get("caAdminPassword"), enrollmentRequestTLS);
-        Identity user = Identities.newX509Identity(orgConfigParams.get("orgMsp"), enrollment);
+        try {
+            Enrollment enrollment = caClient.enroll(orgConfigParams.get("caAdminUsername"), orgConfigParams.get("caAdminPassword"), enrollmentRequestTLS);
+            Identity user = Identities.newX509Identity(orgConfigParams.get("orgMsp"), enrollment);
+            walletUtil.putIdentity(identityId, user);
+            System.out.printf("Successfully enrolled user %s and imported it into the wallet%n", identityId);
+            return user;
+        }
+        catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
 
-        walletUtil.putIdentity(identityId, user);
-        System.out.printf("Successfully enrolled user %s and imported it into the wallet%n", identityId);
-        return user;
     }
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class Patient extends Users {
+public class Patient extends User {
     private String gender;
     private Date birthday;
     private String address;
