@@ -41,8 +41,7 @@ public class EnrollAdmin {
             walletUtil.putIdentity(identityId, user);
             System.out.printf("Successfully enrolled user %s and imported it into the wallet%n", identityId);
             return user;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
 
