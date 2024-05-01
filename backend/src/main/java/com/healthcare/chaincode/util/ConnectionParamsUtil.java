@@ -2,16 +2,15 @@ package com.healthcare.chaincode.util;
 
 import com.healthcare.chaincode.Config;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConnectionParamsUtil {
 
     public static Map<String, String> setOrgConfigParams(String org) throws Exception {
-        switch (org){
+        switch (org) {
             case Config.ORG1:
-                return new HashMap<String, String>(){{
+                return new HashMap<String, String>() {{
                     put("pemFile", Config.CA_ORG1_PEM_FILE);
                     put("caOrgUrl", Config.CA_ORG1_URL);
                     put("caOrgAdminIdentityId", Config.CA_ORG1_ADMIN_IDENTITY_ID);
@@ -22,7 +21,7 @@ public class ConnectionParamsUtil {
                     put("networkConfigPath", Config.ORG1_CONNECTION_PROFILE_PATH);
                 }};
             case Config.ORG2:
-                return new HashMap<String, String>(){{
+                return new HashMap<String, String>() {{
                     put("pemFile", Config.CA_ORG2_PEM_FILE);
                     put("caOrgUrl", Config.CA_ORG2_URL);
                     put("caOrgAdminIdentityId", Config.CA_ORG2_ADMIN_IDENTITY_ID);
@@ -33,7 +32,7 @@ public class ConnectionParamsUtil {
                     put("networkConfigPath", Config.ORG2_CONNECTION_PROFILE_PATH);
                 }};
             case Config.ORG3:
-                return new HashMap<String, String>(){{
+                return new HashMap<String, String>() {{
                     put("pemFile", Config.CA_ORG3_PEM_FILE);
                     put("caOrgUrl", Config.CA_ORG3_URL);
                     put("caOrgAdminIdentityId", Config.CA_ORG3_ADMIN_IDENTITY_ID);

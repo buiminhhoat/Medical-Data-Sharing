@@ -1,22 +1,17 @@
 package com.healthcare.chaincode.util;
 
+import com.healthcare.chaincode.Config;
 import org.hyperledger.fabric.gateway.Identity;
 import org.hyperledger.fabric.gateway.Wallet;
 import org.hyperledger.fabric.gateway.Wallets;
 import org.hyperledger.fabric.gateway.X509Identity;
-import com.healthcare.chaincode.Config;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class WalletUtil {
 
     private Wallet wallet;
-
-    public Wallet getWallet() {
-        return wallet;
-    }
 
     public WalletUtil() {
         try {
@@ -24,6 +19,10 @@ public class WalletUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 
     public X509Identity getIdentity(String userIdentityId) throws IOException {
