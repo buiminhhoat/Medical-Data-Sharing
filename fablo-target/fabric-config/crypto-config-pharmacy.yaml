@@ -1,8 +1,0 @@
-PeerOrgs:
-  - Name: pharmacy
-    Domain: pharmacy.healthcare.com
-    Specs:
-    Template:
-      Count: 1
-    Users:
-      Count: 1

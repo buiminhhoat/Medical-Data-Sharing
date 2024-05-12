@@ -1,8 +1,0 @@
-PeerOrgs:
-  - Name: doctor
-    Domain: doctor.healthcare.com
-    Specs:
-    Template:
-      Count: 1
-    Users:
-      Count: 1
