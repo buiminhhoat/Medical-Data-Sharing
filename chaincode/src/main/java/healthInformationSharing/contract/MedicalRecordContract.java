@@ -2,6 +2,7 @@ package healthInformationSharing.contract;
 
 import healthInformationSharing.component.MedicalRecordContext;
 import healthInformationSharing.entity.MedicalRecord;
+import healthInformationSharing.entity.MedicalRecordAccessRequest;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.*;
@@ -10,6 +11,7 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 @Contract(name = "chaincode",
@@ -74,11 +76,6 @@ public class MedicalRecordContract implements ContractInterface {
         System.out.println("-----------------------------------");
     }
 
-    @Transaction
-    public void initialization(MedicalRecordContext medicalRecordContext) {
-
-    }
-
     private void authorizeRequest(MedicalRecordContext ctx, String userIdentityInDb, String methodName) {
         String userIdentityId = "";
         try {
@@ -94,6 +91,7 @@ public class MedicalRecordContract implements ContractInterface {
             throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
     }
+
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public MedicalRecord addMedicalRecord(
             MedicalRecordContext ctx,
@@ -104,7 +102,6 @@ public class MedicalRecordContract implements ContractInterface {
             String testName,
             String relevantParameters
     ) {
-//        authorizeRequest(ctx, patientId, "addMedicalRecord");
         String medicalRecordId = ctx.getStub().getTxId();
         MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().addMedicalRecord(
                 medicalRecordId,
@@ -117,6 +114,42 @@ public class MedicalRecordContract implements ContractInterface {
         );
 
         return medicalRecord;
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public MedicalRecord getMedicalRecord(MedicalRecordContext ctx, String medicalRecordId) {
+        if (ctx.getMedicalRecordDAO().medicalRecordExist(medicalRecordId)) {
+            return ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecordId);
+        } else {
+            String errorMessage = String.format("Medical Record %s does not exist", medicalRecordId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
+        }
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public MedicalRecordAccessRequest sendMedicalRecordAccessRequest(
+            MedicalRecordContext ctx,
+            String patientId,
+            String requesterId,
+            String medicalRecordId,
+            String dateCreated
+    ) {
+        authorizeRequest(ctx, requesterId, "sendMedicalRecordAccessRequest(validate requesterId)");
+        MedicalRecord medicalRecord = getMedicalRecord(ctx, medicalRecordId);
+        if (!Objects.equals(patientId, medicalRecord.getPatientId())) {
+            throw new ChaincodeException("patientId does not match medicalRecord.getPatientId()", MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+        }
+        if (Objects.equals(requesterId, medicalRecord.getPatientId())) {
+            throw new ChaincodeException("Requester is owner of this medical record", MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+        }
+        return ctx.getMedicalRecordAccessRequestDAO().addMedicalRecordAccessRequest(
+                patientId,
+                requesterId,
+                medicalRecordId,
+                medicalRecord.getTestName(),
+                dateCreated
+        );
     }
 
     private enum MedicalRecordContractErrors {

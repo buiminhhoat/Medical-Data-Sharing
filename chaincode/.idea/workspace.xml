@@ -5,231 +5,52 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Medical Data Sharing &amp; Add fabric-samples">
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/Config.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/client/EnrollAdmin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/ChaincodeMedicalRecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/MedicalRecordDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/Admin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/Doctor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/MedicalInstitution.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/AdminRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/DoctorRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/MedicalInstitutionRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/StringUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wallet/daoquangvinh@gmail.com.id" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wallet/lehuy5c2003@gmail.com.id" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wallet/nguyenthanhhai@gmail.com.id" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wallet/org1CaAdmin.id" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wallet/org2CaAdmin.id" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wallet/tranthanhtam@gmail.com.id" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/checkstyle/checkstyle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/checkstyle/suppressions.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/component/MedicalRecordContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordCRUD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/MedicalRecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/configtxgen" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/configtxlator" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/cryptogen" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/discover" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/fabric-ca-client" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/fabric-ca-server" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/ledgerutil" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/orderer" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/osnadmin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/bin/peer" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/config/configtx.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/config/core.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/config/orderer.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/CHAINCODE_AS_A_SERVICE_TUTORIAL.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/addOrg3.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/ccp-generate.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/ccp-template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/ccp-template.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/compose-ca-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/compose-couch-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/compose-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/docker/docker-compose-ca-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/docker/docker-compose-couch-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/docker/docker-compose-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/docker/peercfg/core.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/podman/peercfg/core.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/podman/podman-compose-ca-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/podman/podman-compose-couch-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/compose/podman/podman-compose-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/configtx.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/docker/docker-compose-ca-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/docker/docker-compose-couch-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/docker/docker-compose-org3.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/IssuerPublicKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/IssuerRevocationPublicKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/ca-cert.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/fabric-ca-server-config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/fabric-ca-server.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/msp/keystore/IssuerRevocationPrivateKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/msp/keystore/IssuerSecretKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/tls-cert.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/registerEnroll.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/org3-crypto.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/addOrg4.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/ccp-generate.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/ccp-template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/ccp-template.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/configtx.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/docker/docker-compose-ca-org4.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/docker/docker-compose-couch-org4.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/docker/docker-compose-org4.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/IssuerPublicKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/IssuerRevocationPublicKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/ca-cert.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/fabric-ca-server-config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/fabric-ca-server.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/msp/keystore/IssuerRevocationPrivateKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/msp/keystore/IssuerSecretKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/tls-cert.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/registerEnroll.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/org4-crypto.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/quer.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/addOrg5.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/ccp-generate.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/ccp-template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/ccp-template.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/configtx.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/docker/docker-compose-ca-org5.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/docker/docker-compose-couch-org5.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/docker/docker-compose-org5.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/IssuerPublicKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/IssuerRevocationPublicKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/ca-cert.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/fabric-ca-server-config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/fabric-ca-server.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/msp/keystore/IssuerRevocationPrivateKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/msp/keystore/IssuerSecretKey" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/tls-cert.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/registerEnroll.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/org5-crypto.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/quer.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/bft-config/configtx.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/compose-bft-test-net.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/compose-ca.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/compose-couch.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/compose-test-net.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/docker/docker-compose-bft-test-net.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/docker/docker-compose-ca.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/docker/docker-compose-couch.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/docker/docker-compose-test-net.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/docker/peercfg/core.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/podman/peercfg/core.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/podman/podman-compose-ca.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/podman/podman-compose-couch.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/compose/podman/podman-compose-test-net.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/configtx/configtx.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/docker/docker-compose-ca.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/docker/docker-compose-couch.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/docker/docker-compose-test-net.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/monitordocker.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/network.config" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/network.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/ccp-generate.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/ccp-template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/ccp-template.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cfssl/admin-csr-template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cfssl/ca-orderer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cfssl/ca-peer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cfssl/cert-signing-config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cfssl/client-csr-template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cfssl/orderer-csr-template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cfssl/peer-csr-template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cfssl/registerEnroll.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cryptogen/crypto-config-orderer.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cryptogen/crypto-config-org1.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/cryptogen/crypto-config-org2.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/organizations/fabric-ca/registerEnroll.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/prometheus-grafana/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/prometheus-grafana/docker-compose.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/prometheus-grafana/grafana/config.monitoring" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/prometheus-grafana/grafana/provisioning/dashboards/dashboard.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/prometheus-grafana/grafana/provisioning/dashboards/hlf-performances.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/prometheus-grafana/grafana/provisioning/datasources/datasource.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/prometheus-grafana/grafana_db/grafana.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/prometheus-grafana/prometheus/prometheus.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/add_new_orderer_to_config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/ccutils.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/configUpdate.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/createChannel.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/deployCC.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/deployCCAAS.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/deployCC_2org.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/envVar.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/orderer.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/orderer2.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/orderer3.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/orderer4.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/org3-scripts/joinChannel.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/org3-scripts/updateChannelConfig.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/org4-scripts/joinChannel.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/org4-scripts/updateChannelConfig.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/org5-scripts/joinChannel.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/org5-scripts/updateChannelConfig.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/packageCC.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/pkgcc.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/setAnchorPeer.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/scripts/utils.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/setOrgEnv.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fabric-samples/test-network/start.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../install-fabric.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/BackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/BackendApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/chaincode/Config.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/chaincode/client/EnrollAdmin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/chaincode/client/RegisterUserHyperledger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/client/RegisterUserHyperledger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/chaincode/user/CAEnrollment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/user/CAEnrollment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/chaincode/user/HyperledgerUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/user/HyperledgerUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/chaincode/util/ConnectionParamsUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/util/ConnectionParamsUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/chaincode/util/WalletUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/util/WalletUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/model/Authority.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/Authority.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/model/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/repository/PatientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/PatientRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/controller/AuthRestAPIs.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/controller/AuthRestAPIs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/dto/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/dto/ErrorResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/dto/JwtResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/dto/JwtResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/dto/LoginDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/dto/LoginDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/dto/RegisterDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/dto/RegisterDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/dto/UserPrinciple.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/dto/UserPrinciple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/jwt/JwtProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/jwt/JwtProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/security/service/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/service/UserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/service/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/healthcare/util/Constants.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/test/java/com/healthcare/BackendApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/test/java/com/medicaldatasharing/BackendApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wallet/official.buiminhhoat@gmail.com.id" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wallet/patientCaAdmin.id" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/MedicalRecordAccessRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordAccessRequestCRUD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordAccessRequestDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordAccessRequestQuery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/MedicalRecordAccessRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/AccessType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/DoctorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/DoctorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/MedicalInstitutionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/MedicalInstitutionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wallet/daoquangvinh@gmail.com.id" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wallet/lehuy5c2003@gmail.com.id" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wallet/nguyenthanhhai@gmail.com.id" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wallet/org1CaAdmin.id" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wallet/org2CaAdmin.id" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wallet/tranthanhtam@gmail.com.id" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/checkstyle/checkstyle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config/checkstyle/checkstyle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/checkstyle/suppressions.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config/checkstyle/suppressions.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/component/MedicalRecordContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/component/MedicalRecordContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/MedicalRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/MedicalRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/IssuerPublicKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/IssuerPublicKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/IssuerRevocationPublicKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/IssuerRevocationPublicKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/ca-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/ca-cert.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/fabric-ca-server.db" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/fabric-ca-server.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/msp/keystore/IssuerRevocationPrivateKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/msp/keystore/IssuerRevocationPrivateKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/msp/keystore/IssuerSecretKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/msp/keystore/IssuerSecretKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/tls-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg3/fabric-ca/org3/tls-cert.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/IssuerPublicKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/IssuerPublicKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/IssuerRevocationPublicKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/IssuerRevocationPublicKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/ca-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/ca-cert.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/fabric-ca-server.db" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/fabric-ca-server.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/msp/keystore/IssuerRevocationPrivateKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/msp/keystore/IssuerRevocationPrivateKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/msp/keystore/IssuerSecretKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/msp/keystore/IssuerSecretKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/tls-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg4/fabric-ca/org4/tls-cert.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/IssuerPublicKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/IssuerPublicKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/IssuerRevocationPublicKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/IssuerRevocationPublicKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/ca-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/ca-cert.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/fabric-ca-server.db" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/fabric-ca-server.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/msp/keystore/IssuerRevocationPrivateKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/msp/keystore/IssuerRevocationPrivateKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/msp/keystore/IssuerSecretKey" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/msp/keystore/IssuerSecretKey" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/tls-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/addOrg5/fabric-ca/org5/tls-cert.pem" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,6 +91,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -282,12 +104,12 @@
     &quot;assignee&quot;: &quot;buiminhhoat&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/buiminhhoat/Medical-Data-Sharing.git",
-    "accountId": "abc1cc4e-f89a-4fab-841a-1547498bdca4"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/buiminhhoat/Medical-Data-Sharing.git&quot;,
+    &quot;accountId&quot;: &quot;abc1cc4e-f89a-4fab-841a-1547498bdca4&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -330,23 +152,23 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.23079428" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.33691406" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26790363" />
+      <window_info id="Commit" order="1" weight="0.16503906" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
       <window_info anchor="bottom" id="Profiler" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Find" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.3302696" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.32536763" />
       <window_info anchor="bottom" id="Build" order="4" weight="0.3302696" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.3302696" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.3302696" />
       <window_info anchor="bottom" id="Services" order="7" />
+      <window_info anchor="bottom" id="Find" order="7" weight="0.3302696" />
       <window_info anchor="right" id="Endpoints" show_stripe_button="false" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
@@ -369,6 +191,9 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/build/install/chaincode" />
       <recent name="$PROJECT_DIR$/build/install" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="healthInformationSharing.component" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.chaincode [shadowJar]">
@@ -519,8 +344,19 @@
       <workItem from="1715196058505" duration="626000" />
       <workItem from="1715363070433" duration="1286000" />
       <workItem from="1715420235800" duration="19000" />
-      <workItem from="1715537497031" duration="5475000" />
+      <workItem from="1715537497031" duration="6203000" />
+      <workItem from="1715680193791" duration="7555000" />
+      <workItem from="1715701095323" duration="11463000" />
     </task>
+    <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
+      <option name="closed" value="true" />
+      <created>1715544628592</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715544628592</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -529,6 +365,17 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update Medical Data Sharing &amp; Add fabric-samples" />
     <option name="LAST_COMMIT_MESSAGE" value="Update Medical Data Sharing &amp; Add fabric-samples" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java</url>
+          <line>137</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

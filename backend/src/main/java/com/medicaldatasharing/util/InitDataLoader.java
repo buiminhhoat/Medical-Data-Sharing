@@ -3,6 +3,7 @@ package com.medicaldatasharing.util;
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.ChaincodeMedicalRecord;
+import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.model.Admin;
 import com.medicaldatasharing.model.Doctor;
@@ -47,21 +48,22 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void initMedicalInstitutions() {
-        String membershipOrganization1Id = StringUtil.generateMembershipOrganizationId(Config.ORG_COUNT);
-        String membershipOrganization2Id = StringUtil.generateMembershipOrganizationId(Config.ORG_COUNT);
+        if (!medicalInstitutionRepository.findAll().isEmpty()) {
+            return;
+        }
 
         MedicalInstitution medicalInstitution1 = MedicalInstitution
                 .builder()
                 .name("Bệnh viện ĐHQGHN")
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
-                .membershipOrganizationId(membershipOrganization1Id)
+                .membershipOrganizationId("org2")
                 .build();
 
         MedicalInstitution medicalInstitution2 = MedicalInstitution
                 .builder()
                 .name("Bệnh viện Việt Đức")
                 .address("40 P. Tràng Thi, Hàng Bông")
-                .membershipOrganizationId(membershipOrganization2Id)
+                .membershipOrganizationId("org2")
                 .build();
 
         medicalInstitutionRepository.save(medicalInstitution1);
@@ -69,6 +71,9 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void initUsers() throws Exception {
+        if (!patientRepository.findAll().isEmpty()) {
+            return;
+        }
         Patient patient1 = Patient
                 .builder()
                 .firstName("Vinh")
@@ -161,10 +166,10 @@ public class InitDataLoader implements CommandLineRunner {
         adminRepository.save(admin);
 
         try {
-            RegisterUserHyperledger.enrollOrgAppUsers(patient1.getEmail(), Config.PATIENT_ORG, patient1.getId());
-            RegisterUserHyperledger.enrollOrgAppUsers(patient2.getEmail(), Config.PATIENT_ORG, patient2.getId());
             RegisterUserHyperledger.enrollOrgAppUsers(doctor1.getEmail(), Config.DOCTOR_ORG, doctor1.getId());
             RegisterUserHyperledger.enrollOrgAppUsers(doctor2.getEmail(), Config.DOCTOR_ORG, doctor2.getId());
+            RegisterUserHyperledger.enrollOrgAppUsers(patient1.getEmail(), Config.PATIENT_ORG, patient1.getId());
+            RegisterUserHyperledger.enrollOrgAppUsers(patient2.getEmail(), Config.PATIENT_ORG, patient2.getId());
         } catch (Exception e) {
             patientRepository.delete(patient1);
             patientRepository.delete(patient2);
@@ -178,7 +183,7 @@ public class InitDataLoader implements CommandLineRunner {
     private void initMedicalRecord() throws Exception {
         Patient patient = patientRepository.findByUsername("lehuy5c2003@gmail.com");
         String patientId = patient.getId();
-        Doctor doctor = doctorRepository.findByUsername("tranthanhtam@gmail.com");
+        Doctor doctor = doctorRepository.findByUsername("nguyenthanhhai@gmail.com");
         String doctorId = doctor.getId();
         MedicalInstitution medicalInstitution = doctor.getMedicalInstitution();
         String medicalInstitutionId = medicalInstitution.getId();
@@ -198,7 +203,18 @@ public class InitDataLoader implements CommandLineRunner {
         medicalRecordDto.setRelevantParameters(relevantParameters);
         try {
             ChaincodeMedicalRecord chaincodeMedicalRecord = hyperledgerService.addMedicalRecord(patient, medicalRecordDto);
-            System.out.println(chaincodeMedicalRecord);
+            System.out.println("chaincodeMedicalRecord: " + chaincodeMedicalRecord);
+
+            ChaincodeMedicalRecord getChaincodeMedicalRecord = hyperledgerService.getMedicalRecord(patient, chaincodeMedicalRecord.getMedicalRecordId());
+            System.out.println("getChaincodeMedicalRecord: " + getChaincodeMedicalRecord);
+
+            MedicalRecordAccessRequest medicalRecordAccessRequest = hyperledgerService.sendMedicalRecordAccessRequest(
+                    doctor,
+                    patientId,
+                    doctorId,
+                    getChaincodeMedicalRecord.getMedicalRecordId(),
+                    new Date(2024, 05, 15).toString());
+            System.out.println("sendMedicalRecordAccessRequest: " + medicalRecordAccessRequest);
         } catch (Exception exception) {
             System.out.println(exception);
         }

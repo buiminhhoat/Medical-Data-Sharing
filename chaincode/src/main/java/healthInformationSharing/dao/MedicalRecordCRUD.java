@@ -30,7 +30,7 @@ public class MedicalRecordCRUD {
             String time,
             String testName,
             String relevantParameters) {
-        CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalInstitutionId);
+        CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
         String dbKey = compositeKey.toString();
 
         MedicalRecord medicalRecord = MedicalRecord.createInstance(

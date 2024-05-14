@@ -58,13 +58,15 @@ public final class MedicalRecord {
         String testName = jsonObject.getString("testName");
         String relevantParameters = jsonObject.getString("relevantParameters");
 
-        return createInstance(medicalRecordId,
+        return createInstance(
+                medicalRecordId,
                 patientId,
                 doctorId,
                 medicalInstitutionId,
                 time,
                 testName,
-                relevantParameters);
+                relevantParameters
+        );
     }
 
     public static MedicalRecord createInstance(

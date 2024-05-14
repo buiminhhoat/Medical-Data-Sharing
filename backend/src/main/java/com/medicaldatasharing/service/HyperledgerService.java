@@ -3,6 +3,7 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.ChaincodeMedicalRecord;
+import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
 import com.medicaldatasharing.dto.MedicalRecordDto;
@@ -10,6 +11,7 @@ import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.util.Constants;
+import com.medicaldatasharing.util.StringUtil;
 import lombok.SneakyThrows;
 import org.bouncycastle.util.encoders.Hex;
 import org.hyperledger.fabric.gateway.Contract;
@@ -91,34 +93,73 @@ public class HyperledgerService {
     }
 
     public ChaincodeMedicalRecord addMedicalRecord(User user, MedicalRecordDto medicalRecordDto) throws Exception {
-        String userWalletIdentity = user.getEmail();
-        String userIdentity = user.getId();
-
-        String org = determineOrg(user);
-        Map<String, String> connectionConfigParams = ConnectionParamsUtil.setOrgConfigParams(org);
-        String connectionProfilePath = connectionConfigParams.get("networkConfigPath");
-        try (Gateway gateway = connect(userWalletIdentity, connectionProfilePath, userIdentity, org)) {
-
-            // get the network and contract
-            Network network = gateway.getNetwork(Config.CHANNEL_NAME);
-            Contract contract = network.getContract(Config.CHAINCODE_NAME);
-
+        ChaincodeMedicalRecord chaincodeMedicalRecord = null;
+        try {
+            Contract contract  = getContract(user);
+            LOG.info("Submit Transaction: AddMedicalRecord");
             byte[] result = contract.submitTransaction(
                     "addMedicalRecord",
-                    "patient-1",
-                    "doctor-2",
-                    "medical-institution-3",
-                    "2024-05-08",
-                    "Blood Test",
-                    ":)"
+                    medicalRecordDto.getPatientId(),
+                    medicalRecordDto.getDoctorId(),
+                    medicalRecordDto.getMedicalInstitutionId(),
+                    medicalRecordDto.getTime().toString(),
+                    medicalRecordDto.getTestName(),
+                    medicalRecordDto.getRelevantParameters()
             );
-            ChaincodeMedicalRecord chaincodeMedicalRecord = null;
             chaincodeMedicalRecord = ChaincodeMedicalRecord.deserialize(result);
             LOG.info("result: " + chaincodeMedicalRecord);
-            return chaincodeMedicalRecord;
         } catch (Exception e) {
-            throw e;
+            formatExceptionMessage(e);
         }
+        return chaincodeMedicalRecord;
+    }
+
+    public ChaincodeMedicalRecord getMedicalRecord(User user, String medicalRecordId) throws Exception {
+        ChaincodeMedicalRecord chaincodeMedicalRecord = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Evaluate Transaction: GetMedicalRecord");
+            byte[] result = contract.evaluateTransaction(
+                    "getMedicalRecord",
+                    medicalRecordId
+            );
+            chaincodeMedicalRecord = ChaincodeMedicalRecord.deserialize(result);
+            LOG.info("result: " + chaincodeMedicalRecord);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return chaincodeMedicalRecord;
+    }
+
+    public MedicalRecordAccessRequest sendMedicalRecordAccessRequest(
+            User user,
+            String patientId,
+            String requesterId,
+            String medicalRecordId,
+            String dateCreated
+    ) throws Exception {
+        MedicalRecordAccessRequest medicalRecordAccessRequest = null;
+        try {
+            Contract contract = getContract(user);
+            byte[] result = contract.submitTransaction(
+                    "sendMedicalRecordAccessRequest",
+                    patientId,
+                    requesterId,
+                    medicalRecordId,
+                    dateCreated
+            );
+            medicalRecordAccessRequest = MedicalRecordAccessRequest.deserialize(result);
+            LOG.info("result: " + medicalRecordAccessRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicalRecordAccessRequest;
+    }
+
+    private void formatExceptionMessage(Exception e) throws Exception{
+        String msg= e.getMessage();
+        String errorMsg = msg.substring(msg.lastIndexOf(":") + 1);
+        throw new Exception(errorMsg);
     }
 
     private String hashValue(String originalString) {

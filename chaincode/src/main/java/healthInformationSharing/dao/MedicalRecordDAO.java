@@ -33,7 +33,7 @@ public class MedicalRecordDAO {
         );
     }
 
-    public boolean MedicalRecordExist(String medicalRecordId) {
+    public boolean medicalRecordExist(String medicalRecordId) {
         return medicalRecordCRUD.medicalRecordExist(medicalRecordId);
     }
 
