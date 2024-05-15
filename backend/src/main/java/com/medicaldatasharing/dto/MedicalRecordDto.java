@@ -17,7 +17,7 @@ public class MedicalRecordDto {
 
     private String medicalInstitutionId;
 
-    private Date time;
+    private String time;
 
     private String testName;
 

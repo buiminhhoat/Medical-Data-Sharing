@@ -42,9 +42,9 @@ public class InitDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initMedicalInstitutions();
-        initUsers();
-        initMedicalRecord();
+//        initMedicalInstitutions();
+//        initUsers();
+//        initMedicalRecord();
     }
 
     private void initMedicalInstitutions() {
@@ -198,7 +198,7 @@ public class InitDataLoader implements CommandLineRunner {
         medicalRecordDto.setPatientId(patientId);
         medicalRecordDto.setDoctorId(doctorId);
         medicalRecordDto.setMedicalInstitutionId(medicalInstitutionId);
-        medicalRecordDto.setTime(time);
+        medicalRecordDto.setTime(time.toString());
         medicalRecordDto.setTestName(testName);
         medicalRecordDto.setRelevantParameters(relevantParameters);
         try {

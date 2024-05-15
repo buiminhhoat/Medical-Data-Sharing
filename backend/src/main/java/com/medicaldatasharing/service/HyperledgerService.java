@@ -102,7 +102,7 @@ public class HyperledgerService {
                     medicalRecordDto.getPatientId(),
                     medicalRecordDto.getDoctorId(),
                     medicalRecordDto.getMedicalInstitutionId(),
-                    medicalRecordDto.getTime().toString(),
+                    medicalRecordDto.getTime(),
                     medicalRecordDto.getTestName(),
                     medicalRecordDto.getRelevantParameters()
             );

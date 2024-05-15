@@ -5,6 +5,8 @@ public class Constants {
 
     public static final String PATIENT_API = "/patient/**";
 
+    public static final String DOCTOR_API = "/doctor/**";
+
     public static final String ROLE_PATIENT = "ROLE_PATIENT";
 
     public static final String ROLE_SUPER_ADMIN = "ROLE_SUPER_ADMIN";
