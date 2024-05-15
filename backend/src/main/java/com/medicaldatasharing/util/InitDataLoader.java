@@ -2,9 +2,10 @@ package com.medicaldatasharing.util;
 
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
-import com.medicaldatasharing.chaincode.dto.ChaincodeMedicalRecord;
+import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
 import com.medicaldatasharing.dto.MedicalRecordDto;
+import com.medicaldatasharing.dto.form.MedicalRecordAccessSendRequestForm;
 import com.medicaldatasharing.model.Admin;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
@@ -42,9 +43,9 @@ public class InitDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        initMedicalInstitutions();
-//        initUsers();
-//        initMedicalRecord();
+        initMedicalInstitutions();
+        initUsers();
+        initMedicalRecord();
     }
 
     private void initMedicalInstitutions() {
@@ -188,7 +189,7 @@ public class InitDataLoader implements CommandLineRunner {
         MedicalInstitution medicalInstitution = doctor.getMedicalInstitution();
         String medicalInstitutionId = medicalInstitution.getId();
 
-        Date time = new Date(2024, 13, 05);
+        Date dateCreated = new Date(2024, 13, 05);
 
         String testName = "Cardiovascular Test";
 
@@ -198,23 +199,34 @@ public class InitDataLoader implements CommandLineRunner {
         medicalRecordDto.setPatientId(patientId);
         medicalRecordDto.setDoctorId(doctorId);
         medicalRecordDto.setMedicalInstitutionId(medicalInstitutionId);
-        medicalRecordDto.setTime(time.toString());
+        medicalRecordDto.setDateCreated(dateCreated.toString());
         medicalRecordDto.setTestName(testName);
         medicalRecordDto.setRelevantParameters(relevantParameters);
         try {
-            ChaincodeMedicalRecord chaincodeMedicalRecord = hyperledgerService.addMedicalRecord(patient, medicalRecordDto);
-            System.out.println("chaincodeMedicalRecord: " + chaincodeMedicalRecord);
+            MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(patient, medicalRecordDto);
+            System.out.println("chaincodeMedicalRecord: " + medicalRecord);
 
-            ChaincodeMedicalRecord getChaincodeMedicalRecord = hyperledgerService.getMedicalRecord(patient, chaincodeMedicalRecord.getMedicalRecordId());
-            System.out.println("getChaincodeMedicalRecord: " + getChaincodeMedicalRecord);
+            MedicalRecord getMedicalRecord = hyperledgerService.getMedicalRecord(patient, medicalRecord.getMedicalRecordId());
+            System.out.println("getChaincodeMedicalRecord: " + getMedicalRecord);
 
-            MedicalRecordAccessRequest medicalRecordAccessRequest = hyperledgerService.sendMedicalRecordAccessRequest(
+            MedicalRecordAccessSendRequestForm medicalRecordAccessSendRequestForm = new MedicalRecordAccessSendRequestForm();
+            medicalRecordAccessSendRequestForm.setPatientId(patientId);
+            medicalRecordAccessSendRequestForm.setRequesterId(doctorId);
+            medicalRecordAccessSendRequestForm.setMedicalRecordId(getMedicalRecord.getMedicalRecordId());
+            medicalRecordAccessSendRequestForm.setDateCreated(new Date(2024, 05, 15).toString());
+            MedicalRecordAccessRequest sendMedicalRecordAccessRequest = hyperledgerService.sendMedicalRecordAccessRequest(
                     doctor,
-                    patientId,
-                    doctorId,
-                    getChaincodeMedicalRecord.getMedicalRecordId(),
-                    new Date(2024, 05, 15).toString());
-            System.out.println("sendMedicalRecordAccessRequest: " + medicalRecordAccessRequest);
+                    medicalRecordAccessSendRequestForm);
+            System.out.println("sendMedicalRecordAccessRequest: " + sendMedicalRecordAccessRequest);
+
+            MedicalRecordAccessRequest defineMedicalRecordAccessRequest = hyperledgerService.defineMedicalRecordAccessRequest(
+                    patient,
+                    sendMedicalRecordAccessRequest.getMedicalRecordAccessRequestId(),
+                    "ACCEPT",
+                    "2024-05-15",
+                    "2025-05-15"
+            );
+            System.out.println("defineMedicalRecordAccessRequest: " + defineMedicalRecordAccessRequest);
         } catch (Exception exception) {
             System.out.println(exception);
         }

@@ -50,4 +50,4 @@ shadowJar {
     }
 }
 
-installDist.dependsOn check
+installDist.dependsOn

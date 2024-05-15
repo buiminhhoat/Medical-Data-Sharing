@@ -4,6 +4,7 @@ import com.owlike.genson.Genson;
 import healthInformationSharing.entity.MedicalRecordAccessRequest;
 import healthInformationSharing.enumeration.AccessType;
 import org.hyperledger.fabric.contract.Context;
+import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
 
 import java.util.logging.Logger;
@@ -42,6 +43,40 @@ public class MedicalRecordAccessRequestCRUD {
                 testName
         );
 
+        String medicalRecordAccessRequestStr = genson.serialize(medicalRecordAccessRequest);
+        ctx.getStub().putStringState(dbKey, medicalRecordAccessRequestStr);
+        return medicalRecordAccessRequest;
+    }
+
+    public boolean medicalRecordAccessRequestExist(String medicalRecordAccessRequestId) {
+        ChaincodeStub chaincodeStub = ctx.getStub();
+        String dbKey = chaincodeStub.createCompositeKey(entityName, medicalRecordAccessRequestId).toString();
+
+        byte [] result = chaincodeStub.getState(dbKey);
+        return result.length > 0;
+    }
+
+    public MedicalRecordAccessRequest getMedicalRecordAccessRequest(String medicalRecordAccessRequestId) {
+        ChaincodeStub chaincodeStub = ctx.getStub();
+        String dbKey = chaincodeStub.createCompositeKey(entityName, medicalRecordAccessRequestId).toString();
+
+        byte [] result = chaincodeStub.getState(dbKey);
+
+        return MedicalRecordAccessRequest.deserialize(result);
+    }
+
+    public MedicalRecordAccessRequest defineMedicalRecordAccessRequest(
+            String medicalRecordAccessRequestId,
+            String decision,
+            String accessAvailableFrom,
+            String accessAvailableUntil) {
+        ChaincodeStub chaincodeStub = ctx.getStub();
+        MedicalRecordAccessRequest medicalRecordAccessRequest = getMedicalRecordAccessRequest(medicalRecordAccessRequestId);
+        medicalRecordAccessRequest.setDecision(decision);
+        medicalRecordAccessRequest.setAccessAvailableFrom(accessAvailableFrom);
+        medicalRecordAccessRequest.setAccessAvailableUntil(accessAvailableUntil);
+
+        String dbKey = ctx.getStub().createCompositeKey(entityName, medicalRecordAccessRequestId).toString();
         String medicalRecordAccessRequestStr = genson.serialize(medicalRecordAccessRequest);
         ctx.getStub().putStringState(dbKey, medicalRecordAccessRequestStr);
         return medicalRecordAccessRequest;

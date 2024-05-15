@@ -10,7 +10,7 @@ public class ValidationUtil {
     public static String formatValidationErrorMessages(List<ObjectError> errors) {
         StringBuffer errorMsgsBuffer = new StringBuffer("Errors while adding new institution: ");
         for (Object object : errors) {
-            if(object instanceof FieldError) {
+            if (object instanceof FieldError) {
                 FieldError fieldError = (FieldError) object;
                 String errorMsg = "%" + fieldError.getField() + "% " + fieldError.getDefaultMessage();
                 errorMsgsBuffer.append(errorMsg);
@@ -20,7 +20,7 @@ public class ValidationUtil {
         return errorMsgsBuffer.toString();
     }
 
-    public static boolean passwordMatch(String password1, String password2){
+    public static boolean passwordMatch(String password1, String password2) {
         return password1.equals(password2);
     }
 }

@@ -27,7 +27,7 @@ public class MedicalRecordCRUD {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
-            String time,
+            String dateCreated,
             String testName,
             String relevantParameters) {
         CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
@@ -38,7 +38,7 @@ public class MedicalRecordCRUD {
                 patientId,
                 doctorId,
                 medicalInstitutionId,
-                time,
+                dateCreated,
                 testName,
                 relevantParameters
         );

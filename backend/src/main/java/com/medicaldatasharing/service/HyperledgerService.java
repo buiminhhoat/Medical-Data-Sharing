@@ -2,16 +2,17 @@ package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
-import com.medicaldatasharing.chaincode.dto.ChaincodeMedicalRecord;
+import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
+import com.medicaldatasharing.dto.MedicalRecordAccessSendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
+import com.medicaldatasharing.dto.form.MedicalRecordAccessSendRequestForm;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.util.Constants;
-import com.medicaldatasharing.util.StringUtil;
 import lombok.SneakyThrows;
 import org.bouncycastle.util.encoders.Hex;
 import org.hyperledger.fabric.gateway.Contract;
@@ -92,30 +93,30 @@ public class HyperledgerService {
         return builder.connect();
     }
 
-    public ChaincodeMedicalRecord addMedicalRecord(User user, MedicalRecordDto medicalRecordDto) throws Exception {
-        ChaincodeMedicalRecord chaincodeMedicalRecord = null;
+    public MedicalRecord addMedicalRecord(User user, MedicalRecordDto medicalRecordDto) throws Exception {
+        MedicalRecord medicalRecord = null;
         try {
-            Contract contract  = getContract(user);
+            Contract contract = getContract(user);
             LOG.info("Submit Transaction: AddMedicalRecord");
             byte[] result = contract.submitTransaction(
                     "addMedicalRecord",
                     medicalRecordDto.getPatientId(),
                     medicalRecordDto.getDoctorId(),
                     medicalRecordDto.getMedicalInstitutionId(),
-                    medicalRecordDto.getTime(),
+                    medicalRecordDto.getDateCreated(),
                     medicalRecordDto.getTestName(),
                     medicalRecordDto.getRelevantParameters()
             );
-            chaincodeMedicalRecord = ChaincodeMedicalRecord.deserialize(result);
-            LOG.info("result: " + chaincodeMedicalRecord);
+            medicalRecord = MedicalRecord.deserialize(result);
+            LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return chaincodeMedicalRecord;
+        return medicalRecord;
     }
 
-    public ChaincodeMedicalRecord getMedicalRecord(User user, String medicalRecordId) throws Exception {
-        ChaincodeMedicalRecord chaincodeMedicalRecord = null;
+    public MedicalRecord getMedicalRecord(User user, String medicalRecordId) throws Exception {
+        MedicalRecord medicalRecord = null;
         try {
             Contract contract = getContract(user);
             LOG.info("Evaluate Transaction: GetMedicalRecord");
@@ -123,30 +124,27 @@ public class HyperledgerService {
                     "getMedicalRecord",
                     medicalRecordId
             );
-            chaincodeMedicalRecord = ChaincodeMedicalRecord.deserialize(result);
-            LOG.info("result: " + chaincodeMedicalRecord);
+            medicalRecord = MedicalRecord.deserialize(result);
+            LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return chaincodeMedicalRecord;
+        return medicalRecord;
     }
 
     public MedicalRecordAccessRequest sendMedicalRecordAccessRequest(
             User user,
-            String patientId,
-            String requesterId,
-            String medicalRecordId,
-            String dateCreated
+            MedicalRecordAccessSendRequestForm medicalRecordAccessSendRequestForm
     ) throws Exception {
         MedicalRecordAccessRequest medicalRecordAccessRequest = null;
         try {
             Contract contract = getContract(user);
             byte[] result = contract.submitTransaction(
                     "sendMedicalRecordAccessRequest",
-                    patientId,
-                    requesterId,
-                    medicalRecordId,
-                    dateCreated
+                    medicalRecordAccessSendRequestForm.getPatientId(),
+                    medicalRecordAccessSendRequestForm.getRequesterId(),
+                    medicalRecordAccessSendRequestForm.getMedicalRecordId(),
+                    medicalRecordAccessSendRequestForm.getDateCreated()
             );
             medicalRecordAccessRequest = MedicalRecordAccessRequest.deserialize(result);
             LOG.info("result: " + medicalRecordAccessRequest);
@@ -156,8 +154,33 @@ public class HyperledgerService {
         return medicalRecordAccessRequest;
     }
 
-    private void formatExceptionMessage(Exception e) throws Exception{
-        String msg= e.getMessage();
+    public MedicalRecordAccessRequest defineMedicalRecordAccessRequest(
+            User user,
+            String medicalRecordAccessRequestId,
+            String decision,
+            String accessAvailableFrom,
+            String accessAvailableUntil
+    ) throws Exception {
+        MedicalRecordAccessRequest medicalRecordAccessRequest = null;
+        try {
+            Contract contract = getContract(user);
+            byte[] result = contract.submitTransaction(
+                    "defineMedicalRecordAccessRequest",
+                    medicalRecordAccessRequestId,
+                    decision,
+                    accessAvailableFrom,
+                    accessAvailableUntil
+            );
+            medicalRecordAccessRequest = MedicalRecordAccessRequest.deserialize(result);
+            LOG.info("result: " + medicalRecordAccessRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicalRecordAccessRequest;
+    }
+
+    private void formatExceptionMessage(Exception e) throws Exception {
+        String msg = e.getMessage();
         String errorMsg = msg.substring(msg.lastIndexOf(":") + 1);
         throw new Exception(errorMsg);
     }

@@ -21,7 +21,7 @@ public class MedicalRecordAccessRequest {
 
     private String accessAvailableUntil;
 
-    private String medicalRecord;
+    private String medicalRecordId;
 
     private String testName;
 
@@ -48,7 +48,7 @@ public class MedicalRecordAccessRequest {
         String decision = jsonObject.getString("decision");
         String accessAvailableFrom = jsonObject.getString("accessAvailableFrom");
         String accessAvailableUntil = jsonObject.getString("accessAvailableUntil");
-        String medicalRecordJsonObject = jsonObject.getString("medicalRecord");
+        String medicalRecordId = jsonObject.getString("medicalRecordId");
         String testName = jsonObject.getString("testName");
 
         return createInstance(
@@ -59,7 +59,7 @@ public class MedicalRecordAccessRequest {
                 decision,
                 accessAvailableFrom,
                 accessAvailableUntil,
-                medicalRecordJsonObject,
+                medicalRecordId,
                 testName
         );
     }
@@ -83,8 +83,9 @@ public class MedicalRecordAccessRequest {
         medicalRecordAccessRequest.setDecision(decision);
         medicalRecordAccessRequest.setAccessAvailableFrom(accessAvailableFrom);
         medicalRecordAccessRequest.setAccessAvailableUntil(accessAvailableUntil);
-        medicalRecordAccessRequest.setMedicalRecord(medicalRecordJsonObject);
+        medicalRecordAccessRequest.setMedicalRecordId(medicalRecordJsonObject);
         medicalRecordAccessRequest.setTestName(testName);
+        medicalRecordAccessRequest.setEntityName(MedicalRecordAccessRequest.class.getSimpleName());
         return medicalRecordAccessRequest;
     }
 
@@ -151,12 +152,12 @@ public class MedicalRecordAccessRequest {
         return this;
     }
 
-    public String getMedicalRecord() {
-        return medicalRecord;
+    public String getMedicalRecordId() {
+        return medicalRecordId;
     }
 
-    public MedicalRecordAccessRequest setMedicalRecord(String medicalRecord) {
-        this.medicalRecord = medicalRecord;
+    public MedicalRecordAccessRequest setMedicalRecordId(String medicalRecordId) {
+        this.medicalRecordId = medicalRecordId;
         return this;
     }
 
@@ -183,12 +184,12 @@ public class MedicalRecordAccessRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MedicalRecordAccessRequest that = (MedicalRecordAccessRequest) o;
-        return Objects.equals(medicalRecordAccessRequestId, that.medicalRecordAccessRequestId) && Objects.equals(patientId, that.patientId) && Objects.equals(requestId, that.requestId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(decision, that.decision) && Objects.equals(accessAvailableFrom, that.accessAvailableFrom) && Objects.equals(accessAvailableUntil, that.accessAvailableUntil) && Objects.equals(medicalRecord, that.medicalRecord) && Objects.equals(testName, that.testName) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(medicalRecordAccessRequestId, that.medicalRecordAccessRequestId) && Objects.equals(patientId, that.patientId) && Objects.equals(requestId, that.requestId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(decision, that.decision) && Objects.equals(accessAvailableFrom, that.accessAvailableFrom) && Objects.equals(accessAvailableUntil, that.accessAvailableUntil) && Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(testName, that.testName) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicalRecordAccessRequestId, patientId, requestId, dateCreated, decision, accessAvailableFrom, accessAvailableUntil, medicalRecord, testName, entityName);
+        return Objects.hash(medicalRecordAccessRequestId, patientId, requestId, dateCreated, decision, accessAvailableFrom, accessAvailableUntil, medicalRecordId, testName, entityName);
     }
 
     @Override
@@ -201,7 +202,7 @@ public class MedicalRecordAccessRequest {
                 ", decision='" + decision + '\'' +
                 ", accessAvailableFrom='" + accessAvailableFrom + '\'' +
                 ", accessAvailableUntil='" + accessAvailableUntil + '\'' +
-                ", medicalRecord='" + medicalRecord + '\'' +
+                ", medicalRecordId='" + medicalRecordId + '\'' +
                 ", testName='" + testName + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';

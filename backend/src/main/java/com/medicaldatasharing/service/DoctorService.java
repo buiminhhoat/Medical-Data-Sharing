@@ -1,7 +1,10 @@
 package com.medicaldatasharing.service;
 
-import com.medicaldatasharing.chaincode.dto.ChaincodeMedicalRecord;
+import com.medicaldatasharing.chaincode.dto.MedicalRecord;
+import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
+import com.medicaldatasharing.dto.MedicalRecordAccessSendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
+import com.medicaldatasharing.dto.form.MedicalRecordAccessSendRequestForm;
 import com.medicaldatasharing.dto.form.MedicalRecordForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
@@ -38,19 +41,33 @@ public class DoctorService {
         medicalRecordDto.setPatientId(medicalRecordForm.getPatientId());
         medicalRecordDto.setDoctorId(medicalRecordForm.getDoctorId());
         medicalRecordDto.setMedicalInstitutionId(medicalRecordForm.getMedicalInstitutionId());
-        medicalRecordDto.setTime(medicalRecordForm.getTime());
+        medicalRecordDto.setDateCreated(medicalRecordForm.getTime());
         medicalRecordDto.setTestName(medicalRecordForm.getTestName());
         medicalRecordDto.setRelevantParameters(medicalRecordForm.getRelevantParameters());
 
-        ChaincodeMedicalRecord chaincodeMedicalRecord = hyperledgerService.addMedicalRecord(user, medicalRecordDto);
+        MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(user, medicalRecordDto);
 
         MedicalRecordDto result = new MedicalRecordDto();
-        result.setPatientId(chaincodeMedicalRecord.getPatientId());
-        result.setDoctorId(chaincodeMedicalRecord.getDoctorId());
-        result.setMedicalInstitutionId(chaincodeMedicalRecord.getMedicalInstitutionId());
-        result.setTime(chaincodeMedicalRecord.getTime());
-        result.setTestName(chaincodeMedicalRecord.getTestName());
-        result.setRelevantParameters(chaincodeMedicalRecord.getRelevantParameters());
+        result.setPatientId(medicalRecord.getPatientId());
+        result.setDoctorId(medicalRecord.getDoctorId());
+        result.setMedicalInstitutionId(medicalRecord.getMedicalInstitutionId());
+        result.setDateCreated(medicalRecord.getDateCreated());
+        result.setTestName(medicalRecord.getTestName());
+        result.setRelevantParameters(medicalRecord.getRelevantParameters());
         return result;
+    }
+
+    public MedicalRecordAccessSendRequestDto sendMedicalRecordAccessRequest(
+            MedicalRecordAccessSendRequestForm medicalRecordAccessSendRequestForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        MedicalRecordAccessRequest medicalRecordAccessRequest = hyperledgerService.sendMedicalRecordAccessRequest(user, medicalRecordAccessSendRequestForm);
+
+        MedicalRecordAccessSendRequestDto medicalRecordAccessSendRequestDto = new MedicalRecordAccessSendRequestDto();
+        medicalRecordAccessSendRequestDto.setMedicalRecordAccessRequestId(medicalRecordAccessRequest.getMedicalRecordAccessRequestId());
+        medicalRecordAccessSendRequestDto.setPatientId(medicalRecordAccessRequest.getPatientId());
+        medicalRecordAccessSendRequestDto.setRequesterId(medicalRecordAccessRequest.getRequestId());
+        medicalRecordAccessSendRequestDto.setMedicalRecordId(medicalRecordAccessRequest.getMedicalRecordId());
+        medicalRecordAccessSendRequestDto.setDateCreated(medicalRecordAccessRequest.getDateCreated());
+        return medicalRecordAccessSendRequestDto;
     }
 }

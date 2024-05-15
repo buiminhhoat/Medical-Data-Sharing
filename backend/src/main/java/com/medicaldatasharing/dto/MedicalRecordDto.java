@@ -2,8 +2,6 @@ package com.medicaldatasharing.dto;
 
 import lombok.*;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @Builder
@@ -17,7 +15,7 @@ public class MedicalRecordDto {
 
     private String medicalInstitutionId;
 
-    private String time;
+    private String dateCreated;
 
     private String testName;
 

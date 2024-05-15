@@ -1,6 +1,8 @@
 package com.medicaldatasharing.controller;
 
+import com.medicaldatasharing.dto.MedicalRecordAccessSendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
+import com.medicaldatasharing.dto.form.MedicalRecordAccessSendRequestForm;
 import com.medicaldatasharing.dto.form.MedicalRecordForm;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.util.ValidationUtil;
@@ -28,5 +30,17 @@ public class DoctorController {
         }
 
         return doctorService.addMedicalRecord(medicalRecordForm);
+    }
+
+    @PostMapping("/sendMedicalRecordAccessRequest")
+    public MedicalRecordAccessSendRequestDto sendMedicalRecordAccessRequest(
+            @Valid @ModelAttribute MedicalRecordAccessSendRequestForm medicalRecordAccessSendRequestForm,
+            BindingResult result) throws Exception {
+        if (result.hasErrors()) {
+            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+            throw new ValidationException(errorMsg);
+        }
+
+        return doctorService.sendMedicalRecordAccessRequest(medicalRecordAccessSendRequestForm);
     }
 }

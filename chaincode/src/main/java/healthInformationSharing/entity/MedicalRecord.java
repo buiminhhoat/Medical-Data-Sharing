@@ -24,7 +24,7 @@ public final class MedicalRecord {
     private String medicalInstitutionId;
 
     @Property()
-    private String time;
+    private String dateCreated;
 
     @Property()
     private String testName;
@@ -54,7 +54,7 @@ public final class MedicalRecord {
         String patientId = jsonObject.getString("patientId");
         String doctorId = jsonObject.getString("doctorId");
         String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
-        String time = jsonObject.getString("time");
+        String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
         String relevantParameters = jsonObject.getString("relevantParameters");
 
@@ -63,7 +63,7 @@ public final class MedicalRecord {
                 patientId,
                 doctorId,
                 medicalInstitutionId,
-                time,
+                dateCreated,
                 testName,
                 relevantParameters
         );
@@ -74,7 +74,7 @@ public final class MedicalRecord {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
-            String time,
+            String dateCreated,
             String testName,
             String relevantParameters
     ) {
@@ -83,7 +83,7 @@ public final class MedicalRecord {
         medicalRecord.setPatientId(patientId);
         medicalRecord.setDoctorId(doctorId);
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
-        medicalRecord.setTime(time);
+        medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setTestName(testName);
         medicalRecord.setRelevantParameters(relevantParameters);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
@@ -122,12 +122,12 @@ public final class MedicalRecord {
         this.medicalInstitutionId = medicalInstitutionId;
     }
 
-    public String getTime() {
-        return time;
+    public String getDateCreated() {
+        return dateCreated;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public String getTestName() {
@@ -159,12 +159,12 @@ public final class MedicalRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MedicalRecord that = (MedicalRecord) o;
-        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(time, that.time) && Objects.equals(testName, that.testName) && Objects.equals(relevantParameters, that.relevantParameters) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(testName, that.testName) && Objects.equals(relevantParameters, that.relevantParameters) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, time, testName, relevantParameters, entityName);
+        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateCreated, testName, relevantParameters, entityName);
     }
 
     @Override
@@ -174,7 +174,7 @@ public final class MedicalRecord {
                 ", patientId='" + patientId + '\'' +
                 ", doctorId='" + doctorId + '\'' +
                 ", medicalInstitutionId='" + medicalInstitutionId + '\'' +
-                ", time='" + time + '\'' +
+                ", dateCreated='" + dateCreated + '\'' +
                 ", testName='" + testName + '\'' +
                 ", relevantParameters='" + relevantParameters + '\'' +
                 ", entityName='" + entityName + '\'' +

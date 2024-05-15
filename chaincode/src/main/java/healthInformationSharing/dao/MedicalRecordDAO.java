@@ -18,7 +18,7 @@ public class MedicalRecordDAO {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
-            String time,
+            String dateCreated,
             String testName,
             String relevantParameters
     ) {
@@ -27,7 +27,7 @@ public class MedicalRecordDAO {
                 patientId,
                 doctorId,
                 medicalInstitutionId,
-                time,
+                dateCreated,
                 testName,
                 relevantParameters
         );

@@ -1,6 +1,8 @@
 package healthInformationSharing.contract;
 
 import healthInformationSharing.component.MedicalRecordContext;
+import healthInformationSharing.dao.MedicalRecordAccessRequestDAO;
+import healthInformationSharing.dao.MedicalRecordDAO;
 import healthInformationSharing.entity.MedicalRecord;
 import healthInformationSharing.entity.MedicalRecordAccessRequest;
 import org.hyperledger.fabric.contract.Context;
@@ -98,7 +100,7 @@ public class MedicalRecordContract implements ContractInterface {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
-            String time,
+            String dateCreated,
             String testName,
             String relevantParameters
     ) {
@@ -108,7 +110,7 @@ public class MedicalRecordContract implements ContractInterface {
                 patientId,
                 doctorId,
                 medicalInstitutionId,
-                time,
+                dateCreated,
                 testName,
                 relevantParameters
         );
@@ -127,7 +129,7 @@ public class MedicalRecordContract implements ContractInterface {
         }
     }
 
-    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
     public MedicalRecordAccessRequest sendMedicalRecordAccessRequest(
             MedicalRecordContext ctx,
             String patientId,
@@ -149,6 +151,31 @@ public class MedicalRecordContract implements ContractInterface {
                 medicalRecordId,
                 medicalRecord.getTestName(),
                 dateCreated
+        );
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public MedicalRecordAccessRequest defineMedicalRecordAccessRequest(
+            MedicalRecordContext ctx,
+            String medicalRecordAccessRequestId,
+            String decision,
+            String accessAvailableFrom,
+            String accessAvailableUntil
+    ) {
+        MedicalRecordAccessRequestDAO medicalRecordAccessRequestDAO = ctx.getMedicalRecordAccessRequestDAO();
+        if (!medicalRecordAccessRequestDAO.medicalRecordAccessRequestExist(medicalRecordAccessRequestId)) {
+            throw new ChaincodeException("MedicalRecordAccessRequest " + medicalRecordAccessRequestId + " does not exist",
+                    MedicalRecordContractErrors.MEDICAL_RECORD_ACCESS_REQUEST_NOT_FOUND.toString());
+        }
+
+        MedicalRecordAccessRequest medicalRecordAccessRequest = medicalRecordAccessRequestDAO.getMedicalRecordAccessRequest(medicalRecordAccessRequestId);
+        authorizeRequest(ctx, medicalRecordAccessRequest.getPatientId(), "defineMedicalRecordAccessRequest(validate patientId");
+
+        return ctx.getMedicalRecordAccessRequestDAO().defineMedicalRecordAccessRequest(
+                medicalRecordAccessRequestId,
+                decision,
+                accessAvailableFrom,
+                accessAvailableUntil
         );
     }
 

@@ -47,4 +47,28 @@ public class MedicalRecordAccessRequestDAO {
                 dateCreated
         );
     }
+
+    public boolean medicalRecordAccessRequestExist(String medicalRecordAccessRequestId) {
+        return medicalRecordAccessRequestCRUD.medicalRecordAccessRequestExist(medicalRecordAccessRequestId);
+    }
+
+    public MedicalRecordAccessRequest getMedicalRecordAccessRequest(
+            String medicalRecordAccessRequestId
+    ) {
+        return medicalRecordAccessRequestCRUD.getMedicalRecordAccessRequest(medicalRecordAccessRequestId);
+    }
+
+    public MedicalRecordAccessRequest defineMedicalRecordAccessRequest(
+            String medicalRecordAccessRequestId,
+            String decision,
+            String accessAvailableFrom,
+            String accessAvailableUntil
+    ) {
+        return medicalRecordAccessRequestCRUD.defineMedicalRecordAccessRequest(
+                medicalRecordAccessRequestId,
+                decision,
+                accessAvailableFrom,
+                accessAvailableUntil
+        );
+    }
 }

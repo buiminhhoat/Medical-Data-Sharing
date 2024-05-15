@@ -30,7 +30,7 @@ public class MedicalRecordAccessRequest {
     private String accessAvailableUntil;
 
     @Property
-    private String medicalRecord;
+    private String medicalRecordId;
 
     @Property
     private String testName;
@@ -59,7 +59,7 @@ public class MedicalRecordAccessRequest {
         String decision = jsonObject.getString("decision");
         String accessAvailableFrom = jsonObject.getString("accessAvailableFrom");
         String accessAvailableUntil = jsonObject.getString("accessAvailableUntil");
-        String medicalRecordJsonObject = jsonObject.getString("medicalRecord");
+        String medicalRecordId = jsonObject.getString("medicalRecordId");
         String testName = jsonObject.getString("testName");
 
         return createInstance(
@@ -70,7 +70,7 @@ public class MedicalRecordAccessRequest {
                 decision,
                 accessAvailableFrom,
                 accessAvailableUntil,
-                medicalRecordJsonObject,
+                medicalRecordId,
                 testName
         );
     }
@@ -94,8 +94,9 @@ public class MedicalRecordAccessRequest {
         medicalRecordAccessRequest.setDecision(decision);
         medicalRecordAccessRequest.setAccessAvailableFrom(accessAvailableFrom);
         medicalRecordAccessRequest.setAccessAvailableUntil(accessAvailableUntil);
-        medicalRecordAccessRequest.setMedicalRecord(medicalRecordJsonObject);
+        medicalRecordAccessRequest.setMedicalRecordId(medicalRecordJsonObject);
         medicalRecordAccessRequest.setTestName(testName);
+        medicalRecordAccessRequest.setEntityName(MedicalRecordAccessRequest.class.getName());
         return medicalRecordAccessRequest;
     }
 
@@ -162,12 +163,12 @@ public class MedicalRecordAccessRequest {
         return this;
     }
 
-    public String getMedicalRecord() {
-        return medicalRecord;
+    public String getMedicalRecordId() {
+        return medicalRecordId;
     }
 
-    public MedicalRecordAccessRequest setMedicalRecord(String medicalRecord) {
-        this.medicalRecord = medicalRecord;
+    public MedicalRecordAccessRequest setMedicalRecordId(String medicalRecord) {
+        this.medicalRecordId = medicalRecord;
         return this;
     }
 

@@ -48,7 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String username = "";
         User user;
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
             user = getUser(username);
             return user;
         } else {
