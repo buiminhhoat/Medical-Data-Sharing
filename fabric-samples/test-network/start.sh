@@ -1,31 +1,31 @@
 #!/bin/bash
 
-# Thiết lập thông tin kết nối
-DB_USER="root"
-DB_PASSWORD=""
-DB_HOST="192.168.1.247"
+# # Thiết lập thông tin kết nối
+# DB_USER="root"
+# DB_PASSWORD=""
+# DB_HOST="192.168.1.247"
 
-# Tên cơ sở dữ liệu để xóa
-DB_NAME="health-information-sharing"
+# # Tên cơ sở dữ liệu để xóa
+# DB_NAME="health-information-sharing"
 
-# Lệnh xóa cơ sở dữ liệu
-if [ -z "$DB_PASSWORD" ]; then
-	mysql -h "$DB_HOST" -u "$DB_USER" -e "DROP DATABASE \`$DB_NAME\`;"
+# # Lệnh xóa cơ sở dữ liệu
+# if [ -z "$DB_PASSWORD" ]; then
+# 	mysql -h "$DB_HOST" -u "$DB_USER" -e "DROP DATABASE \`$DB_NAME\`;"
 
-	echo "Database '$DB_NAME' has been dropped at $DB_HOST."
+# 	echo "Database '$DB_NAME' has been dropped at $DB_HOST."
 
-	mysql -h "$DB_HOST" -u "$DB_USER" -e "CREATE DATABASE \`$DB_NAME\`;"
+# 	mysql -h "$DB_HOST" -u "$DB_USER" -e "CREATE DATABASE \`$DB_NAME\`;"
 
-	echo "Database '$DB_NAME' has been created at $DB_HOST."
-else 
-	mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "DROP DATABASE \`$DB_NAME\`;"
+# 	echo "Database '$DB_NAME' has been created at $DB_HOST."
+# else 
+# 	mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "DROP DATABASE \`$DB_NAME\`;"
 
-	echo "Database '$DB_NAME' has been dropped at $DB_HOST."
+# 	echo "Database '$DB_NAME' has been dropped at $DB_HOST."
 
-	mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "CREATE DATABASE \`$DB_NAME\`;"
+# 	mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "CREATE DATABASE \`$DB_NAME\`;"
 
-	echo "Database '$DB_NAME' has been created at $DB_HOST."
-fi
+# 	echo "Database '$DB_NAME' has been created at $DB_HOST."
+# fi
 
 ./network.sh down
 
