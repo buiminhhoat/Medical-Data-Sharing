@@ -1,10 +1,9 @@
 package healthInformationSharing.contract;
 
 import healthInformationSharing.component.MedicalRecordContext;
-import healthInformationSharing.dao.MedicalRecordAccessRequestDAO;
-import healthInformationSharing.dao.MedicalRecordDAO;
+import healthInformationSharing.dao.RequestDAO;
 import healthInformationSharing.entity.MedicalRecord;
-import healthInformationSharing.entity.MedicalRecordAccessRequest;
+import healthInformationSharing.entity.Request;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.*;
@@ -130,50 +129,52 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public MedicalRecordAccessRequest sendMedicalRecordAccessRequest(
+    public Request sendRequest(
             MedicalRecordContext ctx,
-            String patientId,
-            String requesterId,
+            String senderId,
+            String recipientId,
             String medicalRecordId,
-            String dateCreated
+            String dateCreated,
+            String requestType
     ) {
-        authorizeRequest(ctx, requesterId, "sendMedicalRecordAccessRequest(validate requesterId)");
+        authorizeRequest(ctx, senderId, "sendRequest(validate senderId)");
         MedicalRecord medicalRecord = getMedicalRecord(ctx, medicalRecordId);
-        if (!Objects.equals(patientId, medicalRecord.getPatientId())) {
-            throw new ChaincodeException("patientId does not match medicalRecord.getPatientId()", MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+        if (!Objects.equals(recipientId, medicalRecord.getPatientId())) {
+            throw new ChaincodeException("recipientId does not match medicalRecord.getPatientId()", MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
-        if (Objects.equals(requesterId, medicalRecord.getPatientId())) {
+        if (Objects.equals(senderId, medicalRecord.getPatientId())) {
             throw new ChaincodeException("Requester is owner of this medical record", MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
-        return ctx.getMedicalRecordAccessRequestDAO().addMedicalRecordAccessRequest(
-                patientId,
-                requesterId,
+        return ctx.getRequestDAO().sendRequest(
+                senderId,
+                recipientId,
                 medicalRecordId,
                 medicalRecord.getTestName(),
-                dateCreated
+                dateCreated,
+                requestType
         );
     }
 
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public MedicalRecordAccessRequest defineMedicalRecordAccessRequest(
+    public Request defineRequest(
             MedicalRecordContext ctx,
-            String medicalRecordAccessRequestId,
-            String decision,
+            String requestId,
+            String requestStatus,
             String accessAvailableFrom,
             String accessAvailableUntil
     ) {
-        MedicalRecordAccessRequestDAO medicalRecordAccessRequestDAO = ctx.getMedicalRecordAccessRequestDAO();
-        if (!medicalRecordAccessRequestDAO.medicalRecordAccessRequestExist(medicalRecordAccessRequestId)) {
-            throw new ChaincodeException("MedicalRecordAccessRequest " + medicalRecordAccessRequestId + " does not exist",
+        RequestDAO requestDAO = ctx.getRequestDAO();
+        if (!requestDAO.requestExist(requestId)) {
+            throw new ChaincodeException("Request " + requestId + " does not exist",
                     MedicalRecordContractErrors.MEDICAL_RECORD_ACCESS_REQUEST_NOT_FOUND.toString());
         }
 
-        MedicalRecordAccessRequest medicalRecordAccessRequest = medicalRecordAccessRequestDAO.getMedicalRecordAccessRequest(medicalRecordAccessRequestId);
-        authorizeRequest(ctx, medicalRecordAccessRequest.getPatientId(), "defineMedicalRecordAccessRequest(validate patientId");
+        Request request = requestDAO.getRequest(requestId);
+        authorizeRequest(ctx, request.getRecipientId(), "defineRequest(validate recipientId");
 
-        return ctx.getMedicalRecordAccessRequestDAO().defineMedicalRecordAccessRequest(
-                medicalRecordAccessRequestId,
-                decision,
+        return ctx.getRequestDAO().defineRequest(
+                requestId,
+                requestStatus,
                 accessAvailableFrom,
                 accessAvailableUntil
         );

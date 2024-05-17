@@ -1,10 +1,10 @@
 package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
-import com.medicaldatasharing.dto.MedicalRecordAccessSendRequestDto;
+import com.medicaldatasharing.chaincode.dto.Request;
+import com.medicaldatasharing.dto.SendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.form.MedicalRecordAccessSendRequestForm;
+import com.medicaldatasharing.dto.form.SendRequestForm;
 import com.medicaldatasharing.dto.form.MedicalRecordForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
@@ -57,17 +57,17 @@ public class DoctorService {
         return result;
     }
 
-    public MedicalRecordAccessSendRequestDto sendMedicalRecordAccessRequest(
-            MedicalRecordAccessSendRequestForm medicalRecordAccessSendRequestForm) throws Exception {
+    public SendRequestDto sendRequest(
+            SendRequestForm sendRequestForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
-        MedicalRecordAccessRequest medicalRecordAccessRequest = hyperledgerService.sendMedicalRecordAccessRequest(user, medicalRecordAccessSendRequestForm);
+        Request request = hyperledgerService.sendRequest(user, sendRequestForm);
 
-        MedicalRecordAccessSendRequestDto medicalRecordAccessSendRequestDto = new MedicalRecordAccessSendRequestDto();
-        medicalRecordAccessSendRequestDto.setMedicalRecordAccessRequestId(medicalRecordAccessRequest.getMedicalRecordAccessRequestId());
-        medicalRecordAccessSendRequestDto.setPatientId(medicalRecordAccessRequest.getPatientId());
-        medicalRecordAccessSendRequestDto.setRequesterId(medicalRecordAccessRequest.getRequestId());
-        medicalRecordAccessSendRequestDto.setMedicalRecordId(medicalRecordAccessRequest.getMedicalRecordId());
-        medicalRecordAccessSendRequestDto.setDateCreated(medicalRecordAccessRequest.getDateCreated());
-        return medicalRecordAccessSendRequestDto;
+        SendRequestDto sendRequestDto = new SendRequestDto();
+        sendRequestDto.setSenderId(request.getSenderId());
+        sendRequestDto.setRecipientId(request.getRecipientId());
+        sendRequestDto.setMedicalRecordId(request.getMedicalRecordId());
+        sendRequestDto.setDateCreated(request.getDateCreated());
+        sendRequestDto.setRequestType(request.getRequestType());
+        return sendRequestDto;
     }
 }

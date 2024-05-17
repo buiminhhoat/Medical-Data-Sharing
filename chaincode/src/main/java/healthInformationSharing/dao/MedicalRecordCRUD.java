@@ -2,6 +2,8 @@ package healthInformationSharing.dao;
 
 import com.owlike.genson.Genson;
 import healthInformationSharing.entity.MedicalRecord;
+import healthInformationSharing.enumeration.MedicalRecordStatus;
+import healthInformationSharing.enumeration.RequestStatus;
 import org.hyperledger.fabric.contract.Context;
 import com.owlike.genson.Genson;
 import org.hyperledger.fabric.contract.Context;
@@ -40,7 +42,8 @@ public class MedicalRecordCRUD {
                 medicalInstitutionId,
                 dateCreated,
                 testName,
-                relevantParameters
+                relevantParameters,
+                MedicalRecordStatus.PENDING
         );
 
         String entityJsonString = genson.serialize(medicalRecord);

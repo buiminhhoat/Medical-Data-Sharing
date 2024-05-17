@@ -32,6 +32,9 @@ public final class MedicalRecord {
     @Property()
     private String relevantParameters;
 
+    @Property
+    private String medicalRecordStatus;
+
     @Property()
     private String entityName;
 
@@ -57,6 +60,7 @@ public final class MedicalRecord {
         String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
         String relevantParameters = jsonObject.getString("relevantParameters");
+        String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
 
         return createInstance(
                 medicalRecordId,
@@ -65,7 +69,8 @@ public final class MedicalRecord {
                 medicalInstitutionId,
                 dateCreated,
                 testName,
-                relevantParameters
+                relevantParameters,
+                medicalRecordStatus
         );
     }
 
@@ -76,7 +81,8 @@ public final class MedicalRecord {
             String medicalInstitutionId,
             String dateCreated,
             String testName,
-            String relevantParameters
+            String relevantParameters,
+            String medicalRecordStatus
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -86,6 +92,7 @@ public final class MedicalRecord {
         medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setTestName(testName);
         medicalRecord.setRelevantParameters(relevantParameters);
+        medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
     }
@@ -146,6 +153,15 @@ public final class MedicalRecord {
         this.relevantParameters = relevantParameters;
     }
 
+    public String getMedicalRecordStatus() {
+        return medicalRecordStatus;
+    }
+
+    public MedicalRecord setMedicalRecordStatus(String medicalRecordStatus) {
+        this.medicalRecordStatus = medicalRecordStatus;
+        return this;
+    }
+
     public String getEntityName() {
         return entityName;
     }
@@ -159,12 +175,12 @@ public final class MedicalRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MedicalRecord that = (MedicalRecord) o;
-        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(testName, that.testName) && Objects.equals(relevantParameters, that.relevantParameters) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(testName, that.testName) && Objects.equals(relevantParameters, that.relevantParameters) && Objects.equals(medicalRecordStatus, that.medicalRecordStatus) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateCreated, testName, relevantParameters, entityName);
+        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateCreated, testName, relevantParameters, medicalRecordStatus, entityName);
     }
 
     @Override
@@ -177,6 +193,7 @@ public final class MedicalRecord {
                 ", dateCreated='" + dateCreated + '\'' +
                 ", testName='" + testName + '\'' +
                 ", relevantParameters='" + relevantParameters + '\'' +
+                ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';
     }

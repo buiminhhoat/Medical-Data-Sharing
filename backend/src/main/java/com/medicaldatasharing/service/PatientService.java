@@ -1,9 +1,9 @@
 package com.medicaldatasharing.service;
 
-import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
-import com.medicaldatasharing.dto.MedicalRecordAccessDefineRequestDto;
-import com.medicaldatasharing.dto.MedicalRecordAccessSendRequestDto;
-import com.medicaldatasharing.dto.form.MedicalRecordAccessDefineRequestForm;
+import com.medicaldatasharing.chaincode.dto.Request;
+import com.medicaldatasharing.dto.DefineRequestDto;
+import com.medicaldatasharing.dto.SendRequestDto;
+import com.medicaldatasharing.dto.form.DefineRequestForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
@@ -33,22 +33,17 @@ public class PatientService {
     @Autowired
     private HyperledgerService hyperledgerService;
 
-    public MedicalRecordAccessDefineRequestDto defineMedicalRecordAccessRequest(
-            MedicalRecordAccessDefineRequestForm medicalRecordAccessDefineRequestForm
+    public DefineRequestDto defineRequest(
+            DefineRequestForm defineRequestForm
     ) throws Exception {
         User user = userDetailsService.getLoggedUser();
-        MedicalRecordAccessRequest medicalRecordAccessRequest
-                = hyperledgerService.defineMedicalRecordAccessRequest(user,
-                medicalRecordAccessDefineRequestForm.getMedicalRecordAccessRequestId(),
-                medicalRecordAccessDefineRequestForm.getDecision(),
-                medicalRecordAccessDefineRequestForm.getAccessAvailableFrom(),
-                medicalRecordAccessDefineRequestForm.getAccessAvailableUntil());
+        Request request = hyperledgerService.defineRequest(user, defineRequestForm);
 
-        MedicalRecordAccessDefineRequestDto medicalRecordAccessDefineRequestDto = new MedicalRecordAccessDefineRequestDto();
-        medicalRecordAccessDefineRequestDto.setMedicalRecordAccessRequestId(medicalRecordAccessRequest.getMedicalRecordAccessRequestId());
-        medicalRecordAccessDefineRequestDto.setDecision(medicalRecordAccessRequest.getDecision());
-        medicalRecordAccessDefineRequestDto.setAccessAvailableFrom(medicalRecordAccessRequest.getAccessAvailableFrom());
-        medicalRecordAccessDefineRequestDto.setAccessAvailableUntil(medicalRecordAccessRequest.getAccessAvailableUntil());
-        return medicalRecordAccessDefineRequestDto;
+        DefineRequestDto defineRequestDto = new DefineRequestDto();
+        defineRequestDto.setRequestId(request.getRequestId());
+        defineRequestDto.setRequestStatus(request.getRequestStatus());
+        defineRequestDto.setAccessAvailableFrom(request.getAccessAvailableFrom());
+        defineRequestDto.setAccessAvailableUntil(request.getAccessAvailableUntil());
+        return defineRequestDto;
     }
 }

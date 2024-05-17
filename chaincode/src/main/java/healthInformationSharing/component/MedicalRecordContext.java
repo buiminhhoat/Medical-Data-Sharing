@@ -1,6 +1,6 @@
 package healthInformationSharing.component;
 
-import healthInformationSharing.dao.MedicalRecordAccessRequestDAO;
+import healthInformationSharing.dao.RequestDAO;
 import healthInformationSharing.dao.MedicalRecordDAO;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
@@ -8,12 +8,12 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
 public class MedicalRecordContext extends Context {
 
     private MedicalRecordDAO medicalRecordDAO;
-    private MedicalRecordAccessRequestDAO medicalRecordAccessRequestDAO;
+    private RequestDAO requestDAO;
 
     public MedicalRecordContext(ChaincodeStub stub) {
         super(stub);
         medicalRecordDAO = new MedicalRecordDAO(this);
-        medicalRecordAccessRequestDAO = new MedicalRecordAccessRequestDAO(this);
+        requestDAO = new RequestDAO(this);
     }
 
     public MedicalRecordDAO getMedicalRecordDAO() {
@@ -25,12 +25,12 @@ public class MedicalRecordContext extends Context {
         return this;
     }
 
-    public MedicalRecordAccessRequestDAO getMedicalRecordAccessRequestDAO() {
-        return medicalRecordAccessRequestDAO;
+    public RequestDAO getRequestDAO() {
+        return requestDAO;
     }
 
-    public MedicalRecordContext setMedicalRecordAccessRequestDAO(MedicalRecordAccessRequestDAO medicalRecordAccessRequestDAO) {
-        this.medicalRecordAccessRequestDAO = medicalRecordAccessRequestDAO;
+    public MedicalRecordContext setRequestDAO(RequestDAO requestDAO) {
+        this.requestDAO = requestDAO;
         return this;
     }
 }

@@ -3,12 +3,13 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
+import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
-import com.medicaldatasharing.dto.MedicalRecordAccessSendRequestDto;
+import com.medicaldatasharing.dto.SendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.form.MedicalRecordAccessSendRequestForm;
+import com.medicaldatasharing.dto.form.DefineRequestForm;
+import com.medicaldatasharing.dto.form.SendRequestForm;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
@@ -132,51 +133,49 @@ public class HyperledgerService {
         return medicalRecord;
     }
 
-    public MedicalRecordAccessRequest sendMedicalRecordAccessRequest(
+    public Request sendRequest(
             User user,
-            MedicalRecordAccessSendRequestForm medicalRecordAccessSendRequestForm
+            SendRequestForm sendRequestForm
     ) throws Exception {
-        MedicalRecordAccessRequest medicalRecordAccessRequest = null;
+        Request request = null;
         try {
             Contract contract = getContract(user);
             byte[] result = contract.submitTransaction(
-                    "sendMedicalRecordAccessRequest",
-                    medicalRecordAccessSendRequestForm.getPatientId(),
-                    medicalRecordAccessSendRequestForm.getRequesterId(),
-                    medicalRecordAccessSendRequestForm.getMedicalRecordId(),
-                    medicalRecordAccessSendRequestForm.getDateCreated()
+                    "sendRequest",
+                    sendRequestForm.getSenderId(),
+                    sendRequestForm.getRecipientId(),
+                    sendRequestForm.getMedicalRecordId(),
+                    sendRequestForm.getDateCreated(),
+                    sendRequestForm.getRequestType()
             );
-            medicalRecordAccessRequest = MedicalRecordAccessRequest.deserialize(result);
-            LOG.info("result: " + medicalRecordAccessRequest);
+            request = Request.deserialize(result);
+            LOG.info("result: " + request);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return medicalRecordAccessRequest;
+        return request;
     }
 
-    public MedicalRecordAccessRequest defineMedicalRecordAccessRequest(
+    public Request defineRequest(
             User user,
-            String medicalRecordAccessRequestId,
-            String decision,
-            String accessAvailableFrom,
-            String accessAvailableUntil
+            DefineRequestForm defineRequestForm
     ) throws Exception {
-        MedicalRecordAccessRequest medicalRecordAccessRequest = null;
+        Request request = null;
         try {
             Contract contract = getContract(user);
             byte[] result = contract.submitTransaction(
-                    "defineMedicalRecordAccessRequest",
-                    medicalRecordAccessRequestId,
-                    decision,
-                    accessAvailableFrom,
-                    accessAvailableUntil
+                    "defineRequest",
+                    defineRequestForm.getRequestId(),
+                    defineRequestForm.getRequestStatus(),
+                    defineRequestForm.getAccessAvailableFrom(),
+                    defineRequestForm.getAccessAvailableUntil()
             );
-            medicalRecordAccessRequest = MedicalRecordAccessRequest.deserialize(result);
-            LOG.info("result: " + medicalRecordAccessRequest);
+            request = Request.deserialize(result);
+            LOG.info("result: " + request);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return medicalRecordAccessRequest;
+        return request;
     }
 
     private void formatExceptionMessage(Exception e) throws Exception {

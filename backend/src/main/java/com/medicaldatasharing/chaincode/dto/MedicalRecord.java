@@ -20,6 +20,8 @@ public class MedicalRecord {
 
     private String relevantParameters;
 
+    private String medicalRecordStatus;
+
     private String entityName;
 
     public static byte[] serialize(Object object) {
@@ -39,6 +41,7 @@ public class MedicalRecord {
         String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
         String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
+        String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
         String relevantParameters = jsonObject.getString("relevantParameters");
 
         return createInstance(
@@ -48,6 +51,7 @@ public class MedicalRecord {
                 medicalInstitutionId,
                 dateCreated,
                 testName,
+                medicalRecordStatus,
                 relevantParameters
         );
     }
@@ -59,6 +63,7 @@ public class MedicalRecord {
             String medicalInstitutionId,
             String dateCreated,
             String testName,
+            String medicalRecordStatus,
             String relevantParameters
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
@@ -69,13 +74,14 @@ public class MedicalRecord {
         medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setTestName(testName);
         medicalRecord.setRelevantParameters(relevantParameters);
+        medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
     }
 
     @Override
     public String toString() {
-        return "ChaincodeMedicalRecord{" +
+        return "MedicalRecord{" +
                 "medicalRecordId='" + medicalRecordId + '\'' +
                 ", patientId='" + patientId + '\'' +
                 ", doctorId='" + doctorId + '\'' +
@@ -83,6 +89,7 @@ public class MedicalRecord {
                 ", dateCreated='" + dateCreated + '\'' +
                 ", testName='" + testName + '\'' +
                 ", relevantParameters='" + relevantParameters + '\'' +
+                ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';
     }
@@ -147,6 +154,15 @@ public class MedicalRecord {
 
     public MedicalRecord setRelevantParameters(String relevantParameters) {
         this.relevantParameters = relevantParameters;
+        return this;
+    }
+
+    public String getMedicalRecordStatus() {
+        return medicalRecordStatus;
+    }
+
+    public MedicalRecord setMedicalRecordStatus(String medicalRecordStatus) {
+        this.medicalRecordStatus = medicalRecordStatus;
         return this;
     }
 

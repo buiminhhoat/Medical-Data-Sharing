@@ -3,9 +3,10 @@ package com.medicaldatasharing.util;
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.MedicalRecordAccessRequest;
+import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.form.MedicalRecordAccessSendRequestForm;
+import com.medicaldatasharing.dto.form.DefineRequestForm;
+import com.medicaldatasharing.dto.form.SendRequestForm;
 import com.medicaldatasharing.model.Admin;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
@@ -209,24 +210,27 @@ public class InitDataLoader implements CommandLineRunner {
             MedicalRecord getMedicalRecord = hyperledgerService.getMedicalRecord(patient, medicalRecord.getMedicalRecordId());
             System.out.println("getChaincodeMedicalRecord: " + getMedicalRecord);
 
-            MedicalRecordAccessSendRequestForm medicalRecordAccessSendRequestForm = new MedicalRecordAccessSendRequestForm();
-            medicalRecordAccessSendRequestForm.setPatientId(patientId);
-            medicalRecordAccessSendRequestForm.setRequesterId(doctorId);
-            medicalRecordAccessSendRequestForm.setMedicalRecordId(getMedicalRecord.getMedicalRecordId());
-            medicalRecordAccessSendRequestForm.setDateCreated(new Date(2024, 05, 15).toString());
-            MedicalRecordAccessRequest sendMedicalRecordAccessRequest = hyperledgerService.sendMedicalRecordAccessRequest(
+            SendRequestForm sendRequestForm = new SendRequestForm();
+            sendRequestForm.setSenderId(doctorId);
+            sendRequestForm.setRecipientId(patientId);
+            sendRequestForm.setMedicalRecordId(getMedicalRecord.getMedicalRecordId());
+            sendRequestForm.setDateCreated(new Date(2024, 05, 15).toString());
+            sendRequestForm.setRequestType("APPOINTMENT");
+            Request sendRequest = hyperledgerService.sendRequest(
                     doctor,
-                    medicalRecordAccessSendRequestForm);
-            System.out.println("sendMedicalRecordAccessRequest: " + sendMedicalRecordAccessRequest);
+                    sendRequestForm);
+            System.out.println("sendRequest: " + sendRequest);
 
-            MedicalRecordAccessRequest defineMedicalRecordAccessRequest = hyperledgerService.defineMedicalRecordAccessRequest(
+            DefineRequestForm defineRequestForm = new DefineRequestForm();
+            defineRequestForm.setRequestId(sendRequest.getRequestId());
+            defineRequestForm.setRequestStatus("ACCEPTED");
+            defineRequestForm.setAccessAvailableFrom("2024-05-15");
+            defineRequestForm.setAccessAvailableUntil("2025-05-15");
+            Request defineRequest = hyperledgerService.defineRequest(
                     patient,
-                    sendMedicalRecordAccessRequest.getMedicalRecordAccessRequestId(),
-                    "ACCEPT",
-                    "2024-05-15",
-                    "2025-05-15"
+                    defineRequestForm
             );
-            System.out.println("defineMedicalRecordAccessRequest: " + defineMedicalRecordAccessRequest);
+            System.out.println("defineRequest: " + defineRequest);
         } catch (Exception exception) {
             System.out.println(exception);
         }
