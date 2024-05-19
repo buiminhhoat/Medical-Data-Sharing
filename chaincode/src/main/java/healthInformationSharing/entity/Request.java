@@ -4,6 +4,8 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @DataType
@@ -33,12 +35,6 @@ public class Request {
     private String accessAvailableUntil;
 
     @Property
-    private String medicalRecordId;
-
-    @Property
-    private String testName;
-
-    @Property
     private String entityName;
 
     public Request() {
@@ -63,8 +59,6 @@ public class Request {
         String requestStatus = jsonObject.getString("requestStatus");
         String accessAvailableFrom = jsonObject.getString("accessAvailableFrom");
         String accessAvailableUntil = jsonObject.getString("accessAvailableUntil");
-        String medicalRecordId = jsonObject.getString("medicalRecordId");
-        String testName = jsonObject.getString("testName");
 
         return createInstance(
                 requestId,
@@ -74,9 +68,7 @@ public class Request {
                 requestType,
                 requestStatus,
                 accessAvailableFrom,
-                accessAvailableUntil,
-                medicalRecordId,
-                testName
+                accessAvailableUntil
         );
     }
 
@@ -88,9 +80,7 @@ public class Request {
             String requestType,
             String requestStatus,
             String accessAvailableFrom,
-            String accessAvailableUntil,
-            String medicalRecordJsonObject,
-            String testName
+            String accessAvailableUntil
     ) {
         Request request = new Request();
         request.setRequestId(requestId);
@@ -101,8 +91,6 @@ public class Request {
         request.setRequestStatus(requestStatus);
         request.setAccessAvailableFrom(accessAvailableFrom);
         request.setAccessAvailableUntil(accessAvailableUntil);
-        request.setMedicalRecordId(medicalRecordJsonObject);
-        request.setTestName(testName);
         request.setEntityName(Request.class.getSimpleName());
         return request;
     }
@@ -167,24 +155,6 @@ public class Request {
 
     public Request setAccessAvailableUntil(String accessAvailableUntil) {
         this.accessAvailableUntil = accessAvailableUntil;
-        return this;
-    }
-
-    public String getMedicalRecordId() {
-        return medicalRecordId;
-    }
-
-    public Request setMedicalRecordId(String medicalRecord) {
-        this.medicalRecordId = medicalRecord;
-        return this;
-    }
-
-    public String getTestName() {
-        return testName;
-    }
-
-    public Request setTestName(String testName) {
-        this.testName = testName;
         return this;
     }
 

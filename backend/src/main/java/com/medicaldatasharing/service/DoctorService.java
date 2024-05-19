@@ -41,9 +41,9 @@ public class DoctorService {
         medicalRecordDto.setPatientId(medicalRecordForm.getPatientId());
         medicalRecordDto.setDoctorId(medicalRecordForm.getDoctorId());
         medicalRecordDto.setMedicalInstitutionId(medicalRecordForm.getMedicalInstitutionId());
-        medicalRecordDto.setDateCreated(medicalRecordForm.getTime());
+        medicalRecordDto.setDateCreated(medicalRecordForm.getDateCreated());
         medicalRecordDto.setTestName(medicalRecordForm.getTestName());
-        medicalRecordDto.setRelevantParameters(medicalRecordForm.getRelevantParameters());
+        medicalRecordDto.setDetails(medicalRecordForm.getDetails());
 
         MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(user, medicalRecordDto);
 
@@ -53,21 +53,21 @@ public class DoctorService {
         result.setMedicalInstitutionId(medicalRecord.getMedicalInstitutionId());
         result.setDateCreated(medicalRecord.getDateCreated());
         result.setTestName(medicalRecord.getTestName());
-        result.setRelevantParameters(medicalRecord.getRelevantParameters());
+        result.setDetails(medicalRecord.getDetails());
         return result;
     }
 
-    public SendRequestDto sendRequest(
-            SendRequestForm sendRequestForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
-        Request request = hyperledgerService.sendRequest(user, sendRequestForm);
-
-        SendRequestDto sendRequestDto = new SendRequestDto();
-        sendRequestDto.setSenderId(request.getSenderId());
-        sendRequestDto.setRecipientId(request.getRecipientId());
-        sendRequestDto.setMedicalRecordId(request.getMedicalRecordId());
-        sendRequestDto.setDateCreated(request.getDateCreated());
-        sendRequestDto.setRequestType(request.getRequestType());
-        return sendRequestDto;
-    }
+//    public SendRequestDto sendRequest(
+//            SendRequestForm sendRequestForm) throws Exception {
+//        User user = userDetailsService.getLoggedUser();
+//        Request request = hyperledgerService.sendRequest(user, sendRequestForm);
+//
+//        SendRequestDto sendRequestDto = new SendRequestDto();
+//        sendRequestDto.setSenderId(request.getSenderId());
+//        sendRequestDto.setRecipientId(request.getRecipientId());
+//        sendRequestDto.setMedicalRecordId(request.getMedicalRecordId());
+//        sendRequestDto.setDateCreated(request.getDateCreated());
+//        sendRequestDto.setRequestType(request.getRequestType());
+//        return sendRequestDto;
+//    }
 }

@@ -31,23 +31,23 @@ public class RequestDAO {
         return this;
     }
 
-    public Request sendRequest(
-            String senderId,
-            String recipientId,
-            String medicalRecordId,
-            String testName,
-            String dateCreated,
-            String requestType
-    ) {
-        return requestCRUD.sendRequest(
-                senderId,
-                recipientId,
-                medicalRecordId,
-                testName,
-                dateCreated,
-                requestType
-        );
-    }
+//    public Request sendRequest(
+//            String senderId,
+//            String recipientId,
+//            String medicalRecordId,
+//            String testName,
+//            String dateCreated,
+//            String requestType
+//    ) {
+//        return requestCRUD.sendRequest(
+//                senderId,
+//                recipientId,
+//                medicalRecordId,
+//                testName,
+//                dateCreated,
+//                requestType
+//        );
+//    }
 
     public boolean requestExist(String requestId) {
         return requestCRUD.requestExist(requestId);
@@ -71,5 +71,12 @@ public class RequestDAO {
                 accessAvailableFrom,
                 accessAvailableUntil
         );
+    }
+
+    public Request defineRequest(
+            String requestId,
+            String requestStatus
+    ) {
+        return requestCRUD.defineRequest(requestId, requestStatus);
     }
 }

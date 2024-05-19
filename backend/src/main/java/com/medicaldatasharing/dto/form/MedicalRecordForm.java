@@ -11,6 +11,9 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class MedicalRecordForm {
     @NotBlank
+    private String requestId;
+
+    @NotBlank
     private String patientId;
 
     @NotBlank
@@ -20,12 +23,12 @@ public class MedicalRecordForm {
     private String medicalInstitutionId;
 
     @NotBlank
-    private String time;
+    private String dateCreated;
 
     @NotBlank
     private String testName;
 
     @NotBlank
-    private String relevantParameters;
+    private String details;
 }
 

@@ -21,33 +21,33 @@ public class RequestCRUD {
         this.genson = genson;
     }
 
-    public Request sendRequest(
-            String senderId,
-            String recipientId,
-            String medicalRecordId,
-            String testName,
-            String dateCreated,
-            String requestType) {
-        String requestId = ctx.getStub().getTxId();
-        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
-        String dbKey = compositeKey.toString();
-
-        Request request = Request.createInstance(
-                requestId,
-                senderId,
-                recipientId,
-                dateCreated,
-                requestType,
-                RequestStatus.PENDING,
-                "",
-                "",
-                medicalRecordId,
-                testName);
-
-        String requestStr = genson.serialize(request);
-        ctx.getStub().putStringState(dbKey, requestStr);
-        return request;
-    }
+//    public Request sendRequest(
+//            String senderId,
+//            String recipientId,
+//            String medicalRecordId,
+//            String testName,
+//            String dateCreated,
+//            String requestType) {
+//        String requestId = ctx.getStub().getTxId();
+//        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
+//        String dbKey = compositeKey.toString();
+//
+//        Request request = Request.createInstance(
+//                requestId,
+//                senderId,
+//                recipientId,
+//                dateCreated,
+//                requestType,
+//                RequestStatus.PENDING,
+//                "",
+//                "",
+//                medicalRecordId,
+//                testName);
+//
+//        String requestStr = genson.serialize(request);
+//        ctx.getStub().putStringState(dbKey, requestStr);
+//        return request;
+//    }
 
     public boolean requestExist(String requestId) {
         ChaincodeStub chaincodeStub = ctx.getStub();
@@ -77,6 +77,36 @@ public class RequestCRUD {
         request.setAccessAvailableUntil(accessAvailableUntil);
 
         String dbKey = ctx.getStub().createCompositeKey(entityName, requestId).toString();
+        String requestStr = genson.serialize(request);
+        ctx.getStub().putStringState(dbKey, requestStr);
+        return request;
+    }
+
+    public Request defineRequest(String requestId, String requestStatus) {
+        Request request = getRequest(requestId);
+        request.setRequestStatus(requestStatus);
+
+        String dbKey = ctx.getStub().createCompositeKey(entityName, requestId).toString();
+        String requestStr = genson.serialize(request);
+        ctx.getStub().putStringState(dbKey, requestStr);
+        return request;
+    }
+
+    public Request sendAppointmentRequest(String senderId, String recipientId, String dateCreated, String requestType) {
+        String requestId = ctx.getStub().getTxId();
+        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
+        String dbKey = compositeKey.toString();
+
+        Request request = Request.createInstance(
+                requestId,
+                senderId,
+                recipientId,
+                dateCreated,
+                requestType,
+                RequestStatus.PENDING,
+                "",
+                "");
+
         String requestStr = genson.serialize(request);
         ctx.getStub().putStringState(dbKey, requestStr);
         return request;

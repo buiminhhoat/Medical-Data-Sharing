@@ -18,7 +18,7 @@ public class MedicalRecord {
 
     private String testName;
 
-    private String relevantParameters;
+    private String details;
 
     private String medicalRecordStatus;
 
@@ -42,7 +42,7 @@ public class MedicalRecord {
         String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
         String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
-        String relevantParameters = jsonObject.getString("relevantParameters");
+        String details = jsonObject.getString("details");
 
         return createInstance(
                 medicalRecordId,
@@ -52,7 +52,7 @@ public class MedicalRecord {
                 dateCreated,
                 testName,
                 medicalRecordStatus,
-                relevantParameters
+                details
         );
     }
 
@@ -64,7 +64,7 @@ public class MedicalRecord {
             String dateCreated,
             String testName,
             String medicalRecordStatus,
-            String relevantParameters
+            String details
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -73,7 +73,7 @@ public class MedicalRecord {
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
         medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setTestName(testName);
-        medicalRecord.setRelevantParameters(relevantParameters);
+        medicalRecord.setDetails(details);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
@@ -88,7 +88,7 @@ public class MedicalRecord {
                 ", medicalInstitutionId='" + medicalInstitutionId + '\'' +
                 ", dateCreated='" + dateCreated + '\'' +
                 ", testName='" + testName + '\'' +
-                ", relevantParameters='" + relevantParameters + '\'' +
+                ", details='" + details + '\'' +
                 ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';
@@ -148,12 +148,12 @@ public class MedicalRecord {
         return this;
     }
 
-    public String getRelevantParameters() {
-        return relevantParameters;
+    public String getDetails() {
+        return details;
     }
 
-    public MedicalRecord setRelevantParameters(String relevantParameters) {
-        this.relevantParameters = relevantParameters;
+    public MedicalRecord setDetails(String details) {
+        this.details = details;
         return this;
     }
 

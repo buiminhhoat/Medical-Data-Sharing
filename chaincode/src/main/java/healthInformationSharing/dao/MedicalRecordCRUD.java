@@ -10,6 +10,7 @@ import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class MedicalRecordCRUD {
@@ -31,7 +32,7 @@ public class MedicalRecordCRUD {
             String medicalInstitutionId,
             String dateCreated,
             String testName,
-            String relevantParameters) {
+            String details) {
         CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
         String dbKey = compositeKey.toString();
 
@@ -42,8 +43,9 @@ public class MedicalRecordCRUD {
                 medicalInstitutionId,
                 dateCreated,
                 testName,
-                relevantParameters,
-                MedicalRecordStatus.PENDING
+                details,
+                MedicalRecordStatus.PENDING,
+                new ArrayList<MedicalRecord>()
         );
 
         String entityJsonString = genson.serialize(medicalRecord);
@@ -63,6 +65,19 @@ public class MedicalRecordCRUD {
         String dbKey = context.getStub().createCompositeKey(entityName, medicalRecordId).toString();
         byte[] value = context.getStub().getState(dbKey);
         MedicalRecord medicalRecord = MedicalRecord.deserialize(value);
+        return medicalRecord;
+    }
+
+    public MedicalRecord defineMedicalRecord(String medicalRecordId, String medicalRecordStatus) {
+        CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
+        String dbKey = compositeKey.toString();
+
+        MedicalRecord medicalRecord = getMedicalRecord(medicalRecordId);
+        medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
+
+        String entityJsonString = genson.serialize(medicalRecord);
+        context.getStub().putStringState(dbKey, entityJsonString);
+
         return medicalRecord;
     }
 }

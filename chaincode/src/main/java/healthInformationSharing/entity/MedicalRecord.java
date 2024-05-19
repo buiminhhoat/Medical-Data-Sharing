@@ -2,8 +2,11 @@ package healthInformationSharing.entity;
 
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -30,10 +33,13 @@ public final class MedicalRecord {
     private String testName;
 
     @Property()
-    private String relevantParameters;
+    private String details;
 
     @Property
     private String medicalRecordStatus;
+
+    @Property
+    private List <MedicalRecord> changeHistory;
 
     @Property()
     private String entityName;
@@ -59,8 +65,9 @@ public final class MedicalRecord {
         String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
         String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
-        String relevantParameters = jsonObject.getString("relevantParameters");
+        String details = jsonObject.getString("details");
         String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
+        List<MedicalRecord> changeHistory = parseChangeHistory(jsonObject.getJSONArray("changeHistory"));
 
         return createInstance(
                 medicalRecordId,
@@ -69,9 +76,20 @@ public final class MedicalRecord {
                 medicalInstitutionId,
                 dateCreated,
                 testName,
-                relevantParameters,
-                medicalRecordStatus
+                details,
+                medicalRecordStatus,
+                changeHistory
         );
+    }
+
+    private static List<MedicalRecord> parseChangeHistory(JSONArray changeHistoryJson) {
+        List<MedicalRecord> changeHistory = new ArrayList<>();
+        for (int i = 0; i < changeHistoryJson.length(); i++) {
+            JSONObject medicalRecordJson = changeHistoryJson.getJSONObject(i);
+            MedicalRecord medicalRecord = parseMedicalRecord(medicalRecordJson);
+            changeHistory.add(medicalRecord);
+        }
+        return changeHistory;
     }
 
     public static MedicalRecord createInstance(
@@ -81,8 +99,9 @@ public final class MedicalRecord {
             String medicalInstitutionId,
             String dateCreated,
             String testName,
-            String relevantParameters,
-            String medicalRecordStatus
+            String details,
+            String medicalRecordStatus,
+            List<MedicalRecord> changeHistory
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -91,8 +110,9 @@ public final class MedicalRecord {
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
         medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setTestName(testName);
-        medicalRecord.setRelevantParameters(relevantParameters);
+        medicalRecord.setDetails(details);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
+        medicalRecord.setChangeHistory(changeHistory);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
     }
@@ -145,12 +165,12 @@ public final class MedicalRecord {
         this.testName = testName;
     }
 
-    public String getRelevantParameters() {
-        return relevantParameters;
+    public String getDetails() {
+        return details;
     }
 
-    public void setRelevantParameters(String relevantParameters) {
-        this.relevantParameters = relevantParameters;
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public String getMedicalRecordStatus() {
@@ -159,6 +179,15 @@ public final class MedicalRecord {
 
     public MedicalRecord setMedicalRecordStatus(String medicalRecordStatus) {
         this.medicalRecordStatus = medicalRecordStatus;
+        return this;
+    }
+
+    public List<MedicalRecord> getChangeHistory() {
+        return changeHistory;
+    }
+
+    public MedicalRecord setChangeHistory(List<MedicalRecord> changeHistory) {
+        this.changeHistory = changeHistory;
         return this;
     }
 
@@ -175,24 +204,25 @@ public final class MedicalRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MedicalRecord that = (MedicalRecord) o;
-        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(testName, that.testName) && Objects.equals(relevantParameters, that.relevantParameters) && Objects.equals(medicalRecordStatus, that.medicalRecordStatus) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(testName, that.testName) && Objects.equals(details, that.details) && Objects.equals(medicalRecordStatus, that.medicalRecordStatus) && Objects.equals(changeHistory, that.changeHistory) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateCreated, testName, relevantParameters, medicalRecordStatus, entityName);
+        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateCreated, testName, details, medicalRecordStatus, changeHistory, entityName);
     }
 
     @Override
     public String toString() {
         return "MedicalRecord{" +
-                "medicalRecordId='" + medicalRecordId + '\'' +
+                "changeHistory=" + changeHistory +
+                ", medicalRecordId='" + medicalRecordId + '\'' +
                 ", patientId='" + patientId + '\'' +
                 ", doctorId='" + doctorId + '\'' +
                 ", medicalInstitutionId='" + medicalInstitutionId + '\'' +
                 ", dateCreated='" + dateCreated + '\'' +
                 ", testName='" + testName + '\'' +
-                ", relevantParameters='" + relevantParameters + '\'' +
+                ", details='" + details + '\'' +
                 ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';

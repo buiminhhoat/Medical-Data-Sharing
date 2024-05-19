@@ -24,23 +24,25 @@ public class DoctorController {
 
     @PostMapping("/addMedicalRecord")
     public MedicalRecordDto addMedicalRecord(@Valid @ModelAttribute MedicalRecordForm medicalRecordForm, BindingResult result) throws Exception {
-        if (result.hasErrors()) {
-            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
-            throw new ValidationException(errorMsg);
-        }
-
-        return doctorService.addMedicalRecord(medicalRecordForm);
+//        if (result.hasErrors()) {
+//            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+//            throw new ValidationException(errorMsg);
+//        }
+//
+//        return doctorService.addMedicalRecord(medicalRecordForm);
+        return null;
     }
 
     @PostMapping("/sendRequest")
     public SendRequestDto sendRequest(
             @Valid @ModelAttribute SendRequestForm sendRequestForm,
             BindingResult result) throws Exception {
-        if (result.hasErrors()) {
-            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
-            throw new ValidationException(errorMsg);
-        }
-
-        return doctorService.sendRequest(sendRequestForm);
+//        if (result.hasErrors()) {
+//            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+//            throw new ValidationException(errorMsg);
+//        }
+//
+//        return doctorService.sendRequest(sendRequestForm);
+        return null;
     }
 }

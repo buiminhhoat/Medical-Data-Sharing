@@ -1,8 +1,12 @@
 package healthInformationSharing.dao;
 
 import com.owlike.genson.Genson;
+import healthInformationSharing.dto.MedicalRecordDto;
+import healthInformationSharing.dto.MedicalRecordsPreviewResponse;
 import healthInformationSharing.entity.MedicalRecord;
 import org.hyperledger.fabric.contract.Context;
+
+import java.util.List;
 
 public class MedicalRecordDAO {
     private MedicalRecordCRUD medicalRecordCRUD;
@@ -20,7 +24,7 @@ public class MedicalRecordDAO {
             String medicalInstitutionId,
             String dateCreated,
             String testName,
-            String relevantParameters
+            String details
     ) {
         return medicalRecordCRUD.addMedicalRecord(
                 medicalRecordId,
@@ -29,7 +33,7 @@ public class MedicalRecordDAO {
                 medicalInstitutionId,
                 dateCreated,
                 testName,
-                relevantParameters
+                details
         );
     }
 
@@ -39,5 +43,25 @@ public class MedicalRecordDAO {
 
     public MedicalRecord getMedicalRecord(String medicalRecordId) {
         return medicalRecordCRUD.getMedicalRecord(medicalRecordId);
+    }
+
+    public MedicalRecord defineMedicalRecord(String medicalRecordId, String medicalRecordStatus) {
+        return medicalRecordCRUD.defineMedicalRecord(medicalRecordId, medicalRecordStatus);
+    }
+
+    public List<MedicalRecordDto> getMedicalRecordsPreview(String doctorId,
+                                                           String medicalInstitutionId,
+                                                           String from,
+                                                           String until,
+                                                           String testName,
+                                                           String medicalRecordStatus,
+                                                           String sortingOrder) {
+        return medicalRecordQuery.getMedicalRecordsPreview(doctorId,
+                medicalInstitutionId,
+                from,
+                until,
+                testName,
+                medicalRecordStatus,
+                sortingOrder);
     }
 }

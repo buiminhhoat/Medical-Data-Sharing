@@ -2,13 +2,16 @@ package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
+import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
 import com.medicaldatasharing.dto.SendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
+import com.medicaldatasharing.dto.form.DefineMedicalRecordForm;
 import com.medicaldatasharing.dto.form.DefineRequestForm;
+import com.medicaldatasharing.dto.form.SendAppointmentRequestForm;
 import com.medicaldatasharing.dto.form.SendRequestForm;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
@@ -101,12 +104,13 @@ public class HyperledgerService {
             LOG.info("Submit Transaction: AddMedicalRecord");
             byte[] result = contract.submitTransaction(
                     "addMedicalRecord",
+                    medicalRecordDto.getRequestId(),
                     medicalRecordDto.getPatientId(),
                     medicalRecordDto.getDoctorId(),
                     medicalRecordDto.getMedicalInstitutionId(),
                     medicalRecordDto.getDateCreated(),
                     medicalRecordDto.getTestName(),
-                    medicalRecordDto.getRelevantParameters()
+                    medicalRecordDto.getDetails()
             );
             medicalRecord = MedicalRecord.deserialize(result);
             LOG.info("result: " + medicalRecord);
@@ -133,27 +137,25 @@ public class HyperledgerService {
         return medicalRecord;
     }
 
-    public Request sendRequest(
+    public AppointmentRequest sendAppointmentRequest(
             User user,
-            SendRequestForm sendRequestForm
+            SendAppointmentRequestForm sendAppointmentRequestForm
     ) throws Exception {
-        Request request = null;
+        AppointmentRequest appointmentRequest = null;
         try {
             Contract contract = getContract(user);
             byte[] result = contract.submitTransaction(
-                    "sendRequest",
-                    sendRequestForm.getSenderId(),
-                    sendRequestForm.getRecipientId(),
-                    sendRequestForm.getMedicalRecordId(),
-                    sendRequestForm.getDateCreated(),
-                    sendRequestForm.getRequestType()
+                    "sendAppointmentRequest",
+                    sendAppointmentRequestForm.getSenderId(),
+                    sendAppointmentRequestForm.getRecipientId(),
+                    sendAppointmentRequestForm.getDateCreated()
             );
-            request = Request.deserialize(result);
-            LOG.info("result: " + request);
+            appointmentRequest = AppointmentRequest.deserialize(result);
+            LOG.info("result: " + appointmentRequest);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return request;
+        return appointmentRequest;
     }
 
     public Request defineRequest(
@@ -176,6 +178,26 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return request;
+    }
+
+    public MedicalRecord defineMedicalRecord(
+            User user,
+            DefineMedicalRecordForm defineMedicalRecordForm
+    ) throws Exception {
+        MedicalRecord medicalRecord = null;
+        try {
+            Contract contract = getContract(user);
+            byte[] result = contract.submitTransaction(
+                    "defineMedicalRecord",
+                    defineMedicalRecordForm.getMedicalRecordId(),
+                    defineMedicalRecordForm.getMedicalRecordStatus()
+            );
+            medicalRecord = MedicalRecord.deserialize(result);
+            LOG.info("result: " + medicalRecord);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicalRecord;
     }
 
     private void formatExceptionMessage(Exception e) throws Exception {

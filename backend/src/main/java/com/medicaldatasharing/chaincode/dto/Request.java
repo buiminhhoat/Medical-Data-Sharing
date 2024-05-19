@@ -23,10 +23,6 @@ public class Request {
 
     private String accessAvailableUntil;
 
-    private String medicalRecordId;
-
-    private String testName;
-
     private String entityName;
 
     public Request() {
@@ -51,8 +47,6 @@ public class Request {
         String requestStatus = jsonObject.getString("requestStatus");
         String accessAvailableFrom = jsonObject.getString("accessAvailableFrom");
         String accessAvailableUntil = jsonObject.getString("accessAvailableUntil");
-        String medicalRecordId = jsonObject.getString("medicalRecordId");
-        String testName = jsonObject.getString("testName");
 
         return createInstance(
                 requestId,
@@ -62,9 +56,7 @@ public class Request {
                 requestType,
                 requestStatus,
                 accessAvailableFrom,
-                accessAvailableUntil,
-                medicalRecordId,
-                testName
+                accessAvailableUntil
         );
     }
 
@@ -76,9 +68,7 @@ public class Request {
             String requestType,
             String requestStatus,
             String accessAvailableFrom,
-            String accessAvailableUntil,
-            String medicalRecordJsonObject,
-            String testName
+            String accessAvailableUntil
     ) {
         Request request = new Request();
         request.setSenderId(senderId);
@@ -89,8 +79,6 @@ public class Request {
         request.setRequestStatus(requestStatus);
         request.setAccessAvailableFrom(accessAvailableFrom);
         request.setAccessAvailableUntil(accessAvailableUntil);
-        request.setMedicalRecordId(medicalRecordJsonObject);
-        request.setTestName(testName);
         request.setEntityName(Request.class.getSimpleName());
         return request;
     }
@@ -167,24 +155,6 @@ public class Request {
         return this;
     }
 
-    public String getMedicalRecordId() {
-        return medicalRecordId;
-    }
-
-    public Request setMedicalRecordId(String medicalRecordId) {
-        this.medicalRecordId = medicalRecordId;
-        return this;
-    }
-
-    public String getTestName() {
-        return testName;
-    }
-
-    public Request setTestName(String testName) {
-        this.testName = testName;
-        return this;
-    }
-
     public String getEntityName() {
         return entityName;
     }
@@ -199,12 +169,12 @@ public class Request {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return Objects.equals(requestId, request.requestId) && Objects.equals(senderId, request.senderId) && Objects.equals(recipientId, request.recipientId) && Objects.equals(dateCreated, request.dateCreated) && Objects.equals(requestType, request.requestType) && Objects.equals(requestStatus, request.requestStatus) && Objects.equals(accessAvailableFrom, request.accessAvailableFrom) && Objects.equals(accessAvailableUntil, request.accessAvailableUntil) && Objects.equals(medicalRecordId, request.medicalRecordId) && Objects.equals(testName, request.testName) && Objects.equals(entityName, request.entityName);
+        return Objects.equals(requestId, request.requestId) && Objects.equals(senderId, request.senderId) && Objects.equals(recipientId, request.recipientId) && Objects.equals(dateCreated, request.dateCreated) && Objects.equals(requestType, request.requestType) && Objects.equals(requestStatus, request.requestStatus) && Objects.equals(accessAvailableFrom, request.accessAvailableFrom) && Objects.equals(accessAvailableUntil, request.accessAvailableUntil) && Objects.equals(entityName, request.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestId, senderId, recipientId, dateCreated, requestType, requestStatus, accessAvailableFrom, accessAvailableUntil, medicalRecordId, testName, entityName);
+        return Objects.hash(requestId, senderId, recipientId, dateCreated, requestType, requestStatus, accessAvailableFrom, accessAvailableUntil, entityName);
     }
 
     @Override
@@ -218,8 +188,6 @@ public class Request {
                 ", requestStatus='" + requestStatus + '\'' +
                 ", accessAvailableFrom='" + accessAvailableFrom + '\'' +
                 ", accessAvailableUntil='" + accessAvailableUntil + '\'' +
-                ", medicalRecordId='" + medicalRecordId + '\'' +
-                ", testName='" + testName + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';
     }
