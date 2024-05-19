@@ -1,0 +1,15 @@
+{
+  "index": {
+    "fields": [
+      {
+        "dateCreated": "desc"
+      },
+      {
+        "entityName": "desc"
+      }
+    ]
+  },
+  "ddoc": "indexMedicalRecordDoc",
+  "name": "indexMedicalRecord",
+  "type": "json"
+}

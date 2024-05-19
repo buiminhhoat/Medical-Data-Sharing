@@ -25,21 +25,25 @@ public class MedicalRecordQuery {
     }
 
     public List<MedicalRecordDto> getMedicalRecordsPreview(
+            String patientId,
             String doctorId,
             String medicalInstitutionId,
             String from,
             String until,
             String testName,
             String medicalRecordStatus,
+            String details,
             String sortingOrder) {
         List<MedicalRecordDto> medicalRecordDtoList = new ArrayList<>();
         JSONObject queryJsonObject = createQuerySelector(
+                patientId,
                 doctorId,
                 medicalInstitutionId,
                 from,
                 until,
                 testName,
                 medicalRecordStatus,
+                details,
                 sortingOrder);
 
         LOG.info("query: " + queryJsonObject.toString());
@@ -60,12 +64,14 @@ public class MedicalRecordQuery {
     }
 
     public JSONObject createQuerySelector(
+            String patientId,
             String doctorId,
             String medicalInstitutionId,
             String from,
             String until,
             String testName,
             String medicalRecordStatus,
+            String details,
             String sortingOrder
     ) {
         JSONObject jsonObjectTimeRange = new JSONObject();
@@ -78,11 +84,15 @@ public class MedicalRecordQuery {
 
         JSONArray jsonArraySortAttributes = new JSONArray();
         JSONObject jsonObjectSortTimeAttr = new JSONObject();
-        jsonObjectSortTimeAttr.putOnce("time", sortingOrder);
+        jsonObjectSortTimeAttr.putOnce("dateCreated", sortingOrder);
         jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
 
         JSONObject jsonObjectSelector = new JSONObject();
-        jsonObjectSelector.putOnce("time", jsonObjectTimeRange);
+        jsonObjectSelector.putOnce("dateCreated", jsonObjectTimeRange);
+
+        if (!patientId.isEmpty()) {
+            jsonObjectSelector.putOnce("patientId", patientId);
+        }
 
         if (!doctorId.isEmpty()) {
             jsonObjectSelector.putOnce("doctorId", doctorId);
@@ -94,6 +104,10 @@ public class MedicalRecordQuery {
 
         if (!medicalInstitutionId.isEmpty()) {
             jsonObjectSelector.putOnce("medicalInstitutionId", medicalInstitutionId);
+        }
+
+        if (!details.isEmpty()) {
+            jsonObjectSelector.putOnce("details", details);
         }
 
         jsonObjectSelector.putOnce("entityName", entityName);

@@ -1,11 +1,10 @@
 package com.medicaldatasharing.controller;
 
-import com.medicaldatasharing.dto.SendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.form.SendRequestForm;
-import com.medicaldatasharing.dto.form.MedicalRecordForm;
+import com.medicaldatasharing.dto.SendRequestDto;
+import com.medicaldatasharing.form.MedicalRecordForm;
+import com.medicaldatasharing.form.SendRequestForm;
 import com.medicaldatasharing.service.DoctorService;
-import com.medicaldatasharing.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 
 @RestController
 @RequestMapping("/doctor")

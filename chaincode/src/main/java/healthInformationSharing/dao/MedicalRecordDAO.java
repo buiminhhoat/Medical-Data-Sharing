@@ -49,19 +49,25 @@ public class MedicalRecordDAO {
         return medicalRecordCRUD.defineMedicalRecord(medicalRecordId, medicalRecordStatus);
     }
 
-    public List<MedicalRecordDto> getMedicalRecordsPreview(String doctorId,
+    public List<MedicalRecordDto> getMedicalRecordsPreview(String patientId,
+                                                           String doctorId,
                                                            String medicalInstitutionId,
                                                            String from,
                                                            String until,
                                                            String testName,
                                                            String medicalRecordStatus,
+                                                           String details,
                                                            String sortingOrder) {
-        return medicalRecordQuery.getMedicalRecordsPreview(doctorId,
+        return medicalRecordQuery.getMedicalRecordsPreview(
+                patientId,
+                doctorId,
                 medicalInstitutionId,
                 from,
                 until,
                 testName,
                 medicalRecordStatus,
-                sortingOrder);
+                details,
+                sortingOrder
+        );
     }
 }

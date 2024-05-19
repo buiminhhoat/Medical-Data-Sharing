@@ -248,23 +248,56 @@ public class MedicalRecordContract implements ContractInterface {
 //    }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public MedicalRecordsPreviewResponse getMedicalRecordsPreview(
+    public MedicalRecordsPreviewResponse getMedicalRecordsByPatientId(
             MedicalRecordContext ctx,
+            String patientId,
             String doctorId,
             String medicalInstitutionId,
             String from,
             String until,
             String testName,
             String medicalRecordStatus,
+            String details,
             String sortingOrder
     ) {
+        authorizeRequest(ctx, patientId, "sendRequest(validate patientId)");
         List<MedicalRecordDto> medicalRecordDtoList = ctx.getMedicalRecordDAO().getMedicalRecordsPreview(
+                patientId,
                 doctorId,
                 medicalInstitutionId,
                 from,
                 until,
                 testName,
                 medicalRecordStatus,
+                details,
+                sortingOrder
+        );
+        return new MedicalRecordsPreviewResponse(medicalRecordDtoList.size(), medicalRecordDtoList);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public MedicalRecordsPreviewResponse getMedicalRecordsByDoctorId(
+            MedicalRecordContext ctx,
+            String patientId,
+            String doctorId,
+            String medicalInstitutionId,
+            String from,
+            String until,
+            String testName,
+            String medicalRecordStatus,
+            String details,
+            String sortingOrder
+    ) {
+        authorizeRequest(ctx, doctorId, "sendRequest(validate doctorId)");
+        List<MedicalRecordDto> medicalRecordDtoList = ctx.getMedicalRecordDAO().getMedicalRecordsPreview(
+                patientId,
+                doctorId,
+                medicalInstitutionId,
+                from,
+                until,
+                testName,
+                medicalRecordStatus,
+                details,
                 sortingOrder
         );
         return new MedicalRecordsPreviewResponse(medicalRecordDtoList.size(), medicalRecordDtoList);

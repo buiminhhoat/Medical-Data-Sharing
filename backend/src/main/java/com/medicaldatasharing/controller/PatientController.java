@@ -1,9 +1,7 @@
 package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.dto.DefineRequestDto;
-import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.form.DefineRequestForm;
-import com.medicaldatasharing.dto.form.MedicalRecordForm;
+import com.medicaldatasharing.form.DefineRequestForm;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.PatientService;
 import com.medicaldatasharing.util.ValidationUtil;

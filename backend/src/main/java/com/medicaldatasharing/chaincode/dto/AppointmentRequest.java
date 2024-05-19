@@ -2,8 +2,6 @@ package com.medicaldatasharing.chaincode.dto;
 
 import org.json.JSONObject;
 
-import java.util.Objects;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class AppointmentRequest extends Request {

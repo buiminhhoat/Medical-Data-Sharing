@@ -4,13 +4,13 @@ import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.Request;
+import com.medicaldatasharing.chaincode.dto.MedicalRecordPreviewResponse;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.form.DefineMedicalRecordForm;
-import com.medicaldatasharing.dto.form.DefineRequestForm;
-import com.medicaldatasharing.dto.form.SendAppointmentRequestForm;
-import com.medicaldatasharing.dto.form.SendRequestForm;
+import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
 import com.medicaldatasharing.enumeration.MedicalRecordStatus;
+import com.medicaldatasharing.form.DefineMedicalRecordForm;
+import com.medicaldatasharing.form.SearchMedicalRecordForm;
+import com.medicaldatasharing.form.SendAppointmentRequestForm;
 import com.medicaldatasharing.model.Admin;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
@@ -215,7 +215,7 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecordDto.setPatientId(patientId);
             medicalRecordDto.setDoctorId(doctorId);
             medicalRecordDto.setMedicalInstitutionId(medicalInstitutionId);
-            medicalRecordDto.setDateCreated(dateCreated.toString());
+            medicalRecordDto.setDateCreated(StringUtil.parseDate(dateCreated));
             medicalRecordDto.setTestName(testName);
             medicalRecordDto.setDetails(details);
             MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor, medicalRecordDto);
@@ -231,6 +231,15 @@ public class InitDataLoader implements CommandLineRunner {
 
             medicalRecord = hyperledgerService.defineMedicalRecord(patient, defineMedicalRecordForm);
             System.out.println(medicalRecord);
+
+            SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
+            searchMedicalRecordForm.setPatientId(patientId);
+            searchMedicalRecordForm.setFrom(StringUtil.createDate("2024-01-01"));
+            searchMedicalRecordForm.setUntil(StringUtil.createDate("2024-12-31"));
+            List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList
+                    = hyperledgerService.getMedicalRecordsByPatientId(patient, searchMedicalRecordForm);
+
+            System.out.println("medicalRecordPreviewDtoList: " + medicalRecordPreviewDtoList);
         } catch (Exception exception) {
             System.out.println(exception);
         }

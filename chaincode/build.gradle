@@ -39,15 +39,21 @@ application {
 
 mainClassName = 'org.hyperledger.fabric.contract.ContractRouter'
 
-shadowJar {
-    archiveBaseName = 'chaincode'
-    archiveVersion = ''
-    archiveClassifier = ''
-    mergeServiceFiles()
+//shadowJar {
+//    archiveBaseName = 'chaincode'
+//    archiveVersion = ''
+//    archiveClassifier = ''
+//    mergeServiceFiles()
+//
+//    manifest {
+//        attributes 'Main-Class': 'org.hyperledger.fabric.contract.ContractRouter'
+//    }
+//}
 
-    manifest {
-        attributes 'Main-Class': 'org.hyperledger.fabric.contract.ContractRouter'
-    }
+task deployPreparation(type: Copy) {
+    from 'index'
+    into "build/install/${project.name}"
 }
 
-installDist.dependsOn
+deployPreparation
+installDist

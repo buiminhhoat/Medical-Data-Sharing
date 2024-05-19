@@ -1,4 +1,4 @@
-package com.medicaldatasharing.dto.form;
+package com.medicaldatasharing.form;
 
 import lombok.*;
 

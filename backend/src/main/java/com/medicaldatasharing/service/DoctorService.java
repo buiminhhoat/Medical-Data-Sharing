@@ -1,11 +1,8 @@
 package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.Request;
-import com.medicaldatasharing.dto.SendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.form.SendRequestForm;
-import com.medicaldatasharing.dto.form.MedicalRecordForm;
+import com.medicaldatasharing.form.MedicalRecordForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;

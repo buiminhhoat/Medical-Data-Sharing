@@ -66,6 +66,7 @@ elif [ "$CC_SRC_LANGUAGE" = "java" ]; then
   infoln "Compiling Java code..."
   pushd $CC_SRC_PATH
   ./gradlew installDist
+  ./gradlew deployPreparation
   popd
   successln "Finished compiling Java code"
   CC_SRC_PATH=$CC_SRC_PATH/build/install/$CC_NAME

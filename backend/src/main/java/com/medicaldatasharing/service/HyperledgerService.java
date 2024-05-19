@@ -4,19 +4,22 @@ import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
+import com.medicaldatasharing.chaincode.dto.MedicalRecordPreviewResponse;
 import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
-import com.medicaldatasharing.dto.SendRequestDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.form.DefineMedicalRecordForm;
-import com.medicaldatasharing.dto.form.DefineRequestForm;
-import com.medicaldatasharing.dto.form.SendAppointmentRequestForm;
-import com.medicaldatasharing.dto.form.SendRequestForm;
+import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
+import com.medicaldatasharing.form.DefineMedicalRecordForm;
+import com.medicaldatasharing.form.DefineRequestForm;
+import com.medicaldatasharing.form.SearchMedicalRecordForm;
+import com.medicaldatasharing.form.SendAppointmentRequestForm;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.util.Constants;
+import com.medicaldatasharing.util.StringUtil;
 import lombok.SneakyThrows;
 import org.bouncycastle.util.encoders.Hex;
 import org.hyperledger.fabric.gateway.Contract;
@@ -26,6 +29,7 @@ import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.sdk.BlockEvent;
 import org.hyperledger.fabric.sdk.Channel;
 import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -33,7 +37,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -44,6 +48,9 @@ public class HyperledgerService {
     static {
         System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
     }
+
+    @Autowired
+    private MedicalInstitutionRepository medicalInstitutionRepository;
 
     public static void registerListener(Network network, Channel channel, Contract contract) throws InvalidArgumentException {
         Consumer<BlockEvent> e = new Consumer<BlockEvent>() {
@@ -198,6 +205,104 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return medicalRecord;
+    }
+
+    public List<MedicalRecordPreviewDto> getMedicalRecordsByPatientId(
+            User user,
+            SearchMedicalRecordForm searchMedicalRecordForm
+    ) throws Exception {
+        List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchParams(searchMedicalRecordForm);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getMedicalRecordsByPatientId",
+                    searchParams.get("patientId"),
+                    searchParams.get("doctorId"),
+                    searchParams.get("medicalInstitutionId"),
+                    searchParams.get("from"),
+                    searchParams.get("until"),
+                    searchParams.get("testName"),
+                    searchParams.get("medicalRecordStatus"),
+                    searchParams.get("details"),
+                    searchParams.get("sortingOrder")
+            );
+
+            LOG.info(String.format(
+                    "Evaluate Transaction: getMedicalRecordsByPatientId(%s, %s, %s, %s, %s, %s, %s, %s, %s), result: %s",
+                    searchParams.get("patientId"),
+                    searchParams.get("doctorId"),
+                    searchParams.get("medicalInstitutionId"),
+                    searchParams.get("from"),
+                    searchParams.get("until"),
+                    searchParams.get("testName"),
+                    searchParams.get("medicalRecordStatus"),
+                    searchParams.get("details"),
+                    searchParams.get("sortingOrder"), new String(result)));
+
+            MedicalRecordPreviewResponse medicalRecordPreviewResponse = MedicalRecordPreviewResponse.deserialize(result);
+            LOG.info("result: " + medicalRecordPreviewResponse);
+            for (MedicalRecordDto medicalRecordDto : medicalRecordPreviewResponse.getMedicalRecordDtoList()) {
+                String requestId = medicalRecordDto.getRequestId();
+                String medicalInstitutionId = medicalRecordDto.getMedicalInstitutionId();
+                String medicalInstitutionName = medicalInstitutionRepository.getOne(medicalInstitutionId).getName();
+                MedicalRecordPreviewDto medicalRecordPreviewDto = new MedicalRecordPreviewDto();
+
+                medicalRecordPreviewDto.setMedicalRecordId(medicalRecordDto.getMedicalRecordId());
+                medicalRecordPreviewDto.setPatientId(medicalRecordDto.getPatientId());
+                medicalRecordPreviewDto.setDoctorId(medicalRecordDto.getDoctorId());
+                medicalRecordPreviewDto.setMedicalInstitutionId(medicalRecordDto.getMedicalInstitutionId());
+                medicalRecordPreviewDto.setDateCreated(medicalRecordDto.getDateCreated());
+                medicalRecordPreviewDto.setTestName(medicalRecordDto.getTestName());
+                medicalRecordPreviewDto.setDetails(medicalRecordDto.getDetails());
+                medicalRecordPreviewDto.setMedicalRecordStatus(medicalRecordDto.getMedicalRecordStatus());
+                medicalRecordPreviewDto.setChangeHistory(medicalRecordDto.getChangeHistory());
+                medicalRecordPreviewDtoList.add(medicalRecordPreviewDto);
+            }
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicalRecordPreviewDtoList;
+    }
+
+    private Map<String, String> prepareSearchParams(SearchMedicalRecordForm searchMedicalRecordForm) {
+        String patientId = searchMedicalRecordForm.getPatientId() == null ? "" : searchMedicalRecordForm.getPatientId();
+        String doctorId = searchMedicalRecordForm.getDoctorId() == null ? "" : searchMedicalRecordForm.getDoctorId();
+        String testName = searchMedicalRecordForm.getTestName() == null ? "" : searchMedicalRecordForm.getTestName();
+        String medicalInstitutionId = searchMedicalRecordForm.getMedicalInstitutionId() == null ? "" : searchMedicalRecordForm.getMedicalInstitutionId();
+        String medicalRecordStatus = searchMedicalRecordForm.getMedicalRecordStatus() == null ? "" : searchMedicalRecordForm.getMedicalRecordStatus();
+        String from;
+        if (searchMedicalRecordForm.getFrom() == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, -6);
+            from = StringUtil.parseDate(calendar.getTime());
+        } else {
+            from = StringUtil.parseDate(searchMedicalRecordForm.getFrom());
+        }
+        String until;
+        if (searchMedicalRecordForm.getFrom() == null) {
+            until = StringUtil.parseDate(new Date());
+        } else {
+            until = StringUtil.parseDate(searchMedicalRecordForm.getUntil());
+        }
+        String sortingOrder = searchMedicalRecordForm.getSortingOrder() == null ? "desc" : searchMedicalRecordForm.getSortingOrder();
+        String details = searchMedicalRecordForm.getDetails() == null ?
+                "" : searchMedicalRecordForm.getDetails();
+
+        return new HashMap<String, String>() {{
+            put("patientId", patientId);
+            put("doctorId", doctorId);
+            put("medicalInstitutionId", medicalInstitutionId);
+            put("from", from);
+            put("until", until);
+            put("testName", testName);
+            put("medicalRecordStatus", medicalRecordStatus);
+            put("details", details);
+            put("sortingOrder", sortingOrder);
+        }};
     }
 
     private void formatExceptionMessage(Exception e) throws Exception {

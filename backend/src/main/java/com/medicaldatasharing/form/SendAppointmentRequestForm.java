@@ -1,4 +1,4 @@
-package com.medicaldatasharing.dto.form;
+package com.medicaldatasharing.form;
 
 import lombok.*;
 
@@ -9,16 +9,14 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendRequestForm {
+public class SendAppointmentRequestForm {
     @NotBlank
     private String senderId;
+
     @NotBlank
     private String recipientId;
-    @NotBlank
-    private String medicalRecordId;
+
     @NotBlank
     private String dateCreated;
-    @NotBlank
-    private String requestType;
 }
 
