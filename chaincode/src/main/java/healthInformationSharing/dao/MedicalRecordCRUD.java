@@ -9,8 +9,10 @@ import com.owlike.genson.Genson;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class MedicalRecordCRUD {
@@ -36,6 +38,7 @@ public class MedicalRecordCRUD {
         CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
         String dbKey = compositeKey.toString();
 
+        List<MedicalRecord> changeHistory = new ArrayList<>();
         MedicalRecord medicalRecord = MedicalRecord.createInstance(
                 medicalRecordId,
                 patientId,
@@ -45,7 +48,7 @@ public class MedicalRecordCRUD {
                 testName,
                 details,
                 MedicalRecordStatus.PENDING,
-                new ArrayList<MedicalRecord>()
+                new Genson().serialize(changeHistory)
         );
 
         String entityJsonString = genson.serialize(medicalRecord);
@@ -64,8 +67,7 @@ public class MedicalRecordCRUD {
     public MedicalRecord getMedicalRecord(String medicalRecordId) {
         String dbKey = context.getStub().createCompositeKey(entityName, medicalRecordId).toString();
         byte[] result = context.getStub().getState(dbKey);
-        Genson genson = new Genson();
-        return genson.deserialize(result, MedicalRecord.class);
+        return MedicalRecord.deserialize(result);
     }
 
     public MedicalRecord defineMedicalRecord(String medicalRecordId, String medicalRecordStatus) {
@@ -78,6 +80,30 @@ public class MedicalRecordCRUD {
         String entityJsonString = genson.serialize(medicalRecord);
         context.getStub().putStringState(dbKey, entityJsonString);
 
+        return medicalRecord;
+    }
+
+    public MedicalRecord editMedicalRecord(String medicalRecordJson) {
+        Genson genson = new Genson();
+        MedicalRecord medicalRecord = genson.deserialize(medicalRecordJson, MedicalRecord.class);
+        String medicalRecordId = medicalRecord.getMedicalRecordId();
+
+        System.out.println("editMedicalRecord: medicalRecordId: " + medicalRecordId);
+
+        CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
+        String dbKey = compositeKey.toString();
+
+        System.out.println("dbKey: " + dbKey);
+
+        MedicalRecord medicalRecordOld = getMedicalRecord(medicalRecordId);
+        medicalRecord.setChangeHistory(medicalRecordOld.getChangeHistory());
+        medicalRecord.addMedicalRecordIntoChangeHistory(medicalRecordOld);
+
+        String entityJsonString = genson.serialize(medicalRecord);
+        context.getStub().putStringState(dbKey, entityJsonString);
+
+        System.out.println("editMedicalRecord: " + medicalRecord.toString());
+        System.out.println("entityJsonString: " + entityJsonString);
         return medicalRecord;
     }
 }

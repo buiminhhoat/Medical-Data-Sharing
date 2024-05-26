@@ -43,7 +43,7 @@ public class MedicalRecordDto {
     private String medicalRecordStatus;
 
     @NotBlank
-    private List<MedicalRecordDto> changeHistory;
+    private String changeHistory;
 
     public static MedicalRecordDto parseMedicalRecordDto(JSONObject jsonObject) {
         String medicalRecordId = jsonObject.getString("medicalRecordId");
@@ -54,7 +54,7 @@ public class MedicalRecordDto {
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
         String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
-        List<MedicalRecordDto> changeHistory = parseChangeHistory(jsonObject.getJSONArray("changeHistory"));
+        String changeHistory = jsonObject.getString("changeHistory");
 
         return createInstance(
                 medicalRecordId,
@@ -88,7 +88,7 @@ public class MedicalRecordDto {
             String testName,
             String details,
             String medicalRecordStatus,
-            List<MedicalRecordDto> changeHistory
+            String changeHistory
     ) {
         MedicalRecordDto medicalRecord = new MedicalRecordDto();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -175,11 +175,20 @@ public class MedicalRecordDto {
         return this;
     }
 
-    public @NotBlank List<MedicalRecordDto> getChangeHistory() {
+    public @NotBlank String getRequestId() {
+        return requestId;
+    }
+
+    public MedicalRecordDto setRequestId(@NotBlank String requestId) {
+        this.requestId = requestId;
+        return this;
+    }
+
+    public @NotBlank String getChangeHistory() {
         return changeHistory;
     }
 
-    public MedicalRecordDto setChangeHistory(@NotBlank List<MedicalRecordDto> changeHistory) {
+    public MedicalRecordDto setChangeHistory(@NotBlank String changeHistory) {
         this.changeHistory = changeHistory;
         return this;
     }

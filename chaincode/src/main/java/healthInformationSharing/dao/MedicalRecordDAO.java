@@ -5,6 +5,7 @@ import healthInformationSharing.dto.MedicalRecordDto;
 import healthInformationSharing.dto.MedicalRecordsPreviewResponse;
 import healthInformationSharing.entity.MedicalRecord;
 import org.hyperledger.fabric.contract.Context;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -69,5 +70,9 @@ public class MedicalRecordDAO {
                 details,
                 sortingOrder
         );
+    }
+
+    public MedicalRecord editMedicalRecord(String medicalRecordJson) {
+        return medicalRecordCRUD.editMedicalRecord(medicalRecordJson);
     }
 }

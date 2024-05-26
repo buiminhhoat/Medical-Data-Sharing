@@ -143,7 +143,7 @@ public class HyperledgerService {
         EditRequest editRequest = null;
         try {
             Contract contract = getContract(user);
-            LOG.info("Evaluate Transaction: GetEditRequest");
+            LOG.info("Evaluate Transaction: getEditRequest");
             byte[] result = contract.evaluateTransaction(
                     "getEditRequest",
                     requestId
@@ -154,6 +154,41 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return editRequest;
+    }
+
+    public MedicalRecord defineEditRequest(User user, String requestId, String requestStatus) throws Exception {
+        MedicalRecord medicalRecord = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Submit Transaction: defineEditRequest");
+            byte[] result = contract.submitTransaction(
+                    "defineEditRequest",
+                    requestId,
+                    requestStatus
+            );
+            medicalRecord = MedicalRecord.deserialize(result);
+            LOG.info("result: " + medicalRecord);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicalRecord;
+    }
+
+    public MedicalRecord editMedicalRecord(User user, String requestId) throws Exception {
+        MedicalRecord medicalRecord = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Submit Transaction: editMedicalRecord");
+            byte[] result = contract.submitTransaction(
+                    "editMedicalRecord",
+                    requestId
+            );
+            medicalRecord = MedicalRecord.deserialize(result);
+            LOG.info("result: " + medicalRecord);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicalRecord;
     }
 
     public AppointmentRequest sendAppointmentRequest(

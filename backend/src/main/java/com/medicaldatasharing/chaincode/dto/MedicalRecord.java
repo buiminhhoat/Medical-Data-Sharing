@@ -26,7 +26,7 @@ public class MedicalRecord {
 
     private String medicalRecordStatus;
 
-    private List<MedicalRecord> changeHistory;
+    private String changeHistory;
 
     private String entityName;
 
@@ -49,7 +49,7 @@ public class MedicalRecord {
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
         String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
-        List<MedicalRecord> changeHistory = parseChangeHistory(jsonObject.getJSONArray("changeHistory"));
+        String changeHistory = jsonObject.getString("changeHistory");
 
         return createInstance(
                 medicalRecordId,
@@ -83,7 +83,7 @@ public class MedicalRecord {
             String testName,
             String details,
             String medicalRecordStatus,
-            List<MedicalRecord> changeHistory
+            String changeHistory
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -196,11 +196,11 @@ public class MedicalRecord {
         return this;
     }
 
-    public List<MedicalRecord> getChangeHistory() {
+    public String getChangeHistory() {
         return changeHistory;
     }
 
-    public MedicalRecord setChangeHistory(List<MedicalRecord> changeHistory) {
+    public MedicalRecord setChangeHistory(String changeHistory) {
         this.changeHistory = changeHistory;
         return this;
     }

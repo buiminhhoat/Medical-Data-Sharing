@@ -22,34 +22,6 @@ public class AppointmentRequestCRUD {
         this.genson = genson;
     }
 
-//    public AppointmentRequest sendAppointmentRequest(
-//            String senderId,
-//            String recipientId,
-//            String medicalRecordId,
-//            String testName,
-//            String dateCreated,
-//            String requestType) {
-//        String requestId = ctx.getStub().getTxId();
-//        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
-//        String dbKey = compositeKey.toString();
-//
-//        AppointmentRequest request = AppointmentRequest.createInstance(
-//                requestId,
-//                senderId,
-//                recipientId,
-//                dateCreated,
-//                requestType,
-//                AppointmentRequestStatus.PENDING,
-//                "",
-//                "",
-//                medicalRecordId,
-//                testName);
-//
-//        String requestStr = genson.serialize(request);
-//        ctx.getStub().putStringState(dbKey, requestStr);
-//        return request;
-//    }
-
     public boolean requestExist(String requestId) {
         ChaincodeStub chaincodeStub = ctx.getStub();
         String dbKey = chaincodeStub.createCompositeKey(entityName, requestId).toString();

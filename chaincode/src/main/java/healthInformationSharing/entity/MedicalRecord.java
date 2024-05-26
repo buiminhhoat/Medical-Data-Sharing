@@ -1,8 +1,11 @@
 package healthInformationSharing.entity;
 
+import com.owlike.genson.Genson;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import com.owlike.genson.annotation.JsonProperty;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +50,7 @@ public final class MedicalRecord {
 
     @Property()
     @JsonProperty("changeHistory")
-    private List<MedicalRecord> changeHistory;
+    private String changeHistory;
 
     @Property()
     @JsonProperty("entityName")
@@ -66,7 +69,7 @@ public final class MedicalRecord {
             String testName,
             String details,
             String medicalRecordStatus,
-            List<MedicalRecord> changeHistory
+            String changeHistory
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -147,12 +150,19 @@ public final class MedicalRecord {
         return this;
     }
 
-    public List<MedicalRecord> getChangeHistory() {
+    public String getChangeHistory() {
         return changeHistory;
     }
 
-    public MedicalRecord setChangeHistory(List<MedicalRecord> changeHistory) {
+    public MedicalRecord setChangeHistory(String changeHistory) {
         this.changeHistory = changeHistory;
+        return this;
+    }
+
+    public MedicalRecord addMedicalRecordIntoChangeHistory(MedicalRecord medicalRecord) {
+        List<MedicalRecord> changeHistory = new Genson().deserialize(this.changeHistory, List.class);
+        changeHistory.add(0, medicalRecord);
+        this.changeHistory = new Genson().serialize(changeHistory);
         return this;
     }
 
@@ -191,5 +201,15 @@ public final class MedicalRecord {
                 ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';
+    }
+
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
+    }
+
+    public static MedicalRecord deserialize(byte[] data) {
+        Genson genson = new Genson();
+        return genson.deserialize(data, MedicalRecord.class);
     }
 }

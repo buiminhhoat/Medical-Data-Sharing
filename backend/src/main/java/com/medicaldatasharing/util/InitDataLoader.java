@@ -10,6 +10,7 @@ import com.medicaldatasharing.chaincode.dto.MedicalRecordPreviewResponse;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
 import com.medicaldatasharing.enumeration.MedicalRecordStatus;
+import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.form.DefineMedicalRecordForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
 import com.medicaldatasharing.form.SendAppointmentRequestForm;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 @Component
@@ -235,20 +237,22 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecord = hyperledgerService.defineMedicalRecord(patient, defineMedicalRecordForm);
             System.out.println(medicalRecord);
 
-            SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
-            searchMedicalRecordForm.setPatientId(patientId);
-            searchMedicalRecordForm.setFrom(StringUtil.createDate("2024-01-01"));
-            searchMedicalRecordForm.setUntil(StringUtil.createDate("2024-12-31"));
-            List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList
-                    = hyperledgerService.getListMedicalRecordByPatientQuery(patient, searchMedicalRecordForm);
+//            SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
+//            searchMedicalRecordForm.setPatientId(patientId);
+//            searchMedicalRecordForm.setFrom(StringUtil.createDate("2024-01-01"));
+//            searchMedicalRecordForm.setUntil(StringUtil.createDate("2024-12-31"));
+//            List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList
+//                    = hyperledgerService.getListMedicalRecordByPatientQuery(patient, searchMedicalRecordForm);
 
-            System.out.println("medicalRecordPreviewDtoList: " + medicalRecordPreviewDtoList);
+//            System.out.println("medicalRecordPreviewDtoList: " + medicalRecordPreviewDtoList);
+
+            medicalRecord = hyperledgerService.getMedicalRecord(patient, "287363c39efc5e06249b65aa2e0ebeeef29ff052606c9cae1d51769ea66e8d84");
 
             SendEditRequestForm sendEditRequestForm = new SendEditRequestForm();
             sendEditRequestForm.setSenderId(doctorId);
             sendEditRequestForm.setRecipientId(patientId);
             sendEditRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
-            medicalRecord.setDetails("details :)");
+            medicalRecord.setDetails("details -_-");
             sendEditRequestForm.setMedicalRecordJson(JsonConverter.objectToJson(medicalRecord).toString());
 
             EditRequest editRequest = hyperledgerService.sendEditRequest(doctor, sendEditRequestForm);
@@ -257,6 +261,10 @@ public class InitDataLoader implements CommandLineRunner {
             EditRequest getEditRequest = hyperledgerService.getEditRequest(doctor, editRequest.getRequestId());
             System.out.println("getEditRequest: " + getEditRequest);
 
+            MedicalRecord defineEditRequest = hyperledgerService.defineEditRequest(patient,
+                    editRequest.getRequestId(), RequestStatus.ACCEPTED.toString());
+
+            System.out.println(defineEditRequest.toString());
         } catch (Exception exception) {
             System.out.println(exception);
         }
