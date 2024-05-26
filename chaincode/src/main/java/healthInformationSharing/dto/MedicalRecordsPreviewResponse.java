@@ -5,7 +5,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.List;
 
-@DataType
+@DataType()
 public class MedicalRecordsPreviewResponse {
     @Property
     private int total;

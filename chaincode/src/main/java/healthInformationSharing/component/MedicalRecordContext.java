@@ -1,23 +1,22 @@
 package healthInformationSharing.component;
 
-import healthInformationSharing.dao.AppointmentRequestCRUD;
-import healthInformationSharing.dao.AppointmentRequestDAO;
-import healthInformationSharing.dao.RequestDAO;
-import healthInformationSharing.dao.MedicalRecordDAO;
+import healthInformationSharing.dao.*;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
 public class MedicalRecordContext extends Context {
 
     private MedicalRecordDAO medicalRecordDAO;
-    private RequestDAO requestDAO;
     private AppointmentRequestDAO appointmentRequestDAO;
+    private EditRequestDAO editRequestDAO;
+    private ViewRequestDAO viewRequestDAO;
 
     public MedicalRecordContext(ChaincodeStub stub) {
         super(stub);
         medicalRecordDAO = new MedicalRecordDAO(this);
-        requestDAO = new RequestDAO(this);
         appointmentRequestDAO = new AppointmentRequestDAO(this);
+        editRequestDAO = new EditRequestDAO(this);
+        viewRequestDAO = new ViewRequestDAO(this);
     }
 
     public MedicalRecordDAO getMedicalRecordDAO() {
@@ -29,21 +28,30 @@ public class MedicalRecordContext extends Context {
         return this;
     }
 
-    public RequestDAO getRequestDAO() {
-        return requestDAO;
-    }
-
-    public MedicalRecordContext setRequestDAO(RequestDAO requestDAO) {
-        this.requestDAO = requestDAO;
-        return this;
-    }
-
     public AppointmentRequestDAO getAppointmentRequestDAO() {
         return appointmentRequestDAO;
     }
 
     public MedicalRecordContext setAppointmentRequestDAO(AppointmentRequestDAO appointmentRequestDAO) {
         this.appointmentRequestDAO = appointmentRequestDAO;
+        return this;
+    }
+
+    public EditRequestDAO getEditRequestDAO() {
+        return editRequestDAO;
+    }
+
+    public MedicalRecordContext setEditRequestDAO(EditRequestDAO editRequestDAO) {
+        this.editRequestDAO = editRequestDAO;
+        return this;
+    }
+
+    public ViewRequestDAO getViewRequestDAO() {
+        return viewRequestDAO;
+    }
+
+    public MedicalRecordContext setViewRequestDAO(ViewRequestDAO viewRequestDAO) {
+        this.viewRequestDAO = viewRequestDAO;
         return this;
     }
 }

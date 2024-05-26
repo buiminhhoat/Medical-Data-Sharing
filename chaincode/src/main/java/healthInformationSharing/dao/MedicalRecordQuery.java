@@ -2,7 +2,7 @@ package healthInformationSharing.dao;
 
 import healthInformationSharing.dto.MedicalRecordDto;
 import org.hyperledger.fabric.contract.Context;
-import org.json.JSONObject;
+import com.owlike.genson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 import java.util.ArrayList;
 
@@ -24,7 +26,7 @@ public class MedicalRecordQuery {
         this.entityName = entityName;
     }
 
-    public List<MedicalRecordDto> getMedicalRecordsPreview(
+    public List<MedicalRecordDto> getListMedicalRecordByQuery(
             String patientId,
             String doctorId,
             String medicalInstitutionId,

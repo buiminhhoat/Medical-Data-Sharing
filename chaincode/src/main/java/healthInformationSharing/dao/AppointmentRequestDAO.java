@@ -1,7 +1,7 @@
 package healthInformationSharing.dao;
 
 import com.owlike.genson.Genson;
-import healthInformationSharing.entity.Request;
+import healthInformationSharing.entity.AppointmentRequest;
 import org.hyperledger.fabric.contract.Context;
 
 public class AppointmentRequestDAO {
@@ -9,8 +9,8 @@ public class AppointmentRequestDAO {
     private AppointmentRequestQuery appointmentRequestQuery;
 
     public AppointmentRequestDAO(Context context) {
-        this.appointmentRequestCRUD = new AppointmentRequestCRUD(context, Request.class.getSimpleName(), new Genson());
-        this.appointmentRequestQuery = new AppointmentRequestQuery(context, Request.class.getSimpleName());
+        this.appointmentRequestCRUD = new AppointmentRequestCRUD(context, AppointmentRequest.class.getSimpleName(), new Genson());
+        this.appointmentRequestQuery = new AppointmentRequestQuery(context, AppointmentRequest.class.getSimpleName());
     }
 
     public AppointmentRequestCRUD getAppointmentRequestCRUD() {
@@ -35,13 +35,13 @@ public class AppointmentRequestDAO {
         return appointmentRequestCRUD.requestExist(requestId);
     }
 
-    public Request getRequest(
+    public AppointmentRequest getAppointmentRequest(
             String requestId
     ) {
         return appointmentRequestCRUD.getAppointmentRequest(requestId);
     }
 
-    public Request defineRequest(
+    public AppointmentRequest defineRequest(
             String requestId,
             String requestStatus,
             String accessAvailableFrom,
@@ -55,14 +55,14 @@ public class AppointmentRequestDAO {
         );
     }
 
-    public Request defineRequest(
+    public AppointmentRequest defineRequest(
             String requestId,
             String requestStatus
     ) {
         return appointmentRequestCRUD.defineAppointmentRequest(requestId, requestStatus);
     }
 
-    public Request sendAppointmentRequest(String senderId,
+    public AppointmentRequest sendAppointmentRequest(String senderId,
                                           String recipientId,
                                           String dateCreated,
                                           String requestType) {

@@ -32,10 +32,10 @@ public class MedicalRecordDto {
     @Property()
     private String details;
 
-    @Property
+    @Property()
     private String medicalRecordStatus;
 
-    @Property
+    @Property()
     private List<MedicalRecordDto> changeHistory;
 
     @Property()

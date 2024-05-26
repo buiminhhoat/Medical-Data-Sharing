@@ -19,7 +19,7 @@ public class MedicalInstitution {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @Column(columnDefinition = "CHAR(32)")
-    private String id;
+    private String medicalInstitutionId;
 
     private String name;
 

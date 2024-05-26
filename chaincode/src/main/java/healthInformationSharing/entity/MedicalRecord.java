@@ -2,8 +2,7 @@ package healthInformationSharing.entity;
 
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.owlike.genson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,85 +10,51 @@ import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-@DataType
+@DataType()
 public final class MedicalRecord {
 
     @Property()
+    @JsonProperty("medicalRecordId")
     private String medicalRecordId;
 
     @Property()
+    @JsonProperty("patientId")
     private String patientId;
 
     @Property()
+    @JsonProperty("doctorId")
     private String doctorId;
 
     @Property()
+    @JsonProperty("medicalInstitutionId")
     private String medicalInstitutionId;
 
     @Property()
+    @JsonProperty("dateCreated")
     private String dateCreated;
 
     @Property()
+    @JsonProperty("testName")
     private String testName;
 
     @Property()
+    @JsonProperty("details")
     private String details;
 
-    @Property
+    @Property()
+    @JsonProperty("medicalRecordStatus")
     private String medicalRecordStatus;
 
-    @Property
-    private List <MedicalRecord> changeHistory;
+    @Property()
+    @JsonProperty("changeHistory")
+    private List<MedicalRecord> changeHistory;
 
     @Property()
+    @JsonProperty("entityName")
     private String entityName;
 
     public MedicalRecord() {
         super();
-    }
-
-    public static byte[] serialize(Object object) {
-        String jsonStr = new JSONObject(object).toString();
-        return jsonStr.getBytes(UTF_8);
-    }
-
-    public static MedicalRecord deserialize(byte[] data) {
-        JSONObject jsonObject = new JSONObject(new String(data, UTF_8));
-        return parseMedicalRecord(jsonObject);
-    }
-
-    private static MedicalRecord parseMedicalRecord(JSONObject jsonObject) {
-        String medicalRecordId = jsonObject.getString("medicalRecordId");
-        String patientId = jsonObject.getString("patientId");
-        String doctorId = jsonObject.getString("doctorId");
-        String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
-        String dateCreated = jsonObject.getString("dateCreated");
-        String testName = jsonObject.getString("testName");
-        String details = jsonObject.getString("details");
-        String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
-        List<MedicalRecord> changeHistory = parseChangeHistory(jsonObject.getJSONArray("changeHistory"));
-
-        return createInstance(
-                medicalRecordId,
-                patientId,
-                doctorId,
-                medicalInstitutionId,
-                dateCreated,
-                testName,
-                details,
-                medicalRecordStatus,
-                changeHistory
-        );
-    }
-
-    private static List<MedicalRecord> parseChangeHistory(JSONArray changeHistoryJson) {
-        List<MedicalRecord> changeHistory = new ArrayList<>();
-        for (int i = 0; i < changeHistoryJson.length(); i++) {
-            JSONObject medicalRecordJson = changeHistoryJson.getJSONObject(i);
-            MedicalRecord medicalRecord = parseMedicalRecord(medicalRecordJson);
-            changeHistory.add(medicalRecord);
-        }
-        return changeHistory;
     }
 
     public static MedicalRecord createInstance(

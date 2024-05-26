@@ -24,15 +24,15 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    @PostMapping("/defineRequest")
-    public DefineRequestDto defineRequest(
-            @Valid @ModelAttribute DefineRequestForm defineRequestForm,
-            BindingResult result) throws Exception {
-        if (result.hasErrors()) {
-            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
-            throw new ValidationException(errorMsg);
-        }
-
-        return patientService.defineRequest(defineRequestForm);
-    }
+//    @PostMapping("/defineRequest")
+//    public DefineRequestDto defineRequest(
+//            @Valid @ModelAttribute DefineRequestForm defineRequestForm,
+//            BindingResult result) throws Exception {
+//        if (result.hasErrors()) {
+//            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+//            throw new ValidationException(errorMsg);
+//        }
+//
+//        return patientService.defineRequest(defineRequestForm);
+//    }
 }

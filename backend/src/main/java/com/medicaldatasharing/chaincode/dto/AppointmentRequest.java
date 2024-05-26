@@ -1,43 +1,130 @@
 package com.medicaldatasharing.chaincode.dto;
 
-import org.json.JSONObject;
+import com.owlike.genson.Genson;
+import com.owlike.genson.annotation.JsonProperty;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class AppointmentRequest extends Request {
+public class AppointmentRequest {
+    @JsonProperty("requestId")
+    protected String requestId;
+
+    @JsonProperty("senderId")
+    protected String senderId;
+
+    @JsonProperty("recipientId")
+    protected String recipientId;
+
+    @JsonProperty("dateCreated")
+    protected String dateCreated;
+
+    @JsonProperty("requestType")
+    protected String requestType;
+
+    @JsonProperty("requestStatus")
+    protected String requestStatus;
+
+    @JsonProperty("accessAvailableFrom")
+    protected String accessAvailableFrom;
+
+    @JsonProperty("accessAvailableUntil")
+    protected String accessAvailableUntil;
+
+    @JsonProperty("entityName")
+    protected String entityName;
+
     public AppointmentRequest() {
     }
 
     public static byte[] serialize(Object object) {
-        String jsonStr = new JSONObject(object).toString();
-        return jsonStr.getBytes(UTF_8);
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
     }
 
     public static AppointmentRequest deserialize(byte[] data) {
-        JSONObject jsonObject = new JSONObject(new String(data, UTF_8));
-        return parseRequest(jsonObject);
+        Genson genson = new Genson();
+        return genson.deserialize(data, AppointmentRequest.class);
     }
 
-    public static AppointmentRequest parseRequest(JSONObject jsonObject) {
-        String requestId = jsonObject.getString("requestId");
-        String senderId = jsonObject.getString("senderId");
-        String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
-        String requestType = jsonObject.getString("requestType");
-        String requestStatus = jsonObject.getString("requestStatus");
-        String accessAvailableFrom = jsonObject.getString("accessAvailableFrom");
-        String accessAvailableUntil = jsonObject.getString("accessAvailableUntil");
+    public String getRequestId() {
+        return requestId;
+    }
 
-        return createInstance(
-                requestId,
-                senderId,
-                recipientId,
-                dateCreated,
-                requestType,
-                requestStatus,
-                accessAvailableFrom,
-                accessAvailableUntil
-        );
+    public AppointmentRequest setRequestId(String requestId) {
+        this.requestId = requestId;
+        return this;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public AppointmentRequest setSenderId(String senderId) {
+        this.senderId = senderId;
+        return this;
+    }
+
+    public String getRecipientId() {
+        return recipientId;
+    }
+
+    public AppointmentRequest setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public AppointmentRequest setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
+    public AppointmentRequest setRequestType(String requestType) {
+        this.requestType = requestType;
+        return this;
+    }
+
+    public String getRequestStatus() {
+        return requestStatus;
+    }
+
+    public AppointmentRequest setRequestStatus(String requestStatus) {
+        this.requestStatus = requestStatus;
+        return this;
+    }
+
+    public String getAccessAvailableFrom() {
+        return accessAvailableFrom;
+    }
+
+    public AppointmentRequest setAccessAvailableFrom(String accessAvailableFrom) {
+        this.accessAvailableFrom = accessAvailableFrom;
+        return this;
+    }
+
+    public String getAccessAvailableUntil() {
+        return accessAvailableUntil;
+    }
+
+    public AppointmentRequest setAccessAvailableUntil(String accessAvailableUntil) {
+        this.accessAvailableUntil = accessAvailableUntil;
+        return this;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public AppointmentRequest setEntityName(String entityName) {
+        this.entityName = entityName;
+        return this;
     }
 
     public static AppointmentRequest createInstance(

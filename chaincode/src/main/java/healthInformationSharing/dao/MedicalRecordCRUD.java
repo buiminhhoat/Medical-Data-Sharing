@@ -63,9 +63,9 @@ public class MedicalRecordCRUD {
 
     public MedicalRecord getMedicalRecord(String medicalRecordId) {
         String dbKey = context.getStub().createCompositeKey(entityName, medicalRecordId).toString();
-        byte[] value = context.getStub().getState(dbKey);
-        MedicalRecord medicalRecord = MedicalRecord.deserialize(value);
-        return medicalRecord;
+        byte[] result = context.getStub().getState(dbKey);
+        Genson genson = new Genson();
+        return genson.deserialize(result, MedicalRecord.class);
     }
 
     public MedicalRecord defineMedicalRecord(String medicalRecordId, String medicalRecordStatus) {

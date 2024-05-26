@@ -1,14 +1,13 @@
 package healthInformationSharing.entity;
 
-import com.owlike.genson.Genson;
 import org.hyperledger.fabric.contract.annotation.DataType;
-import org.hyperledger.fabric.contract.annotation.Property;
 import com.owlike.genson.annotation.JsonProperty;
+import org.hyperledger.fabric.contract.annotation.Property;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @DataType()
-public class AppointmentRequest {
+public class ViewRequest {
     @Property()
     @JsonProperty("requestId")
     protected String requestId;
@@ -44,25 +43,20 @@ public class AppointmentRequest {
     @Property()
     @JsonProperty("entityName")
     protected String entityName;
-    public AppointmentRequest() {
-        super();
-    }
 
-    public static byte[] serialize(Object object) {
-        Genson genson = new Genson();
-        return genson.serializeBytes(object);
-    }
+    @Property()
+    @JsonProperty("medicalRecordId")
+    protected String medicalRecordId;
 
-    public static AppointmentRequest deserialize(byte[] data) {
-        Genson genson = new Genson();
-        return genson.deserialize(data, AppointmentRequest.class);
+    public ViewRequest() {
+
     }
 
     public String getRequestId() {
         return requestId;
     }
 
-    public AppointmentRequest setRequestId(String requestId) {
+    public ViewRequest setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -71,7 +65,7 @@ public class AppointmentRequest {
         return senderId;
     }
 
-    public AppointmentRequest setSenderId(String senderId) {
+    public ViewRequest setSenderId(String senderId) {
         this.senderId = senderId;
         return this;
     }
@@ -80,7 +74,7 @@ public class AppointmentRequest {
         return recipientId;
     }
 
-    public AppointmentRequest setRecipientId(String recipientId) {
+    public ViewRequest setRecipientId(String recipientId) {
         this.recipientId = recipientId;
         return this;
     }
@@ -89,7 +83,7 @@ public class AppointmentRequest {
         return dateCreated;
     }
 
-    public AppointmentRequest setDateCreated(String dateCreated) {
+    public ViewRequest setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
         return this;
     }
@@ -98,7 +92,7 @@ public class AppointmentRequest {
         return requestType;
     }
 
-    public AppointmentRequest setRequestType(String requestType) {
+    public ViewRequest setRequestType(String requestType) {
         this.requestType = requestType;
         return this;
     }
@@ -107,7 +101,7 @@ public class AppointmentRequest {
         return requestStatus;
     }
 
-    public AppointmentRequest setRequestStatus(String requestStatus) {
+    public ViewRequest setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
         return this;
     }
@@ -116,7 +110,7 @@ public class AppointmentRequest {
         return accessAvailableFrom;
     }
 
-    public AppointmentRequest setAccessAvailableFrom(String accessAvailableFrom) {
+    public ViewRequest setAccessAvailableFrom(String accessAvailableFrom) {
         this.accessAvailableFrom = accessAvailableFrom;
         return this;
     }
@@ -125,7 +119,7 @@ public class AppointmentRequest {
         return accessAvailableUntil;
     }
 
-    public AppointmentRequest setAccessAvailableUntil(String accessAvailableUntil) {
+    public ViewRequest setAccessAvailableUntil(String accessAvailableUntil) {
         this.accessAvailableUntil = accessAvailableUntil;
         return this;
     }
@@ -134,12 +128,21 @@ public class AppointmentRequest {
         return entityName;
     }
 
-    public AppointmentRequest setEntityName(String entityName) {
+    public ViewRequest setEntityName(String entityName) {
         this.entityName = entityName;
         return this;
     }
 
-    public static AppointmentRequest createInstance(
+    public String getMedicalRecordId() {
+        return medicalRecordId;
+    }
+
+    public ViewRequest setMedicalRecordId(String medicalRecordId) {
+        this.medicalRecordId = medicalRecordId;
+        return this;
+    }
+
+    public static ViewRequest createInstance(
             String requestId,
             String senderId,
             String recipientId,
@@ -147,9 +150,10 @@ public class AppointmentRequest {
             String requestType,
             String requestStatus,
             String accessAvailableFrom,
-            String accessAvailableUntil
+            String accessAvailableUntil,
+            String medicalRecordId
     ) {
-        AppointmentRequest request = new AppointmentRequest();
+        ViewRequest request = new ViewRequest();
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
@@ -158,22 +162,8 @@ public class AppointmentRequest {
         request.setRequestStatus(requestStatus);
         request.setAccessAvailableFrom(accessAvailableFrom);
         request.setAccessAvailableUntil(accessAvailableUntil);
-        request.setEntityName(AppointmentRequest.class.getSimpleName());
+        request.setMedicalRecordId(medicalRecordId);
+        request.setEntityName(ViewRequest.class.getSimpleName());
         return request;
-    }
-
-    @Override
-    public String toString() {
-        return "AppointmentRequest{" +
-                "accessAvailableFrom='" + accessAvailableFrom + '\'' +
-                ", requestId='" + requestId + '\'' +
-                ", senderId='" + senderId + '\'' +
-                ", recipientId='" + recipientId + '\'' +
-                ", dateCreated='" + dateCreated + '\'' +
-                ", requestType='" + requestType + '\'' +
-                ", requestStatus='" + requestStatus + '\'' +
-                ", accessAvailableUntil='" + accessAvailableUntil + '\'' +
-                ", entityName='" + entityName + '\'' +
-                '}';
     }
 }

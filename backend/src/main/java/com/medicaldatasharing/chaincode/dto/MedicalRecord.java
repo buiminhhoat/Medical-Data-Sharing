@@ -1,6 +1,10 @@
 package com.medicaldatasharing.chaincode.dto;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -22,6 +26,8 @@ public class MedicalRecord {
 
     private String medicalRecordStatus;
 
+    private List<MedicalRecord> changeHistory;
+
     private String entityName;
 
     public static byte[] serialize(Object object) {
@@ -41,8 +47,9 @@ public class MedicalRecord {
         String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
         String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
-        String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
         String details = jsonObject.getString("details");
+        String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
+        List<MedicalRecord> changeHistory = parseChangeHistory(jsonObject.getJSONArray("changeHistory"));
 
         return createInstance(
                 medicalRecordId,
@@ -51,9 +58,20 @@ public class MedicalRecord {
                 medicalInstitutionId,
                 dateCreated,
                 testName,
+                details,
                 medicalRecordStatus,
-                details
+                changeHistory
         );
+    }
+
+    public static List<MedicalRecord> parseChangeHistory(JSONArray changeHistoryJson) {
+        List<MedicalRecord> changeHistory = new ArrayList<>();
+        for (int i = 0; i < changeHistoryJson.length(); i++) {
+            JSONObject medicalRecordJson = changeHistoryJson.getJSONObject(i);
+            MedicalRecord medicalRecord = parseMedicalRecord(medicalRecordJson);
+            changeHistory.add(medicalRecord);
+        }
+        return changeHistory;
     }
 
     public static MedicalRecord createInstance(
@@ -63,8 +81,9 @@ public class MedicalRecord {
             String medicalInstitutionId,
             String dateCreated,
             String testName,
+            String details,
             String medicalRecordStatus,
-            String details
+            List<MedicalRecord> changeHistory
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -75,6 +94,7 @@ public class MedicalRecord {
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
+        medicalRecord.setChangeHistory(changeHistory);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
     }
@@ -90,6 +110,7 @@ public class MedicalRecord {
                 ", testName='" + testName + '\'' +
                 ", details='" + details + '\'' +
                 ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
+                ", changeHistory=" + changeHistory +
                 ", entityName='" + entityName + '\'' +
                 '}';
     }
@@ -172,6 +193,15 @@ public class MedicalRecord {
 
     public MedicalRecord setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public List<MedicalRecord> getChangeHistory() {
+        return changeHistory;
+    }
+
+    public MedicalRecord setChangeHistory(List<MedicalRecord> changeHistory) {
+        this.changeHistory = changeHistory;
         return this;
     }
 }

@@ -1,6 +1,5 @@
 package com.medicaldatasharing.service;
 
-import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.dto.DefineRequestDto;
 import com.medicaldatasharing.form.DefineRequestForm;
 import com.medicaldatasharing.model.User;
@@ -32,17 +31,17 @@ public class PatientService {
     @Autowired
     private HyperledgerService hyperledgerService;
 
-    public DefineRequestDto defineRequest(
-            DefineRequestForm defineRequestForm
-    ) throws Exception {
-        User user = userDetailsService.getLoggedUser();
-        Request request = hyperledgerService.defineRequest(user, defineRequestForm);
-
-        DefineRequestDto defineRequestDto = new DefineRequestDto();
-        defineRequestDto.setRequestId(request.getRequestId());
-        defineRequestDto.setRequestStatus(request.getRequestStatus());
-        defineRequestDto.setAccessAvailableFrom(request.getAccessAvailableFrom());
-        defineRequestDto.setAccessAvailableUntil(request.getAccessAvailableUntil());
-        return defineRequestDto;
-    }
+//    public DefineRequestDto defineRequest(
+//            DefineRequestForm defineRequestForm
+//    ) throws Exception {
+//        User user = userDetailsService.getLoggedUser();
+//        Request request = hyperledgerService.defineRequest(user, defineRequestForm);
+//
+//        DefineRequestDto defineRequestDto = new DefineRequestDto();
+//        defineRequestDto.setRequestId(request.getRequestId());
+//        defineRequestDto.setRequestStatus(request.getRequestStatus());
+//        defineRequestDto.setAccessAvailableFrom(request.getAccessAvailableFrom());
+//        defineRequestDto.setAccessAvailableUntil(request.getAccessAvailableUntil());
+//        return defineRequestDto;
+//    }
 }

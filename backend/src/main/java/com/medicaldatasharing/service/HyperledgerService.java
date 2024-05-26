@@ -2,24 +2,19 @@ package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
-import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
-import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.MedicalRecordPreviewResponse;
-import com.medicaldatasharing.chaincode.dto.Request;
+import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
-import com.medicaldatasharing.form.DefineMedicalRecordForm;
-import com.medicaldatasharing.form.DefineRequestForm;
-import com.medicaldatasharing.form.SearchMedicalRecordForm;
-import com.medicaldatasharing.form.SendAppointmentRequestForm;
+import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.util.Constants;
 import com.medicaldatasharing.util.StringUtil;
+import com.owlike.genson.Genson;
 import lombok.SneakyThrows;
 import org.bouncycastle.util.encoders.Hex;
 import org.hyperledger.fabric.gateway.Contract;
@@ -144,6 +139,23 @@ public class HyperledgerService {
         return medicalRecord;
     }
 
+    public EditRequest getEditRequest(User user, String requestId) throws Exception {
+        EditRequest editRequest = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Evaluate Transaction: GetEditRequest");
+            byte[] result = contract.evaluateTransaction(
+                    "getEditRequest",
+                    requestId
+            );
+            editRequest = EditRequest.deserialize(result);
+            LOG.info("result: " + editRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return editRequest;
+    }
+
     public AppointmentRequest sendAppointmentRequest(
             User user,
             SendAppointmentRequestForm sendAppointmentRequestForm
@@ -165,11 +177,34 @@ public class HyperledgerService {
         return appointmentRequest;
     }
 
-    public Request defineRequest(
+    public EditRequest sendEditRequest(
+            User user,
+            SendEditRequestForm sendEditRequestForm
+    ) throws Exception {
+        EditRequest editRequest = null;
+        try {
+            Contract contract = getContract(user);
+            byte[] result = contract.submitTransaction(
+                    "sendEditRequest",
+                    sendEditRequestForm.getSenderId(),
+                    sendEditRequestForm.getRecipientId(),
+                    sendEditRequestForm.getDateCreated(),
+                    sendEditRequestForm.getMedicalRecordJson()
+            );
+
+            editRequest = EditRequest.deserialize(result);
+            LOG.info("result: " + editRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return editRequest;
+    }
+
+    public AppointmentRequest defineRequest(
             User user,
             DefineRequestForm defineRequestForm
     ) throws Exception {
-        Request request = null;
+        AppointmentRequest appointmentRequest = null;
         try {
             Contract contract = getContract(user);
             byte[] result = contract.submitTransaction(
@@ -179,12 +214,12 @@ public class HyperledgerService {
                     defineRequestForm.getAccessAvailableFrom(),
                     defineRequestForm.getAccessAvailableUntil()
             );
-            request = Request.deserialize(result);
-            LOG.info("result: " + request);
+            appointmentRequest = AppointmentRequest.deserialize(result);
+            LOG.info("result: " + appointmentRequest);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return request;
+        return appointmentRequest;
     }
 
     public MedicalRecord defineMedicalRecord(
@@ -207,7 +242,7 @@ public class HyperledgerService {
         return medicalRecord;
     }
 
-    public List<MedicalRecordPreviewDto> getMedicalRecordsByPatientId(
+    public List<MedicalRecordPreviewDto> getListMedicalRecordByPatientQuery(
             User user,
             SearchMedicalRecordForm searchMedicalRecordForm
     ) throws Exception {
@@ -218,7 +253,7 @@ public class HyperledgerService {
             Map<String, String> searchParams = prepareSearchParams(searchMedicalRecordForm);
 
             byte[] result = contract.evaluateTransaction(
-                    "getMedicalRecordsByPatientId",
+                    "getListMedicalRecordByPatientQuery",
                     searchParams.get("patientId"),
                     searchParams.get("doctorId"),
                     searchParams.get("medicalInstitutionId"),
@@ -245,9 +280,6 @@ public class HyperledgerService {
             MedicalRecordPreviewResponse medicalRecordPreviewResponse = MedicalRecordPreviewResponse.deserialize(result);
             LOG.info("result: " + medicalRecordPreviewResponse);
             for (MedicalRecordDto medicalRecordDto : medicalRecordPreviewResponse.getMedicalRecordDtoList()) {
-                String requestId = medicalRecordDto.getRequestId();
-                String medicalInstitutionId = medicalRecordDto.getMedicalInstitutionId();
-                String medicalInstitutionName = medicalInstitutionRepository.getOne(medicalInstitutionId).getName();
                 MedicalRecordPreviewDto medicalRecordPreviewDto = new MedicalRecordPreviewDto();
 
                 medicalRecordPreviewDto.setMedicalRecordId(medicalRecordDto.getMedicalRecordId());
@@ -337,4 +369,6 @@ public class HyperledgerService {
         Doctor doctor = (Doctor) user;
         return doctor.getMedicalInstitution();
     }
+
+
 }
