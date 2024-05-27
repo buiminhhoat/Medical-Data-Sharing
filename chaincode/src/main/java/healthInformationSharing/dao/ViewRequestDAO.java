@@ -65,14 +65,12 @@ public class ViewRequestDAO {
     public ViewRequest sendViewRequest(String senderId,
                                    String recipientId,
                                    String dateCreated,
-                                   String requestType,
-                                   String medicalRecordId) {
+                                   String requestType) {
         return viewRequestCRUD.sendViewRequest(
                 senderId,
                 recipientId,
                 dateCreated,
-                requestType,
-                medicalRecordId
+                requestType
         );
     }
 }

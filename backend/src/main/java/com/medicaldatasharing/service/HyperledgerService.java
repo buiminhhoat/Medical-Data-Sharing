@@ -235,26 +235,26 @@ public class HyperledgerService {
         return editRequest;
     }
 
-    public AppointmentRequest defineRequest(
+    public ViewRequest sendViewRequest(
             User user,
-            DefineRequestForm defineRequestForm
+            SendViewRequestForm sendViewRequestForm
     ) throws Exception {
-        AppointmentRequest appointmentRequest = null;
+        ViewRequest viewRequest = null;
         try {
             Contract contract = getContract(user);
             byte[] result = contract.submitTransaction(
-                    "defineRequest",
-                    defineRequestForm.getRequestId(),
-                    defineRequestForm.getRequestStatus(),
-                    defineRequestForm.getAccessAvailableFrom(),
-                    defineRequestForm.getAccessAvailableUntil()
+                    "sendViewRequest",
+                    sendViewRequestForm.getSenderId(),
+                    sendViewRequestForm.getRecipientId(),
+                    sendViewRequestForm.getDateCreated()
             );
-            appointmentRequest = AppointmentRequest.deserialize(result);
-            LOG.info("result: " + appointmentRequest);
+
+            viewRequest = ViewRequest.deserialize(result);
+            LOG.info("result: " + viewRequest);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return appointmentRequest;
+        return viewRequest;
     }
 
     public MedicalRecord defineMedicalRecord(

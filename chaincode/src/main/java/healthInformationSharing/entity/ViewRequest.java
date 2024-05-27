@@ -44,10 +44,6 @@ public class ViewRequest {
     @JsonProperty("entityName")
     protected String entityName;
 
-    @Property()
-    @JsonProperty("medicalRecordId")
-    protected String medicalRecordId;
-
     public ViewRequest() {
 
     }
@@ -133,15 +129,6 @@ public class ViewRequest {
         return this;
     }
 
-    public String getMedicalRecordId() {
-        return medicalRecordId;
-    }
-
-    public ViewRequest setMedicalRecordId(String medicalRecordId) {
-        this.medicalRecordId = medicalRecordId;
-        return this;
-    }
-
     public static ViewRequest createInstance(
             String requestId,
             String senderId,
@@ -150,8 +137,7 @@ public class ViewRequest {
             String requestType,
             String requestStatus,
             String accessAvailableFrom,
-            String accessAvailableUntil,
-            String medicalRecordId
+            String accessAvailableUntil
     ) {
         ViewRequest request = new ViewRequest();
         request.setRequestId(requestId);
@@ -162,7 +148,6 @@ public class ViewRequest {
         request.setRequestStatus(requestStatus);
         request.setAccessAvailableFrom(accessAvailableFrom);
         request.setAccessAvailableUntil(accessAvailableUntil);
-        request.setMedicalRecordId(medicalRecordId);
         request.setEntityName(ViewRequest.class.getSimpleName());
         return request;
     }

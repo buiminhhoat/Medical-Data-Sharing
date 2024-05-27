@@ -50,48 +50,14 @@ public class ViewRequest {
         return this;
     }
 
-    public static byte[] serialize(ViewRequest editRequest) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("requestId", editRequest.getRequestId());
-        jsonObject.put("senderId", editRequest.getSenderId());
-        jsonObject.put("recipientId", editRequest.getRecipientId());
-        jsonObject.put("dateCreated", editRequest.getDateCreated());
-        jsonObject.put("requestType", editRequest.getRequestType());
-        jsonObject.put("requestStatus", editRequest.getRequestStatus());
-        jsonObject.put("accessAvailableFrom", editRequest.getAccessAvailableFrom());
-        jsonObject.put("accessAvailableUntil", editRequest.getAccessAvailableUntil());
-        jsonObject.put("medicalRecord", new JSONObject(editRequest.getMedicalRecord()));
-
-        String jsonStr = jsonObject.toString();
-        return jsonStr.getBytes(UTF_8);
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
     }
 
     public static ViewRequest deserialize(byte[] data) {
         Genson genson = new Genson();
         return genson.deserialize(data, ViewRequest.class);
-    }
-
-    public static ViewRequest parseRequest(JSONObject jsonObject) {
-        String requestId = jsonObject.getString("requestId");
-        String senderId = jsonObject.getString("senderId");
-        String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
-        String requestType = jsonObject.getString("requestType");
-        String requestStatus = jsonObject.getString("requestStatus");
-        String accessAvailableFrom = jsonObject.getString("accessAvailableFrom");
-        String accessAvailableUntil = jsonObject.getString("accessAvailableUntil");
-        String medicalRecord = jsonObject.getString("medicalRecord");
-        return createInstance(
-                requestId,
-                senderId,
-                recipientId,
-                dateCreated,
-                requestType,
-                requestStatus,
-                accessAvailableFrom,
-                accessAvailableUntil,
-                medicalRecord
-        );
     }
 
     public static ViewRequest createInstance(

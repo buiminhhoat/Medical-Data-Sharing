@@ -1,9 +1,7 @@
 package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.SendRequestDto;
 import com.medicaldatasharing.form.MedicalRecordForm;
-import com.medicaldatasharing.form.SendRequestForm;
 import com.medicaldatasharing.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -31,16 +29,16 @@ public class DoctorController {
         return null;
     }
 
-    @PostMapping("/sendRequest")
-    public SendRequestDto sendRequest(
-            @Valid @ModelAttribute SendRequestForm sendRequestForm,
-            BindingResult result) throws Exception {
+//    @PostMapping("/sendRequest")
+//    public SendRequestDto sendRequest(
+//            @Valid @ModelAttribute SendRequestForm sendRequestForm,
+//            BindingResult result) throws Exception {
 //        if (result.hasErrors()) {
 //            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
 //            throw new ValidationException(errorMsg);
 //        }
 //
 //        return doctorService.sendRequest(sendRequestForm);
-        return null;
-    }
+//        return null;
+//    }
 }

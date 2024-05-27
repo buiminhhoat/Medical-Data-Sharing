@@ -36,16 +36,6 @@ public class AppointmentRequest {
     public AppointmentRequest() {
     }
 
-    public static byte[] serialize(Object object) {
-        Genson genson = new Genson();
-        return genson.serializeBytes(object);
-    }
-
-    public static AppointmentRequest deserialize(byte[] data) {
-        Genson genson = new Genson();
-        return genson.deserialize(data, AppointmentRequest.class);
-    }
-
     public String getRequestId() {
         return requestId;
     }
@@ -127,6 +117,16 @@ public class AppointmentRequest {
         return this;
     }
 
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
+    }
+
+    public static AppointmentRequest deserialize(byte[] data) {
+        Genson genson = new Genson();
+        return genson.deserialize(data, AppointmentRequest.class);
+    }
+    
     public static AppointmentRequest createInstance(
             String requestId,
             String senderId,

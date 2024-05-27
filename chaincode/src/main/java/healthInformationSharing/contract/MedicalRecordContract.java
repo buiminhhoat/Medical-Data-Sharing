@@ -316,16 +316,14 @@ public class MedicalRecordContract implements ContractInterface {
             MedicalRecordContext ctx,
             String senderId,
             String recipientId,
-            String dateCreated,
-            String medicalRecordId
+            String dateCreated
     ) {
         authorizeRequest(ctx, senderId, "sendViewRequest(validate senderId)");
         return ctx.getViewRequestDAO().sendViewRequest(
                 senderId,
                 recipientId,
                 dateCreated,
-                RequestType.VIEW_RECORD,
-                medicalRecordId
+                RequestType.VIEW_RECORD
         );
     }
 

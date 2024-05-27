@@ -1,20 +1,16 @@
 package com.medicaldatasharing.util;
 
-import com.google.gson.Gson;
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.EditRequest;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.MedicalRecordPreviewResponse;
+import com.medicaldatasharing.chaincode.dto.ViewRequest;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
 import com.medicaldatasharing.enumeration.MedicalRecordStatus;
 import com.medicaldatasharing.enumeration.RequestStatus;
-import com.medicaldatasharing.form.DefineMedicalRecordForm;
-import com.medicaldatasharing.form.SearchMedicalRecordForm;
-import com.medicaldatasharing.form.SendAppointmentRequestForm;
-import com.medicaldatasharing.form.SendEditRequestForm;
+import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Admin;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
@@ -31,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 @Component
@@ -194,15 +189,17 @@ public class InitDataLoader implements CommandLineRunner {
     private void init() throws Exception {
         Patient patient = patientRepository.findByUsername("lehuy5c2003@gmail.com");
         String patientId = patient.getId();
-        Doctor doctor = doctorRepository.findByUsername("nguyenthanhhai@gmail.com");
-        String doctorId = doctor.getId();
-        MedicalInstitution medicalInstitution = doctor.getMedicalInstitution();
-        String medicalInstitutionId = medicalInstitution.getMedicalInstitutionId();
+
+        Doctor doctor1 = doctorRepository.findByUsername("nguyenthanhhai@gmail.com");
+        String doctor1Id = doctor1.getId();
+
+        Doctor doctor2 = doctorRepository.findByUsername("tranthanhtam@gmail.com");
+        String doctor2Id = doctor2.getId();
 
         try {
             SendAppointmentRequestForm sendAppointmentRequestForm = new SendAppointmentRequestForm();
             sendAppointmentRequestForm.setSenderId(patientId);
-            sendAppointmentRequestForm.setRecipientId(doctorId);
+            sendAppointmentRequestForm.setRecipientId(doctor1Id);
             sendAppointmentRequestForm.setDateCreated(new Date().toString());
             AppointmentRequest appointmentRequest = hyperledgerService.sendAppointmentRequest(
                     patient,
@@ -218,12 +215,12 @@ public class InitDataLoader implements CommandLineRunner {
             MedicalRecordDto medicalRecordDto = new MedicalRecordDto();
             medicalRecordDto.setRequestId(appointmentRequest.getRequestId());
             medicalRecordDto.setPatientId(patientId);
-            medicalRecordDto.setDoctorId(doctorId);
-            medicalRecordDto.setMedicalInstitutionId(medicalInstitutionId);
+            medicalRecordDto.setDoctorId(doctor1Id);
+            medicalRecordDto.setMedicalInstitutionId(doctor1.getMedicalInstitution().getMedicalInstitutionId());
             medicalRecordDto.setDateCreated(StringUtil.parseDate(dateCreated));
             medicalRecordDto.setTestName(testName);
             medicalRecordDto.setDetails(details);
-            MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor, medicalRecordDto);
+            MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto);
             System.out.println("chaincodeMedicalRecord: " + medicalRecord);
 
             MedicalRecord getMedicalRecord = hyperledgerService.getMedicalRecord(patient, medicalRecord.getMedicalRecordId());
@@ -237,34 +234,41 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecord = hyperledgerService.defineMedicalRecord(patient, defineMedicalRecordForm);
             System.out.println(medicalRecord);
 
-//            SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
-//            searchMedicalRecordForm.setPatientId(patientId);
-//            searchMedicalRecordForm.setFrom(StringUtil.createDate("2024-01-01"));
-//            searchMedicalRecordForm.setUntil(StringUtil.createDate("2024-12-31"));
-//            List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList
-//                    = hyperledgerService.getListMedicalRecordByPatientQuery(patient, searchMedicalRecordForm);
+            SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
+            searchMedicalRecordForm.setPatientId(patientId);
+            searchMedicalRecordForm.setFrom(StringUtil.createDate("2024-01-01"));
+            searchMedicalRecordForm.setUntil(StringUtil.createDate("2024-12-31"));
+            List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList
+                    = hyperledgerService.getListMedicalRecordByPatientQuery(patient, searchMedicalRecordForm);
 
-//            System.out.println("medicalRecordPreviewDtoList: " + medicalRecordPreviewDtoList);
-
-            medicalRecord = hyperledgerService.getMedicalRecord(patient, "287363c39efc5e06249b65aa2e0ebeeef29ff052606c9cae1d51769ea66e8d84");
+            System.out.println("medicalRecordPreviewDtoList: " + medicalRecordPreviewDtoList);
 
             SendEditRequestForm sendEditRequestForm = new SendEditRequestForm();
-            sendEditRequestForm.setSenderId(doctorId);
+            sendEditRequestForm.setSenderId(doctor1Id);
             sendEditRequestForm.setRecipientId(patientId);
             sendEditRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             medicalRecord.setDetails("details -_-");
             sendEditRequestForm.setMedicalRecordJson(JsonConverter.objectToJson(medicalRecord).toString());
 
-            EditRequest editRequest = hyperledgerService.sendEditRequest(doctor, sendEditRequestForm);
+            EditRequest editRequest = hyperledgerService.sendEditRequest(doctor1, sendEditRequestForm);
             System.out.println("editRequest: " + editRequest);
 
-            EditRequest getEditRequest = hyperledgerService.getEditRequest(doctor, editRequest.getRequestId());
+            EditRequest getEditRequest = hyperledgerService.getEditRequest(doctor1, editRequest.getRequestId());
             System.out.println("getEditRequest: " + getEditRequest);
 
             MedicalRecord defineEditRequest = hyperledgerService.defineEditRequest(patient,
                     editRequest.getRequestId(), RequestStatus.ACCEPTED.toString());
 
             System.out.println(defineEditRequest.toString());
+
+            SendViewRequestForm sendViewRequestForm = new SendViewRequestForm();
+            sendViewRequestForm.setSenderId(doctor2Id);
+            sendViewRequestForm.setRecipientId(patientId);
+            sendViewRequestForm.setDateCreated(new Date().toString());
+
+            ViewRequest viewRequest = hyperledgerService.sendViewRequest(doctor2, sendViewRequestForm);
+            System.out.println(viewRequest);
+
         } catch (Exception exception) {
             System.out.println(exception);
         }

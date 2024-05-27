@@ -9,16 +9,13 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendRequestForm {
+public class SendViewRequestForm {
     @NotBlank
     private String senderId;
+
     @NotBlank
     private String recipientId;
-    @NotBlank
-    private String medicalRecordId;
+
     @NotBlank
     private String dateCreated;
-    @NotBlank
-    private String requestType;
 }
-

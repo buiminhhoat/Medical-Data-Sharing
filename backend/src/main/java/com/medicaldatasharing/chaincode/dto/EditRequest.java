@@ -52,20 +52,9 @@ public class EditRequest {
         return this;
     }
 
-    public static byte[] serialize(EditRequest editRequest) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("requestId", editRequest.getRequestId());
-        jsonObject.put("senderId", editRequest.getSenderId());
-        jsonObject.put("recipientId", editRequest.getRecipientId());
-        jsonObject.put("dateCreated", editRequest.getDateCreated());
-        jsonObject.put("requestType", editRequest.getRequestType());
-        jsonObject.put("requestStatus", editRequest.getRequestStatus());
-        jsonObject.put("accessAvailableFrom", editRequest.getAccessAvailableFrom());
-        jsonObject.put("accessAvailableUntil", editRequest.getAccessAvailableUntil());
-        jsonObject.put("medicalRecord", new JSONObject(editRequest.getMedicalRecord()));
-
-        String jsonStr = jsonObject.toString();
-        return jsonStr.getBytes(UTF_8);
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
     }
 
     public static EditRequest deserialize(byte[] data) {

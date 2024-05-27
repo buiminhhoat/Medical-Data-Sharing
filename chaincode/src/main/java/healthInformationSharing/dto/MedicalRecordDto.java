@@ -1,5 +1,6 @@
 package healthInformationSharing.dto;
 
+import com.owlike.genson.Genson;
 import healthInformationSharing.entity.MedicalRecord;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
@@ -36,10 +37,11 @@ public class MedicalRecordDto {
     private String medicalRecordStatus;
 
     @Property()
-    private List<MedicalRecordDto> changeHistory;
+    private String changeHistory;
 
     @Property()
     private String entityName;
+
 
     public static MedicalRecordDto parseMedicalRecordDto(JSONObject jsonObject) {
         String medicalRecordId = jsonObject.getString("medicalRecordId");
@@ -50,7 +52,7 @@ public class MedicalRecordDto {
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
         String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
-        List<MedicalRecordDto> changeHistory = parseChangeHistory(jsonObject.getJSONArray("changeHistory"));
+        String changeHistory = jsonObject.getString("changeHistory");
 
         return createInstance(
                 medicalRecordId,
@@ -65,16 +67,6 @@ public class MedicalRecordDto {
         );
     }
 
-    private static List<MedicalRecordDto> parseChangeHistory(JSONArray changeHistoryJson) {
-        List<MedicalRecordDto> changeHistory = new ArrayList<>();
-        for (int i = 0; i < changeHistoryJson.length(); i++) {
-            JSONObject medicalRecordJson = changeHistoryJson.getJSONObject(i);
-            MedicalRecordDto medicalRecord = parseMedicalRecordDto(medicalRecordJson);
-            changeHistory.add(medicalRecord);
-        }
-        return changeHistory;
-    }
-
     public static MedicalRecordDto createInstance(
             String medicalRecordId,
             String patientId,
@@ -84,7 +76,7 @@ public class MedicalRecordDto {
             String testName,
             String details,
             String medicalRecordStatus,
-            List<MedicalRecordDto> changeHistory
+            String changeHistory
     ) {
         MedicalRecordDto medicalRecord = new MedicalRecordDto();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -172,11 +164,11 @@ public class MedicalRecordDto {
         return this;
     }
 
-    public List<MedicalRecordDto> getChangeHistory() {
+    public String getChangeHistory() {
         return changeHistory;
     }
 
-    public MedicalRecordDto setChangeHistory(List<MedicalRecordDto> changeHistory) {
+    public MedicalRecordDto setChangeHistory(String changeHistory) {
         this.changeHistory = changeHistory;
         return this;
     }
@@ -188,5 +180,15 @@ public class MedicalRecordDto {
     public MedicalRecordDto setEntityName(String entityName) {
         this.entityName = entityName;
         return this;
+    }
+
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
+    }
+
+    public static MedicalRecordDto deserialize(byte[] data) {
+        Genson genson = new Genson();
+        return genson.deserialize(data, MedicalRecordDto.class);
     }
 }

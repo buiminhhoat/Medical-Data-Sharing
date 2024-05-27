@@ -67,8 +67,7 @@ public class ViewRequestCRUD {
     public ViewRequest sendViewRequest(String senderId,
                                        String recipientId,
                                        String dateCreated,
-                                       String requestType,
-                                       String medicalRecordId) {
+                                       String requestType) {
         String requestId = ctx.getStub().getTxId();
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
         String dbKey = compositeKey.toString();
@@ -81,8 +80,8 @@ public class ViewRequestCRUD {
                 requestType,
                 RequestStatus.PENDING,
                 "",
-                "",
-                medicalRecordId);
+                ""
+        );
 
         String requestStr = genson.serialize(request);
         ctx.getStub().putStringState(dbKey, requestStr);

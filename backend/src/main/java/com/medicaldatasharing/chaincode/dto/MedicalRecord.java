@@ -1,5 +1,7 @@
 package com.medicaldatasharing.chaincode.dto;
 
+import com.owlike.genson.Genson;
+import com.owlike.genson.annotation.JsonProperty;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,34 +12,44 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MedicalRecord {
 
+    @JsonProperty("medicalRecordId")
     private String medicalRecordId;
 
+    @JsonProperty("patientId")
     private String patientId;
 
+    @JsonProperty("doctorId")
     private String doctorId;
 
+    @JsonProperty("medicalInstitutionId")
     private String medicalInstitutionId;
 
+    @JsonProperty("dateCreated")
     private String dateCreated;
 
+    @JsonProperty("testName")
     private String testName;
 
+    @JsonProperty("details")
     private String details;
 
+    @JsonProperty("medicalRecordStatus")
     private String medicalRecordStatus;
 
+    @JsonProperty("changeHistory")
     private String changeHistory;
 
+    @JsonProperty("entityName")
     private String entityName;
 
     public static byte[] serialize(Object object) {
-        String jsonStr = new JSONObject(object).toString();
-        return jsonStr.getBytes(UTF_8);
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
     }
 
     public static MedicalRecord deserialize(byte[] data) {
-        JSONObject json = new JSONObject(new String(data, UTF_8));
-        return parseMedicalRecord(json);
+        Genson genson = new Genson();
+        return genson.deserialize(data, MedicalRecord.class);
     }
 
     public static MedicalRecord parseMedicalRecord(JSONObject jsonObject) {
