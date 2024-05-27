@@ -1,5 +1,6 @@
 package healthInformationSharing.entity;
 
+import com.owlike.genson.Genson;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.Property;
@@ -150,5 +151,15 @@ public class ViewRequest {
         request.setAccessAvailableUntil(accessAvailableUntil);
         request.setEntityName(ViewRequest.class.getSimpleName());
         return request;
+    }
+
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
+    }
+
+    public static ViewRequest deserialize(byte[] data) {
+        Genson genson = new Genson();
+        return genson.deserialize(data, ViewRequest.class);
     }
 }

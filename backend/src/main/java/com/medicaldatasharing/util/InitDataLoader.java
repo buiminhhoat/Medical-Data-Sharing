@@ -197,16 +197,17 @@ public class InitDataLoader implements CommandLineRunner {
         String doctor2Id = doctor2.getId();
 
         try {
+            Date dateCreated = new Date();
+
             SendAppointmentRequestForm sendAppointmentRequestForm = new SendAppointmentRequestForm();
             sendAppointmentRequestForm.setSenderId(patientId);
             sendAppointmentRequestForm.setRecipientId(doctor1Id);
-            sendAppointmentRequestForm.setDateCreated(new Date().toString());
+            sendAppointmentRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             AppointmentRequest appointmentRequest = hyperledgerService.sendAppointmentRequest(
                     patient,
                     sendAppointmentRequestForm);
             System.out.println("appointmentRequest: " + appointmentRequest);
 
-            Date dateCreated = new Date();
 
             String testName = "Cardiovascular Test";
 
@@ -264,11 +265,20 @@ public class InitDataLoader implements CommandLineRunner {
             SendViewRequestForm sendViewRequestForm = new SendViewRequestForm();
             sendViewRequestForm.setSenderId(doctor2Id);
             sendViewRequestForm.setRecipientId(patientId);
-            sendViewRequestForm.setDateCreated(new Date().toString());
+            sendViewRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
 
             ViewRequest viewRequest = hyperledgerService.sendViewRequest(doctor2, sendViewRequestForm);
             System.out.println(viewRequest);
 
+            SearchViewRequestForm searchViewRequestForm = new SearchViewRequestForm();
+            searchViewRequestForm.setRequestId(viewRequest.getRequestId());
+            searchViewRequestForm.setSenderId(doctor2Id);
+            searchViewRequestForm.setFrom(StringUtil.createDate("2024-01-01"));
+            searchViewRequestForm.setUntil(StringUtil.createDate("2024-12-31"));
+            List<ViewRequest> viewRequestList
+                    = hyperledgerService.getListViewRequestBySenderQuery(doctor2, searchViewRequestForm);
+
+            System.out.println(viewRequestList);
         } catch (Exception exception) {
             System.out.println(exception);
         }

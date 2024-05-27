@@ -51,16 +51,15 @@ public class MedicalRecordQuery {
         LOG.info("query: " + queryJsonObject.toString());
 
         QueryResultsIterator<KeyValue> resultsIterator = this.ctx.getStub().getQueryResult(queryJsonObject.toString());
-//        this.ctx.getStub().getQueryResultWithPagination("query", 4, "bookmark")
         for (KeyValue keyValue : resultsIterator) {
             String key = keyValue.getKey();
             String value = keyValue.getStringValue();
             JSONObject jsonObject = new JSONObject(value);
             byte[] bytes = keyValue.getValue();
             LOG.info("keyValue class: " + keyValue.getClass().toString() + ", type: " + keyValue.getClass().getTypeName());
-            MedicalRecordDto clinicalTrialDto = MedicalRecordDto.parseMedicalRecordDto(jsonObject);
+            MedicalRecordDto medicalRecordDto = MedicalRecordDto.parseMedicalRecordDto(jsonObject);
 
-            medicalRecordDtoList.add(clinicalTrialDto);
+            medicalRecordDtoList.add(medicalRecordDto);
         }
         return medicalRecordDtoList;
     }

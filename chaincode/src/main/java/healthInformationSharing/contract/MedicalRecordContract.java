@@ -6,6 +6,7 @@ import healthInformationSharing.dao.AppointmentRequestDAO;
 import healthInformationSharing.dao.EditRequestDAO;
 import healthInformationSharing.dto.MedicalRecordDto;
 import healthInformationSharing.dto.MedicalRecordsPreviewResponse;
+import healthInformationSharing.dto.ViewRequestsQueryResponse;
 import healthInformationSharing.entity.*;
 import healthInformationSharing.enumeration.RequestStatus;
 import healthInformationSharing.enumeration.RequestType;
@@ -383,6 +384,41 @@ public class MedicalRecordContract implements ContractInterface {
         );
         return new MedicalRecordsPreviewResponse(medicalRecordByQueryDtoList.size(), medicalRecordByQueryDtoList);
     }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public ViewRequestsQueryResponse getListViewRequestBySenderQuery(
+            MedicalRecordContext ctx,
+            String requestId,
+            String senderId,
+            String recipientId,
+            String requestType,
+            String requestStatus,
+            String from,
+            String until,
+            String sortingOrder
+    ) {
+        authorizeRequest(ctx, senderId, "getListViewRequestBySenderQuery(validate senderId)");
+        List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestBySenderQuery(
+                requestId,
+                senderId,
+                recipientId,
+                requestType,
+                requestStatus,
+                from,
+                until,
+                sortingOrder
+        );
+
+        System.out.println("viewRequestList.size(): " + viewRequestList.size());
+        for (ViewRequest viewRequest: viewRequestList) {
+            System.out.println("viewRequest: " + viewRequest);
+        }
+        ViewRequestsQueryResponse viewRequestsQueryResponse = new ViewRequestsQueryResponse(viewRequestList.size(),
+                viewRequestList);
+        System.out.println("viewRequestsQueryResponse: " + viewRequestsQueryResponse);
+        return viewRequestsQueryResponse;
+    }
+
 
     private enum MedicalRecordContractErrors {
         MEDICAL_RECORD_NOT_FOUND,

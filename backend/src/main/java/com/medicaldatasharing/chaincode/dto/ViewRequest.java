@@ -34,20 +34,8 @@ public class ViewRequest {
     @JsonProperty("entityName")
     protected String entityName;
 
-    @JsonProperty("medicalRecord")
-    private String medicalRecord;
-
     public ViewRequest() {
 
-    }
-
-    public String getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public ViewRequest setMedicalRecord(String medicalRecord) {
-        this.medicalRecord = medicalRecord;
-        return this;
     }
 
     public static byte[] serialize(Object object) {
@@ -81,7 +69,6 @@ public class ViewRequest {
         request.setAccessAvailableFrom(accessAvailableFrom);
         request.setAccessAvailableUntil(accessAvailableUntil);
         request.setEntityName(ViewRequest.class.getSimpleName());
-        request.setMedicalRecord(medicalRecord);
         return request;
     }
 

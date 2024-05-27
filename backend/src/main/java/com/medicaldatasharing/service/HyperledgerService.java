@@ -406,4 +406,46 @@ public class HyperledgerService {
     }
 
 
+    public List<ViewRequest> getListViewRequestBySenderQuery(User user,
+                                                             SearchViewRequestForm searchViewRequestForm) throws Exception {
+        List<ViewRequest> viewRequestList = null;
+        try {
+            Contract contract = getContract(user);
+
+            String from;
+            if (searchViewRequestForm.getFrom() == null) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.MONTH, -6);
+                from = StringUtil.parseDate(calendar.getTime());
+            } else {
+                from = StringUtil.parseDate(searchViewRequestForm.getFrom());
+            }
+            String until;
+            if (searchViewRequestForm.getFrom() == null) {
+                until = StringUtil.parseDate(new Date());
+            } else {
+                until = StringUtil.parseDate(searchViewRequestForm.getUntil());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListViewRequestBySenderQuery",
+                    searchViewRequestForm.getRequestId(),
+                    searchViewRequestForm.getSenderId(),
+                    searchViewRequestForm.getRecipientId(),
+                    searchViewRequestForm.getRequestType(),
+                    searchViewRequestForm.getRequestStatus(),
+                    from,
+                    until,
+                    searchViewRequestForm.getSortingOrder()
+            );
+
+            ViewRequestsQueryResponse viewRequestsQueryResponse = ViewRequestsQueryResponse.deserialize(result);
+            LOG.info("result: " + viewRequestsQueryResponse);
+            viewRequestList = viewRequestsQueryResponse.getViewRequestList();
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return viewRequestList;
+    }
 }
