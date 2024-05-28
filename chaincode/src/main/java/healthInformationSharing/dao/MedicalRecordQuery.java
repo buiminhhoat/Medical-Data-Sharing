@@ -26,27 +26,9 @@ public class MedicalRecordQuery {
         this.entityName = entityName;
     }
 
-    public List<MedicalRecordDto> getListMedicalRecordByQuery(
-            String patientId,
-            String doctorId,
-            String medicalInstitutionId,
-            String from,
-            String until,
-            String testName,
-            String medicalRecordStatus,
-            String details,
-            String sortingOrder) {
+    public List<MedicalRecordDto> getListMedicalRecordByQuery(JSONObject jsonDto) {
         List<MedicalRecordDto> medicalRecordDtoList = new ArrayList<>();
-        JSONObject queryJsonObject = createQuerySelector(
-                patientId,
-                doctorId,
-                medicalInstitutionId,
-                from,
-                until,
-                testName,
-                medicalRecordStatus,
-                details,
-                sortingOrder);
+        JSONObject queryJsonObject = createQuerySelector(jsonDto);
 
         LOG.info("query: " + queryJsonObject.toString());
 
@@ -64,18 +46,20 @@ public class MedicalRecordQuery {
         return medicalRecordDtoList;
     }
 
-    public JSONObject createQuerySelector(
-            String patientId,
-            String doctorId,
-            String medicalInstitutionId,
-            String from,
-            String until,
-            String testName,
-            String medicalRecordStatus,
-            String details,
-            String sortingOrder
-    ) {
+    public JSONObject createQuerySelector(JSONObject jsonDto) {
+        String medicalRecordId = jsonDto.getString("medicalRecordId");
+        String patientId = jsonDto.getString("patientId");
+        String doctorId = jsonDto.getString("doctorId");
+        String medicalInstitutionId = jsonDto.getString("medicalInstitutionId");
+        String testName = jsonDto.getString("testName");
+        String details = jsonDto.getString("details");
+        String medicalRecordStatus = jsonDto.getString("medicalRecordStatus");
+        String sortingOrder = jsonDto.getString("sortingOrder");
+        String from = jsonDto.getString("from");
+        String until = jsonDto.getString("until");
+
         JSONObject jsonObjectTimeRange = new JSONObject();
+
         if (!Objects.equals(from, "")) {
             jsonObjectTimeRange.putOnce("$gt", from);
         }
@@ -90,6 +74,10 @@ public class MedicalRecordQuery {
 
         JSONObject jsonObjectSelector = new JSONObject();
         jsonObjectSelector.putOnce("dateCreated", jsonObjectTimeRange);
+
+        if (!medicalRecordId.isEmpty()) {
+            jsonObjectSelector.putOnce("medicalRecordId", medicalRecordId);
+        }
 
         if (!patientId.isEmpty()) {
             jsonObjectSelector.putOnce("patientId", patientId);

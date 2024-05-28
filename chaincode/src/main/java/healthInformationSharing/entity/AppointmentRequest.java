@@ -34,14 +34,6 @@ public class AppointmentRequest {
     protected String requestStatus;
 
     @Property()
-    @JsonProperty("accessAvailableFrom")
-    protected String accessAvailableFrom;
-
-    @Property()
-    @JsonProperty("accessAvailableUntil")
-    protected String accessAvailableUntil;
-
-    @Property()
     @JsonProperty("entityName")
     protected String entityName;
     public AppointmentRequest() {
@@ -112,24 +104,6 @@ public class AppointmentRequest {
         return this;
     }
 
-    public String getAccessAvailableFrom() {
-        return accessAvailableFrom;
-    }
-
-    public AppointmentRequest setAccessAvailableFrom(String accessAvailableFrom) {
-        this.accessAvailableFrom = accessAvailableFrom;
-        return this;
-    }
-
-    public String getAccessAvailableUntil() {
-        return accessAvailableUntil;
-    }
-
-    public AppointmentRequest setAccessAvailableUntil(String accessAvailableUntil) {
-        this.accessAvailableUntil = accessAvailableUntil;
-        return this;
-    }
-
     public String getEntityName() {
         return entityName;
     }
@@ -145,9 +119,7 @@ public class AppointmentRequest {
             String recipientId,
             String dateCreated,
             String requestType,
-            String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil
+            String requestStatus
     ) {
         AppointmentRequest request = new AppointmentRequest();
         request.setRequestId(requestId);
@@ -156,8 +128,6 @@ public class AppointmentRequest {
         request.setDateCreated(dateCreated);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
-        request.setAccessAvailableFrom(accessAvailableFrom);
-        request.setAccessAvailableUntil(accessAvailableUntil);
         request.setEntityName(AppointmentRequest.class.getSimpleName());
         return request;
     }
@@ -165,14 +135,12 @@ public class AppointmentRequest {
     @Override
     public String toString() {
         return "AppointmentRequest{" +
-                "accessAvailableFrom='" + accessAvailableFrom + '\'' +
                 ", requestId='" + requestId + '\'' +
                 ", senderId='" + senderId + '\'' +
                 ", recipientId='" + recipientId + '\'' +
                 ", dateCreated='" + dateCreated + '\'' +
                 ", requestType='" + requestType + '\'' +
                 ", requestStatus='" + requestStatus + '\'' +
-                ", accessAvailableUntil='" + accessAvailableUntil + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';
     }

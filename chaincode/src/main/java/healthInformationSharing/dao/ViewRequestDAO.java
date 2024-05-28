@@ -3,6 +3,7 @@ package healthInformationSharing.dao;
 import com.owlike.genson.Genson;
 import healthInformationSharing.entity.ViewRequest;
 import org.hyperledger.fabric.contract.Context;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -44,55 +45,18 @@ public class ViewRequestDAO {
     }
 
     public ViewRequest defineViewRequest(
-            String requestId,
-            String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil
+            JSONObject jsonDto
     ) {
         return viewRequestCRUD.defineViewRequest(
-                requestId,
-                requestStatus,
-                accessAvailableFrom,
-                accessAvailableUntil
+                jsonDto
         );
     }
 
-    public ViewRequest defineViewRequest(
-            String requestId,
-            String requestStatus
-    ) {
-        return viewRequestCRUD.defineViewRequest(requestId, requestStatus);
+    public ViewRequest sendViewRequest(JSONObject jsonDto) {
+        return viewRequestCRUD.sendViewRequest(jsonDto);
     }
 
-    public ViewRequest sendViewRequest(String senderId,
-                                   String recipientId,
-                                   String dateCreated,
-                                   String requestType) {
-        return viewRequestCRUD.sendViewRequest(
-                senderId,
-                recipientId,
-                dateCreated,
-                requestType
-        );
-    }
-
-    public List<ViewRequest> getListViewRequestBySenderQuery(String requestId, 
-                                                             String senderId, 
-                                                             String recipientId, 
-                                                             String requestType, 
-                                                             String requestStatus, 
-                                                             String from, 
-                                                             String until, 
-                                                             String sortingOrder) {
-        return viewRequestQuery.getListViewRequestBySenderQuery(
-            requestId,
-            senderId,
-            recipientId,
-            requestType,
-            requestStatus,
-            from,
-            until,
-            sortingOrder
-        );
+    public List<ViewRequest> getListViewRequestBySenderQuery(JSONObject jsonDto) {
+        return viewRequestQuery.getListViewRequestBySenderQuery(jsonDto);
     }
 }

@@ -6,6 +6,7 @@ import healthInformationSharing.enumeration.RequestStatus;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
+import org.json.JSONObject;
 
 import java.util.logging.Logger;
 
@@ -40,14 +41,12 @@ public class EditRequestCRUD {
     }
 
     public EditRequest defineEditRequest(
-            String requestId,
-            String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil) {
+            JSONObject jsonDto
+    ) {
+        String requestId = jsonDto.getString("requestId");
+        String requestStatus = jsonDto.getString("requestStatus");
         EditRequest request = getEditRequest(requestId);
         request.setRequestStatus(requestStatus);
-        request.setAccessAvailableFrom(accessAvailableFrom);
-        request.setAccessAvailableUntil(accessAvailableUntil);
 
         String dbKey = ctx.getStub().createCompositeKey(entityName, requestId).toString();
         String requestStr = genson.serialize(request);
@@ -65,11 +64,12 @@ public class EditRequestCRUD {
         return request;
     }
 
-    public EditRequest sendEditRequest(String senderId,
-                                       String recipientId,
-                                       String dateCreated,
-                                       String requestType,
-                                       String medicalRecord) {
+    public EditRequest sendEditRequest(JSONObject jsonDto) {
+        String senderId = jsonDto.getString("senderId");
+        String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
+        String requestType = jsonDto.getString("requestType");
+        String medicalRecordJson = jsonDto.getString("medicalRecordJson");
         String requestId = ctx.getStub().getTxId();
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
         String dbKey = compositeKey.toString();
@@ -81,9 +81,7 @@ public class EditRequestCRUD {
                 dateCreated,
                 requestType,
                 RequestStatus.PENDING,
-                "",
-                "",
-                medicalRecord);
+                medicalRecordJson);
 
         System.out.println("sendEditRequest: " + request);
         String requestStr = genson.serialize(request);

@@ -24,6 +24,7 @@ import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.sdk.BlockEvent;
 import org.hyperledger.fabric.sdk.Channel;
 import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,33 @@ public class HyperledgerService {
 
     @Autowired
     private MedicalInstitutionRepository medicalInstitutionRepository;
+
+    private String hashValue(String originalString) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] hash = digest.digest(
+                originalString.getBytes(StandardCharsets.UTF_8));
+        return new String(Hex.encode(hash));
+    }
+
+    private String determineOrg(User user) {
+        if (user.getRole().equals(Constants.ROLE_PATIENT) || user.getRole().equals(Constants.ROLE_SUPER_ADMIN)) {
+            return Config.PATIENT_ORG;
+        }
+        if (user.getRole().equals(Constants.ROLE_DOCTOR)) {
+            return Config.DOCTOR_ORG;
+        }
+        return null;
+    }
+
+    private MedicalInstitution getMedicalInstitution(User user) {
+        Doctor doctor = (Doctor) user;
+        return doctor.getMedicalInstitution();
+    }
 
     public static void registerListener(Network network, Channel channel, Contract contract) throws InvalidArgumentException {
         Consumer<BlockEvent> e = new Consumer<BlockEvent>() {
@@ -104,17 +132,21 @@ public class HyperledgerService {
         try {
             Contract contract = getContract(user);
             LOG.info("Submit Transaction: AddMedicalRecord");
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", medicalRecordDto.getRequestId());
+            jsonObject.put("patientId", medicalRecordDto.getPatientId());
+            jsonObject.put("doctorId", medicalRecordDto.getDoctorId());
+            jsonObject.put("medicalInstitutionId", medicalRecordDto.getMedicalInstitutionId());
+            jsonObject.put("dateCreated", medicalRecordDto.getDateCreated());
+            jsonObject.put("testName", medicalRecordDto.getTestName());
+            jsonObject.put("details", medicalRecordDto.getDetails());
             byte[] result = contract.submitTransaction(
                     "addMedicalRecord",
-                    medicalRecordDto.getRequestId(),
-                    medicalRecordDto.getPatientId(),
-                    medicalRecordDto.getDoctorId(),
-                    medicalRecordDto.getMedicalInstitutionId(),
-                    medicalRecordDto.getDateCreated(),
-                    medicalRecordDto.getTestName(),
-                    medicalRecordDto.getDetails()
+                    jsonObject.toString()
             );
-            medicalRecord = MedicalRecord.deserialize(result);
+            String medicalRecordStr = new String(result);
+            medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -127,11 +159,14 @@ public class HyperledgerService {
         try {
             Contract contract = getContract(user);
             LOG.info("Evaluate Transaction: GetMedicalRecord");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("medicalRecordId", medicalRecordId);
             byte[] result = contract.evaluateTransaction(
                     "getMedicalRecord",
-                    medicalRecordId
+                    jsonObject.toString()
             );
-            medicalRecord = MedicalRecord.deserialize(result);
+            String medicalRecordStr = new String(result);
+            medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -144,11 +179,14 @@ public class HyperledgerService {
         try {
             Contract contract = getContract(user);
             LOG.info("Evaluate Transaction: getEditRequest");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", requestId);
             byte[] result = contract.evaluateTransaction(
                     "getEditRequest",
-                    requestId
+                    jsonObject.toString()
             );
-            editRequest = EditRequest.deserialize(result);
+            String editRequestStr = new String(result);
+            editRequest = new Genson().deserialize(editRequestStr, EditRequest.class);
             LOG.info("result: " + editRequest);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -156,17 +194,21 @@ public class HyperledgerService {
         return editRequest;
     }
 
-    public MedicalRecord defineEditRequest(User user, String requestId, String requestStatus) throws Exception {
+    public MedicalRecord defineEditRequest(User user, DefineRequestForm defineRequestForm) throws Exception {
         MedicalRecord medicalRecord = null;
         try {
             Contract contract = getContract(user);
             LOG.info("Submit Transaction: defineEditRequest");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", defineRequestForm.getRequestId());
+            jsonObject.put("requestStatus", defineRequestForm.getRequestStatus());
+            System.out.println(jsonObject.toString());
             byte[] result = contract.submitTransaction(
                     "defineEditRequest",
-                    requestId,
-                    requestStatus
+                    jsonObject.toString()
             );
-            medicalRecord = MedicalRecord.deserialize(result);
+            String medicalRecordStr = new String(result);
+            medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -179,11 +221,14 @@ public class HyperledgerService {
         try {
             Contract contract = getContract(user);
             LOG.info("Submit Transaction: editMedicalRecord");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", requestId);
             byte[] result = contract.submitTransaction(
                     "editMedicalRecord",
-                    requestId
+                    jsonObject.toString()
             );
-            medicalRecord = MedicalRecord.deserialize(result);
+            String medicalRecordStr = new String(result);
+            medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -198,13 +243,17 @@ public class HyperledgerService {
         AppointmentRequest appointmentRequest = null;
         try {
             Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("senderId", sendAppointmentRequestForm.getSenderId());
+            jsonObject.put("recipientId", sendAppointmentRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendAppointmentRequestForm.getDateCreated());
+
             byte[] result = contract.submitTransaction(
                     "sendAppointmentRequest",
-                    sendAppointmentRequestForm.getSenderId(),
-                    sendAppointmentRequestForm.getRecipientId(),
-                    sendAppointmentRequestForm.getDateCreated()
+                    jsonObject.toString()
             );
-            appointmentRequest = AppointmentRequest.deserialize(result);
+            String appointmentRequestStr = new String(result);
+            appointmentRequest = new Genson().deserialize(appointmentRequestStr, AppointmentRequest.class);
             LOG.info("result: " + appointmentRequest);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -219,15 +268,18 @@ public class HyperledgerService {
         EditRequest editRequest = null;
         try {
             Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("senderId", sendEditRequestForm.getSenderId());
+            jsonObject.put("recipientId", sendEditRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendEditRequestForm.getDateCreated());
+            jsonObject.put("medicalRecordJson", sendEditRequestForm.getMedicalRecordJson());
             byte[] result = contract.submitTransaction(
                     "sendEditRequest",
-                    sendEditRequestForm.getSenderId(),
-                    sendEditRequestForm.getRecipientId(),
-                    sendEditRequestForm.getDateCreated(),
-                    sendEditRequestForm.getMedicalRecordJson()
+                    jsonObject.toString()
             );
 
-            editRequest = EditRequest.deserialize(result);
+            String editRequestStr = new String(result);
+            editRequest = new Genson().deserialize(editRequestStr, EditRequest.class);
             LOG.info("result: " + editRequest);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -242,14 +294,17 @@ public class HyperledgerService {
         ViewRequest viewRequest = null;
         try {
             Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("senderId", sendViewRequestForm.getSenderId());
+            jsonObject.put("recipientId", sendViewRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendViewRequestForm.getDateCreated());
             byte[] result = contract.submitTransaction(
                     "sendViewRequest",
-                    sendViewRequestForm.getSenderId(),
-                    sendViewRequestForm.getRecipientId(),
-                    sendViewRequestForm.getDateCreated()
+                    jsonObject.toString()
             );
 
-            viewRequest = ViewRequest.deserialize(result);
+            String viewRequestStr = new String(result);
+            viewRequest = new Genson().deserialize(viewRequestStr, ViewRequest.class);
             LOG.info("result: " + viewRequest);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -264,12 +319,16 @@ public class HyperledgerService {
         MedicalRecord medicalRecord = null;
         try {
             Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("medicalRecordId", defineMedicalRecordForm.getMedicalRecordId());
+            jsonObject.put("medicalRecordStatus", defineMedicalRecordForm.getMedicalRecordStatus());
+
             byte[] result = contract.submitTransaction(
                     "defineMedicalRecord",
-                    defineMedicalRecordForm.getMedicalRecordId(),
-                    defineMedicalRecordForm.getMedicalRecordStatus()
+                    jsonObject.toString()
             );
-            medicalRecord = MedicalRecord.deserialize(result);
+            String medicalRecordStr = new String(result);
+            medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -287,17 +346,21 @@ public class HyperledgerService {
 
             Map<String, String> searchParams = prepareSearchParams(searchMedicalRecordForm);
 
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("medicalRecordId", searchParams.get("medicalRecordId"));
+            jsonObject.put("patientId", searchParams.get("patientId"));
+            jsonObject.put("doctorId", searchParams.get("doctorId"));
+            jsonObject.put("medicalInstitutionId", searchParams.get("medicalInstitutionId"));
+            jsonObject.put("from", searchParams.get("from"));
+            jsonObject.put("until", searchParams.get("until"));
+            jsonObject.put("testName", searchParams.get("testName"));
+            jsonObject.put("medicalRecordStatus", searchParams.get("medicalRecordStatus"));
+            jsonObject.put("details", searchParams.get("details"));
+            jsonObject.put("sortingOrder", searchParams.get("sortingOrder"));
+
             byte[] result = contract.evaluateTransaction(
                     "getListMedicalRecordByPatientQuery",
-                    searchParams.get("patientId"),
-                    searchParams.get("doctorId"),
-                    searchParams.get("medicalInstitutionId"),
-                    searchParams.get("from"),
-                    searchParams.get("until"),
-                    searchParams.get("testName"),
-                    searchParams.get("medicalRecordStatus"),
-                    searchParams.get("details"),
-                    searchParams.get("sortingOrder")
+                    jsonObject.toString()
             );
 
             LOG.info(String.format(
@@ -312,7 +375,9 @@ public class HyperledgerService {
                     searchParams.get("details"),
                     searchParams.get("sortingOrder"), new String(result)));
 
-            MedicalRecordPreviewResponse medicalRecordPreviewResponse = MedicalRecordPreviewResponse.deserialize(result);
+            MedicalRecordPreviewResponse medicalRecordPreviewResponse
+                    = MedicalRecordPreviewResponse.deserialize(result);
+
             LOG.info("result: " + medicalRecordPreviewResponse);
             for (MedicalRecordDto medicalRecordDto : medicalRecordPreviewResponse.getMedicalRecordDtoList()) {
                 MedicalRecordPreviewDto medicalRecordPreviewDto = new MedicalRecordPreviewDto();
@@ -335,6 +400,7 @@ public class HyperledgerService {
     }
 
     private Map<String, String> prepareSearchParams(SearchMedicalRecordForm searchMedicalRecordForm) {
+        String medicalRecordId = searchMedicalRecordForm.getMedicalRecordId() == null ? "" : searchMedicalRecordForm.getMedicalRecordId();
         String patientId = searchMedicalRecordForm.getPatientId() == null ? "" : searchMedicalRecordForm.getPatientId();
         String doctorId = searchMedicalRecordForm.getDoctorId() == null ? "" : searchMedicalRecordForm.getDoctorId();
         String testName = searchMedicalRecordForm.getTestName() == null ? "" : searchMedicalRecordForm.getTestName();
@@ -359,6 +425,7 @@ public class HyperledgerService {
                 "" : searchMedicalRecordForm.getDetails();
 
         return new HashMap<String, String>() {{
+            put("medicalRecordId", medicalRecordId);
             put("patientId", patientId);
             put("doctorId", doctorId);
             put("medicalInstitutionId", medicalInstitutionId);
@@ -376,34 +443,6 @@ public class HyperledgerService {
         String errorMsg = msg.substring(msg.lastIndexOf(":") + 1);
         throw new Exception(errorMsg);
     }
-
-    private String hashValue(String originalString) {
-        MessageDigest digest = null;
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        byte[] hash = digest.digest(
-                originalString.getBytes(StandardCharsets.UTF_8));
-        return new String(Hex.encode(hash));
-    }
-
-    private String determineOrg(User user) {
-        if (user.getRole().equals(Constants.ROLE_PATIENT) || user.getRole().equals(Constants.ROLE_SUPER_ADMIN)) {
-            return Config.PATIENT_ORG;
-        }
-        if (user.getRole().equals(Constants.ROLE_DOCTOR)) {
-            return Config.DOCTOR_ORG;
-        }
-        return null;
-    }
-
-    private MedicalInstitution getMedicalInstitution(User user) {
-        Doctor doctor = (Doctor) user;
-        return doctor.getMedicalInstitution();
-    }
-
 
     public List<ViewRequest> getListViewRequestBySenderQuery(User user,
                                                              SearchViewRequestForm searchViewRequestForm) throws Exception {
@@ -426,16 +465,19 @@ public class HyperledgerService {
                 until = StringUtil.parseDate(searchViewRequestForm.getUntil());
             }
 
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", searchViewRequestForm.getRequestId());
+            jsonObject.put("senderId", searchViewRequestForm.getSenderId());
+            jsonObject.put("recipientId", searchViewRequestForm.getRecipientId());
+            jsonObject.put("requestType", searchViewRequestForm.getRequestType());
+            jsonObject.put("requestStatus", searchViewRequestForm.getRequestStatus());
+            jsonObject.put("from", from);
+            jsonObject.put("until", until);
+            jsonObject.put("sortingOrder", searchViewRequestForm.getSortingOrder());
+
             byte[] result = contract.evaluateTransaction(
                     "getListViewRequestBySenderQuery",
-                    searchViewRequestForm.getRequestId(),
-                    searchViewRequestForm.getSenderId(),
-                    searchViewRequestForm.getRecipientId(),
-                    searchViewRequestForm.getRequestType(),
-                    searchViewRequestForm.getRequestStatus(),
-                    from,
-                    until,
-                    searchViewRequestForm.getSortingOrder()
+                    jsonObject.toString()
             );
 
             ViewRequestsQueryResponse viewRequestsQueryResponse = ViewRequestsQueryResponse.deserialize(result);
@@ -452,9 +494,12 @@ public class HyperledgerService {
         List<MedicalRecord> changeHistory = new ArrayList<>();
         try {
             Contract contract = getContract(user);
+
+            JSONObject jsonDto = new JSONObject();
+            jsonDto.put("medicalRecordId", medicalRecordId);
             byte[] result = contract.submitTransaction(
                     "getMedicalRecordChangeHistory",
-                    medicalRecordId
+                    jsonDto.toString()
             );
             changeHistory = new Genson().deserialize(new String(result), List.class);
             LOG.info("result: " + changeHistory);

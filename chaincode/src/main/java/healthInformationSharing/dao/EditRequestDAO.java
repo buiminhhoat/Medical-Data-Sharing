@@ -3,6 +3,7 @@ package healthInformationSharing.dao;
 import com.owlike.genson.Genson;
 import healthInformationSharing.entity.EditRequest;
 import org.hyperledger.fabric.contract.Context;
+import org.json.JSONObject;
 
 public class EditRequestDAO {
     private EditRequestCRUD editRequestCRUD;
@@ -42,16 +43,10 @@ public class EditRequestDAO {
     }
 
     public EditRequest defineEditRequest(
-            String requestId,
-            String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil
+            JSONObject jsonDto
     ) {
         return editRequestCRUD.defineEditRequest(
-                requestId,
-                requestStatus,
-                accessAvailableFrom,
-                accessAvailableUntil
+                jsonDto
         );
     }
 
@@ -62,17 +57,7 @@ public class EditRequestDAO {
         return editRequestCRUD.defineEditRequest(requestId, requestStatus);
     }
 
-    public EditRequest sendEditRequest(String senderId,
-                                   String recipientId,
-                                   String dateCreated,
-                                   String requestType,
-                                   String medicalRecord) {
-        return editRequestCRUD.sendEditRequest(
-                senderId,
-                recipientId,
-                dateCreated,
-                requestType,
-                medicalRecord
-        );
+    public EditRequest sendEditRequest(JSONObject jsonDto) {
+        return editRequestCRUD.sendEditRequest(jsonDto);
     }
 }

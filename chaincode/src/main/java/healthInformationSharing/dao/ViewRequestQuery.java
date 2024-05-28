@@ -24,16 +24,15 @@ public class ViewRequestQuery {
         this.entityName = entityName;
     }
 
-    public List<ViewRequest> getListViewRequestBySenderQuery(
-            String requestId,
-            String senderId,
-            String recipientId,
-            String requestType,
-            String requestStatus,
-            String from,
-            String until,
-            String sortingOrder
-    ) {
+    public List<ViewRequest> getListViewRequestBySenderQuery(JSONObject jsonDto) {
+        String requestId = jsonDto.getString("requestId");
+        String senderId = jsonDto.getString("senderId");
+        String recipientId = jsonDto.getString("recipientId");
+        String requestType = jsonDto.getString("requestType");
+        String requestStatus = jsonDto.getString("requestStatus");
+        String from = jsonDto.getString("from");
+        String until = jsonDto.getString("until");
+        String sortingOrder = jsonDto.getString("sortingOrder");
         List<ViewRequest> viewRequestList = new ArrayList<>();
         JSONObject queryJsonObject = createQuerySelector(
                 requestId,

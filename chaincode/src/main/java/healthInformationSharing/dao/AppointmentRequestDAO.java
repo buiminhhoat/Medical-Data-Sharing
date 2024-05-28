@@ -3,6 +3,7 @@ package healthInformationSharing.dao;
 import com.owlike.genson.Genson;
 import healthInformationSharing.entity.AppointmentRequest;
 import org.hyperledger.fabric.contract.Context;
+import org.json.JSONObject;
 
 public class AppointmentRequestDAO {
     private AppointmentRequestCRUD appointmentRequestCRUD;
@@ -42,16 +43,10 @@ public class AppointmentRequestDAO {
     }
 
     public AppointmentRequest defineRequest(
-            String requestId,
-            String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil
+            JSONObject jsonDto
     ) {
         return appointmentRequestCRUD.defineAppointmentRequest(
-                requestId,
-                requestStatus,
-                accessAvailableFrom,
-                accessAvailableUntil
+                jsonDto
         );
     }
 
@@ -62,15 +57,7 @@ public class AppointmentRequestDAO {
         return appointmentRequestCRUD.defineAppointmentRequest(requestId, requestStatus);
     }
 
-    public AppointmentRequest sendAppointmentRequest(String senderId,
-                                          String recipientId,
-                                          String dateCreated,
-                                          String requestType) {
-        return appointmentRequestCRUD.sendAppointmentRequest(
-                senderId,
-                recipientId,
-                dateCreated,
-                requestType
-        );
+    public AppointmentRequest sendAppointmentRequest(JSONObject jsonDto) {
+        return appointmentRequestCRUD.sendAppointmentRequest(jsonDto);
     }
 }

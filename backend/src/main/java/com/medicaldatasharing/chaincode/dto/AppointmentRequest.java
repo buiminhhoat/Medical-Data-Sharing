@@ -24,12 +24,6 @@ public class AppointmentRequest {
     @JsonProperty("requestStatus")
     protected String requestStatus;
 
-    @JsonProperty("accessAvailableFrom")
-    protected String accessAvailableFrom;
-
-    @JsonProperty("accessAvailableUntil")
-    protected String accessAvailableUntil;
-
     @JsonProperty("entityName")
     protected String entityName;
 
@@ -90,24 +84,6 @@ public class AppointmentRequest {
         return this;
     }
 
-    public String getAccessAvailableFrom() {
-        return accessAvailableFrom;
-    }
-
-    public AppointmentRequest setAccessAvailableFrom(String accessAvailableFrom) {
-        this.accessAvailableFrom = accessAvailableFrom;
-        return this;
-    }
-
-    public String getAccessAvailableUntil() {
-        return accessAvailableUntil;
-    }
-
-    public AppointmentRequest setAccessAvailableUntil(String accessAvailableUntil) {
-        this.accessAvailableUntil = accessAvailableUntil;
-        return this;
-    }
-
     public String getEntityName() {
         return entityName;
     }
@@ -133,9 +109,7 @@ public class AppointmentRequest {
             String recipientId,
             String dateCreated,
             String requestType,
-            String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil
+            String requestStatus
     ) {
         AppointmentRequest appointmentRequest = new AppointmentRequest();
         appointmentRequest.setSenderId(senderId);
@@ -144,8 +118,6 @@ public class AppointmentRequest {
         appointmentRequest.setDateCreated(dateCreated);
         appointmentRequest.setRequestType(requestType);
         appointmentRequest.setRequestStatus(requestStatus);
-        appointmentRequest.setAccessAvailableFrom(accessAvailableFrom);
-        appointmentRequest.setAccessAvailableUntil(accessAvailableUntil);
         appointmentRequest.setEntityName(AppointmentRequest.class.getSimpleName());
         return appointmentRequest;
     }

@@ -34,14 +34,6 @@ public class EditRequest {
     protected String requestStatus;
 
     @Property()
-    @JsonProperty("accessAvailableFrom")
-    protected String accessAvailableFrom;
-
-    @Property()
-    @JsonProperty("accessAvailableUntil")
-    protected String accessAvailableUntil;
-
-    @Property()
     @JsonProperty("entityName")
     protected String entityName;
 
@@ -80,8 +72,6 @@ public class EditRequest {
             String dateCreated,
             String requestType,
             String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil,
             String medicalRecord
     ) {
         EditRequest request = new EditRequest();
@@ -91,8 +81,6 @@ public class EditRequest {
         request.setDateCreated(dateCreated);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
-        request.setAccessAvailableFrom(accessAvailableFrom);
-        request.setAccessAvailableUntil(accessAvailableUntil);
         request.setEntityName(EditRequest.class.getSimpleName());
         request.setMedicalRecord(medicalRecord);
         return request;
@@ -152,24 +140,6 @@ public class EditRequest {
         return this;
     }
 
-    public String getAccessAvailableFrom() {
-        return accessAvailableFrom;
-    }
-
-    public EditRequest setAccessAvailableFrom(String accessAvailableFrom) {
-        this.accessAvailableFrom = accessAvailableFrom;
-        return this;
-    }
-
-    public String getAccessAvailableUntil() {
-        return accessAvailableUntil;
-    }
-
-    public EditRequest setAccessAvailableUntil(String accessAvailableUntil) {
-        this.accessAvailableUntil = accessAvailableUntil;
-        return this;
-    }
-
     public String getEntityName() {
         return entityName;
     }
@@ -188,8 +158,6 @@ public class EditRequest {
                 ", dateCreated='" + dateCreated + '\'' +
                 ", requestType='" + requestType + '\'' +
                 ", requestStatus='" + requestStatus + '\'' +
-                ", accessAvailableFrom='" + accessAvailableFrom + '\'' +
-                ", accessAvailableUntil='" + accessAvailableUntil + '\'' +
                 ", entityName='" + entityName + '\'' +
                 ", medicalRecord=" + medicalRecord +
                 '}';

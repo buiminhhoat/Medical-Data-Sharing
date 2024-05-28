@@ -34,14 +34,6 @@ public class ViewRequest {
     protected String requestStatus;
 
     @Property()
-    @JsonProperty("accessAvailableFrom")
-    protected String accessAvailableFrom;
-
-    @Property()
-    @JsonProperty("accessAvailableUntil")
-    protected String accessAvailableUntil;
-
-    @Property()
     @JsonProperty("entityName")
     protected String entityName;
 
@@ -103,24 +95,6 @@ public class ViewRequest {
         return this;
     }
 
-    public String getAccessAvailableFrom() {
-        return accessAvailableFrom;
-    }
-
-    public ViewRequest setAccessAvailableFrom(String accessAvailableFrom) {
-        this.accessAvailableFrom = accessAvailableFrom;
-        return this;
-    }
-
-    public String getAccessAvailableUntil() {
-        return accessAvailableUntil;
-    }
-
-    public ViewRequest setAccessAvailableUntil(String accessAvailableUntil) {
-        this.accessAvailableUntil = accessAvailableUntil;
-        return this;
-    }
-
     public String getEntityName() {
         return entityName;
     }
@@ -136,9 +110,7 @@ public class ViewRequest {
             String recipientId,
             String dateCreated,
             String requestType,
-            String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil
+            String requestStatus
     ) {
         ViewRequest request = new ViewRequest();
         request.setRequestId(requestId);
@@ -147,8 +119,6 @@ public class ViewRequest {
         request.setDateCreated(dateCreated);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
-        request.setAccessAvailableFrom(accessAvailableFrom);
-        request.setAccessAvailableUntil(accessAvailableUntil);
         request.setEntityName(ViewRequest.class.getSimpleName());
         return request;
     }

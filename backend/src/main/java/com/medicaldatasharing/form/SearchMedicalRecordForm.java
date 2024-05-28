@@ -10,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SearchMedicalRecordForm {
+    private String medicalRecordId;
     private String patientId;
     private String doctorId;
     private String medicalInstitutionId;

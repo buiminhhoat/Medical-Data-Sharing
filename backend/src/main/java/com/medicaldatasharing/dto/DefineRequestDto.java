@@ -15,8 +15,4 @@ public class DefineRequestDto {
     private String requestId;
     @NotBlank
     private String requestStatus;
-    @NotBlank
-    private String accessAvailableFrom;
-    @NotBlank
-    private String accessAvailableUntil;
 }

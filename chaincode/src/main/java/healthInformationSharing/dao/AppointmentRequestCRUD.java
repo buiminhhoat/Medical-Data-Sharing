@@ -6,6 +6,7 @@ import healthInformationSharing.enumeration.RequestStatus;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
+import org.json.JSONObject;
 
 import java.util.logging.Logger;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -43,15 +44,11 @@ public class AppointmentRequestCRUD {
         return genson.deserialize(result, AppointmentRequest.class);
     }
 
-    public AppointmentRequest defineAppointmentRequest(
-            String requestId,
-            String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil) {
+    public AppointmentRequest defineAppointmentRequest(JSONObject jsonDto) {
+        String requestId = jsonDto.getString("requestId");
+        String requestStatus = jsonDto.getString("requestStatus");
         AppointmentRequest request = getAppointmentRequest(requestId);
         request.setRequestStatus(requestStatus);
-        request.setAccessAvailableFrom(accessAvailableFrom);
-        request.setAccessAvailableUntil(accessAvailableUntil);
 
         String dbKey = ctx.getStub().createCompositeKey(entityName, requestId).toString();
         String requestStr = genson.serialize(request);
@@ -69,7 +66,11 @@ public class AppointmentRequestCRUD {
         return request;
     }
 
-    public AppointmentRequest sendAppointmentRequest(String senderId, String recipientId, String dateCreated, String requestType) {
+    public AppointmentRequest sendAppointmentRequest(JSONObject jsonDto) {
+        String senderId = jsonDto.getString("senderId");
+        String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
+        String requestType = jsonDto.getString("requestType");
         String requestId = ctx.getStub().getTxId();
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
         String dbKey = compositeKey.toString();
@@ -80,9 +81,8 @@ public class AppointmentRequestCRUD {
                 recipientId,
                 dateCreated,
                 requestType,
-                RequestStatus.PENDING,
-                "",
-                "");
+                RequestStatus.PENDING
+        );
 
         String requestStr = genson.serialize(request);
         ctx.getStub().putStringState(dbKey, requestStr);

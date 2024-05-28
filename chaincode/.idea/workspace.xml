@@ -5,18 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Medical Data Sharing &amp; Add fabric-samples">
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/MedicalRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/MedicalRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/MedicalRecordPreviewResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/MedicalRecordPreviewResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/MedicalRecordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/MedicalRecordDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/MedicalRecordPreviewDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/MedicalRecordPreviewDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/AppointmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/AppointmentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/EditRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/EditRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/ViewRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/ViewRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/DefineRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/DefineRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/DefineRequestForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/DefineRequestForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/SearchMedicalRecordForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/SearchMedicalRecordForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/AppointmentRequestCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/AppointmentRequestCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/AppointmentRequestDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/AppointmentRequestDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordCRUD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dto/MedicalRecordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dto/MedicalRecordDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/MedicalRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/MedicalRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/AppointmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/AppointmentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/EditRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/EditRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/ViewRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/ViewRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,8 +137,8 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.257487" />
-      <window_info id="Commit" order="1" weight="0.257487" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21842447" />
+      <window_info id="Commit" order="1" weight="0.21842447" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -136,13 +148,14 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.2689951" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.3302696" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.2689951" />
       <window_info anchor="bottom" id="Build" order="4" weight="0.2689951" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.2689951" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.2689951" />
       <window_info anchor="bottom" id="Services" order="7" />
       <window_info anchor="bottom" id="Find" order="8" weight="0.2689951" />
       <window_info anchor="right" id="Endpoints" show_stripe_button="false" />
+      <window_info anchor="right" id="documentation.v2" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
       <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
@@ -242,16 +255,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java</url>
-          <line>279</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java</url>
-          <line>284</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestCRUD.java</url>
           <line>72</line>

@@ -18,24 +18,8 @@ public class MedicalRecordDAO {
         this.medicalRecordQuery = new MedicalRecordQuery(context, MedicalRecord.class.getSimpleName());
     }
 
-    public MedicalRecord addMedicalRecord(
-            String medicalRecordId,
-            String patientId,
-            String doctorId,
-            String medicalInstitutionId,
-            String dateCreated,
-            String testName,
-            String details
-    ) {
-        return medicalRecordCRUD.addMedicalRecord(
-                medicalRecordId,
-                patientId,
-                doctorId,
-                medicalInstitutionId,
-                dateCreated,
-                testName,
-                details
-        );
+    public MedicalRecord addMedicalRecord(JSONObject jsonDto) {
+        return medicalRecordCRUD.addMedicalRecord(jsonDto);
     }
 
     public boolean medicalRecordExist(String medicalRecordId) {
@@ -46,33 +30,17 @@ public class MedicalRecordDAO {
         return medicalRecordCRUD.getMedicalRecord(medicalRecordId);
     }
 
-    public MedicalRecord defineMedicalRecord(String medicalRecordId, String medicalRecordStatus) {
-        return medicalRecordCRUD.defineMedicalRecord(medicalRecordId, medicalRecordStatus);
+    public MedicalRecord defineMedicalRecord(JSONObject jsonDto) {
+        return medicalRecordCRUD.defineMedicalRecord(jsonDto);
     }
 
-    public List<MedicalRecordDto> getListMedicalRecordByQuery(String patientId,
-                                                           String doctorId,
-                                                           String medicalInstitutionId,
-                                                           String from,
-                                                           String until,
-                                                           String testName,
-                                                           String medicalRecordStatus,
-                                                           String details,
-                                                           String sortingOrder) {
+    public List<MedicalRecordDto> getListMedicalRecordByQuery(JSONObject jsonDto) {
         return medicalRecordQuery.getListMedicalRecordByQuery(
-                patientId,
-                doctorId,
-                medicalInstitutionId,
-                from,
-                until,
-                testName,
-                medicalRecordStatus,
-                details,
-                sortingOrder
+                jsonDto
         );
     }
 
-    public MedicalRecord editMedicalRecord(String medicalRecordJson) {
-        return medicalRecordCRUD.editMedicalRecord(medicalRecordJson);
+    public MedicalRecord editMedicalRecord(JSONObject jsonDto) {
+        return medicalRecordCRUD.editMedicalRecord(jsonDto);
     }
 }

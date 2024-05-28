@@ -27,12 +27,6 @@ public class EditRequest {
     @JsonProperty("requestStatus")
     protected String requestStatus;
 
-    @JsonProperty("accessAvailableFrom")
-    protected String accessAvailableFrom;
-
-    @JsonProperty("accessAvailableUntil")
-    protected String accessAvailableUntil;
-
     @JsonProperty("entityName")
     protected String entityName;
 
@@ -69,8 +63,6 @@ public class EditRequest {
         String dateCreated = jsonObject.getString("dateCreated");
         String requestType = jsonObject.getString("requestType");
         String requestStatus = jsonObject.getString("requestStatus");
-        String accessAvailableFrom = jsonObject.getString("accessAvailableFrom");
-        String accessAvailableUntil = jsonObject.getString("accessAvailableUntil");
         String medicalRecord = jsonObject.getString("medicalRecord");
         return createInstance(
                 requestId,
@@ -79,8 +71,6 @@ public class EditRequest {
                 dateCreated,
                 requestType,
                 requestStatus,
-                accessAvailableFrom,
-                accessAvailableUntil,
                 medicalRecord
         );
     }
@@ -92,8 +82,6 @@ public class EditRequest {
             String dateCreated,
             String requestType,
             String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil,
             String medicalRecord
     ) {
         EditRequest request = new EditRequest();
@@ -103,8 +91,6 @@ public class EditRequest {
         request.setDateCreated(dateCreated);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
-        request.setAccessAvailableFrom(accessAvailableFrom);
-        request.setAccessAvailableUntil(accessAvailableUntil);
         request.setEntityName(EditRequest.class.getSimpleName());
         request.setMedicalRecord(medicalRecord);
         return request;
@@ -161,24 +147,6 @@ public class EditRequest {
 
     public EditRequest setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
-        return this;
-    }
-
-    public String getAccessAvailableFrom() {
-        return accessAvailableFrom;
-    }
-
-    public EditRequest setAccessAvailableFrom(String accessAvailableFrom) {
-        this.accessAvailableFrom = accessAvailableFrom;
-        return this;
-    }
-
-    public String getAccessAvailableUntil() {
-        return accessAvailableUntil;
-    }
-
-    public EditRequest setAccessAvailableUntil(String accessAvailableUntil) {
-        this.accessAvailableUntil = accessAvailableUntil;
         return this;
     }
 

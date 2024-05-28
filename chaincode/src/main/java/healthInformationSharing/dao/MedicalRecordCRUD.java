@@ -27,14 +27,14 @@ public class MedicalRecordCRUD {
         this.genson = genson;
     }
 
-    public MedicalRecord addMedicalRecord(
-            String medicalRecordId,
-            String patientId,
-            String doctorId,
-            String medicalInstitutionId,
-            String dateCreated,
-            String testName,
-            String details) {
+    public MedicalRecord addMedicalRecord(JSONObject jsonDto) {
+        String medicalRecordId = jsonDto.getString("medicalRecordId");
+        String patientId = jsonDto.getString("patientId");
+        String doctorId = jsonDto.getString("doctorId");
+        String medicalInstitutionId = jsonDto.getString("medicalInstitutionId");
+        String dateCreated = jsonDto.getString("dateCreated");
+        String testName = jsonDto.getString("testName");
+        String details = jsonDto.getString("details");
         CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
         String dbKey = compositeKey.toString();
 
@@ -69,7 +69,9 @@ public class MedicalRecordCRUD {
         return MedicalRecord.deserialize(result);
     }
 
-    public MedicalRecord defineMedicalRecord(String medicalRecordId, String medicalRecordStatus) {
+    public MedicalRecord defineMedicalRecord(JSONObject jsonDto) {
+        String medicalRecordId = jsonDto.getString("medicalRecordId");
+        String medicalRecordStatus = jsonDto.getString("medicalRecordStatus");
         CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
         String dbKey = compositeKey.toString();
 
@@ -82,7 +84,9 @@ public class MedicalRecordCRUD {
         return medicalRecord;
     }
 
-    public MedicalRecord editMedicalRecord(String medicalRecordJson) {
+    public MedicalRecord editMedicalRecord(JSONObject jsonDto) {
+        String medicalRecordJson = jsonDto.getString("medicalRecordJson");
+
         Genson genson = new Genson();
         MedicalRecord medicalRecord = genson.deserialize(medicalRecordJson, MedicalRecord.class);
         String medicalRecordId = medicalRecord.getMedicalRecordId();

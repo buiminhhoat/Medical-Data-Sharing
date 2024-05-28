@@ -20,6 +20,7 @@ import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.service.HyperledgerService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -257,8 +258,11 @@ public class InitDataLoader implements CommandLineRunner {
             EditRequest getEditRequest = hyperledgerService.getEditRequest(doctor1, editRequest.getRequestId());
             System.out.println("getEditRequest: " + getEditRequest);
 
+            DefineRequestForm defineRequestForm = new DefineRequestForm();
+            defineRequestForm.setRequestId(editRequest.getRequestId());
+            defineRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
             MedicalRecord defineEditRequest = hyperledgerService.defineEditRequest(patient,
-                    editRequest.getRequestId(), RequestStatus.ACCEPTED.toString());
+                    defineRequestForm);
 
             System.out.println(defineEditRequest.toString());
 

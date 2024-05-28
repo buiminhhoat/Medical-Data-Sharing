@@ -25,12 +25,6 @@ public class ViewRequest {
     @JsonProperty("requestStatus")
     protected String requestStatus;
 
-    @JsonProperty("accessAvailableFrom")
-    protected String accessAvailableFrom;
-
-    @JsonProperty("accessAvailableUntil")
-    protected String accessAvailableUntil;
-
     @JsonProperty("entityName")
     protected String entityName;
 
@@ -55,8 +49,6 @@ public class ViewRequest {
             String dateCreated,
             String requestType,
             String requestStatus,
-            String accessAvailableFrom,
-            String accessAvailableUntil,
             String medicalRecord
     ) {
         ViewRequest request = new ViewRequest();
@@ -66,8 +58,6 @@ public class ViewRequest {
         request.setDateCreated(dateCreated);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
-        request.setAccessAvailableFrom(accessAvailableFrom);
-        request.setAccessAvailableUntil(accessAvailableUntil);
         request.setEntityName(ViewRequest.class.getSimpleName());
         return request;
     }
@@ -123,24 +113,6 @@ public class ViewRequest {
 
     public ViewRequest setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
-        return this;
-    }
-
-    public String getAccessAvailableFrom() {
-        return accessAvailableFrom;
-    }
-
-    public ViewRequest setAccessAvailableFrom(String accessAvailableFrom) {
-        this.accessAvailableFrom = accessAvailableFrom;
-        return this;
-    }
-
-    public String getAccessAvailableUntil() {
-        return accessAvailableUntil;
-    }
-
-    public ViewRequest setAccessAvailableUntil(String accessAvailableUntil) {
-        this.accessAvailableUntil = accessAvailableUntil;
         return this;
     }
 
