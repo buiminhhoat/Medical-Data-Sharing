@@ -15,6 +15,9 @@ import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.*;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
+import org.hyperledger.fabric.shim.ledger.CompositeKey;
+import org.hyperledger.fabric.shim.ledger.KeyModification;
+import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -182,6 +185,31 @@ public class MedicalRecordContract implements ContractInterface {
             String errorMessage = String.format("Medical Record %s does not exist", medicalRecordId);
             System.out.println(errorMessage);
             throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
+        }
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getMedicalRecordChangeHistory(MedicalRecordContext ctx, String medicalRecordId) throws Exception {
+        try {
+            CompositeKey compositeKey = ctx.getStub().createCompositeKey("MedicalRecord", medicalRecordId);
+            String dbKey = compositeKey.toString();
+            ChaincodeStub stub = ctx.getStub();
+            QueryResultsIterator<KeyModification> results = stub.getHistoryForKey(dbKey);
+            List<MedicalRecord> changeHistory = new ArrayList<>();
+            for (KeyModification keyModification : results) {
+                if (keyModification == null) continue;
+                System.out.println(keyModification.getStringValue());
+                MedicalRecord medicalRecord = new Genson().deserialize(keyModification.getStringValue(), MedicalRecord.class);
+                changeHistory.add(medicalRecord);
+            }
+            System.out.println("changeHistory.size(): " + changeHistory.size());
+            String jsonString = new Genson().serialize(changeHistory);
+            System.out.println("jsonString: " + jsonString);
+            return jsonString;
+        }
+        catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            throw new Exception(exception.getMessage());
         }
     }
 

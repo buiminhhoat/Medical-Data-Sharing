@@ -23,14 +23,14 @@ public class MedicalRecordPreviewResponse {
 
         int total = json.getInt("total");
         JSONArray jsonArray = json.getJSONArray("medicalRecordDtoList");
-        List<MedicalRecordDto> clinicalTrialDtoList = new ArrayList<>();
+        List<MedicalRecordDto> medicalRecordDtoList = new ArrayList<>();
         for (Object object : jsonArray) {
             if (object instanceof JSONObject) {
                 JSONObject jsonObject = (JSONObject) object;
-                clinicalTrialDtoList.add(MedicalRecordDto.parseMedicalRecordDto(jsonObject));
+                medicalRecordDtoList.add(MedicalRecordDto.parseMedicalRecordDto(jsonObject));
             }
         }
-        return new MedicalRecordPreviewResponse(total, clinicalTrialDtoList);
+        return new MedicalRecordPreviewResponse(total, medicalRecordDtoList);
     }
 
     public int getTotal() {

@@ -47,8 +47,7 @@ public class MedicalRecordCRUD {
                 dateCreated,
                 testName,
                 details,
-                MedicalRecordStatus.PENDING,
-                new Genson().serialize(changeHistory)
+                MedicalRecordStatus.PENDING
         );
 
         String entityJsonString = genson.serialize(medicalRecord);
@@ -94,10 +93,6 @@ public class MedicalRecordCRUD {
         String dbKey = compositeKey.toString();
 
         System.out.println("dbKey: " + dbKey);
-
-        MedicalRecord medicalRecordOld = getMedicalRecord(medicalRecordId);
-        medicalRecord.setChangeHistory(medicalRecordOld.getChangeHistory());
-        medicalRecord.addMedicalRecordIntoChangeHistory(medicalRecordOld);
 
         String entityJsonString = genson.serialize(medicalRecord);
         context.getStub().putStringState(dbKey, entityJsonString);

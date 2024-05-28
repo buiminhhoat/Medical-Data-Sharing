@@ -49,10 +49,6 @@ public final class MedicalRecord {
     private String medicalRecordStatus;
 
     @Property()
-    @JsonProperty("changeHistory")
-    private String changeHistory;
-
-    @Property()
     @JsonProperty("entityName")
     private String entityName;
 
@@ -68,8 +64,7 @@ public final class MedicalRecord {
             String dateCreated,
             String testName,
             String details,
-            String medicalRecordStatus,
-            String changeHistory
+            String medicalRecordStatus
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -80,7 +75,6 @@ public final class MedicalRecord {
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
-        medicalRecord.setChangeHistory(changeHistory);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
     }
@@ -150,22 +144,6 @@ public final class MedicalRecord {
         return this;
     }
 
-    public String getChangeHistory() {
-        return changeHistory;
-    }
-
-    public MedicalRecord setChangeHistory(String changeHistory) {
-        this.changeHistory = changeHistory;
-        return this;
-    }
-
-    public MedicalRecord addMedicalRecordIntoChangeHistory(MedicalRecord medicalRecord) {
-        List<MedicalRecord> changeHistory = new Genson().deserialize(this.changeHistory, List.class);
-        changeHistory.add(0, medicalRecord);
-        this.changeHistory = new Genson().serialize(changeHistory);
-        return this;
-    }
-
     public String getEntityName() {
         return entityName;
     }
@@ -179,19 +157,18 @@ public final class MedicalRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MedicalRecord that = (MedicalRecord) o;
-        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(testName, that.testName) && Objects.equals(details, that.details) && Objects.equals(medicalRecordStatus, that.medicalRecordStatus) && Objects.equals(changeHistory, that.changeHistory) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(testName, that.testName) && Objects.equals(details, that.details) && Objects.equals(medicalRecordStatus, that.medicalRecordStatus) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateCreated, testName, details, medicalRecordStatus, changeHistory, entityName);
+        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateCreated, testName, details, medicalRecordStatus, entityName);
     }
 
     @Override
     public String toString() {
         return "MedicalRecord{" +
-                "changeHistory=" + changeHistory +
-                ", medicalRecordId='" + medicalRecordId + '\'' +
+                "medicalRecordId='" + medicalRecordId + '\'' +
                 ", patientId='" + patientId + '\'' +
                 ", doctorId='" + doctorId + '\'' +
                 ", medicalInstitutionId='" + medicalInstitutionId + '\'' +

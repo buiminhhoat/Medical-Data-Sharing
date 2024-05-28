@@ -279,6 +279,9 @@ public class InitDataLoader implements CommandLineRunner {
                     = hyperledgerService.getListViewRequestBySenderQuery(doctor2, searchViewRequestForm);
 
             System.out.println(viewRequestList);
+
+            List<MedicalRecord> changeHistory = hyperledgerService.getMedicalRecordChangeHistory(patient, medicalRecord.getMedicalRecordId());
+
         } catch (Exception exception) {
             System.out.println(exception);
         }

@@ -325,7 +325,6 @@ public class HyperledgerService {
                 medicalRecordPreviewDto.setTestName(medicalRecordDto.getTestName());
                 medicalRecordPreviewDto.setDetails(medicalRecordDto.getDetails());
                 medicalRecordPreviewDto.setMedicalRecordStatus(medicalRecordDto.getMedicalRecordStatus());
-                medicalRecordPreviewDto.setChangeHistory(medicalRecordDto.getChangeHistory());
                 medicalRecordPreviewDtoList.add(medicalRecordPreviewDto);
             }
 
@@ -447,5 +446,21 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return viewRequestList;
+    }
+
+    public List<MedicalRecord> getMedicalRecordChangeHistory(User user, String medicalRecordId) throws Exception {
+        List<MedicalRecord> changeHistory = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+            byte[] result = contract.submitTransaction(
+                    "getMedicalRecordChangeHistory",
+                    medicalRecordId
+            );
+            changeHistory = new Genson().deserialize(new String(result), List.class);
+            LOG.info("result: " + changeHistory);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return changeHistory;
     }
 }

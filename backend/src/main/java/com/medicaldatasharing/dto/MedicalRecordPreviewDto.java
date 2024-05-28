@@ -35,7 +35,4 @@ public class MedicalRecordPreviewDto {
 
     @NotBlank
     private String medicalRecordStatus;
-
-    @NotBlank
-    private String changeHistory;
 }

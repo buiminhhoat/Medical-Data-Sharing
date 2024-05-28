@@ -37,11 +37,7 @@ public class MedicalRecordDto {
     private String medicalRecordStatus;
 
     @Property()
-    private String changeHistory;
-
-    @Property()
     private String entityName;
-
 
     public static MedicalRecordDto parseMedicalRecordDto(JSONObject jsonObject) {
         String medicalRecordId = jsonObject.getString("medicalRecordId");
@@ -52,7 +48,6 @@ public class MedicalRecordDto {
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
         String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
-        String changeHistory = jsonObject.getString("changeHistory");
 
         return createInstance(
                 medicalRecordId,
@@ -62,8 +57,7 @@ public class MedicalRecordDto {
                 dateCreated,
                 testName,
                 details,
-                medicalRecordStatus,
-                changeHistory
+                medicalRecordStatus
         );
     }
 
@@ -75,8 +69,7 @@ public class MedicalRecordDto {
             String dateCreated,
             String testName,
             String details,
-            String medicalRecordStatus,
-            String changeHistory
+            String medicalRecordStatus
     ) {
         MedicalRecordDto medicalRecord = new MedicalRecordDto();
         medicalRecord.setMedicalRecordId(medicalRecordId);
@@ -87,7 +80,6 @@ public class MedicalRecordDto {
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
-        medicalRecord.setChangeHistory(changeHistory);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
     }
@@ -161,15 +153,6 @@ public class MedicalRecordDto {
 
     public MedicalRecordDto setMedicalRecordStatus(String medicalRecordStatus) {
         this.medicalRecordStatus = medicalRecordStatus;
-        return this;
-    }
-
-    public String getChangeHistory() {
-        return changeHistory;
-    }
-
-    public MedicalRecordDto setChangeHistory(String changeHistory) {
-        this.changeHistory = changeHistory;
         return this;
     }
 
