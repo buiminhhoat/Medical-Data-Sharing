@@ -1,6 +1,7 @@
 package healthInformationSharing.entity;
 
 import com.owlike.genson.Genson;
+import healthInformationSharing.enumeration.RequestType;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.Property;
@@ -8,37 +9,9 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @DataType()
-public class ViewRequest {
-    @Property()
-    @JsonProperty("requestId")
-    protected String requestId;
-
-    @Property()
-    @JsonProperty("senderId")
-    protected String senderId;
-
-    @Property()
-    @JsonProperty("recipientId")
-    protected String recipientId;
-
-    @Property()
-    @JsonProperty("dateCreated")
-    protected String dateCreated;
-
-    @Property()
-    @JsonProperty("requestType")
-    protected String requestType;
-
-    @Property()
-    @JsonProperty("requestStatus")
-    protected String requestStatus;
-
-    @Property()
-    @JsonProperty("entityName")
-    protected String entityName;
-
+public class ViewRequest extends Request {
     public ViewRequest() {
-
+        this.requestType = RequestType.VIEW_RECORD;
     }
 
     public String getRequestId() {

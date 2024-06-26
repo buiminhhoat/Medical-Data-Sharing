@@ -5,28 +5,7 @@ import com.owlike.genson.annotation.JsonProperty;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class AppointmentRequest {
-    @JsonProperty("requestId")
-    protected String requestId;
-
-    @JsonProperty("senderId")
-    protected String senderId;
-
-    @JsonProperty("recipientId")
-    protected String recipientId;
-
-    @JsonProperty("dateCreated")
-    protected String dateCreated;
-
-    @JsonProperty("requestType")
-    protected String requestType;
-
-    @JsonProperty("requestStatus")
-    protected String requestStatus;
-
-    @JsonProperty("entityName")
-    protected String entityName;
-
+public class AppointmentRequest extends Request {
     public AppointmentRequest() {
     }
 

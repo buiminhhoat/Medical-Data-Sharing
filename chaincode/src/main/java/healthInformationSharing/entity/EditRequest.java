@@ -1,6 +1,7 @@
 package healthInformationSharing.entity;
 
 import com.owlike.genson.Genson;
+import healthInformationSharing.enumeration.RequestType;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import com.owlike.genson.annotation.JsonProperty;
@@ -8,42 +9,14 @@ import com.owlike.genson.annotation.JsonProperty;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @DataType()
-public class EditRequest {
-    @Property()
-    @JsonProperty("requestId")
-    protected String requestId;
-
-    @Property()
-    @JsonProperty("senderId")
-    protected String senderId;
-
-    @Property()
-    @JsonProperty("recipientId")
-    protected String recipientId;
-
-    @Property()
-    @JsonProperty("dateCreated")
-    protected String dateCreated;
-
-    @Property()
-    @JsonProperty("requestType")
-    protected String requestType;
-
-    @Property()
-    @JsonProperty("requestStatus")
-    protected String requestStatus;
-
-    @Property()
-    @JsonProperty("entityName")
-    protected String entityName;
-
+public class EditRequest extends Request {
     @Property()
     @JsonProperty("medicalRecord")
     private String medicalRecord;
 
 
     public EditRequest() {
-
+        this.requestType = RequestType.EDIT_RECORD;
     }
 
     public String getMedicalRecord() {
