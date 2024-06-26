@@ -2,30 +2,23 @@ package com.medicaldatasharing.util;
 
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
-import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
-import com.medicaldatasharing.chaincode.dto.EditRequest;
-import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.ViewRequest;
+import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
 import com.medicaldatasharing.enumeration.MedicalRecordStatus;
 import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.Admin;
-import com.medicaldatasharing.model.Doctor;
-import com.medicaldatasharing.model.MedicalInstitution;
-import com.medicaldatasharing.model.Patient;
-import com.medicaldatasharing.repository.AdminRepository;
-import com.medicaldatasharing.repository.DoctorRepository;
-import com.medicaldatasharing.repository.MedicalInstitutionRepository;
-import com.medicaldatasharing.repository.PatientRepository;
+import com.medicaldatasharing.model.*;
+import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.service.HyperledgerService;
+import com.owlike.genson.Genson;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -45,11 +38,14 @@ public class InitDataLoader implements CommandLineRunner {
     @Autowired
     private MedicalInstitutionRepository medicalInstitutionRepository;
     @Autowired
+    private ManufacturerRepository manufacturerRepository;
+    @Autowired
     private HyperledgerService hyperledgerService;
 
     @Override
     public void run(String... args) throws Exception {
         initMedicalInstitutions();
+        initManufacturer();
         initUsers();
         init();
     }
@@ -75,6 +71,30 @@ public class InitDataLoader implements CommandLineRunner {
 
         medicalInstitutionRepository.save(medicalInstitution1);
         medicalInstitutionRepository.save(medicalInstitution2);
+    }
+
+    private void initManufacturer() {
+        if (!manufacturerRepository.findAll().isEmpty()) {
+            return;
+        }
+        Manufacturer manufacturer1 = Manufacturer
+                .builder()
+                .firstName("ABC")
+                .lastName("Công ty dược phẩm")
+                .email("congtyduocphama@gmail.com")
+                .businessLicenseNumber("01993884423")
+                .role("ROLE_MANUFACTURER")
+                .username("congtyduocphama")
+                .password("congtyduocphama")
+                .build();
+        manufacturerRepository.save(manufacturer1);
+
+        try {
+            RegisterUserHyperledger.enrollOrgAppUsers(manufacturer1.getEmail(), Config.MANUFACTURER_ORG, manufacturer1.getId());
+        } catch (Exception e) {
+            manufacturerRepository.delete(manufacturer1);
+            e.printStackTrace();
+        }
     }
 
     private void initUsers() throws Exception {
@@ -209,6 +229,26 @@ public class InitDataLoader implements CommandLineRunner {
                     sendAppointmentRequestForm);
             System.out.println("appointmentRequest: " + appointmentRequest);
 
+            Manufacturer manufacturer = manufacturerRepository.findManufacturerByEmail("congtyduocphama@gmail.com");
+
+            AddMedicationForm addMedicationForm = new AddMedicationForm();
+            addMedicationForm.setManufacturerId(manufacturer.getId());
+            addMedicationForm.setMedicationName("Paracetamol");
+            addMedicationForm.setDescription("Điều trị đau đầu");
+            Medication medication = hyperledgerService.addMedication(manufacturer, addMedicationForm);
+
+            AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
+            addPrescriptionForm.setUsageCount("5");
+            addPrescriptionForm.setDrugReaction("");
+            List<PrescriptionDetails> prescriptionDetailsList = new ArrayList<>();
+            prescriptionDetailsList.add(new PrescriptionDetails("", "",
+                    medication.getMedicationId(), "10", "Uống 2 viên vào mỗi trưa và tối"));
+            prescriptionDetailsList.add(new PrescriptionDetails("", "",
+                    medication.getMedicationId(), "20", "Uống 4 viên vào mỗi trưa và tối"));
+            addPrescriptionForm.setPrescriptionDetailsList(new Genson().serialize(prescriptionDetailsList));
+
+//            Prescription prescription = hyperledgerService.addPrescription(doctor1, addPrescriptionForm);
+//            System.out.println(prescription);
 
             String testName = "Cardiovascular Test";
 
@@ -222,6 +262,9 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecordDto.setDateCreated(StringUtil.parseDate(dateCreated));
             medicalRecordDto.setTestName(testName);
             medicalRecordDto.setDetails(details);
+            medicalRecordDto.setHashFile("");
+            medicalRecordDto.setAddPrescription(addPrescriptionForm.toJSONObject().toString());
+
             MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto);
             System.out.println("chaincodeMedicalRecord: " + medicalRecord);
 
@@ -285,7 +328,6 @@ public class InitDataLoader implements CommandLineRunner {
             System.out.println(viewRequestList);
 
             List<MedicalRecord> changeHistory = hyperledgerService.getMedicalRecordChangeHistory(patient, medicalRecord.getMedicalRecordId());
-
         } catch (Exception exception) {
             System.out.println(exception);
         }

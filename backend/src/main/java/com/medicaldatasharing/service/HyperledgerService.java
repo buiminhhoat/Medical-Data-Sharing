@@ -9,6 +9,7 @@ import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
+import com.medicaldatasharing.model.Manufacturer;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
@@ -66,6 +67,9 @@ public class HyperledgerService {
         }
         if (user.getRole().equals(Constants.ROLE_DOCTOR)) {
             return Config.DOCTOR_ORG;
+        }
+        if (user.getRole().equals(Constants.ROLE_MANUFACTURER)) {
+            return Config.MANUFACTURER_ORG;
         }
         return null;
     }
@@ -141,6 +145,9 @@ public class HyperledgerService {
             jsonObject.put("dateCreated", medicalRecordDto.getDateCreated());
             jsonObject.put("testName", medicalRecordDto.getTestName());
             jsonObject.put("details", medicalRecordDto.getDetails());
+            jsonObject.put("hashFile", medicalRecordDto.getHashFile());
+            jsonObject.put("addPrescription", medicalRecordDto.getAddPrescription());
+
             byte[] result = contract.submitTransaction(
                     "addMedicalRecord",
                     jsonObject.toString()
@@ -507,5 +514,41 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return changeHistory;
+    }
+
+    public Medication addMedication(User user, AddMedicationForm addMedicationForm) throws Exception {
+        Medication medication = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = addMedicationForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "addMedication",
+                    jsonDto.toString()
+            );
+            medication = new Genson().deserialize(new String(result), Medication.class);
+            LOG.info("result: " + medication);
+        }
+        catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medication;
+    }
+
+    public Prescription addPrescription(User user, AddPrescriptionForm addPrescriptionForm) throws Exception {
+        Prescription prescription = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = addPrescriptionForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "addPrescription",
+                    jsonDto.toString()
+            );
+            prescription = new Genson().deserialize(new String(result), Prescription.class);
+            LOG.info("result: " + prescription);
+        }
+        catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return prescription;
     }
 }

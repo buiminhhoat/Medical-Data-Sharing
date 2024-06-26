@@ -15,4 +15,6 @@ public class Constants {
 
     public static final String ROLE_DOCTOR_ADMIN = "ROLE_DOCTOR_ADMIN";
 
+    public static final String ROLE_MANUFACTURER = "ROLE_MANUFACTURER";
+
 }
