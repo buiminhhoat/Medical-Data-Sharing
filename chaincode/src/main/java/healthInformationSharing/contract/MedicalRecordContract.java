@@ -1,9 +1,11 @@
 package healthInformationSharing.contract;
 
+import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import healthInformationSharing.component.MedicalRecordContext;
 import healthInformationSharing.dao.AppointmentRequestDAO;
 import healthInformationSharing.dao.EditRequestDAO;
+import healthInformationSharing.dao.PrescriptionDetailsQuery;
 import healthInformationSharing.dto.MedicalRecordDto;
 import healthInformationSharing.dto.MedicalRecordsPreviewResponse;
 import healthInformationSharing.dto.ViewRequestsQueryResponse;
@@ -116,6 +118,8 @@ public class MedicalRecordContract implements ContractInterface {
         String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
+        String addPrescription = jsonObject.getString("addPrescription");
+        String hashFile = jsonObject.getString("hashFile");
 
         if (!ctx.getAppointmentRequestDAO().requestExist(requestId)) {
             throw new ChaincodeException("Request " + requestId + " does not exist",
@@ -144,6 +148,8 @@ public class MedicalRecordContract implements ContractInterface {
         authorizeRequest(ctx, doctorId, "addMedicalRecord(validate doctorId)");
         String medicalRecordId = ctx.getStub().getTxId();
 
+        Prescription prescription = addPrescription(ctx, addPrescription);
+
         JSONObject jsonDto = new JSONObject();
 
         jsonDto.put("medicalRecordId", medicalRecordId);
@@ -153,11 +159,14 @@ public class MedicalRecordContract implements ContractInterface {
         jsonDto.put("dateCreated", dateCreated);
         jsonDto.put("testName", testName);
         jsonDto.put("details", details);
+        jsonDto.put("prescriptionId", prescription.getPrescriptionId());
+        jsonDto.put("hashFile", hashFile);
 
         MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().addMedicalRecord(jsonDto);
 
         appointmentRequest = ctx.getAppointmentRequestDAO().defineRequest(requestId, RequestStatus.ACCEPTED);
         LOG.info(String.valueOf(appointmentRequest));
+
         return new Genson().serialize(medicalRecord);
     }
 
@@ -418,7 +427,6 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(viewRequest);
     }
 
-
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getListMedicalRecordByPatientQuery(
             MedicalRecordContext ctx,
@@ -535,11 +543,112 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String addMedication(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String manufacturerId = jsonObject.getString("manufacturerId");
+        String medicationName = jsonObject.getString("medicationName");
+        String description = jsonObject.getString("description");
+
+        authorizeRequest(ctx, manufacturerId, "addMedication(validate manufacturerId)");
+        JSONObject jsonDto = jsonObject;
+
+        Medication medication = ctx.getMedicationDAO().addMedication(jsonDto);
+
+        return new Genson().serialize(medication);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String editMedication(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        if (!jsonObject.has("medicationId")) {
+            throw new ChaincodeException("MedicationId is empty",
+                    MedicalRecordContractErrors.EMPTY_MEDICATION_ID_ERROR.toString());
+        }
+        String medicationId = jsonObject.getString("medicationId");
+        String manufacturerId = jsonObject.getString("manufacturerId");
+        String medicationName = jsonObject.getString("medicationName");
+        String description = jsonObject.getString("description");
+
+        if (!ctx.getMedicationDAO().medicationExist(medicationId)) {
+            throw new ChaincodeException("Medication " + medicationId + " does not exist",
+                    MedicalRecordContractErrors.MEDICATION_NOT_FOUND.toString());
+        }
+
+        authorizeRequest(ctx, manufacturerId, "addMedication(validate manufacturerId)");
+        JSONObject jsonDto = jsonObject;
+
+        Medication medication = ctx.getMedicationDAO().editMedication(jsonDto);
+
+        return new Genson().serialize(medication);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String addDrug(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String medicationId = jsonObject.getString("medicationId");
+        String manufactureDate = jsonObject.getString("manufactureDate");
+        String expirationDate = jsonObject.getString("expirationDate");
+
+        if (!ctx.getMedicationDAO().medicationExist(medicationId)) {
+            throw new ChaincodeException("Medication " + medicationId + " does not exist",
+                    MedicalRecordContractErrors.MEDICATION_NOT_FOUND.toString());
+        }
+
+        String manufacturerId = ctx.getMedicationDAO().getManufacturerId(medicationId);
+
+        authorizeRequest(ctx, manufacturerId, "addDrug(validate jsonString)");
+
+        JSONObject jsonDto = jsonObject;
+        jsonDto.put("ownerId", manufacturerId);
+
+        Drug drug = ctx.getDrugDAO().addDrug(jsonDto);
+        return new Genson().serialize(drug);
+    }
+
+    public Prescription addPrescription(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String usageCount = jsonObject.getString("usageCount");
+        String drugReaction = jsonObject.getString("drugReaction");
+        String prescriptionDetailsListStr = jsonObject.getString("prescriptionDetailsList");
+
+        JSONObject jsonDto = jsonObject;
+        Prescription prescription = ctx.getPrescriptionDAO().addPrescription(jsonDto);
+
+        System.out.println("prescriptionDetailsListStr = " + prescriptionDetailsListStr);
+        List<PrescriptionDetails> prescriptionDetailsList = new Genson().deserialize(prescriptionDetailsListStr,
+                new GenericType<List<PrescriptionDetails>>() {});
+        System.out.println("prescriptionDetailsListStr.size(): " + prescriptionDetailsList.size());
+
+        int id = 0;
+        for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
+            prescriptionDetails.setPrescriptionId(prescription.getPrescriptionId());
+            prescriptionDetails.setPrescriptionDetailId(prescription.getPrescriptionId() + "-" + id++);
+            PrescriptionDetails pd = ctx.getPrescriptionDetailsDAO()
+                    .addPrescriptionDetails(prescriptionDetails);
+        }
+        return prescription;
+    }
+
     private enum MedicalRecordContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,
         UNAUTHORIZED_EDIT_ACCESS,
         VALIDATE_MEDICAL_RECORD_ACCESS_ERROR,
-        EDIT_REQUEST_NOT_FOUND
+        EDIT_REQUEST_NOT_FOUND,
+        MEDICATION_NOT_FOUND,
+        EMPTY_MEDICATION_ID_ERROR;
     }
 }

@@ -35,6 +35,9 @@ public class MedicalRecordCRUD {
         String dateCreated = jsonDto.getString("dateCreated");
         String testName = jsonDto.getString("testName");
         String details = jsonDto.getString("details");
+        String prescriptionId = jsonDto.getString("prescriptionId");
+        String hashFile = jsonDto.getString("hashFile");
+
         CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
         String dbKey = compositeKey.toString();
 
@@ -47,6 +50,8 @@ public class MedicalRecordCRUD {
                 dateCreated,
                 testName,
                 details,
+                prescriptionId,
+                hashFile,
                 MedicalRecordStatus.PENDING
         );
 

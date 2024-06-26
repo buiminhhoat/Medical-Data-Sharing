@@ -33,6 +33,12 @@ public class MedicalRecord {
     @JsonProperty("details")
     private String details;
 
+    @JsonProperty("prescriptionId")
+    private String prescriptionId;
+
+    @JsonProperty("hashFile")
+    private String hashFile;
+
     @JsonProperty("medicalRecordStatus")
     private String medicalRecordStatus;
 
@@ -49,28 +55,6 @@ public class MedicalRecord {
         return genson.deserialize(data, MedicalRecord.class);
     }
 
-    public static MedicalRecord parseMedicalRecord(JSONObject jsonObject) {
-        String medicalRecordId = jsonObject.getString("medicalRecordId");
-        String patientId = jsonObject.getString("patientId");
-        String doctorId = jsonObject.getString("doctorId");
-        String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
-        String dateCreated = jsonObject.getString("dateCreated");
-        String testName = jsonObject.getString("testName");
-        String details = jsonObject.getString("details");
-        String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
-
-        return createInstance(
-                medicalRecordId,
-                patientId,
-                doctorId,
-                medicalInstitutionId,
-                dateCreated,
-                testName,
-                details,
-                medicalRecordStatus
-        );
-    }
-
     public static MedicalRecord createInstance(
             String medicalRecordId,
             String patientId,
@@ -79,6 +63,8 @@ public class MedicalRecord {
             String dateCreated,
             String testName,
             String details,
+            String prescriptionId,
+            String hashFile,
             String medicalRecordStatus
     ) {
         MedicalRecord medicalRecord = new MedicalRecord();
@@ -89,6 +75,8 @@ public class MedicalRecord {
         medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
+        medicalRecord.setPrescriptionId(prescriptionId);
+        medicalRecord.setHashFile(hashFile);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
@@ -104,6 +92,8 @@ public class MedicalRecord {
                 ", dateCreated='" + dateCreated + '\'' +
                 ", testName='" + testName + '\'' +
                 ", details='" + details + '\'' +
+                ", hashFile='" + hashFile + '\'' +
+                ", prescriptionId='" + prescriptionId + '\'' +
                 ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';
@@ -187,6 +177,24 @@ public class MedicalRecord {
 
     public MedicalRecord setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getHashFile() {
+        return hashFile;
+    }
+
+    public MedicalRecord setHashFile(String hashFile) {
+        this.hashFile = hashFile;
+        return this;
+    }
+
+    public String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public MedicalRecord setPrescriptionId(String prescriptionId) {
+        this.prescriptionId = prescriptionId;
         return this;
     }
 }

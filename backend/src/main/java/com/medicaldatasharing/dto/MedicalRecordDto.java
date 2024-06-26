@@ -40,6 +40,12 @@ public class MedicalRecordDto {
     private String details;
 
     @NotBlank
+    private String addPrescription;
+
+    @NotBlank
+    private String hashFile;
+
+    @NotBlank
     private String medicalRecordStatus;
 
     public static MedicalRecordDto parseMedicalRecordDto(JSONObject jsonObject) {
@@ -50,6 +56,8 @@ public class MedicalRecordDto {
         String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String hashFile = jsonObject.getString("hashFile");
         String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
 
         return createInstance(
@@ -60,6 +68,8 @@ public class MedicalRecordDto {
                 dateCreated,
                 testName,
                 details,
+                prescriptionId,
+                hashFile,
                 medicalRecordStatus
         );
     }
@@ -82,6 +92,8 @@ public class MedicalRecordDto {
             String dateCreated,
             String testName,
             String details,
+            String addPrescription,
+            String hashFile,
             String medicalRecordStatus
     ) {
         MedicalRecordDto medicalRecord = new MedicalRecordDto();
@@ -92,6 +104,8 @@ public class MedicalRecordDto {
         medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
+        medicalRecord.setAddPrescription(addPrescription);
+        medicalRecord.setHashFile(hashFile);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
         return medicalRecord;
     }

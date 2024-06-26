@@ -1,6 +1,7 @@
 package healthInformationSharing.component;
 
 import healthInformationSharing.dao.*;
+import healthInformationSharing.entity.Medication;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
@@ -10,6 +11,10 @@ public class MedicalRecordContext extends Context {
     private AppointmentRequestDAO appointmentRequestDAO;
     private EditRequestDAO editRequestDAO;
     private ViewRequestDAO viewRequestDAO;
+    private MedicationDAO medicationDAO;
+    private DrugDAO drugDAO;
+    private PrescriptionDAO prescriptionDAO;
+    private PrescriptionDetailsDAO prescriptionDetailsDAO;
 
     public MedicalRecordContext(ChaincodeStub stub) {
         super(stub);
@@ -17,6 +22,10 @@ public class MedicalRecordContext extends Context {
         appointmentRequestDAO = new AppointmentRequestDAO(this);
         editRequestDAO = new EditRequestDAO(this);
         viewRequestDAO = new ViewRequestDAO(this);
+        medicationDAO = new MedicationDAO(this);
+        drugDAO = new DrugDAO(this);
+        prescriptionDAO = new PrescriptionDAO(this);
+        prescriptionDetailsDAO = new PrescriptionDetailsDAO(this);
     }
 
     public MedicalRecordDAO getMedicalRecordDAO() {
@@ -52,6 +61,42 @@ public class MedicalRecordContext extends Context {
 
     public MedicalRecordContext setViewRequestDAO(ViewRequestDAO viewRequestDAO) {
         this.viewRequestDAO = viewRequestDAO;
+        return this;
+    }
+
+    public MedicationDAO getMedicationDAO() {
+        return medicationDAO;
+    }
+
+    public MedicalRecordContext setMedicationDAO(MedicationDAO medicationDAO) {
+        this.medicationDAO = medicationDAO;
+        return this;
+    }
+
+    public DrugDAO getDrugDAO() {
+        return drugDAO;
+    }
+
+    public MedicalRecordContext setDrugDAO(DrugDAO drugDAO) {
+        this.drugDAO = drugDAO;
+        return this;
+    }
+
+    public PrescriptionDAO getPrescriptionDAO() {
+        return prescriptionDAO;
+    }
+
+    public MedicalRecordContext setPrescriptionDAO(PrescriptionDAO prescriptionDAO) {
+        this.prescriptionDAO = prescriptionDAO;
+        return this;
+    }
+
+    public PrescriptionDetailsDAO getPrescriptionDetailsDAO() {
+        return prescriptionDetailsDAO;
+    }
+
+    public MedicalRecordContext setPrescriptionDetailsDAO(PrescriptionDetailsDAO prescriptionDetailsDAO) {
+        this.prescriptionDetailsDAO = prescriptionDetailsDAO;
         return this;
     }
 }
