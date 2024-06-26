@@ -39,8 +39,10 @@ public class MedicalRecordDto {
     @NotBlank
     private String details;
 
-    @NotBlank
     private String addPrescription;
+
+    @NotBlank
+    private String prescriptionId;
 
     @NotBlank
     private String hashFile;

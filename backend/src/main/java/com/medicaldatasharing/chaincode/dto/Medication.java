@@ -23,6 +23,16 @@ public class Medication {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
+    @JsonProperty("entityName")
+    private String entityName;
+
+    public Medication() {
+        this.entityName = Medication.class.getSimpleName();
+    }
+
     public String getMedicationId() {
         return medicationId;
     }
@@ -69,15 +79,36 @@ public class Medication {
         return genson.deserialize(data, Medication.class);
     }
 
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public Medication setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public Medication setEntityName(String entityName) {
+        this.entityName = entityName;
+        return this;
+    }
+
     public static Medication createInstance(String medicationId,
                                             String manufacturerId,
                                             String medicationName,
-                                            String description) {
+                                            String description,
+                                            String dateCreated) {
         Medication medication = new Medication();
         medication.setMedicationId(medicationId);
         medication.setManufacturerId(manufacturerId);
         medication.setMedicationName(medicationName);
         medication.setDescription(description);
+        medication.setDateCreated(dateCreated);
+        medication.setEntityName(Medication.class.getSimpleName());
         return medication;
     }
 }

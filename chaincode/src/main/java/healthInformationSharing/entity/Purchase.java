@@ -27,8 +27,12 @@ public class Purchase {
     @JsonProperty("drugId")
     private String drugId;
 
+    @Property()
+    @JsonProperty("entityName")
+    private String entityName;
 
     public Purchase() {
+        this.entityName = Purchase.class.getSimpleName();
     }
 
     public Purchase(String purchaseId, String prescriptionDetailId, String drugId) {

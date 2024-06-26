@@ -12,6 +12,13 @@ public class Prescription {
     @JsonProperty("drugReaction")
     private String drugReaction;
 
+    @JsonProperty("entityName")
+    private String entityName;
+
+    public Prescription() {
+        this.entityName = Prescription.class.getSimpleName();
+    }
+
     public String getPrescriptionId() {
         return prescriptionId;
     }

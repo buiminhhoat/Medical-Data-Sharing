@@ -19,6 +19,8 @@ public class SearchViewRequestForm {
     private Date until;
     @NotBlank
     private String sortingOrder;
+    private String prescriptionId;
+    private String hashFile;
 
     public SearchViewRequestForm() {
         requestId = "";

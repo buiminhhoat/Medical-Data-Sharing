@@ -8,7 +8,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ViewRequest extends Request {
     public ViewRequest() {
-
+        this.entityName = ViewRequest.class.getSimpleName();
     }
 
     public static byte[] serialize(Object object) {

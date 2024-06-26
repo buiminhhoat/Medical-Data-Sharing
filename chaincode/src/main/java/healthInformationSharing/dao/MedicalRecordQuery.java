@@ -57,6 +57,9 @@ public class MedicalRecordQuery {
         String sortingOrder = jsonDto.getString("sortingOrder");
         String from = jsonDto.getString("from");
         String until = jsonDto.getString("until");
+        String prescriptionId = jsonDto.getString("prescriptionId");
+        String hashFile = jsonDto.getString("hashFile");
+
 
         JSONObject jsonObjectTimeRange = new JSONObject();
 
@@ -97,6 +100,14 @@ public class MedicalRecordQuery {
 
         if (!details.isEmpty()) {
             jsonObjectSelector.putOnce("details", details);
+        }
+
+        if (!prescriptionId.isEmpty()) {
+            jsonObjectSelector.putOnce("prescriptionId", prescriptionId);
+        }
+
+        if (!hashFile.isEmpty()) {
+            jsonObjectSelector.putOnce("hashFile", hashFile);
         }
 
         jsonObjectSelector.putOnce("entityName", entityName);

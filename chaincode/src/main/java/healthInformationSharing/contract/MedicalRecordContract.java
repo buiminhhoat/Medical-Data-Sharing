@@ -433,29 +433,12 @@ public class MedicalRecordContract implements ContractInterface {
             String jsonString
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
-        String medicalRecordId = jsonObject.getString("medicalRecordId");
         String patientId = jsonObject.getString("patientId");
-        String doctorId = jsonObject.getString("doctorId");
-        String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
-        String from = jsonObject.getString("from");
-        String until = jsonObject.getString("until");
-        String testName = jsonObject.getString("testName");
-        String details = jsonObject.getString("details");
-        String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
-        String sortingOrder = jsonObject.getString("sortingOrder");
+
         authorizeRequest(ctx, patientId, "getListMedicalRecordByPatientQuery(validate patientId)");
 
-        JSONObject jsonDto = new JSONObject();
-        jsonDto.put("medicalRecordId", medicalRecordId);
-        jsonDto.put("patientId", patientId);
-        jsonDto.put("doctorId", doctorId);
-        jsonDto.put("medicalInstitutionId", medicalInstitutionId);
-        jsonDto.put("from", from);
-        jsonDto.put("until", until);
-        jsonDto.put("testName", testName);
-        jsonDto.put("details", details);
-        jsonDto.put("medicalRecordStatus", medicalRecordStatus);
-        jsonDto.put("sortingOrder", sortingOrder);
+        JSONObject jsonDto = jsonObject;
+
         List<MedicalRecordDto> medicalRecordByQueryDtoList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
                 jsonDto
         );
@@ -550,8 +533,6 @@ public class MedicalRecordContract implements ContractInterface {
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
         String manufacturerId = jsonObject.getString("manufacturerId");
-        String medicationName = jsonObject.getString("medicationName");
-        String description = jsonObject.getString("description");
 
         authorizeRequest(ctx, manufacturerId, "addMedication(validate manufacturerId)");
         JSONObject jsonDto = jsonObject;
@@ -573,15 +554,13 @@ public class MedicalRecordContract implements ContractInterface {
         }
         String medicationId = jsonObject.getString("medicationId");
         String manufacturerId = jsonObject.getString("manufacturerId");
-        String medicationName = jsonObject.getString("medicationName");
-        String description = jsonObject.getString("description");
 
         if (!ctx.getMedicationDAO().medicationExist(medicationId)) {
             throw new ChaincodeException("Medication " + medicationId + " does not exist",
                     MedicalRecordContractErrors.MEDICATION_NOT_FOUND.toString());
         }
 
-        authorizeRequest(ctx, manufacturerId, "addMedication(validate manufacturerId)");
+        authorizeRequest(ctx, manufacturerId, "editMedication(validate manufacturerId)");
         JSONObject jsonDto = jsonObject;
 
         Medication medication = ctx.getMedicationDAO().editMedication(jsonDto);

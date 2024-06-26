@@ -364,6 +364,8 @@ public class HyperledgerService {
             jsonObject.put("medicalRecordStatus", searchParams.get("medicalRecordStatus"));
             jsonObject.put("details", searchParams.get("details"));
             jsonObject.put("sortingOrder", searchParams.get("sortingOrder"));
+            jsonObject.put("prescriptionId", searchParams.get("prescriptionId"));
+            jsonObject.put("hashFile", searchParams.get("hashFile"));
 
             byte[] result = contract.evaluateTransaction(
                     "getListMedicalRecordByPatientQuery",
@@ -413,6 +415,8 @@ public class HyperledgerService {
         String testName = searchMedicalRecordForm.getTestName() == null ? "" : searchMedicalRecordForm.getTestName();
         String medicalInstitutionId = searchMedicalRecordForm.getMedicalInstitutionId() == null ? "" : searchMedicalRecordForm.getMedicalInstitutionId();
         String medicalRecordStatus = searchMedicalRecordForm.getMedicalRecordStatus() == null ? "" : searchMedicalRecordForm.getMedicalRecordStatus();
+        String prescriptionId = searchMedicalRecordForm.getPrescriptionId() == null ? "" : searchMedicalRecordForm.getPrescriptionId();
+        String hashFile = searchMedicalRecordForm.getHashFile() == null ? "" : searchMedicalRecordForm.getHashFile();
         String from;
         if (searchMedicalRecordForm.getFrom() == null) {
             Calendar calendar = Calendar.getInstance();
@@ -442,6 +446,8 @@ public class HyperledgerService {
             put("medicalRecordStatus", medicalRecordStatus);
             put("details", details);
             put("sortingOrder", sortingOrder);
+            put("prescriptionId", prescriptionId);
+            put("hashFile", hashFile);
         }};
     }
 

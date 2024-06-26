@@ -62,7 +62,7 @@ public final class MedicalRecord {
     private String entityName;
 
     public MedicalRecord() {
-        super();
+        this.entityName = MedicalRecord.class.getSimpleName();
     }
 
     public static MedicalRecord createInstance(

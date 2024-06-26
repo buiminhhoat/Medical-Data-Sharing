@@ -12,6 +12,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class AppointmentRequest extends Request {
     public AppointmentRequest() {
         this.requestType = RequestType.APPOINTMENT;
+        this.entityName = AppointmentRequest.class.getSimpleName();
     }
 
     public static byte[] serialize(Object object) {

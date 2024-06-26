@@ -235,6 +235,7 @@ public class InitDataLoader implements CommandLineRunner {
             addMedicationForm.setManufacturerId(manufacturer.getId());
             addMedicationForm.setMedicationName("Paracetamol");
             addMedicationForm.setDescription("Điều trị đau đầu");
+            addMedicationForm.setDateCreated(StringUtil.parseDate(dateCreated));
             Medication medication = hyperledgerService.addMedication(manufacturer, addMedicationForm);
 
             AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
@@ -283,6 +284,8 @@ public class InitDataLoader implements CommandLineRunner {
             searchMedicalRecordForm.setPatientId(patientId);
             searchMedicalRecordForm.setFrom(StringUtil.createDate("2024-01-01"));
             searchMedicalRecordForm.setUntil(StringUtil.createDate("2024-12-31"));
+            searchMedicalRecordForm.setPrescriptionId(medicalRecord.getPrescriptionId());
+            searchMedicalRecordForm.setHashFile("");
             List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList
                     = hyperledgerService.getListMedicalRecordByPatientQuery(patient, searchMedicalRecordForm);
 
@@ -322,6 +325,8 @@ public class InitDataLoader implements CommandLineRunner {
             searchViewRequestForm.setSenderId(doctor2Id);
             searchViewRequestForm.setFrom(StringUtil.createDate("2024-01-01"));
             searchViewRequestForm.setUntil(StringUtil.createDate("2024-12-31"));
+            searchViewRequestForm.setPrescriptionId(medicalRecord.getPrescriptionId());
+            searchViewRequestForm.setHashFile("");
             List<ViewRequest> viewRequestList
                     = hyperledgerService.getListViewRequestBySenderQuery(doctor2, searchViewRequestForm);
 

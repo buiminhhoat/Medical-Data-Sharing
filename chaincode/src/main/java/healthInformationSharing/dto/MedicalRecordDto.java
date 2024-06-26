@@ -1,6 +1,7 @@
 package healthInformationSharing.dto;
 
 import com.owlike.genson.Genson;
+import com.owlike.genson.annotation.JsonProperty;
 import healthInformationSharing.entity.MedicalRecord;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
@@ -34,6 +35,12 @@ public class MedicalRecordDto {
     private String details;
 
     @Property()
+    private String prescriptionId;
+
+    @Property()
+    private String hashFile;
+
+    @Property()
     private String medicalRecordStatus;
 
     @Property()
@@ -47,6 +54,8 @@ public class MedicalRecordDto {
         String dateCreated = jsonObject.getString("dateCreated");
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String hashFile = jsonObject.getString("hashFile");
         String medicalRecordStatus = jsonObject.getString("medicalRecordStatus");
 
         return createInstance(
@@ -57,6 +66,8 @@ public class MedicalRecordDto {
                 dateCreated,
                 testName,
                 details,
+                prescriptionId,
+                hashFile,
                 medicalRecordStatus
         );
     }
@@ -69,6 +80,8 @@ public class MedicalRecordDto {
             String dateCreated,
             String testName,
             String details,
+            String prescriptionId,
+            String hashFile,
             String medicalRecordStatus
     ) {
         MedicalRecordDto medicalRecord = new MedicalRecordDto();
@@ -80,6 +93,8 @@ public class MedicalRecordDto {
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
+        medicalRecord.setPrescriptionId(prescriptionId);
+        medicalRecord.setHashFile(hashFile);
         medicalRecord.setEntityName(MedicalRecord.class.getSimpleName());
         return medicalRecord;
     }
@@ -173,5 +188,23 @@ public class MedicalRecordDto {
     public static MedicalRecordDto deserialize(byte[] data) {
         Genson genson = new Genson();
         return genson.deserialize(data, MedicalRecordDto.class);
+    }
+
+    public String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public MedicalRecordDto setPrescriptionId(String prescriptionId) {
+        this.prescriptionId = prescriptionId;
+        return this;
+    }
+
+    public String getHashFile() {
+        return hashFile;
+    }
+
+    public MedicalRecordDto setHashFile(String hashFile) {
+        this.hashFile = hashFile;
+        return this;
     }
 }

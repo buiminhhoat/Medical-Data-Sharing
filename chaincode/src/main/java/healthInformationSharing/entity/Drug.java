@@ -29,7 +29,12 @@ public class Drug {
     @JsonProperty("ownerId")
     private String ownerId;
 
+    @Property()
+    @JsonProperty("entityName")
+    private String entityName;
+
     public Drug() {
+        this.entityName = Drug.class.getSimpleName();
     }
 
     public static Drug createInstance(

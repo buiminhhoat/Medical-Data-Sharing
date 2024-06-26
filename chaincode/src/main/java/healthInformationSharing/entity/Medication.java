@@ -31,24 +31,40 @@ public class Medication {
     @JsonProperty("description")
     private String description;
 
+    @Property
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
+    @Property()
+    @JsonProperty("entityName")
+    private String entityName;
+
     public Medication() {
+        this.entityName = Medication.class.getSimpleName();
     }
 
-    public Medication(String medicationId, String manufacturerId, String medicationName, String description) {
+    public Medication(String medicationId,
+                      String manufacturerId,
+                      String medicationName,
+                      String dateCreated,
+                      String description) {
         this.medicationId = medicationId;
         this.manufacturerId = manufacturerId;
         this.medicationName = medicationName;
+        this.dateCreated = dateCreated;
         this.description = description;
     }
 
     public static Medication createInstance(String medicationId,
                                             String manufacturerId,
                                             String medicationName,
+                                            String dateCreated,
                                             String description) {
         Medication medication = new Medication();
         medication.setMedicationId(medicationId);
         medication.setManufacturerId(manufacturerId);
         medication.setMedicationName(medicationName);
+        medication.setDateCreated(dateCreated);
         medication.setDescription(description);
         return medication;
     }
@@ -99,16 +115,34 @@ public class Medication {
         return genson.deserialize(data, Medication.class);
     }
 
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public Medication setEntityName(String entityName) {
+        this.entityName = entityName;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public Medication setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Medication that = (Medication) object;
-        return Objects.equals(medicationId, that.medicationId) && Objects.equals(manufacturerId, that.manufacturerId) && Objects.equals(medicationName, that.medicationName) && Objects.equals(description, that.description);
+        return Objects.equals(medicationId, that.medicationId) && Objects.equals(manufacturerId, that.manufacturerId) && Objects.equals(medicationName, that.medicationName) && Objects.equals(description, that.description) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicationId, manufacturerId, medicationName, description);
+        return Objects.hash(medicationId, manufacturerId, medicationName, description, dateCreated, entityName);
     }
 }

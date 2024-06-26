@@ -7,6 +7,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class AppointmentRequest extends Request {
     public AppointmentRequest() {
+        this.entityName = AppointmentRequest.class.getSimpleName();
     }
 
     public String getRequestId() {

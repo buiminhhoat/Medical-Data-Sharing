@@ -45,6 +45,10 @@ public class MedicalRecord {
     @JsonProperty("entityName")
     private String entityName;
 
+    public MedicalRecord() {
+        this.entityName = MedicalRecord.class.getSimpleName();
+    }
+
     public static byte[] serialize(Object object) {
         Genson genson = new Genson();
         return genson.serializeBytes(object);

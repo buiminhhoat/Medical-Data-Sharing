@@ -20,5 +20,7 @@ public class SearchMedicalRecordForm {
     private String medicalRecordStatus;
     private String details;
     private String sortingOrder;
+    private String prescriptionId;
+    private String hashFile;
 }
 

@@ -18,6 +18,13 @@ public class PrescriptionDetails {
     @JsonProperty("details")
     private String details;
 
+    @JsonProperty("entityName")
+    private String entityName;
+
+    public PrescriptionDetails() {
+        this.entityName = PrescriptionDetails.class.getSimpleName();
+    }
+
     public PrescriptionDetails(String prescriptionDetailId,
                                String prescriptionId,
                                String medicationId,

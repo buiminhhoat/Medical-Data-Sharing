@@ -17,6 +17,7 @@ public class EditRequest extends Request {
 
     public EditRequest() {
         this.requestType = RequestType.EDIT_RECORD;
+        this.entityName = EditRequest.class.getSimpleName();
     }
 
     public String getMedicalRecord() {

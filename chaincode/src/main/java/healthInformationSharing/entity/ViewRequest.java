@@ -12,6 +12,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class ViewRequest extends Request {
     public ViewRequest() {
         this.requestType = RequestType.VIEW_RECORD;
+        this.entityName = ViewRequest.class.getSimpleName();
     }
 
     public String getRequestId() {

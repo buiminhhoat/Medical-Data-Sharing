@@ -13,7 +13,7 @@ public class EditRequest extends Request {
     private String medicalRecord;
 
     public EditRequest() {
-
+        this.entityName = EditRequest.class.getSimpleName();
     }
 
     public String getMedicalRecord() {
