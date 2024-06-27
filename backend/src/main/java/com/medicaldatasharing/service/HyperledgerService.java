@@ -7,9 +7,9 @@ import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
+import com.medicaldatasharing.dto.MedicationPreviewDto;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
-import com.medicaldatasharing.model.Manufacturer;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
@@ -30,7 +30,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -353,39 +352,18 @@ public class HyperledgerService {
         try {
             Contract contract = getContract(user);
 
-            Map<String, String> searchParams = prepareSearchParams(searchMedicalRecordForm);
+            Map<String, String> searchParams = prepareSearchMedicalRecordParams(searchMedicalRecordForm);
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("medicalRecordId", searchParams.get("medicalRecordId"));
-            jsonObject.put("patientId", searchParams.get("patientId"));
-            jsonObject.put("doctorId", searchParams.get("doctorId"));
-            jsonObject.put("medicalInstitutionId", searchParams.get("medicalInstitutionId"));
-            jsonObject.put("from", searchParams.get("from"));
-            jsonObject.put("until", searchParams.get("until"));
-            jsonObject.put("testName", searchParams.get("testName"));
-            jsonObject.put("medicalRecordStatus", searchParams.get("medicalRecordStatus"));
-            jsonObject.put("details", searchParams.get("details"));
-            jsonObject.put("sortingOrder", searchParams.get("sortingOrder"));
-            jsonObject.put("prescriptionId", searchParams.get("prescriptionId"));
-            jsonObject.put("hashFile", searchParams.get("hashFile"));
+
+            for (Map.Entry<String, String> entry: searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
 
             byte[] result = contract.evaluateTransaction(
                     "getListMedicalRecordByPatientQuery",
                     jsonObject.toString()
             );
-
-            LOG.info(String.format(
-                    "Evaluate Transaction: getMedicalRecordsByPatientId(%s, %s, %s, %s, %s, %s, %s, %s, %s), result: %s",
-                    searchParams.get("patientId"),
-                    searchParams.get("doctorId"),
-                    searchParams.get("medicalInstitutionId"),
-                    searchParams.get("from"),
-                    searchParams.get("until"),
-                    searchParams.get("testName"),
-                    searchParams.get("medicalRecordStatus"),
-                    searchParams.get("details"),
-                    searchParams.get("sortingOrder"), new String(result)));
-
 
             String medicalRecordListStr = new String(result);
             List<MedicalRecord> medicalRecordList = new Genson().deserialize(
@@ -414,7 +392,51 @@ public class HyperledgerService {
         return medicalRecordPreviewDtoList;
     }
 
-    private Map<String, String> prepareSearchParams(SearchMedicalRecordForm searchMedicalRecordForm) {
+    public List<MedicationPreviewDto> getListMedication(
+            User user,
+            SearchMedicationForm searchMedicationForm
+    ) throws Exception {
+        List<MedicationPreviewDto> medicationPreviewDtoList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchMedicationParams(searchMedicationForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry: searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListMedication",
+                    jsonObject.toString()
+            );
+
+            String medicationListStr = new String(result);
+            List<Medication> medicationList = new Genson().deserialize(
+                    medicationListStr,
+                    new GenericType<List<Medication>>() {}
+            );
+
+            LOG.info("result: " + medicationList);
+            for (Medication medication : medicationList) {
+                MedicationPreviewDto medicationPreviewDto = new MedicationPreviewDto();
+                medicationPreviewDto.setMedicationId(medication.getMedicationId());
+                medicationPreviewDto.setManufacturerId(medication.getManufacturerId());
+                medicationPreviewDto.setMedicationName(medication.getMedicationName());
+                medicationPreviewDto.setDescription(medication.getDescription());
+                medicationPreviewDto.setDateModified(medication.getDateModified());
+                medicationPreviewDtoList.add(medicationPreviewDto);
+            }
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicationPreviewDtoList;
+    }
+
+    private Map<String, String> prepareSearchMedicalRecordParams(SearchMedicalRecordForm searchMedicalRecordForm) {
         String medicalRecordId = searchMedicalRecordForm.getMedicalRecordId() == null ? "" : searchMedicalRecordForm.getMedicalRecordId();
         String patientId = searchMedicalRecordForm.getPatientId() == null ? "" : searchMedicalRecordForm.getPatientId();
         String doctorId = searchMedicalRecordForm.getDoctorId() == null ? "" : searchMedicalRecordForm.getDoctorId();
@@ -454,6 +476,39 @@ public class HyperledgerService {
             put("sortingOrder", sortingOrder);
             put("prescriptionId", prescriptionId);
             put("hashFile", hashFile);
+        }};
+    }
+
+    private Map<String, String> prepareSearchMedicationParams(SearchMedicationForm searchMedicationForm) {
+        String medicationId = searchMedicationForm.getMedicationId() == null ? "" : searchMedicationForm.getMedicationId();
+        String manufacturerId = searchMedicationForm.getManufacturerId() == null ? "" : searchMedicationForm.getManufacturerId();
+        String medicationName = searchMedicationForm.getMedicationName() == null ? "" : searchMedicationForm.getMedicationName();
+        String description = searchMedicationForm.getDescription() == null ? "" : searchMedicationForm.getDescription();
+
+        String from;
+        if (searchMedicationForm.getFrom() == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, -6);
+            from = StringUtil.parseDate(calendar.getTime());
+        } else {
+            from = StringUtil.parseDate(searchMedicationForm.getFrom());
+        }
+        String until;
+        if (searchMedicationForm.getFrom() == null) {
+            until = StringUtil.parseDate(new Date());
+        } else {
+            until = StringUtil.parseDate(searchMedicationForm.getUntil());
+        }
+        String sortingOrder = searchMedicationForm.getSortingOrder() == null ? "desc" : searchMedicationForm.getSortingOrder();
+
+        return new HashMap<String, String>() {{
+            put("medicationId", medicationId);
+            put("manufacturerId", manufacturerId);
+            put("medicationName", medicationName);
+            put("description", description);
+            put("from", from);
+            put("until", until);
+            put("sortingOrder", sortingOrder);
         }};
     }
 

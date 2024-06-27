@@ -5,20 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Medical Data Sharing">
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/MedicalRecordPreviewResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/ViewRequestsQueryResponse.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/MedicationPreviewDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/SearchMedicationForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/DrugDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/DrugDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dto/MedicalRecordDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dto/MedicalRecordsPreviewResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dto/ViewRequestsQueryResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicationQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicationQuery.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +133,7 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.2689951" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.3302696" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3302696" />
       <window_info anchor="bottom" id="Build" order="4" weight="0.2689951" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.2689951" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.2689951" />

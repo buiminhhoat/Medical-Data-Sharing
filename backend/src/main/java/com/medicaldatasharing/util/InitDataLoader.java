@@ -5,6 +5,7 @@ import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
+import com.medicaldatasharing.dto.MedicationPreviewDto;
 import com.medicaldatasharing.enumeration.MedicalRecordStatus;
 import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.form.*;
@@ -333,6 +334,13 @@ public class InitDataLoader implements CommandLineRunner {
             System.out.println(viewRequestList);
 
             List<MedicalRecord> changeHistory = hyperledgerService.getMedicalRecordChangeHistory(patient, medicalRecord.getMedicalRecordId());
+
+            SearchMedicationForm searchMedicationForm = new SearchMedicationForm();
+            searchMedicationForm.setMedicationId(medication.getMedicationId());
+            searchMedicationForm.setFrom(StringUtil.createDate("2024-01-01"));
+            searchMedicationForm.setUntil(StringUtil.createDate("2024-12-31"));
+            List<MedicationPreviewDto> medicationPreviewDtoList = hyperledgerService.getListMedication(doctor1, searchMedicationForm);
+            System.out.println(medicationPreviewDtoList);
         } catch (Exception exception) {
             System.out.println(exception);
         }

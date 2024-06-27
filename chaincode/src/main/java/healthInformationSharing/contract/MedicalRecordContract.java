@@ -559,6 +559,21 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(medication);
     }
 
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListMedication(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        JSONObject jsonDto = jsonObject;
+
+        List<Medication> medicationList = ctx.getMedicationDAO().getListMedication(
+                jsonDto
+        );
+        return new Genson().serialize(medicationList);
+    }
+
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String addDrug(
             MedicalRecordContext ctx,

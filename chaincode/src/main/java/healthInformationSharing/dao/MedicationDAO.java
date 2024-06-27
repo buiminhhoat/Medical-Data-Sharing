@@ -6,6 +6,8 @@ import healthInformationSharing.entity.Medication;
 import org.hyperledger.fabric.contract.Context;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class MedicationDAO {
     private MedicationCRUD medicationCRUD;
     private MedicationQuery medicationQuery;
@@ -48,5 +50,9 @@ public class MedicationDAO {
 
     public boolean medicationExist(String medicationId) {
         return medicationCRUD.medicationExist(medicationId);
+    }
+
+    public List<Medication> getListMedication(JSONObject jsonDto) {
+        return medicationQuery.getListMedication(jsonDto);
     }
 }
