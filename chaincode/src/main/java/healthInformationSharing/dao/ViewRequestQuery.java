@@ -1,7 +1,6 @@
 package healthInformationSharing.dao;
 
 import com.owlike.genson.Genson;
-import healthInformationSharing.dto.MedicalRecordDto;
 import healthInformationSharing.entity.ViewRequest;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ledger.KeyValue;

@@ -1,8 +1,6 @@
 package healthInformationSharing.dao;
 
 import com.owlike.genson.Genson;
-import healthInformationSharing.dto.MedicalRecordDto;
-import healthInformationSharing.dto.MedicalRecordsPreviewResponse;
 import healthInformationSharing.entity.MedicalRecord;
 import org.hyperledger.fabric.contract.Context;
 import org.json.JSONObject;
@@ -34,7 +32,7 @@ public class MedicalRecordDAO {
         return medicalRecordCRUD.defineMedicalRecord(jsonDto);
     }
 
-    public List<MedicalRecordDto> getListMedicalRecordByQuery(JSONObject jsonDto) {
+    public List<MedicalRecord> getListMedicalRecordByQuery(JSONObject jsonDto) {
         return medicalRecordQuery.getListMedicalRecordByQuery(
                 jsonDto
         );

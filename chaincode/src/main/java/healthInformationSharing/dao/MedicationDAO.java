@@ -2,15 +2,9 @@ package healthInformationSharing.dao;
 
 import com.owlike.genson.Genson;
 
-import com.owlike.genson.Genson;
-import healthInformationSharing.dto.MedicalRecordDto;
-import healthInformationSharing.dto.MedicalRecordsPreviewResponse;
-import healthInformationSharing.entity.MedicalRecord;
 import healthInformationSharing.entity.Medication;
 import org.hyperledger.fabric.contract.Context;
 import org.json.JSONObject;
-
-import java.util.List;
 
 public class MedicationDAO {
     private MedicationCRUD medicationCRUD;

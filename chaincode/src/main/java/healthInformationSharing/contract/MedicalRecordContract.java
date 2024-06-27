@@ -5,10 +5,6 @@ import com.owlike.genson.Genson;
 import healthInformationSharing.component.MedicalRecordContext;
 import healthInformationSharing.dao.AppointmentRequestDAO;
 import healthInformationSharing.dao.EditRequestDAO;
-import healthInformationSharing.dao.PrescriptionDetailsQuery;
-import healthInformationSharing.dto.MedicalRecordDto;
-import healthInformationSharing.dto.MedicalRecordsPreviewResponse;
-import healthInformationSharing.dto.ViewRequestsQueryResponse;
 import healthInformationSharing.entity.*;
 import healthInformationSharing.enumeration.RequestStatus;
 import healthInformationSharing.enumeration.RequestType;
@@ -439,12 +435,10 @@ public class MedicalRecordContract implements ContractInterface {
 
         JSONObject jsonDto = jsonObject;
 
-        List<MedicalRecordDto> medicalRecordByQueryDtoList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
+        List<MedicalRecord> medicalRecordList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
                 jsonDto
         );
-        MedicalRecordsPreviewResponse medicalRecordsPreviewResponse = new MedicalRecordsPreviewResponse(
-                medicalRecordByQueryDtoList.size(), medicalRecordByQueryDtoList);
-        return new Genson().serialize(medicalRecordsPreviewResponse);
+        return new Genson().serialize(medicalRecordList);
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
@@ -478,11 +472,10 @@ public class MedicalRecordContract implements ContractInterface {
         jsonDto.put("medicalRecordStatus", medicalRecordStatus);
         jsonDto.put("sortingOrder", sortingOrder);
 
-        List<MedicalRecordDto> medicalRecordByQueryDtoList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
+        List<MedicalRecord> medicalRecordList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
                 jsonDto
         );
-        MedicalRecordsPreviewResponse medicalRecordsPreviewResponse = new MedicalRecordsPreviewResponse(medicalRecordByQueryDtoList.size(), medicalRecordByQueryDtoList);
-        return new Genson().serialize(medicalRecordsPreviewResponse);
+        return new Genson().serialize(medicalRecordList);
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
@@ -519,10 +512,8 @@ public class MedicalRecordContract implements ContractInterface {
         for (ViewRequest viewRequest: viewRequestList) {
             System.out.println("viewRequest: " + viewRequest);
         }
-        ViewRequestsQueryResponse viewRequestsQueryResponse = new ViewRequestsQueryResponse(viewRequestList.size(),
-                viewRequestList);
-        System.out.println("viewRequestsQueryResponse: " + viewRequestsQueryResponse);
-        return new Genson().serialize(viewRequestsQueryResponse);
+
+        return new Genson().serialize(viewRequestList);
     }
 
 

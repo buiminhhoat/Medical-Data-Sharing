@@ -1,8 +1,8 @@
 package healthInformationSharing.dao;
 
-import healthInformationSharing.dto.MedicalRecordDto;
+import com.owlike.genson.Genson;
+import healthInformationSharing.entity.MedicalRecord;
 import org.hyperledger.fabric.contract.Context;
-import com.owlike.genson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,8 +26,8 @@ public class MedicalRecordQuery {
         this.entityName = entityName;
     }
 
-    public List<MedicalRecordDto> getListMedicalRecordByQuery(JSONObject jsonDto) {
-        List<MedicalRecordDto> medicalRecordDtoList = new ArrayList<>();
+    public List<MedicalRecord> getListMedicalRecordByQuery(JSONObject jsonDto) {
+        List<MedicalRecord> medicalRecordList = new ArrayList<>();
         JSONObject queryJsonObject = createQuerySelector(jsonDto);
 
         LOG.info("query: " + queryJsonObject.toString());
@@ -39,11 +39,11 @@ public class MedicalRecordQuery {
             JSONObject jsonObject = new JSONObject(value);
             byte[] bytes = keyValue.getValue();
             LOG.info("keyValue class: " + keyValue.getClass().toString() + ", type: " + keyValue.getClass().getTypeName());
-            MedicalRecordDto medicalRecordDto = MedicalRecordDto.parseMedicalRecordDto(jsonObject);
+            MedicalRecord medicalRecord = new Genson().deserialize(jsonObject.toString(), MedicalRecord.class);
 
-            medicalRecordDtoList.add(medicalRecordDto);
+            medicalRecordList.add(medicalRecord);
         }
-        return medicalRecordDtoList;
+        return medicalRecordList;
     }
 
     public JSONObject createQuerySelector(JSONObject jsonDto) {

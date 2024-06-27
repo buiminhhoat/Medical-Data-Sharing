@@ -15,6 +15,7 @@ import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.util.Constants;
 import com.medicaldatasharing.util.StringUtil;
+import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import lombok.SneakyThrows;
 import org.bouncycastle.util.encoders.Hex;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -384,21 +386,25 @@ public class HyperledgerService {
                     searchParams.get("details"),
                     searchParams.get("sortingOrder"), new String(result)));
 
-            MedicalRecordPreviewResponse medicalRecordPreviewResponse
-                    = MedicalRecordPreviewResponse.deserialize(result);
 
-            LOG.info("result: " + medicalRecordPreviewResponse);
-            for (MedicalRecordDto medicalRecordDto : medicalRecordPreviewResponse.getMedicalRecordDtoList()) {
+            String medicalRecordListStr = new String(result);
+            List<MedicalRecord> medicalRecordList = new Genson().deserialize(
+                    medicalRecordListStr,
+                    new GenericType<List<MedicalRecord>>() {}
+            );
+
+            LOG.info("result: " + medicalRecordList);
+            for (MedicalRecord medicalRecord : medicalRecordList) {
                 MedicalRecordPreviewDto medicalRecordPreviewDto = new MedicalRecordPreviewDto();
 
-                medicalRecordPreviewDto.setMedicalRecordId(medicalRecordDto.getMedicalRecordId());
-                medicalRecordPreviewDto.setPatientId(medicalRecordDto.getPatientId());
-                medicalRecordPreviewDto.setDoctorId(medicalRecordDto.getDoctorId());
-                medicalRecordPreviewDto.setMedicalInstitutionId(medicalRecordDto.getMedicalInstitutionId());
-                medicalRecordPreviewDto.setDateModified(medicalRecordDto.getDateModified());
-                medicalRecordPreviewDto.setTestName(medicalRecordDto.getTestName());
-                medicalRecordPreviewDto.setDetails(medicalRecordDto.getDetails());
-                medicalRecordPreviewDto.setMedicalRecordStatus(medicalRecordDto.getMedicalRecordStatus());
+                medicalRecordPreviewDto.setMedicalRecordId(medicalRecord.getMedicalRecordId());
+                medicalRecordPreviewDto.setPatientId(medicalRecord.getPatientId());
+                medicalRecordPreviewDto.setDoctorId(medicalRecord.getDoctorId());
+                medicalRecordPreviewDto.setMedicalInstitutionId(medicalRecord.getMedicalInstitutionId());
+                medicalRecordPreviewDto.setDateModified(medicalRecord.getDateModified());
+                medicalRecordPreviewDto.setTestName(medicalRecord.getTestName());
+                medicalRecordPreviewDto.setDetails(medicalRecord.getDetails());
+                medicalRecordPreviewDto.setMedicalRecordStatus(medicalRecord.getMedicalRecordStatus());
                 medicalRecordPreviewDtoList.add(medicalRecordPreviewDto);
             }
 
@@ -493,10 +499,9 @@ public class HyperledgerService {
                     jsonObject.toString()
             );
 
-            ViewRequestsQueryResponse viewRequestsQueryResponse = ViewRequestsQueryResponse.deserialize(result);
-            LOG.info("result: " + viewRequestsQueryResponse);
-            viewRequestList = viewRequestsQueryResponse.getViewRequestList();
-
+            String viewRequestListStr = new String(result);
+            viewRequestList = new Genson().deserialize(viewRequestListStr,
+                    new GenericType<List<ViewRequest>>() {});
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
