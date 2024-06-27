@@ -18,7 +18,7 @@ public class SendEditRequestDto {
     private String recipientId;
 
     @NotBlank
-    private String dateCreated;
+    private String dateModified;
 
     @NotBlank
     private String medicalRecordJson;

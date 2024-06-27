@@ -37,12 +37,12 @@ public class AppointmentRequest extends Request {
         return this;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public AppointmentRequest setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public AppointmentRequest setDateModified(String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 
@@ -87,7 +87,7 @@ public class AppointmentRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
-            String dateCreated,
+            String dateModified,
             String requestType,
             String requestStatus
     ) {
@@ -95,7 +95,7 @@ public class AppointmentRequest extends Request {
         appointmentRequest.setSenderId(senderId);
         appointmentRequest.setRequestId(requestId);
         appointmentRequest.setRecipientId(recipientId);
-        appointmentRequest.setDateCreated(dateCreated);
+        appointmentRequest.setDateModified(dateModified);
         appointmentRequest.setRequestType(requestType);
         appointmentRequest.setRequestStatus(requestStatus);
         appointmentRequest.setEntityName(AppointmentRequest.class.getSimpleName());

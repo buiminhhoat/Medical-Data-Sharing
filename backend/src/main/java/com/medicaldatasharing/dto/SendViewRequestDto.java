@@ -20,5 +20,5 @@ public class SendViewRequestDto {
     private String recipientId;
 
     @NotBlank
-    private String dateCreated;
+    private String dateModified;
 }

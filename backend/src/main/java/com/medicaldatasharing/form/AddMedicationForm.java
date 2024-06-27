@@ -22,7 +22,7 @@ public class AddMedicationForm {
     String description;
 
     @NotBlank
-    String dateCreated;
+    String dateModified;
 
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();

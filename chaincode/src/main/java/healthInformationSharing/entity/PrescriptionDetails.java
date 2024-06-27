@@ -43,14 +43,6 @@ public class PrescriptionDetails {
         this.entityName = PrescriptionDetails.class.getSimpleName();
     }
 
-    public PrescriptionDetails(String prescriptionDetailId, String prescriptionId, String medicationId, String quantity, String details) {
-        this.prescriptionDetailId = prescriptionDetailId;
-        this.prescriptionId = prescriptionId;
-        this.medicationId = medicationId;
-        this.quantity = quantity;
-        this.details = details;
-    }
-
     public String getPrescriptionDetailId() {
         return prescriptionDetailId;
     }
@@ -96,16 +88,25 @@ public class PrescriptionDetails {
         return this;
     }
 
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public PrescriptionDetails setEntityName(String entityName) {
+        this.entityName = entityName;
+        return this;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         PrescriptionDetails that = (PrescriptionDetails) object;
-        return Objects.equals(prescriptionDetailId, that.prescriptionDetailId) && Objects.equals(prescriptionId, that.prescriptionId) && Objects.equals(medicationId, that.medicationId) && Objects.equals(quantity, that.quantity) && Objects.equals(details, that.details);
+        return Objects.equals(prescriptionDetailId, that.prescriptionDetailId) && Objects.equals(prescriptionId, that.prescriptionId) && Objects.equals(medicationId, that.medicationId) && Objects.equals(quantity, that.quantity) && Objects.equals(details, that.details) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(prescriptionDetailId, prescriptionId, medicationId, quantity, details);
+        return Objects.hash(prescriptionDetailId, prescriptionId, medicationId, quantity, details, entityName);
     }
 }

@@ -69,7 +69,7 @@ public class AppointmentRequestCRUD {
     public AppointmentRequest sendAppointmentRequest(JSONObject jsonDto) {
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
-        String dateCreated = jsonDto.getString("dateCreated");
+        String dateModified = jsonDto.getString("dateModified");
         String requestType = jsonDto.getString("requestType");
         String requestId = ctx.getStub().getTxId();
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
@@ -79,7 +79,7 @@ public class AppointmentRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
-                dateCreated,
+                dateModified,
                 requestType,
                 RequestStatus.PENDING
         );

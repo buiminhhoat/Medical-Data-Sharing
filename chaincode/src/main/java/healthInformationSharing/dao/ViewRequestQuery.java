@@ -82,11 +82,11 @@ public class ViewRequestQuery {
 
         JSONArray jsonArraySortAttributes = new JSONArray();
         JSONObject jsonObjectSortTimeAttr = new JSONObject();
-        jsonObjectSortTimeAttr.putOnce("dateCreated", sortingOrder);
+        jsonObjectSortTimeAttr.putOnce("dateModified", sortingOrder);
         jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
 
         JSONObject jsonObjectSelector = new JSONObject();
-        jsonObjectSelector.putOnce("dateCreated", jsonObjectTimeRange);
+        jsonObjectSelector.putOnce("dateModified", jsonObjectTimeRange);
 
         if (!requestId.isEmpty()) {
             jsonObjectSelector.putOnce("requestId", requestId);

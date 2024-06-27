@@ -32,8 +32,8 @@ public class Medication {
     private String description;
 
     @Property
-    @JsonProperty("dateCreated")
-    private String dateCreated;
+    @JsonProperty("dateModified")
+    private String dateModified;
 
     @Property()
     @JsonProperty("entityName")
@@ -46,25 +46,25 @@ public class Medication {
     public Medication(String medicationId,
                       String manufacturerId,
                       String medicationName,
-                      String dateCreated,
+                      String dateModified,
                       String description) {
         this.medicationId = medicationId;
         this.manufacturerId = manufacturerId;
         this.medicationName = medicationName;
-        this.dateCreated = dateCreated;
+        this.dateModified = dateModified;
         this.description = description;
     }
 
     public static Medication createInstance(String medicationId,
                                             String manufacturerId,
                                             String medicationName,
-                                            String dateCreated,
+                                            String dateModified,
                                             String description) {
         Medication medication = new Medication();
         medication.setMedicationId(medicationId);
         medication.setManufacturerId(manufacturerId);
         medication.setMedicationName(medicationName);
-        medication.setDateCreated(dateCreated);
+        medication.setDateModified(dateModified);
         medication.setDescription(description);
         return medication;
     }
@@ -124,12 +124,12 @@ public class Medication {
         return this;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public Medication setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public Medication setDateModified(String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 
@@ -138,11 +138,11 @@ public class Medication {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Medication that = (Medication) object;
-        return Objects.equals(medicationId, that.medicationId) && Objects.equals(manufacturerId, that.manufacturerId) && Objects.equals(medicationName, that.medicationName) && Objects.equals(description, that.description) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(medicationId, that.medicationId) && Objects.equals(manufacturerId, that.manufacturerId) && Objects.equals(medicationName, that.medicationName) && Objects.equals(description, that.description) && Objects.equals(dateModified, that.dateModified) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicationId, manufacturerId, medicationName, description, dateCreated, entityName);
+        return Objects.hash(medicationId, manufacturerId, medicationName, description, dateModified, entityName);
     }
 }

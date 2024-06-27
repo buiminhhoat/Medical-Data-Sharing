@@ -12,8 +12,8 @@ public abstract class Request {
     @JsonProperty("recipientId")
     protected String recipientId;
 
-    @JsonProperty("dateCreated")
-    protected String dateCreated;
+    @JsonProperty("dateModified")
+    protected String dateModified;
 
     @JsonProperty("requestType")
     protected String requestType;

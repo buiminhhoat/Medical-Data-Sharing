@@ -24,8 +24,8 @@ public class MedicalRecord {
     @JsonProperty("medicalInstitutionId")
     private String medicalInstitutionId;
 
-    @JsonProperty("dateCreated")
-    private String dateCreated;
+    @JsonProperty("dateModified")
+    private String dateModified;
 
     @JsonProperty("testName")
     private String testName;
@@ -64,7 +64,7 @@ public class MedicalRecord {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
-            String dateCreated,
+            String dateModified,
             String testName,
             String details,
             String prescriptionId,
@@ -76,7 +76,7 @@ public class MedicalRecord {
         medicalRecord.setPatientId(patientId);
         medicalRecord.setDoctorId(doctorId);
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
-        medicalRecord.setDateCreated(dateCreated);
+        medicalRecord.setDateModified(dateModified);
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
         medicalRecord.setPrescriptionId(prescriptionId);
@@ -93,7 +93,7 @@ public class MedicalRecord {
                 ", patientId='" + patientId + '\'' +
                 ", doctorId='" + doctorId + '\'' +
                 ", medicalInstitutionId='" + medicalInstitutionId + '\'' +
-                ", dateCreated='" + dateCreated + '\'' +
+                ", dateModified='" + dateModified + '\'' +
                 ", testName='" + testName + '\'' +
                 ", details='" + details + '\'' +
                 ", hashFile='" + hashFile + '\'' +
@@ -148,12 +148,12 @@ public class MedicalRecord {
         return this;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public MedicalRecord setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public MedicalRecord setDateModified(String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 

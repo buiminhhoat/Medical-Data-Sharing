@@ -218,12 +218,12 @@ public class InitDataLoader implements CommandLineRunner {
         String doctor2Id = doctor2.getId();
 
         try {
-            Date dateCreated = new Date();
+            Date dateModified = new Date();
 
             SendAppointmentRequestForm sendAppointmentRequestForm = new SendAppointmentRequestForm();
             sendAppointmentRequestForm.setSenderId(patientId);
             sendAppointmentRequestForm.setRecipientId(doctor1Id);
-            sendAppointmentRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
+            sendAppointmentRequestForm.setDateModified(StringUtil.parseDate(dateModified));
             AppointmentRequest appointmentRequest = hyperledgerService.sendAppointmentRequest(
                     patient,
                     sendAppointmentRequestForm);
@@ -235,7 +235,7 @@ public class InitDataLoader implements CommandLineRunner {
             addMedicationForm.setManufacturerId(manufacturer.getId());
             addMedicationForm.setMedicationName("Paracetamol");
             addMedicationForm.setDescription("Điều trị đau đầu");
-            addMedicationForm.setDateCreated(StringUtil.parseDate(dateCreated));
+            addMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
             Medication medication = hyperledgerService.addMedication(manufacturer, addMedicationForm);
 
             AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
@@ -260,7 +260,7 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecordDto.setPatientId(patientId);
             medicalRecordDto.setDoctorId(doctor1Id);
             medicalRecordDto.setMedicalInstitutionId(doctor1.getMedicalInstitution().getMedicalInstitutionId());
-            medicalRecordDto.setDateCreated(StringUtil.parseDate(dateCreated));
+            medicalRecordDto.setDateModified(StringUtil.parseDate(dateModified));
             medicalRecordDto.setTestName(testName);
             medicalRecordDto.setDetails(details);
             medicalRecordDto.setHashFile("");
@@ -294,7 +294,7 @@ public class InitDataLoader implements CommandLineRunner {
             SendEditRequestForm sendEditRequestForm = new SendEditRequestForm();
             sendEditRequestForm.setSenderId(doctor1Id);
             sendEditRequestForm.setRecipientId(patientId);
-            sendEditRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
+            sendEditRequestForm.setDateModified(StringUtil.parseDate(dateModified));
             medicalRecord.setDetails("details -_-");
             sendEditRequestForm.setMedicalRecordJson(JsonConverter.objectToJson(medicalRecord).toString());
 
@@ -315,7 +315,7 @@ public class InitDataLoader implements CommandLineRunner {
             SendViewRequestForm sendViewRequestForm = new SendViewRequestForm();
             sendViewRequestForm.setSenderId(doctor2Id);
             sendViewRequestForm.setRecipientId(patientId);
-            sendViewRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
+            sendViewRequestForm.setDateModified(StringUtil.parseDate(dateModified));
 
             ViewRequest viewRequest = hyperledgerService.sendViewRequest(doctor2, sendViewRequestForm);
             System.out.println(viewRequest);

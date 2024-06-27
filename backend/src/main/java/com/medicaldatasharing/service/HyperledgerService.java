@@ -142,7 +142,7 @@ public class HyperledgerService {
             jsonObject.put("patientId", medicalRecordDto.getPatientId());
             jsonObject.put("doctorId", medicalRecordDto.getDoctorId());
             jsonObject.put("medicalInstitutionId", medicalRecordDto.getMedicalInstitutionId());
-            jsonObject.put("dateCreated", medicalRecordDto.getDateCreated());
+            jsonObject.put("dateModified", medicalRecordDto.getDateModified());
             jsonObject.put("testName", medicalRecordDto.getTestName());
             jsonObject.put("details", medicalRecordDto.getDetails());
             jsonObject.put("hashFile", medicalRecordDto.getHashFile());
@@ -253,7 +253,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendAppointmentRequestForm.getSenderId());
             jsonObject.put("recipientId", sendAppointmentRequestForm.getRecipientId());
-            jsonObject.put("dateCreated", sendAppointmentRequestForm.getDateCreated());
+            jsonObject.put("dateModified", sendAppointmentRequestForm.getDateModified());
 
             byte[] result = contract.submitTransaction(
                     "sendAppointmentRequest",
@@ -278,7 +278,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendEditRequestForm.getSenderId());
             jsonObject.put("recipientId", sendEditRequestForm.getRecipientId());
-            jsonObject.put("dateCreated", sendEditRequestForm.getDateCreated());
+            jsonObject.put("dateModified", sendEditRequestForm.getDateModified());
             jsonObject.put("medicalRecordJson", sendEditRequestForm.getMedicalRecordJson());
             byte[] result = contract.submitTransaction(
                     "sendEditRequest",
@@ -304,7 +304,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendViewRequestForm.getSenderId());
             jsonObject.put("recipientId", sendViewRequestForm.getRecipientId());
-            jsonObject.put("dateCreated", sendViewRequestForm.getDateCreated());
+            jsonObject.put("dateModified", sendViewRequestForm.getDateModified());
             byte[] result = contract.submitTransaction(
                     "sendViewRequest",
                     jsonObject.toString()
@@ -395,7 +395,7 @@ public class HyperledgerService {
                 medicalRecordPreviewDto.setPatientId(medicalRecordDto.getPatientId());
                 medicalRecordPreviewDto.setDoctorId(medicalRecordDto.getDoctorId());
                 medicalRecordPreviewDto.setMedicalInstitutionId(medicalRecordDto.getMedicalInstitutionId());
-                medicalRecordPreviewDto.setDateCreated(medicalRecordDto.getDateCreated());
+                medicalRecordPreviewDto.setDateModified(medicalRecordDto.getDateModified());
                 medicalRecordPreviewDto.setTestName(medicalRecordDto.getTestName());
                 medicalRecordPreviewDto.setDetails(medicalRecordDto.getDetails());
                 medicalRecordPreviewDto.setMedicalRecordStatus(medicalRecordDto.getMedicalRecordStatus());

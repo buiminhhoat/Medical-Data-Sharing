@@ -2,7 +2,7 @@
   "index": {
     "fields": [
       {
-        "dateCreated": "desc"
+        "dateModified": "desc"
       },
       {
         "entityName": "desc"

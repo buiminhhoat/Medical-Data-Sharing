@@ -115,7 +115,7 @@ public class MedicalRecordContract implements ContractInterface {
         String patientId = jsonObject.getString("patientId");
         String doctorId = jsonObject.getString("doctorId");
         String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
-        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
         String addPrescription = jsonObject.getString("addPrescription");
@@ -156,7 +156,7 @@ public class MedicalRecordContract implements ContractInterface {
         jsonDto.put("patientId", patientId);
         jsonDto.put("doctorId", doctorId);
         jsonDto.put("medicalInstitutionId", medicalInstitutionId);
-        jsonDto.put("dateCreated", dateCreated);
+        jsonDto.put("dateModified", dateModified);
         jsonDto.put("testName", testName);
         jsonDto.put("details", details);
         jsonDto.put("prescriptionId", prescription.getPrescriptionId());
@@ -265,14 +265,14 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
         authorizeRequest(ctx, senderId, "sendAppointmentRequest(validate senderId)");
 
         JSONObject jsonDto = new JSONObject();
 
         jsonDto.put("senderId", senderId);
         jsonDto.put("recipientId", recipientId);
-        jsonDto.put("dateCreated", dateCreated);
+        jsonDto.put("dateModified", dateModified);
         jsonDto.put("requestType", RequestType.APPOINTMENT);
         AppointmentRequest appointmentRequest = ctx.getAppointmentRequestDAO().sendAppointmentRequest(jsonDto);
         return new Genson().serialize(appointmentRequest);
@@ -313,7 +313,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
         String medicalRecordJson = jsonObject.getString("medicalRecordJson");
         Genson genson = new Genson();
         MedicalRecord medicalRecord = genson.deserialize(medicalRecordJson, MedicalRecord.class);
@@ -326,7 +326,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("senderId", senderId);
         jsonDto.put("recipientId", recipientId);
-        jsonDto.put("dateCreated", dateCreated);
+        jsonDto.put("dateModified", dateModified);
         jsonDto.put("requestType", RequestType.EDIT_RECORD);
         jsonDto.put("medicalRecordJson", medicalRecordJson);
         EditRequest editRequest = ctx.getEditRequestDAO().sendEditRequest(
@@ -412,14 +412,14 @@ public class MedicalRecordContract implements ContractInterface {
 
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
 
         authorizeRequest(ctx, senderId, "sendViewRequest(validate senderId)");
 
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("senderId", senderId);
         jsonDto.put("recipientId", recipientId);
-        jsonDto.put("dateCreated", dateCreated);
+        jsonDto.put("dateModified", dateModified);
         jsonDto.put("requestType", RequestType.VIEW_RECORD);
         ViewRequest viewRequest = ctx.getViewRequestDAO().sendViewRequest(
                 jsonDto
@@ -615,6 +615,7 @@ public class MedicalRecordContract implements ContractInterface {
         for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
             prescriptionDetails.setPrescriptionId(prescription.getPrescriptionId());
             prescriptionDetails.setPrescriptionDetailId(prescription.getPrescriptionId() + "-" + id++);
+            prescriptionDetails.setEntityName(PrescriptionDetails.class.getSimpleName());
             PrescriptionDetails pd = ctx.getPrescriptionDetailsDAO()
                     .addPrescriptionDetails(prescriptionDetails);
         }

@@ -31,7 +31,7 @@ public class MedicalRecordDto {
     private String medicalInstitutionId;
 
     @NotBlank
-    private String dateCreated;
+    private String dateModified;
 
     @NotBlank
     private String testName;
@@ -55,7 +55,7 @@ public class MedicalRecordDto {
         String patientId = jsonObject.getString("patientId");
         String doctorId = jsonObject.getString("doctorId");
         String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
-        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
         String prescriptionId = jsonObject.getString("prescriptionId");
@@ -67,7 +67,7 @@ public class MedicalRecordDto {
                 patientId,
                 doctorId,
                 medicalInstitutionId,
-                dateCreated,
+                dateModified,
                 testName,
                 details,
                 prescriptionId,
@@ -91,7 +91,7 @@ public class MedicalRecordDto {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
-            String dateCreated,
+            String dateModified,
             String testName,
             String details,
             String addPrescription,
@@ -103,7 +103,7 @@ public class MedicalRecordDto {
         medicalRecord.setPatientId(patientId);
         medicalRecord.setDoctorId(doctorId);
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
-        medicalRecord.setDateCreated(dateCreated);
+        medicalRecord.setDateModified(dateModified);
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
         medicalRecord.setAddPrescription(addPrescription);
@@ -139,12 +139,12 @@ public class MedicalRecordDto {
         return this;
     }
 
-    public @NotBlank String getDateCreated() {
-        return dateCreated;
+    public @NotBlank String getDateModified() {
+        return dateModified;
     }
 
-    public MedicalRecordDto setDateCreated(@NotBlank String dateCreated) {
-        this.dateCreated = dateCreated;
+    public MedicalRecordDto setDateModified(@NotBlank String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 

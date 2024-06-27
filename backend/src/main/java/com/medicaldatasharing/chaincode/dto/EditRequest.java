@@ -39,7 +39,7 @@ public class EditRequest extends Request {
         String requestId = jsonObject.getString("requestId");
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
         String requestType = jsonObject.getString("requestType");
         String requestStatus = jsonObject.getString("requestStatus");
         String medicalRecord = jsonObject.getString("medicalRecord");
@@ -47,7 +47,7 @@ public class EditRequest extends Request {
                 requestId,
                 senderId,
                 recipientId,
-                dateCreated,
+                dateModified,
                 requestType,
                 requestStatus,
                 medicalRecord
@@ -58,7 +58,7 @@ public class EditRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
-            String dateCreated,
+            String dateModified,
             String requestType,
             String requestStatus,
             String medicalRecord
@@ -67,7 +67,7 @@ public class EditRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
-        request.setDateCreated(dateCreated);
+        request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
         request.setEntityName(EditRequest.class.getSimpleName());
@@ -102,12 +102,12 @@ public class EditRequest extends Request {
         return this;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public EditRequest setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public EditRequest setDateModified(String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 

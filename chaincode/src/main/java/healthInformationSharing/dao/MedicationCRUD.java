@@ -24,7 +24,7 @@ public class MedicationCRUD {
     public Medication addMedication(JSONObject jsonDto) {
         String manufacturerId = jsonDto.getString("manufacturerId");
         String medicationName = jsonDto.getString("medicationName");
-        String dateCreated = jsonDto.getString("dateCreated");
+        String dateModified = jsonDto.getString("dateModified");
         String description = jsonDto.getString("description");
 
         String medicationId = ctx.getStub().getTxId();
@@ -35,7 +35,7 @@ public class MedicationCRUD {
                 medicationId,
                 manufacturerId,
                 medicationName,
-                dateCreated,
+                dateModified,
                 description
         );
 
@@ -54,7 +54,7 @@ public class MedicationCRUD {
         String medicationId = jsonDto.getString("medicationId");
         String manufacturerId = jsonDto.getString("manufacturerId");
         String medicationName = jsonDto.getString("medicationName");
-        String dateCreated = jsonDto.getString("dateCreated");
+        String dateModified = jsonDto.getString("dateModified");
         String description = jsonDto.getString("description");
 
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, medicationId);
@@ -64,7 +64,7 @@ public class MedicationCRUD {
                 medicationId,
                 manufacturerId,
                 medicationName,
-                dateCreated,
+                dateModified,
                 description
         );
 

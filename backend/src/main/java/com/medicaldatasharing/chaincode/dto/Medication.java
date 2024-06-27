@@ -23,8 +23,8 @@ public class Medication {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("dateCreated")
-    private String dateCreated;
+    @JsonProperty("dateModified")
+    private String dateModified;
 
     @JsonProperty("entityName")
     private String entityName;
@@ -79,12 +79,12 @@ public class Medication {
         return genson.deserialize(data, Medication.class);
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public Medication setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public Medication setDateModified(String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 
@@ -101,13 +101,13 @@ public class Medication {
                                             String manufacturerId,
                                             String medicationName,
                                             String description,
-                                            String dateCreated) {
+                                            String dateModified) {
         Medication medication = new Medication();
         medication.setMedicationId(medicationId);
         medication.setManufacturerId(manufacturerId);
         medication.setMedicationName(medicationName);
         medication.setDescription(description);
-        medication.setDateCreated(dateCreated);
+        medication.setDateModified(dateModified);
         medication.setEntityName(Medication.class.getSimpleName());
         return medication;
     }

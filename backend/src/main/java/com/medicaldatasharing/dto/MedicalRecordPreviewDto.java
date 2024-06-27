@@ -25,7 +25,7 @@ public class MedicalRecordPreviewDto {
     private String medicalInstitutionId;
 
     @NotBlank
-    private String dateCreated;
+    private String dateModified;
 
     @NotBlank
     private String testName;

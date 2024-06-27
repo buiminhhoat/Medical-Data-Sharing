@@ -17,6 +17,6 @@ public class SendAppointmentRequestForm {
     private String recipientId;
 
     @NotBlank
-    private String dateCreated;
+    private String dateModified;
 }
 

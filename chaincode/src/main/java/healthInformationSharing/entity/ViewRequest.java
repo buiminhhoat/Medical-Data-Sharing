@@ -42,12 +42,12 @@ public class ViewRequest extends Request {
         return this;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public ViewRequest setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public ViewRequest setDateModified(String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 
@@ -82,7 +82,7 @@ public class ViewRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
-            String dateCreated,
+            String dateModified,
             String requestType,
             String requestStatus
     ) {
@@ -90,7 +90,7 @@ public class ViewRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
-        request.setDateCreated(dateCreated);
+        request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
         request.setEntityName(ViewRequest.class.getSimpleName());

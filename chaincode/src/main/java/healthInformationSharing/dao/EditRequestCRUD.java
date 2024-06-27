@@ -67,7 +67,7 @@ public class EditRequestCRUD {
     public EditRequest sendEditRequest(JSONObject jsonDto) {
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
-        String dateCreated = jsonDto.getString("dateCreated");
+        String dateModified = jsonDto.getString("dateModified");
         String requestType = jsonDto.getString("requestType");
         String medicalRecordJson = jsonDto.getString("medicalRecordJson");
         String requestId = ctx.getStub().getTxId();
@@ -78,7 +78,7 @@ public class EditRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
-                dateCreated,
+                dateModified,
                 requestType,
                 RequestStatus.PENDING,
                 medicalRecordJson);

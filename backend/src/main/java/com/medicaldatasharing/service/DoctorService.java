@@ -38,7 +38,7 @@ public class DoctorService {
         medicalRecordDto.setPatientId(medicalRecordForm.getPatientId());
         medicalRecordDto.setDoctorId(medicalRecordForm.getDoctorId());
         medicalRecordDto.setMedicalInstitutionId(medicalRecordForm.getMedicalInstitutionId());
-        medicalRecordDto.setDateCreated(medicalRecordForm.getDateCreated());
+        medicalRecordDto.setDateModified(medicalRecordForm.getDateModified());
         medicalRecordDto.setTestName(medicalRecordForm.getTestName());
         medicalRecordDto.setDetails(medicalRecordForm.getDetails());
 
@@ -48,7 +48,7 @@ public class DoctorService {
         result.setPatientId(medicalRecord.getPatientId());
         result.setDoctorId(medicalRecord.getDoctorId());
         result.setMedicalInstitutionId(medicalRecord.getMedicalInstitutionId());
-        result.setDateCreated(medicalRecord.getDateCreated());
+        result.setDateModified(medicalRecord.getDateModified());
         result.setTestName(medicalRecord.getTestName());
         result.setDetails(medicalRecord.getDetails());
         return result;
@@ -63,7 +63,7 @@ public class DoctorService {
 //        sendRequestDto.setSenderId(request.getSenderId());
 //        sendRequestDto.setRecipientId(request.getRecipientId());
 //        sendRequestDto.setMedicalRecordId(request.getMedicalRecordId());
-//        sendRequestDto.setDateCreated(request.getDateCreated());
+//        sendRequestDto.setDateModified(request.getDateModified());
 //        sendRequestDto.setRequestType(request.getRequestType());
 //        return sendRequestDto;
 //    }

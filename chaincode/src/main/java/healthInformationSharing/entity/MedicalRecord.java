@@ -33,8 +33,8 @@ public final class MedicalRecord {
     private String medicalInstitutionId;
 
     @Property()
-    @JsonProperty("dateCreated")
-    private String dateCreated;
+    @JsonProperty("dateModified")
+    private String dateModified;
 
     @Property()
     @JsonProperty("testName")
@@ -70,7 +70,7 @@ public final class MedicalRecord {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
-            String dateCreated,
+            String dateModified,
             String testName,
             String details,
             String prescriptionId,
@@ -82,7 +82,7 @@ public final class MedicalRecord {
         medicalRecord.setPatientId(patientId);
         medicalRecord.setDoctorId(doctorId);
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
-        medicalRecord.setDateCreated(dateCreated);
+        medicalRecord.setDateModified(dateModified);
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
         medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
@@ -124,12 +124,12 @@ public final class MedicalRecord {
         this.medicalInstitutionId = medicalInstitutionId;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setDateModified(String dateModified) {
+        this.dateModified = dateModified;
     }
 
     public String getTestName() {
@@ -188,12 +188,12 @@ public final class MedicalRecord {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         MedicalRecord that = (MedicalRecord) object;
-        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(testName, that.testName) && Objects.equals(details, that.details) && Objects.equals(prescriptionId, that.prescriptionId) && Objects.equals(hashFile, that.hashFile) && Objects.equals(medicalRecordStatus, that.medicalRecordStatus) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(medicalRecordId, that.medicalRecordId) && Objects.equals(patientId, that.patientId) && Objects.equals(doctorId, that.doctorId) && Objects.equals(medicalInstitutionId, that.medicalInstitutionId) && Objects.equals(dateModified, that.dateModified) && Objects.equals(testName, that.testName) && Objects.equals(details, that.details) && Objects.equals(prescriptionId, that.prescriptionId) && Objects.equals(hashFile, that.hashFile) && Objects.equals(medicalRecordStatus, that.medicalRecordStatus) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateCreated, testName, details, prescriptionId, hashFile, medicalRecordStatus, entityName);
+        return Objects.hash(medicalRecordId, patientId, doctorId, medicalInstitutionId, dateModified, testName, details, prescriptionId, hashFile, medicalRecordStatus, entityName);
     }
 
     @Override
@@ -203,7 +203,7 @@ public final class MedicalRecord {
                 ", patientId='" + patientId + '\'' +
                 ", doctorId='" + doctorId + '\'' +
                 ", medicalInstitutionId='" + medicalInstitutionId + '\'' +
-                ", dateCreated='" + dateCreated + '\'' +
+                ", dateModified='" + dateModified + '\'' +
                 ", testName='" + testName + '\'' +
                 ", details='" + details + '\'' +
                 ", prescriptionId='" + prescriptionId + '\'' +

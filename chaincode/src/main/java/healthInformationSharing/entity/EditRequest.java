@@ -43,7 +43,7 @@ public class EditRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
-            String dateCreated,
+            String dateModified,
             String requestType,
             String requestStatus,
             String medicalRecord
@@ -52,7 +52,7 @@ public class EditRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
-        request.setDateCreated(dateCreated);
+        request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
         request.setEntityName(EditRequest.class.getSimpleName());
@@ -87,12 +87,12 @@ public class EditRequest extends Request {
         return this;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public EditRequest setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public EditRequest setDateModified(String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 
@@ -129,7 +129,7 @@ public class EditRequest extends Request {
                 "requestId='" + requestId + '\'' +
                 ", senderId='" + senderId + '\'' +
                 ", recipientId='" + recipientId + '\'' +
-                ", dateCreated='" + dateCreated + '\'' +
+                ", dateModified='" + dateModified + '\'' +
                 ", requestType='" + requestType + '\'' +
                 ", requestStatus='" + requestStatus + '\'' +
                 ", entityName='" + entityName + '\'' +
