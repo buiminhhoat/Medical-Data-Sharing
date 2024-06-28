@@ -5,15 +5,9 @@ import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
-import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
-import com.medicaldatasharing.dto.MedicationPreviewDto;
-import com.medicaldatasharing.dto.SendViewPrescriptionRequestDto;
+import com.medicaldatasharing.dto.*;
 import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.Doctor;
-import com.medicaldatasharing.model.DrugStore;
-import com.medicaldatasharing.model.MedicalInstitution;
-import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.util.Constants;
 import com.medicaldatasharing.util.StringUtil;
@@ -639,6 +633,28 @@ public class HyperledgerService {
             String viewPrescriptionRequestStr = new String(result);
             viewPrescriptionRequest = new Genson().deserialize(viewPrescriptionRequestStr, ViewPrescriptionRequest.class);
             LOG.info("result: " + viewPrescriptionRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return viewPrescriptionRequest;
+    }
+
+    public ViewPrescriptionRequest defineViewPrescriptionRequest(User user, DefineViewPrescriptionRequestDto defineViewPrescriptionRequestDto) throws Exception {
+        ViewPrescriptionRequest viewPrescriptionRequest = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Submit Transaction: definePrescriptionRequest");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", defineViewPrescriptionRequestDto.getRequestId());
+            jsonObject.put("requestStatus", defineViewPrescriptionRequestDto.getRequestStatus());
+            System.out.println(jsonObject.toString());
+            byte[] result = contract.submitTransaction(
+                    "defineViewPrescriptionRequest",
+                    jsonObject.toString()
+            );
+            String viewPrescriptionRequestStr = new String(result);
+            viewPrescriptionRequest = new Genson().deserialize(viewPrescriptionRequestStr, ViewPrescriptionRequest.class);
+            LOG.info("result: " + viewPrescriptionRequestStr);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }

@@ -3,10 +3,7 @@ package com.medicaldatasharing.util;
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.chaincode.dto.*;
-import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
-import com.medicaldatasharing.dto.MedicationPreviewDto;
-import com.medicaldatasharing.dto.SendViewPrescriptionRequestDto;
+import com.medicaldatasharing.dto.*;
 import com.medicaldatasharing.enumeration.MedicalRecordStatus;
 import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.form.*;
@@ -391,12 +388,21 @@ public class InitDataLoader implements CommandLineRunner {
             sendViewPrescriptionRequestDto.setPrescriptionId(medicalRecord.getPrescriptionId());
             sendViewPrescriptionRequestDto.setDateModified(StringUtil.parseDate(dateModified));
 
-            ViewPrescriptionRequest viewPrescriptionRequest = hyperledgerService.sendViewPrescriptionRequest(
+            ViewPrescriptionRequest sendViewPrescriptionRequest = hyperledgerService.sendViewPrescriptionRequest(
                     drugStore,
                     sendViewPrescriptionRequestDto
             );
 
-            System.out.println(viewPrescriptionRequest);
+            System.out.println(sendViewPrescriptionRequest);
+
+            DefineViewPrescriptionRequestDto defineViewPrescriptionRequestDto = new DefineViewPrescriptionRequestDto();
+            defineViewPrescriptionRequestDto.setRequestId(sendViewPrescriptionRequest.getRequestId());
+            defineViewPrescriptionRequestDto.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            ViewPrescriptionRequest defineViewPrescriptionRequest = hyperledgerService.defineViewPrescriptionRequest(
+                    patient,
+                    defineViewPrescriptionRequestDto
+            );
+            System.out.println(defineViewPrescriptionRequest);
         } catch (Exception exception) {
             System.out.println(exception);
         }

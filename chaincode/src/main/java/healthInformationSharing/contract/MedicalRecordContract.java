@@ -494,6 +494,7 @@ public class MedicalRecordContract implements ContractInterface {
         }
 
         ViewPrescriptionRequest viewPrescriptionRequest = viewPrescriptionRequestDAO.getViewPrescriptionRequest(requestId);
+
         authorizeRequest(ctx, viewPrescriptionRequest.getRecipientId(), "defineViewPrescriptionRequest(validate recipientId");
 
         JSONObject jsonDto = new JSONObject();
