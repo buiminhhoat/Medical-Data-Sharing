@@ -276,6 +276,13 @@ public class InitDataLoader implements CommandLineRunner {
             addMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
             Medication medication = hyperledgerService.addMedication(manufacturer, addMedicationForm);
 
+            AddDrugForm addDrugForm = new AddDrugForm();
+            addDrugForm.setMedicationId(medication.getMedicationId());
+            addDrugForm.setManufactureDate(StringUtil.parseDate(StringUtil.createDate("2024-01-01")));
+            addDrugForm.setExpirationDate(StringUtil.parseDate(StringUtil.createDate("2024-12-31")));
+
+            Drug drug = hyperledgerService.addDrug(manufacturer, addDrugForm);
+            System.out.println(drug);
             AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
             addPrescriptionForm.setDrugReaction("");
             List<PrescriptionDetails> prescriptionDetailsList = new ArrayList<>();
@@ -410,6 +417,16 @@ public class InitDataLoader implements CommandLineRunner {
                     getPrescriptionForm
             );
             System.out.println(prescriptionDto);
+
+            TransferDrugDto transferDrugDto = new TransferDrugDto();
+            transferDrugDto.setDrugId(drug.getDrugId());
+            transferDrugDto.setNewOwnerId(drugStore.getId());
+            drug = hyperledgerService.transferDrug(
+                    manufacturer,
+                    transferDrugDto
+            );
+
+            System.out.println(drug);
         } catch (Exception exception) {
             System.out.println(exception);
         }

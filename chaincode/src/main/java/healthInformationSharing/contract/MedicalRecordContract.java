@@ -630,6 +630,24 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(drug);
     }
 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String transferDrug(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String drugId = jsonObject.getString("drugId");
+        String newOwnerId = jsonObject.getString("newOwnerId");
+
+        Drug drug = ctx.getDrugDAO().getDrug(drugId);
+
+        authorizeRequest(ctx, drug.getOwnerId(), "transferDrug(validate jsonString)");
+
+        JSONObject jsonDto = jsonObject;
+        drug = ctx.getDrugDAO().transferDrug(jsonDto);
+        return new Genson().serialize(drug);
+    }
+
     public Prescription addPrescription(
             MedicalRecordContext ctx,
             String jsonString
@@ -651,6 +669,7 @@ public class MedicalRecordContract implements ContractInterface {
             prescriptionDetails.setPrescriptionId(prescription.getPrescriptionId());
             prescriptionDetails.setPrescriptionDetailId(prescription.getPrescriptionId() + "-" + id++);
             prescriptionDetails.setEntityName(PrescriptionDetails.class.getSimpleName());
+            prescriptionDetails.setPurchasedQuantity("0");
             PrescriptionDetails pd = ctx.getPrescriptionDetailsDAO()
                     .addPrescriptionDetails(prescriptionDetails);
         }
@@ -669,7 +688,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("prescriptionId", prescriptionId);
-        jsonDto.put("recipientId", drugStoreId);
+        jsonDto.put("senderId", drugStoreId);
         jsonDto.put("requestType", RequestType.VIEW_PRESCRIPTION);
         jsonDto.put("requestStatus", RequestStatus.ACCEPTED);
 
@@ -744,7 +763,7 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(viewPrescriptionRequest);
     }
 
-    private enum MedicalRecordContractErrors {
+    public enum MedicalRecordContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,
         UNAUTHORIZED_VIEW_ACCESS,
@@ -754,6 +773,7 @@ public class MedicalRecordContract implements ContractInterface {
         VALIDATE_VIEW_PRESCRIPTION_ACCESS_ERROR,
         EDIT_REQUEST_NOT_FOUND,
         MEDICATION_NOT_FOUND,
-        EMPTY_MEDICATION_ID_ERROR;
+        EMPTY_MEDICATION_ID_ERROR,
+        DRUG_NOT_FOUND;
     }
 }

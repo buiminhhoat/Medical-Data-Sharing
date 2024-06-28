@@ -663,4 +663,46 @@ public class HyperledgerService {
         }
         return viewPrescriptionRequest;
     }
+
+    public Drug transferDrug(User user, TransferDrugDto transferDrugDto) throws Exception {
+        Drug drug = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Submit Transaction: transferDrug");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("drugId", transferDrugDto.getDrugId());
+            jsonObject.put("newOwnerId", transferDrugDto.getNewOwnerId());
+            System.out.println(jsonObject.toString());
+            byte[] result = contract.submitTransaction(
+                    "transferDrug",
+                    jsonObject.toString()
+            );
+            String drugStr = new String(result);
+            drug = new Genson().deserialize(
+                    drugStr,
+                    Drug.class
+            );
+            LOG.info("result: " + drug);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return drug;
+    }
+
+    public Drug addDrug(User user, AddDrugForm addDrugForm) throws Exception {
+        Drug drug = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = addDrugForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "addDrug",
+                    jsonDto.toString()
+            );
+            drug = new Genson().deserialize(new String(result), Drug.class);
+            LOG.info("result: " + drug);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return drug;
+    }
 }
