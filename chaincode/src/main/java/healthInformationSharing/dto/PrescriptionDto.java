@@ -1,0 +1,70 @@
+package healthInformationSharing.dto;
+
+import com.owlike.genson.Genson;
+import com.owlike.genson.annotation.JsonProperty;
+import healthInformationSharing.entity.MedicalRecord;
+import healthInformationSharing.entity.Prescription;
+import healthInformationSharing.entity.PrescriptionDetails;
+import org.hyperledger.fabric.contract.annotation.DataType;
+import org.hyperledger.fabric.contract.annotation.Property;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@DataType
+public class PrescriptionDto {
+    @JsonProperty("prescriptionId")
+    private String prescriptionId;
+
+    @JsonProperty("drugReaction")
+    private String drugReaction;
+
+    @JsonProperty("entityName")
+    private String entityName;
+
+    @JsonProperty("prescriptionDetailsList")
+    List<PrescriptionDetails> prescriptionDetailsList;
+
+    public String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public PrescriptionDto setPrescriptionId(String prescriptionId) {
+        this.prescriptionId = prescriptionId;
+        return this;
+    }
+
+    public String getDrugReaction() {
+        return drugReaction;
+    }
+
+    public PrescriptionDto setDrugReaction(String drugReaction) {
+        this.drugReaction = drugReaction;
+        return this;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public PrescriptionDto setEntityName(String entityName) {
+        this.entityName = entityName;
+        return this;
+    }
+
+    public List<PrescriptionDetails> getPrescriptionDetailsList() {
+        return prescriptionDetailsList;
+    }
+
+    public PrescriptionDto setPrescriptionDetailsList(List<PrescriptionDetails> prescriptionDetailsList) {
+        this.prescriptionDetailsList = prescriptionDetailsList;
+        return this;
+    }
+
+    public PrescriptionDto addPrescriptionDetailsToPrescriptionDetailsList(PrescriptionDetails prescriptionDetails) {
+        prescriptionDetailsList.add(prescriptionDetails);
+        return this;
+    }
+}
