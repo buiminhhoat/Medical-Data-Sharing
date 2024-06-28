@@ -13,7 +13,6 @@ import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.owlike.genson.Genson;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,12 +40,15 @@ public class InitDataLoader implements CommandLineRunner {
     @Autowired
     private ManufacturerRepository manufacturerRepository;
     @Autowired
+    private DrugStoreRepository drugStoreRepository;
+    @Autowired
     private HyperledgerService hyperledgerService;
 
     @Override
     public void run(String... args) throws Exception {
         initMedicalInstitutions();
         initManufacturer();
+        initDrugStore();
         initUsers();
         init();
     }
@@ -84,7 +86,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .lastName("Công ty dược phẩm")
                 .email("congtyduocphama@gmail.com")
                 .businessLicenseNumber("01993884423")
-                .role("ROLE_MANUFACTURER")
+                .role(Constants.ROLE_MANUFACTURER)
                 .username("congtyduocphama")
                 .password("congtyduocphama")
                 .build();
@@ -98,6 +100,32 @@ public class InitDataLoader implements CommandLineRunner {
         }
     }
 
+    private void initDrugStore() {
+        if (!drugStoreRepository.findAll().isEmpty()) {
+            return;
+        }
+        DrugStore drugStoreA = DrugStore
+                .builder()
+                .firstName("A")
+                .lastName("Nhà thuốc")
+                .email("nhathuoca@gmail.com")
+                .businessLicenseNumber("82933928848")
+                .role(Constants.ROLE_DRUG_STORE)
+                .username("nhathuoca")
+                .password("nhathuoca")
+                .build();
+
+        DrugStore drugStoreB = DrugStore
+                .builder()
+                .firstName("B")
+                .lastName("Nhà thuốc")
+                .email("nhathuocb@gmail.com")
+                .businessLicenseNumber("00033928848")
+                .role(Constants.ROLE_DRUG_STORE)
+                .username("nhathuocb")
+                .password("nhathuocb")
+                .build();
+    }
     private void initUsers() throws Exception {
         if (!patientRepository.findAll().isEmpty()) {
             return;

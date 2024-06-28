@@ -1,8 +1,5 @@
 package com.medicaldatasharing.service;
 
-import com.medicaldatasharing.dto.DefineRequestDto;
-import com.medicaldatasharing.form.DefineRequestForm;
-import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;

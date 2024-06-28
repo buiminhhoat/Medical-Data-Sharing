@@ -2,13 +2,6 @@ package com.medicaldatasharing.chaincode.dto;
 
 import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Medication {
     @JsonProperty("medicationId")
@@ -31,6 +24,31 @@ public class Medication {
 
     public Medication() {
         this.entityName = Medication.class.getSimpleName();
+    }
+
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
+    }
+
+    public static Medication deserialize(byte[] data) {
+        Genson genson = new Genson();
+        return genson.deserialize(data, Medication.class);
+    }
+
+    public static Medication createInstance(String medicationId,
+                                            String manufacturerId,
+                                            String medicationName,
+                                            String description,
+                                            String dateModified) {
+        Medication medication = new Medication();
+        medication.setMedicationId(medicationId);
+        medication.setManufacturerId(manufacturerId);
+        medication.setMedicationName(medicationName);
+        medication.setDescription(description);
+        medication.setDateModified(dateModified);
+        medication.setEntityName(Medication.class.getSimpleName());
+        return medication;
     }
 
     public String getMedicationId() {
@@ -69,16 +87,6 @@ public class Medication {
         return this;
     }
 
-    public static byte[] serialize(Object object) {
-        Genson genson = new Genson();
-        return genson.serializeBytes(object);
-    }
-
-    public static Medication deserialize(byte[] data) {
-        Genson genson = new Genson();
-        return genson.deserialize(data, Medication.class);
-    }
-
     public String getDateModified() {
         return dateModified;
     }
@@ -95,20 +103,5 @@ public class Medication {
     public Medication setEntityName(String entityName) {
         this.entityName = entityName;
         return this;
-    }
-
-    public static Medication createInstance(String medicationId,
-                                            String manufacturerId,
-                                            String medicationName,
-                                            String description,
-                                            String dateModified) {
-        Medication medication = new Medication();
-        medication.setMedicationId(medicationId);
-        medication.setManufacturerId(manufacturerId);
-        medication.setMedicationName(medicationName);
-        medication.setDescription(description);
-        medication.setDateModified(dateModified);
-        medication.setEntityName(Medication.class.getSimpleName());
-        return medication;
     }
 }

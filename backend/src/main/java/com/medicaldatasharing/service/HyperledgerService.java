@@ -50,6 +50,29 @@ public class HyperledgerService {
     @Autowired
     private MedicalInstitutionRepository medicalInstitutionRepository;
 
+    public static void registerListener(Network network, Channel channel, Contract contract) throws InvalidArgumentException {
+        Consumer<BlockEvent> e = new Consumer<BlockEvent>() {
+            @SneakyThrows
+            @Override
+            public void accept(BlockEvent blockEvent) {
+                long bN = blockEvent.getBlockNumber();
+                System.out.println("network blockListener" + bN);
+                for (BlockEvent.TransactionEvent transactionEvent : blockEvent.getTransactionEvents()) {
+                    String mspId = transactionEvent.getCreator().getMspid();
+                    String peer = transactionEvent.getPeer().getName();
+                    System.out.println(String.format("[NetworkBlockEventListener] transactionEventId: %s, creatorMspId: %s, peer: %s", transactionEvent.getTransactionID(), mspId, peer));
+                }
+            }
+
+            @Override
+            public Consumer<BlockEvent> andThen(Consumer<? super BlockEvent> after) {
+                System.out.println("done accept event op");
+                return null;
+            }
+        };
+        network.addBlockListener(e);
+    }
+
     private String hashValue(String originalString) {
         MessageDigest digest = null;
         try {
@@ -78,29 +101,6 @@ public class HyperledgerService {
     private MedicalInstitution getMedicalInstitution(User user) {
         Doctor doctor = (Doctor) user;
         return doctor.getMedicalInstitution();
-    }
-
-    public static void registerListener(Network network, Channel channel, Contract contract) throws InvalidArgumentException {
-        Consumer<BlockEvent> e = new Consumer<BlockEvent>() {
-            @SneakyThrows
-            @Override
-            public void accept(BlockEvent blockEvent) {
-                long bN = blockEvent.getBlockNumber();
-                System.out.println("network blockListener" + bN);
-                for (BlockEvent.TransactionEvent transactionEvent : blockEvent.getTransactionEvents()) {
-                    String mspId = transactionEvent.getCreator().getMspid();
-                    String peer = transactionEvent.getPeer().getName();
-                    System.out.println(String.format("[NetworkBlockEventListener] transactionEventId: %s, creatorMspId: %s, peer: %s", transactionEvent.getTransactionID(), mspId, peer));
-                }
-            }
-
-            @Override
-            public Consumer<BlockEvent> andThen(Consumer<? super BlockEvent> after) {
-                System.out.println("done accept event op");
-                return null;
-            }
-        };
-        network.addBlockListener(e);
     }
 
     private Contract getContract(User user) throws Exception {
@@ -356,7 +356,7 @@ public class HyperledgerService {
 
             JSONObject jsonObject = new JSONObject();
 
-            for (Map.Entry<String, String> entry: searchParams.entrySet()) {
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
                 jsonObject.put(entry.getKey(), entry.getValue());
             }
 
@@ -368,7 +368,8 @@ public class HyperledgerService {
             String medicalRecordListStr = new String(result);
             List<MedicalRecord> medicalRecordList = new Genson().deserialize(
                     medicalRecordListStr,
-                    new GenericType<List<MedicalRecord>>() {}
+                    new GenericType<List<MedicalRecord>>() {
+                    }
             );
 
             LOG.info("result: " + medicalRecordList);
@@ -404,7 +405,7 @@ public class HyperledgerService {
 
             JSONObject jsonObject = new JSONObject();
 
-            for (Map.Entry<String, String> entry: searchParams.entrySet()) {
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
                 jsonObject.put(entry.getKey(), entry.getValue());
             }
 
@@ -416,7 +417,8 @@ public class HyperledgerService {
             String medicationListStr = new String(result);
             List<Medication> medicationList = new Genson().deserialize(
                     medicationListStr,
-                    new GenericType<List<Medication>>() {}
+                    new GenericType<List<Medication>>() {
+                    }
             );
 
             LOG.info("result: " + medicationList);
@@ -556,7 +558,8 @@ public class HyperledgerService {
 
             String viewRequestListStr = new String(result);
             viewRequestList = new Genson().deserialize(viewRequestListStr,
-                    new GenericType<List<ViewRequest>>() {});
+                    new GenericType<List<ViewRequest>>() {
+                    });
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
@@ -593,8 +596,7 @@ public class HyperledgerService {
             );
             medication = new Genson().deserialize(new String(result), Medication.class);
             LOG.info("result: " + medication);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             formatExceptionMessage(e);
         }
         return medication;
@@ -611,8 +613,7 @@ public class HyperledgerService {
             );
             prescription = new Genson().deserialize(new String(result), Prescription.class);
             LOG.info("result: " + prescription);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             formatExceptionMessage(e);
         }
         return prescription;

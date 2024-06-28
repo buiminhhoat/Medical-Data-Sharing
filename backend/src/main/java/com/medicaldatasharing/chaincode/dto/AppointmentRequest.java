@@ -1,13 +1,39 @@
 package com.medicaldatasharing.chaincode.dto;
 
 import com.owlike.genson.Genson;
-import com.owlike.genson.annotation.JsonProperty;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class AppointmentRequest extends Request {
     public AppointmentRequest() {
         this.entityName = AppointmentRequest.class.getSimpleName();
+    }
+
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
+    }
+
+    public static AppointmentRequest deserialize(byte[] data) {
+        Genson genson = new Genson();
+        return genson.deserialize(data, AppointmentRequest.class);
+    }
+
+    public static AppointmentRequest createInstance(
+            String requestId,
+            String senderId,
+            String recipientId,
+            String dateModified,
+            String requestType,
+            String requestStatus
+    ) {
+        AppointmentRequest appointmentRequest = new AppointmentRequest();
+        appointmentRequest.setSenderId(senderId);
+        appointmentRequest.setRequestId(requestId);
+        appointmentRequest.setRecipientId(recipientId);
+        appointmentRequest.setDateModified(dateModified);
+        appointmentRequest.setRequestType(requestType);
+        appointmentRequest.setRequestStatus(requestStatus);
+        appointmentRequest.setEntityName(AppointmentRequest.class.getSimpleName());
+        return appointmentRequest;
     }
 
     public String getRequestId() {
@@ -71,34 +97,5 @@ public class AppointmentRequest extends Request {
     public AppointmentRequest setEntityName(String entityName) {
         this.entityName = entityName;
         return this;
-    }
-
-    public static byte[] serialize(Object object) {
-        Genson genson = new Genson();
-        return genson.serializeBytes(object);
-    }
-
-    public static AppointmentRequest deserialize(byte[] data) {
-        Genson genson = new Genson();
-        return genson.deserialize(data, AppointmentRequest.class);
-    }
-    
-    public static AppointmentRequest createInstance(
-            String requestId,
-            String senderId,
-            String recipientId,
-            String dateModified,
-            String requestType,
-            String requestStatus
-    ) {
-        AppointmentRequest appointmentRequest = new AppointmentRequest();
-        appointmentRequest.setSenderId(senderId);
-        appointmentRequest.setRequestId(requestId);
-        appointmentRequest.setRecipientId(recipientId);
-        appointmentRequest.setDateModified(dateModified);
-        appointmentRequest.setRequestType(requestType);
-        appointmentRequest.setRequestStatus(requestStatus);
-        appointmentRequest.setEntityName(AppointmentRequest.class.getSimpleName());
-        return appointmentRequest;
     }
 }

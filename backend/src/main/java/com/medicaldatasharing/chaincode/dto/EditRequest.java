@@ -4,25 +4,12 @@ import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 public class EditRequest extends Request {
     @JsonProperty("medicalRecord")
     private String medicalRecord;
 
     public EditRequest() {
         this.entityName = EditRequest.class.getSimpleName();
-    }
-
-    public String getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public EditRequest setMedicalRecord(String medicalRecord) {
-        this.medicalRecord = medicalRecord;
-        return this;
     }
 
     public static byte[] serialize(Object object) {
@@ -73,6 +60,15 @@ public class EditRequest extends Request {
         request.setEntityName(EditRequest.class.getSimpleName());
         request.setMedicalRecord(medicalRecord);
         return request;
+    }
+
+    public String getMedicalRecord() {
+        return medicalRecord;
+    }
+
+    public EditRequest setMedicalRecord(String medicalRecord) {
+        this.medicalRecord = medicalRecord;
+        return this;
     }
 
     public String getRequestId() {

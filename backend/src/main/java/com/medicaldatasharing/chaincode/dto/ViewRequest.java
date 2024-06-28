@@ -1,10 +1,6 @@
 package com.medicaldatasharing.chaincode.dto;
 
 import com.owlike.genson.Genson;
-import com.owlike.genson.annotation.JsonProperty;
-import org.json.JSONObject;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ViewRequest extends Request {
     public ViewRequest() {

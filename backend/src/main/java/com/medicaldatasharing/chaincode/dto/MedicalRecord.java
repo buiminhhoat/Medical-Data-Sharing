@@ -2,13 +2,6 @@ package com.medicaldatasharing.chaincode.dto;
 
 import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MedicalRecord {
 
