@@ -1,7 +1,7 @@
 package healthInformationSharing.dao;
 
 import com.owlike.genson.Genson;
-import healthInformationSharing.entity.ViewRequest;
+import healthInformationSharing.entity.ViewPrescriptionRequest;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public class ViewRequestQuery {
-    private final static Logger LOG = Logger.getLogger(ViewRequestQuery.class.getName());
+public class ViewPrescriptionRequestQuery {
+    private final static Logger LOG = Logger.getLogger(ViewPrescriptionRequestQuery.class.getName());
     private Context ctx;
     private String entityName;
 
-    public ViewRequestQuery(Context ctx, String entityName) {
+    public ViewPrescriptionRequestQuery(Context ctx, String entityName) {
         this.ctx = ctx;
         this.entityName = entityName;
     }
 
-    public List<ViewRequest> getListViewRequestBySenderQuery(JSONObject jsonDto) {
+    public List<ViewPrescriptionRequest> getListViewPrescriptionRequestBySenderQuery(JSONObject jsonDto) {
         String requestId = jsonDto.getString("requestId");
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
@@ -32,7 +32,7 @@ public class ViewRequestQuery {
         String from = jsonDto.getString("from");
         String until = jsonDto.getString("until");
         String sortingOrder = jsonDto.getString("sortingOrder");
-        List<ViewRequest> viewRequestList = new ArrayList<>();
+        List<ViewPrescriptionRequest> ViewPrescriptionRequestList = new ArrayList<>();
         JSONObject queryJsonObject = createQuerySelector(
                 requestId,
                 senderId,
@@ -53,10 +53,10 @@ public class ViewRequestQuery {
             JSONObject jsonObject = new JSONObject(value);
             byte[] bytes = keyValue.getValue();
             LOG.info("keyValue class: " + keyValue.getClass().toString() + ", type: " + keyValue.getClass().getTypeName());
-            ViewRequest viewRequest = new Genson().deserialize(value, ViewRequest.class);
-            viewRequestList.add(viewRequest);
+            ViewPrescriptionRequest ViewPrescriptionRequest = new Genson().deserialize(value, ViewPrescriptionRequest.class);
+            ViewPrescriptionRequestList.add(ViewPrescriptionRequest);
         }
-        return viewRequestList;
+        return ViewPrescriptionRequestList;
     }
 
     public JSONObject createQuerySelector(
