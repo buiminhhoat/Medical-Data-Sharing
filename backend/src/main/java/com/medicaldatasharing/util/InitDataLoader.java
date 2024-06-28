@@ -277,7 +277,6 @@ public class InitDataLoader implements CommandLineRunner {
             Medication medication = hyperledgerService.addMedication(manufacturer, addMedicationForm);
 
             AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
-            addPrescriptionForm.setUsageCount("5");
             addPrescriptionForm.setDrugReaction("");
             List<PrescriptionDetails> prescriptionDetailsList = new ArrayList<>();
             prescriptionDetailsList.add(new PrescriptionDetails("", "",
@@ -285,9 +284,6 @@ public class InitDataLoader implements CommandLineRunner {
             prescriptionDetailsList.add(new PrescriptionDetails("", "",
                     medication.getMedicationId(), "20", "Uống 4 viên vào mỗi trưa và tối"));
             addPrescriptionForm.setPrescriptionDetailsList(new Genson().serialize(prescriptionDetailsList));
-
-//            Prescription prescription = hyperledgerService.addPrescription(doctor1, addPrescriptionForm);
-//            System.out.println(prescription);
 
             String testName = "Cardiovascular Test";
 
@@ -406,7 +402,14 @@ public class InitDataLoader implements CommandLineRunner {
             );
             System.out.println(defineViewPrescriptionRequest);
 
-
+            GetPrescriptionForm getPrescriptionForm = new GetPrescriptionForm();
+            getPrescriptionForm.setPrescriptionId(medicalRecord.getPrescriptionId());
+            getPrescriptionForm.setDrugStoreId(drugStore.getId());
+            PrescriptionDto prescriptionDto = hyperledgerService.getPrescription(
+                    drugStore,
+                    getPrescriptionForm
+            );
+            System.out.println(prescriptionDto);
         } catch (Exception exception) {
             System.out.println(exception);
         }

@@ -18,4 +18,8 @@ public class PrescriptionDetailsDAO {
     public PrescriptionDetails addPrescriptionDetails(PrescriptionDetails prescriptionDetails) {
         return prescriptionDetailsCRUD.addPrescriptionDetails(prescriptionDetails);
     }
+
+    public List<PrescriptionDetails> getListPrescriptionDetails(String prescriptionId) {
+        return prescriptionDetailsQuery.getListPrescriptionDetails(prescriptionId);
+    }
 }

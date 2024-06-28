@@ -1,22 +1,34 @@
 package com.medicaldatasharing.form;
 
-import lombok.*;
 import org.json.JSONObject;
 
 import javax.validation.constraints.NotBlank;
 import java.lang.reflect.Field;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class AddPrescriptionForm {
+public class GetPrescriptionForm {
     @NotBlank
-    private String drugReaction;
+    private String prescriptionId;
 
     @NotBlank
-    private String prescriptionDetailsList;
+    private String drugStoreId;
+
+    public @NotBlank String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public GetPrescriptionForm setPrescriptionId(@NotBlank String prescriptionId) {
+        this.prescriptionId = prescriptionId;
+        return this;
+    }
+
+    public @NotBlank String getDrugStoreId() {
+        return drugStoreId;
+    }
+
+    public GetPrescriptionForm setDrugStoreId(@NotBlank String drugStoreId) {
+        this.drugStoreId = drugStoreId;
+        return this;
+    }
 
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();

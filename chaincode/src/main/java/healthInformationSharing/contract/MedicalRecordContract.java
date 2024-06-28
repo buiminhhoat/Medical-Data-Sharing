@@ -7,6 +7,7 @@ import healthInformationSharing.dao.AppointmentRequestDAO;
 import healthInformationSharing.dao.EditRequestDAO;
 import healthInformationSharing.dao.ViewPrescriptionRequestDAO;
 import healthInformationSharing.dao.ViewRequestDAO;
+import healthInformationSharing.dto.PrescriptionDto;
 import healthInformationSharing.entity.*;
 import healthInformationSharing.enumeration.RequestStatus;
 import healthInformationSharing.enumeration.RequestType;
@@ -634,7 +635,6 @@ public class MedicalRecordContract implements ContractInterface {
             String jsonString
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
-        String usageCount = jsonObject.getString("usageCount");
         String drugReaction = jsonObject.getString("drugReaction");
         String prescriptionDetailsListStr = jsonObject.getString("prescriptionDetailsList");
 
@@ -663,7 +663,32 @@ public class MedicalRecordContract implements ContractInterface {
             String jsonString
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
-        return null;
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String drugStoreId = jsonObject.getString("drugStoreId");
+        authorizeRequest(ctx, drugStoreId, "getPrescriptionByDrugStore(validate drugStoreId)");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("prescriptionId", prescriptionId);
+        jsonDto.put("recipientId", drugStoreId);
+        jsonDto.put("requestType", RequestType.VIEW_PRESCRIPTION);
+        jsonDto.put("requestStatus", RequestStatus.ACCEPTED);
+
+        List<ViewPrescriptionRequest> viewPrescriptionRequestList = ctx.getViewPrescriptionRequestDAO()
+                .getListViewPrescriptionRequestByDrugStoreQuery(jsonDto);
+
+        if (viewPrescriptionRequestList.isEmpty()) {
+            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+                    MedicalRecordContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
+        }
+
+        Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
+
+        PrescriptionDto prescriptionDto = new PrescriptionDto();
+        prescriptionDto.setPrescriptionId(prescription.getPrescriptionId());
+        prescriptionDto.setDrugReaction(prescription.getDrugReaction());
+        prescriptionDto.setEntityName(prescription.getEntityName());
+        prescriptionDto.setPrescriptionDetailsList(ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(prescriptionId));
+        return new Genson().serialize(prescriptionDto);
     }
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String sendViewPrescriptionRequest(
@@ -722,8 +747,11 @@ public class MedicalRecordContract implements ContractInterface {
     private enum MedicalRecordContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,
+        UNAUTHORIZED_VIEW_ACCESS,
+        UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS,
         UNAUTHORIZED_EDIT_ACCESS,
         VALIDATE_MEDICAL_RECORD_ACCESS_ERROR,
+        VALIDATE_VIEW_PRESCRIPTION_ACCESS_ERROR,
         EDIT_REQUEST_NOT_FOUND,
         MEDICATION_NOT_FOUND,
         EMPTY_MEDICATION_ID_ERROR;

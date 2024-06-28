@@ -1,6 +1,7 @@
 package healthInformationSharing.dao;
 
 import com.owlike.genson.Genson;
+import healthInformationSharing.entity.MedicalRecord;
 import healthInformationSharing.entity.Prescription;
 import org.hyperledger.fabric.contract.Context;
 import org.json.JSONObject;
@@ -16,5 +17,13 @@ public class PrescriptionDAO {
 
     public Prescription addPrescription(JSONObject jsonDto) {
         return prescriptionCRUD.addPrescription(jsonDto);
+    }
+
+    public boolean prescriptionExist(String prescriptionId) {
+        return prescriptionCRUD.prescriptionExist(prescriptionId);
+    }
+
+    public Prescription getPrescription(String prescriptionId) {
+        return prescriptionCRUD.getPrescription(prescriptionId);
     }
 }

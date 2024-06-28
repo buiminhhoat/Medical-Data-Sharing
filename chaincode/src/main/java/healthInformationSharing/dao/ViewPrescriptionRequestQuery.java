@@ -23,17 +23,17 @@ public class ViewPrescriptionRequestQuery {
         this.entityName = entityName;
     }
 
-    public List<ViewPrescriptionRequest> getListViewPrescriptionRequestBySenderQuery(JSONObject jsonDto) {
-        String requestId = jsonDto.getString("requestId");
-        String senderId = jsonDto.getString("senderId");
-        String recipientId = jsonDto.getString("recipientId");
-        String requestType = jsonDto.getString("requestType");
-        String requestStatus = jsonDto.getString("requestStatus");
-        String from = jsonDto.getString("from");
-        String until = jsonDto.getString("until");
-        String sortingOrder = jsonDto.getString("sortingOrder");
+    public List<ViewPrescriptionRequest> getListViewPrescriptionRequest(JSONObject jsonDto) {
+        String requestId = jsonDto.has("requestId") ? jsonDto.getString("requestId") : "";
+        String senderId = jsonDto.has("senderId") ? jsonDto.getString("senderId") : "";
+        String recipientId = jsonDto.has("recipientId") ? jsonDto.getString("recipientId") : "";
+        String requestType = jsonDto.has("requestType") ? jsonDto.getString("requestType") : "";
+        String requestStatus = jsonDto.has("requestStatus") ? jsonDto.getString("requestStatus") : "";
+        String from = jsonDto.has("from") ? jsonDto.getString("from") : "";
+        String until = jsonDto.has("until") ? jsonDto.getString("until") : "";
+        String sortingOrder = jsonDto.has("sortingOrder") ? jsonDto.getString("sortingOrder") : "desc";
 
-        String prescriptionId = jsonDto.getString("prescriptionId");
+        String prescriptionId = jsonDto.has("prescriptionId") ? jsonDto.getString("prescriptionId") : "";
 
         List<ViewPrescriptionRequest> ViewPrescriptionRequestList = new ArrayList<>();
         JSONObject queryJsonObject = createQuerySelector(
@@ -88,7 +88,6 @@ public class ViewPrescriptionRequestQuery {
         jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
 
         JSONObject jsonObjectSelector = new JSONObject();
-        jsonObjectSelector.putOnce("dateModified", jsonObjectTimeRange);
 
         if (!requestId.isEmpty()) {
             jsonObjectSelector.putOnce("requestId", requestId);
@@ -99,7 +98,7 @@ public class ViewPrescriptionRequestQuery {
         }
 
         if (!recipientId.isEmpty()) {
-            jsonObjectSelector.putOnce("testName", recipientId);
+            jsonObjectSelector.putOnce("recipientId", recipientId);
         }
 
         if (!requestType.isEmpty()) {

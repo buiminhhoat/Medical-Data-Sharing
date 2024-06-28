@@ -57,6 +57,10 @@ public class ViewPrescriptionRequestDAO {
     }
 
     public List<ViewPrescriptionRequest> getListViewPrescriptionRequestBySenderQuery(JSONObject jsonDto) {
-        return viewPrescriptionRequestQuery.getListViewPrescriptionRequestBySenderQuery(jsonDto);
+        return viewPrescriptionRequestQuery.getListViewPrescriptionRequest(jsonDto);
+    }
+
+    public List<ViewPrescriptionRequest> getListViewPrescriptionRequestByDrugStoreQuery(JSONObject jsonDto) {
+        return viewPrescriptionRequestQuery.getListViewPrescriptionRequest(jsonDto);
     }
 }

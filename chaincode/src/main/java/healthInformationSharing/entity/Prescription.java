@@ -19,10 +19,6 @@ public class Prescription {
     private String prescriptionId;
 
     @Property
-    @JsonProperty("usageCount")
-    private String usageCount;
-
-    @Property
     @JsonProperty("drugReaction")
     private String drugReaction;
 
@@ -34,19 +30,11 @@ public class Prescription {
         this.entityName = Prescription.class.getSimpleName();
     }
 
-    public Prescription(String prescriptionId, String medicalRecordId, String usageCount, String drugReaction) {
-        this.prescriptionId = prescriptionId;
-        this.usageCount = usageCount;
-        this.drugReaction = drugReaction;
-    }
-
     public static Prescription createInstance(
             String prescriptionId,
-            String usageCount,
             String drugReaction) {
         Prescription prescription = new Prescription();
         prescription.setPrescriptionId(prescriptionId);
-        prescription.setUsageCount(usageCount);
         prescription.setDrugReaction(drugReaction);
         return prescription;
     }
@@ -60,15 +48,6 @@ public class Prescription {
         return this;
     }
 
-    public String getUsageCount() {
-        return usageCount;
-    }
-
-    public Prescription setUsageCount(String usageCount) {
-        this.usageCount = usageCount;
-        return this;
-    }
-
     public String getDrugReaction() {
         return drugReaction;
     }
@@ -76,5 +55,37 @@ public class Prescription {
     public Prescription setDrugReaction(String drugReaction) {
         this.drugReaction = drugReaction;
         return this;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public Prescription setEntityName(String entityName) {
+        this.entityName = entityName;
+        return this;
+    }
+
+    public static byte[] serialize(Object object) {
+        Genson genson = new Genson();
+        return genson.serializeBytes(object);
+    }
+
+    public static Prescription deserialize(byte[] data) {
+        Genson genson = new Genson();
+        return genson.deserialize(data, Prescription.class);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Prescription that = (Prescription) object;
+        return Objects.equals(prescriptionId, that.prescriptionId) && Objects.equals(drugReaction, that.drugReaction) && Objects.equals(entityName, that.entityName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(prescriptionId, drugReaction, entityName);
     }
 }

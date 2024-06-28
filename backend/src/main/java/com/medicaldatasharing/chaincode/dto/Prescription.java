@@ -6,9 +6,6 @@ public class Prescription {
     @JsonProperty("prescriptionId")
     private String prescriptionId;
 
-    @JsonProperty("usageCount")
-    private String usageCount;
-
     @JsonProperty("drugReaction")
     private String drugReaction;
 
@@ -25,15 +22,6 @@ public class Prescription {
 
     public Prescription setPrescriptionId(String prescriptionId) {
         this.prescriptionId = prescriptionId;
-        return this;
-    }
-
-    public String getUsageCount() {
-        return usageCount;
-    }
-
-    public Prescription setUsageCount(String usageCount) {
-        this.usageCount = usageCount;
         return this;
     }
 

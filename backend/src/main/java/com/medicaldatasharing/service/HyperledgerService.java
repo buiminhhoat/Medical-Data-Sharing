@@ -599,21 +599,21 @@ public class HyperledgerService {
         return medication;
     }
 
-    public Prescription addPrescription(User user, AddPrescriptionForm addPrescriptionForm) throws Exception {
-        Prescription prescription = null;
+    public PrescriptionDto getPrescription(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
+        PrescriptionDto prescriptionDto = null;
         try {
             Contract contract = getContract(user);
-            JSONObject jsonDto = addPrescriptionForm.toJSONObject();
+            JSONObject jsonDto = getPrescriptionForm.toJSONObject();
             byte[] result = contract.submitTransaction(
-                    "addPrescription",
+                    "getPrescriptionByDrugStore",
                     jsonDto.toString()
             );
-            prescription = new Genson().deserialize(new String(result), Prescription.class);
-            LOG.info("result: " + prescription);
+            prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
+            LOG.info("result: " + prescriptionDto);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return prescription;
+        return prescriptionDto;
     }
 
     public ViewPrescriptionRequest sendViewPrescriptionRequest(User user, SendViewPrescriptionRequestDto sendViewPrescriptionRequestDto) throws Exception {
