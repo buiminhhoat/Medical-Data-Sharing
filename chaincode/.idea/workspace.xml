@@ -128,7 +128,7 @@
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" weight="0.2689951" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3302696" />
       <window_info anchor="bottom" id="Terminal" order="3" weight="0.3302696" />
       <window_info anchor="bottom" id="Build" order="4" weight="0.2689951" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.2689951" />
@@ -227,7 +227,7 @@
       <workItem from="1719502538352" duration="4776000" />
       <workItem from="1719541412422" duration="1857000" />
       <workItem from="1719543280214" duration="5831000" />
-      <workItem from="1719559851698" duration="1691000" />
+      <workItem from="1719559851698" duration="3315000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

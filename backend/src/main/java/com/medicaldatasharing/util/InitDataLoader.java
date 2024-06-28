@@ -307,8 +307,8 @@ public class InitDataLoader implements CommandLineRunner {
             MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto);
             System.out.println("chaincodeMedicalRecord: " + medicalRecord);
 
-            MedicalRecord getMedicalRecord = hyperledgerService.getMedicalRecord(patient, medicalRecord.getMedicalRecordId());
-            System.out.println("getChaincodeMedicalRecord: " + getMedicalRecord);
+            MedicalRecord getMedicalRecordByPatient = hyperledgerService.getMedicalRecordByPatient(patient, medicalRecord.getMedicalRecordId());
+            System.out.println("getMedicalRecordByPatient: " + getMedicalRecordByPatient);
 
 
             DefineMedicalRecordForm defineMedicalRecordForm = new DefineMedicalRecordForm();
@@ -345,8 +345,10 @@ public class InitDataLoader implements CommandLineRunner {
             DefineRequestForm defineRequestForm = new DefineRequestForm();
             defineRequestForm.setRequestId(editRequest.getRequestId());
             defineRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
-            MedicalRecord defineEditRequest = hyperledgerService.defineEditRequest(patient,
-                    defineRequestForm);
+            MedicalRecord defineEditRequest = hyperledgerService.defineEditRequest(
+                    patient,
+                    defineRequestForm
+            );
 
             System.out.println(defineEditRequest.toString());
 
@@ -403,6 +405,8 @@ public class InitDataLoader implements CommandLineRunner {
                     defineViewPrescriptionRequestDto
             );
             System.out.println(defineViewPrescriptionRequest);
+
+
         } catch (Exception exception) {
             System.out.println(exception);
         }

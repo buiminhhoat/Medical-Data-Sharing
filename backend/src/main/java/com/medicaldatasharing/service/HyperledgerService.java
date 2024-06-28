@@ -161,7 +161,7 @@ public class HyperledgerService {
         return medicalRecord;
     }
 
-    public MedicalRecord getMedicalRecord(User user, String medicalRecordId) throws Exception {
+    public MedicalRecord getMedicalRecordByPatient(User user, String medicalRecordId) throws Exception {
         MedicalRecord medicalRecord = null;
         try {
             Contract contract = getContract(user);
@@ -169,7 +169,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("medicalRecordId", medicalRecordId);
             byte[] result = contract.evaluateTransaction(
-                    "getMedicalRecord",
+                    "getMedicalRecordByPatient",
                     jsonObject.toString()
             );
             String medicalRecordStr = new String(result);
@@ -653,7 +653,10 @@ public class HyperledgerService {
                     jsonObject.toString()
             );
             String viewPrescriptionRequestStr = new String(result);
-            viewPrescriptionRequest = new Genson().deserialize(viewPrescriptionRequestStr, ViewPrescriptionRequest.class);
+            viewPrescriptionRequest = new Genson().deserialize(
+                    viewPrescriptionRequestStr,
+                    ViewPrescriptionRequest.class
+            );
             LOG.info("result: " + viewPrescriptionRequestStr);
         } catch (Exception e) {
             formatExceptionMessage(e);
