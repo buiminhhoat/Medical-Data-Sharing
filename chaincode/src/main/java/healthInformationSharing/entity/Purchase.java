@@ -20,12 +20,8 @@ public class Purchase {
     private String purchaseId;
 
     @Property
-    @JsonProperty("prescriptionDetailId")
-    private String prescriptionDetailId;
-
-    @Property
-    @JsonProperty("drugId")
-    private String drugId;
+    @JsonProperty("prescriptionId")
+    private String prescriptionId;
 
     @Property()
     @JsonProperty("entityName")
@@ -35,10 +31,11 @@ public class Purchase {
         this.entityName = Purchase.class.getSimpleName();
     }
 
-    public Purchase(String purchaseId, String prescriptionDetailId, String drugId) {
+    public Purchase(String purchaseId, String prescriptionId, String entityName) {
+        super();
         this.purchaseId = purchaseId;
-        this.prescriptionDetailId = prescriptionDetailId;
-        this.drugId = drugId;
+        this.prescriptionId = prescriptionId;
+        this.entityName = entityName;
     }
 
     public String getPurchaseId() {
@@ -50,21 +47,21 @@ public class Purchase {
         return this;
     }
 
-    public String getPrescriptionDetailId() {
-        return prescriptionDetailId;
+    public String getPrescriptionId() {
+        return prescriptionId;
     }
 
-    public Purchase setPrescriptionDetailId(String prescriptionDetailId) {
-        this.prescriptionDetailId = prescriptionDetailId;
+    public Purchase setPrescriptionId(String prescriptionId) {
+        this.prescriptionId = prescriptionId;
         return this;
     }
 
-    public String getDrugId() {
-        return drugId;
+    public String getEntityName() {
+        return entityName;
     }
 
-    public Purchase setDrugId(String drugId) {
-        this.drugId = drugId;
+    public Purchase setEntityName(String entityName) {
+        this.entityName = entityName;
         return this;
     }
 
@@ -76,5 +73,27 @@ public class Purchase {
     public static Purchase deserialize(byte[] data) {
         Genson genson = new Genson();
         return genson.deserialize(data, Purchase.class);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Purchase purchase = (Purchase) object;
+        return Objects.equals(purchaseId, purchase.purchaseId) && Objects.equals(prescriptionId, purchase.prescriptionId) && Objects.equals(entityName, purchase.entityName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(purchaseId, prescriptionId, entityName);
+    }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "purchaseId='" + purchaseId + '\'' +
+                ", prescriptionId='" + prescriptionId + '\'' +
+                ", entityName='" + entityName + '\'' +
+                '}';
     }
 }
