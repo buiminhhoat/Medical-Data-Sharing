@@ -1,10 +1,14 @@
 package com.medicaldatasharing.chaincode.dto;
 
 import com.owlike.genson.Genson;
+import com.owlike.genson.annotation.JsonProperty;
 
-public class ViewRequest extends Request {
-    public ViewRequest() {
-        this.entityName = ViewRequest.class.getSimpleName();
+public class ViewPrescriptionRequest extends Request {
+    @JsonProperty("prescriptionId")
+    protected String prescriptionId;
+
+    public ViewPrescriptionRequest() {
+        this.entityName = ViewPrescriptionRequest.class.getSimpleName();
     }
 
     public static byte[] serialize(Object object) {
@@ -12,27 +16,29 @@ public class ViewRequest extends Request {
         return genson.serializeBytes(object);
     }
 
-    public static ViewRequest deserialize(byte[] data) {
+    public static ViewPrescriptionRequest deserialize(byte[] data) {
         Genson genson = new Genson();
-        return genson.deserialize(data, ViewRequest.class);
+        return genson.deserialize(data, ViewPrescriptionRequest.class);
     }
 
-    public static ViewRequest createInstance(
+    public static ViewPrescriptionRequest createInstance(
             String requestId,
             String senderId,
             String recipientId,
             String dateModified,
             String requestType,
-            String requestStatus
+            String requestStatus,
+            String prescriptionId
     ) {
-        ViewRequest request = new ViewRequest();
+        ViewPrescriptionRequest request = new ViewPrescriptionRequest();
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
-        request.setEntityName(ViewRequest.class.getSimpleName());
+        request.setPrescriptionId(prescriptionId);
+        request.setEntityName(ViewPrescriptionRequest.class.getSimpleName());
         return request;
     }
 
@@ -40,7 +46,7 @@ public class ViewRequest extends Request {
         return requestId;
     }
 
-    public ViewRequest setRequestId(String requestId) {
+    public ViewPrescriptionRequest setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -49,7 +55,7 @@ public class ViewRequest extends Request {
         return senderId;
     }
 
-    public ViewRequest setSenderId(String senderId) {
+    public ViewPrescriptionRequest setSenderId(String senderId) {
         this.senderId = senderId;
         return this;
     }
@@ -58,7 +64,7 @@ public class ViewRequest extends Request {
         return recipientId;
     }
 
-    public ViewRequest setRecipientId(String recipientId) {
+    public ViewPrescriptionRequest setRecipientId(String recipientId) {
         this.recipientId = recipientId;
         return this;
     }
@@ -67,7 +73,7 @@ public class ViewRequest extends Request {
         return dateModified;
     }
 
-    public ViewRequest setDateModified(String dateModified) {
+    public ViewPrescriptionRequest setDateModified(String dateModified) {
         this.dateModified = dateModified;
         return this;
     }
@@ -76,7 +82,7 @@ public class ViewRequest extends Request {
         return requestType;
     }
 
-    public ViewRequest setRequestType(String requestType) {
+    public ViewPrescriptionRequest setRequestType(String requestType) {
         this.requestType = requestType;
         return this;
     }
@@ -85,7 +91,7 @@ public class ViewRequest extends Request {
         return requestStatus;
     }
 
-    public ViewRequest setRequestStatus(String requestStatus) {
+    public ViewPrescriptionRequest setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
         return this;
     }
@@ -94,8 +100,17 @@ public class ViewRequest extends Request {
         return entityName;
     }
 
-    public ViewRequest setEntityName(String entityName) {
+    public ViewPrescriptionRequest setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public ViewPrescriptionRequest setPrescriptionId(String prescriptionId) {
+        this.prescriptionId = prescriptionId;
         return this;
     }
 }

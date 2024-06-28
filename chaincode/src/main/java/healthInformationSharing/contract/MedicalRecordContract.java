@@ -5,6 +5,8 @@ import com.owlike.genson.Genson;
 import healthInformationSharing.component.MedicalRecordContext;
 import healthInformationSharing.dao.AppointmentRequestDAO;
 import healthInformationSharing.dao.EditRequestDAO;
+import healthInformationSharing.dao.ViewPrescriptionRequestDAO;
+import healthInformationSharing.dao.ViewRequestDAO;
 import healthInformationSharing.entity.*;
 import healthInformationSharing.enumeration.RequestStatus;
 import healthInformationSharing.enumeration.RequestType;
@@ -421,6 +423,86 @@ public class MedicalRecordContract implements ContractInterface {
                 jsonDto
         );
         return new Genson().serialize(viewRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String defineViewRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        String requestStatus = jsonObject.getString("requestStatus");
+        ViewRequestDAO viewRequestDAO = ctx.getViewRequestDAO();
+
+        if (!viewRequestDAO.requestExist(requestId)) {
+            throw new ChaincodeException("ViewRequest " + requestId + " does not exist",
+                    MedicalRecordContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+
+        ViewRequest viewRequest = viewRequestDAO.getViewRequest(requestId);
+        authorizeRequest(ctx, viewRequest.getRecipientId(), "defineViewRequest(validate recipientId");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("requestId", requestId);
+        jsonDto.put("requestStatus", requestStatus);
+        viewRequest = ctx.getViewRequestDAO().defineViewRequest(
+                jsonDto
+        );
+        return new Genson().serialize(viewRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String sendViewPrescriptionRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        String senderId = jsonObject.getString("senderId");
+        String recipientId = jsonObject.getString("recipientId");
+        String dateModified = jsonObject.getString("dateModified");
+        String prescriptionId = jsonObject.getString("prescriptionId");
+
+        authorizeRequest(ctx, senderId, "sendViewPrescriptionRequest(validate senderId)");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("senderId", senderId);
+        jsonDto.put("recipientId", recipientId);
+        jsonDto.put("dateModified", dateModified);
+        jsonDto.put("requestType", RequestType.VIEW_PRESCRIPTION);
+        jsonDto.put("prescriptionId", prescriptionId);
+        ViewPrescriptionRequest viewPrescriptionRequest = ctx.getViewPrescriptionRequestDAO().sendViewPrescriptionRequest(
+                jsonDto
+        );
+        return new Genson().serialize(viewPrescriptionRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String defineViewPrescriptionRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        String requestStatus = jsonObject.getString("requestStatus");
+        ViewPrescriptionRequestDAO viewPrescriptionRequestDAO = ctx.getViewPrescriptionRequestDAO();
+
+        if (!viewPrescriptionRequestDAO.requestExist(requestId)) {
+            throw new ChaincodeException("ViewPrescriptionRequest " + requestId + " does not exist",
+                    MedicalRecordContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+
+        ViewPrescriptionRequest viewPrescriptionRequest = viewPrescriptionRequestDAO.getViewPrescriptionRequest(requestId);
+        authorizeRequest(ctx, viewPrescriptionRequest.getRecipientId(), "defineViewPrescriptionRequest(validate recipientId");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("requestId", requestId);
+        jsonDto.put("requestStatus", requestStatus);
+        viewPrescriptionRequest = ctx.getViewPrescriptionRequestDAO().defineViewPrescriptionRequest(
+                jsonDto
+        );
+        return new Genson().serialize(viewPrescriptionRequest);
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)

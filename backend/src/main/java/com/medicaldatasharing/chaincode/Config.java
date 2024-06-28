@@ -33,6 +33,8 @@ public class Config {
     public static final String PATIENT_ORG = "org1";
     public static final String DOCTOR_ORG = "org2";
     public static final String MANUFACTURER_ORG = "org3";
+    public static final String DRUG_STORE_ORG = "org4";
+
 
     public static final String CHANNEL_NAME = "healthcare";
 

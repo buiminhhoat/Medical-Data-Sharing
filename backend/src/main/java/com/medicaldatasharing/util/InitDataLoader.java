@@ -6,6 +6,7 @@ import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
 import com.medicaldatasharing.dto.MedicationPreviewDto;
+import com.medicaldatasharing.dto.SendViewPrescriptionRequestDto;
 import com.medicaldatasharing.enumeration.MedicalRecordStatus;
 import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.form.*;
@@ -114,6 +115,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .username("nhathuoca")
                 .password("nhathuoca")
                 .build();
+        drugStoreRepository.save(drugStoreA);
 
         DrugStore drugStoreB = DrugStore
                 .builder()
@@ -125,6 +127,16 @@ public class InitDataLoader implements CommandLineRunner {
                 .username("nhathuocb")
                 .password("nhathuocb")
                 .build();
+        drugStoreRepository.save(drugStoreB);
+
+        try {
+            RegisterUserHyperledger.enrollOrgAppUsers(drugStoreA.getEmail(), Config.DRUG_STORE_ORG, drugStoreA.getId());
+            RegisterUserHyperledger.enrollOrgAppUsers(drugStoreB.getEmail(), Config.DRUG_STORE_ORG, drugStoreB.getId());
+        } catch (Exception e) {
+            drugStoreRepository.delete(drugStoreA);
+            drugStoreRepository.delete(drugStoreB);
+            e.printStackTrace();
+        }
     }
     private void initUsers() throws Exception {
         if (!patientRepository.findAll().isEmpty()) {
@@ -369,6 +381,22 @@ public class InitDataLoader implements CommandLineRunner {
             searchMedicationForm.setUntil(StringUtil.createDate("2024-12-31"));
             List<MedicationPreviewDto> medicationPreviewDtoList = hyperledgerService.getListMedication(doctor1, searchMedicationForm);
             System.out.println(medicationPreviewDtoList);
+
+
+            DrugStore drugStore = drugStoreRepository.findDrugStoreByEmail("nhathuoca@gmail.com");
+
+            SendViewPrescriptionRequestDto sendViewPrescriptionRequestDto = new SendViewPrescriptionRequestDto();
+            sendViewPrescriptionRequestDto.setSenderId(drugStore.getId());
+            sendViewPrescriptionRequestDto.setRecipientId(patientId);
+            sendViewPrescriptionRequestDto.setPrescriptionId(medicalRecord.getPrescriptionId());
+            sendViewPrescriptionRequestDto.setDateModified(StringUtil.parseDate(dateModified));
+
+            ViewPrescriptionRequest viewPrescriptionRequest = hyperledgerService.sendViewPrescriptionRequest(
+                    drugStore,
+                    sendViewPrescriptionRequestDto
+            );
+
+            System.out.println(viewPrescriptionRequest);
         } catch (Exception exception) {
             System.out.println(exception);
         }

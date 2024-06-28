@@ -32,6 +32,9 @@ public class ViewPrescriptionRequestQuery {
         String from = jsonDto.getString("from");
         String until = jsonDto.getString("until");
         String sortingOrder = jsonDto.getString("sortingOrder");
+
+        String prescriptionId = jsonDto.getString("prescriptionId");
+
         List<ViewPrescriptionRequest> ViewPrescriptionRequestList = new ArrayList<>();
         JSONObject queryJsonObject = createQuerySelector(
                 requestId,
@@ -39,6 +42,7 @@ public class ViewPrescriptionRequestQuery {
                 recipientId,
                 requestType,
                 requestStatus,
+                prescriptionId,
                 from,
                 until,
                 sortingOrder
@@ -65,6 +69,7 @@ public class ViewPrescriptionRequestQuery {
             String recipientId,
             String requestType,
             String requestStatus,
+            String prescriptionId,
             String from,
             String until,
             String sortingOrder
@@ -103,6 +108,10 @@ public class ViewPrescriptionRequestQuery {
 
         if (!requestStatus.isEmpty()) {
             jsonObjectSelector.putOnce("requestStatus", requestStatus);
+        }
+
+        if (!prescriptionId.isEmpty()) {
+            jsonObjectSelector.putOnce("prescriptionId", prescriptionId);
         }
 
         jsonObjectSelector.putOnce("entityName", entityName);

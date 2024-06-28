@@ -1,11 +1,17 @@
 package healthInformationSharing.entity;
 
 import com.owlike.genson.Genson;
+import com.owlike.genson.annotation.JsonProperty;
 import healthInformationSharing.enumeration.RequestType;
 import org.hyperledger.fabric.contract.annotation.DataType;
+import org.hyperledger.fabric.contract.annotation.Property;
 
 @DataType
 public class ViewPrescriptionRequest extends Request {
+    @Property()
+    @JsonProperty("prescriptionId")
+    private String prescriptionId;
+
     public ViewPrescriptionRequest() {
         this.requestType = RequestType.VIEW_PRESCRIPTION;
         this.entityName = ViewPrescriptionRequest.class.getSimpleName();
@@ -74,13 +80,23 @@ public class ViewPrescriptionRequest extends Request {
         return this;
     }
 
+    public String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public ViewPrescriptionRequest setPrescriptionId(String prescriptionId) {
+        this.prescriptionId = prescriptionId;
+        return this;
+    }
+
     public static ViewPrescriptionRequest createInstance(
             String requestId,
             String senderId,
             String recipientId,
             String dateModified,
             String requestType,
-            String requestStatus
+            String requestStatus,
+            String prescriptionId
     ) {
         ViewPrescriptionRequest request = new ViewPrescriptionRequest();
         request.setRequestId(requestId);
@@ -90,6 +106,7 @@ public class ViewPrescriptionRequest extends Request {
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
         request.setEntityName(ViewPrescriptionRequest.class.getSimpleName());
+        request.setPrescriptionId(prescriptionId);
         return request;
     }
 
@@ -102,4 +119,6 @@ public class ViewPrescriptionRequest extends Request {
         Genson genson = new Genson();
         return genson.deserialize(data, ViewPrescriptionRequest.class);
     }
+
+
 }

@@ -8,8 +8,10 @@ import com.medicaldatasharing.chaincode.util.WalletUtil;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.dto.MedicalRecordPreviewDto;
 import com.medicaldatasharing.dto.MedicationPreviewDto;
+import com.medicaldatasharing.dto.SendViewPrescriptionRequestDto;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
+import com.medicaldatasharing.model.DrugStore;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
@@ -94,6 +96,9 @@ public class HyperledgerService {
         }
         if (user.getRole().equals(Constants.ROLE_MANUFACTURER)) {
             return Config.MANUFACTURER_ORG;
+        }
+        if (user.getRole().equals(Constants.ROLE_DRUG_STORE)) {
+            return Config.DRUG_STORE_ORG;
         }
         return null;
     }
@@ -368,8 +373,7 @@ public class HyperledgerService {
             String medicalRecordListStr = new String(result);
             List<MedicalRecord> medicalRecordList = new Genson().deserialize(
                     medicalRecordListStr,
-                    new GenericType<List<MedicalRecord>>() {
-                    }
+                    new GenericType<List<MedicalRecord>>() {}
             );
 
             LOG.info("result: " + medicalRecordList);
@@ -558,8 +562,7 @@ public class HyperledgerService {
 
             String viewRequestListStr = new String(result);
             viewRequestList = new Genson().deserialize(viewRequestListStr,
-                    new GenericType<List<ViewRequest>>() {
-                    });
+                    new GenericType<List<ViewRequest>>() {});
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
@@ -617,5 +620,28 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return prescription;
+    }
+
+    public ViewPrescriptionRequest sendViewPrescriptionRequest(User user, SendViewPrescriptionRequestDto sendViewPrescriptionRequestDto) throws Exception {
+        ViewPrescriptionRequest viewPrescriptionRequest = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("senderId", sendViewPrescriptionRequestDto.getSenderId());
+            jsonObject.put("recipientId", sendViewPrescriptionRequestDto.getRecipientId());
+            jsonObject.put("dateModified", sendViewPrescriptionRequestDto.getDateModified());
+            jsonObject.put("prescriptionId", sendViewPrescriptionRequestDto.getPrescriptionId());
+            byte[] result = contract.submitTransaction(
+                    "sendViewPrescriptionRequest",
+                    jsonObject.toString()
+            );
+
+            String viewPrescriptionRequestStr = new String(result);
+            viewPrescriptionRequest = new Genson().deserialize(viewPrescriptionRequestStr, ViewPrescriptionRequest.class);
+            LOG.info("result: " + viewPrescriptionRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return viewPrescriptionRequest;
     }
 }

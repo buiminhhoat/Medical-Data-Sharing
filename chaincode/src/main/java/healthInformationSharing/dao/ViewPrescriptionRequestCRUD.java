@@ -56,6 +56,7 @@ public class ViewPrescriptionRequestCRUD {
         String recipientId = jsonDto.getString("recipientId");
         String dateModified = jsonDto.getString("dateModified");
         String requestType = jsonDto.getString("requestType");
+        String prescriptionId = jsonDto.getString("prescriptionId");
 
         String requestId = ctx.getStub().getTxId();
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
@@ -67,7 +68,8 @@ public class ViewPrescriptionRequestCRUD {
                 recipientId,
                 dateModified,
                 requestType,
-                RequestStatus.PENDING
+                RequestStatus.PENDING,
+                prescriptionId
         );
 
         String requestStr = genson.serialize(request);
