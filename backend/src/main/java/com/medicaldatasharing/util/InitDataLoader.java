@@ -135,6 +135,7 @@ public class InitDataLoader implements CommandLineRunner {
             e.printStackTrace();
         }
     }
+
     private void initUsers() throws Exception {
         if (!patientRepository.findAll().isEmpty()) {
             return;
@@ -427,6 +428,31 @@ public class InitDataLoader implements CommandLineRunner {
             );
 
             System.out.println(drug);
+            
+            MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+            medicationPurchaseDto.setMedicationId(medication.getMedicationId());
+            List<String> drugIdList = new ArrayList<>();
+            drugIdList.add(drug.getDrugId());
+            medicationPurchaseDto.setDrugIdList(drugIdList);
+            medicationPurchaseDto.setPrescriptionDetailId(
+                    prescriptionDto.getPrescriptionDetailsList().get(0).getPrescriptionDetailId()
+            );
+
+            PurchaseDto purchaseDto = new PurchaseDto();
+            purchaseDto.setPrescriptionId(medicalRecord.getPrescriptionId());
+
+            List<MedicationPurchaseDto> medicationPurchaseList = new ArrayList<>();
+            medicationPurchaseList.add(medicationPurchaseDto);
+            purchaseDto.setMedicationPurchaseList(new Genson().serialize(medicationPurchaseList));
+            purchaseDto.setPatientId(patientId);
+            purchaseDto.setDrugStoreId(drugStore.getId());
+            purchaseDto.setDateModified(StringUtil.parseDate(dateModified));
+
+            Purchase purchase = hyperledgerService.addPurchase(
+                    drugStore,
+                    purchaseDto
+            );
+            System.out.println(purchase);
         } catch (Exception exception) {
             System.out.println(exception);
         }

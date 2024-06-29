@@ -23,6 +23,18 @@ public class Purchase {
     @JsonProperty("prescriptionId")
     private String prescriptionId;
 
+    @Property
+    @JsonProperty("patientId")
+    private String patientId;
+
+    @Property
+    @JsonProperty("drugStoreId")
+    private String drugStoreId;
+
+    @Property
+    @JsonProperty("dateModified")
+    private String dateModified;
+
     @Property()
     @JsonProperty("entityName")
     private String entityName;
@@ -31,11 +43,20 @@ public class Purchase {
         this.entityName = Purchase.class.getSimpleName();
     }
 
-    public Purchase(String purchaseId, String prescriptionId, String entityName) {
-        super();
-        this.purchaseId = purchaseId;
-        this.prescriptionId = prescriptionId;
-        this.entityName = entityName;
+    public static Purchase createInstance(
+            String purchaseId,
+            String prescriptionId,
+            String patientId,
+            String drugStoreId,
+            String dateModified
+    ) {
+        Purchase purchase = new Purchase();
+        purchase.setPurchaseId(purchaseId);
+        purchase.setPrescriptionId(prescriptionId);
+        purchase.setPatientId(patientId);
+        purchase.setDrugStoreId(drugStoreId);
+        purchase.setDateModified(dateModified);
+        return purchase;
     }
 
     public String getPurchaseId() {
@@ -75,25 +96,43 @@ public class Purchase {
         return genson.deserialize(data, Purchase.class);
     }
 
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public Purchase setPatientId(String patientId) {
+        this.patientId = patientId;
+        return this;
+    }
+
+    public String getDrugStoreId() {
+        return drugStoreId;
+    }
+
+    public Purchase setDrugStoreId(String drugStoreId) {
+        this.drugStoreId = drugStoreId;
+        return this;
+    }
+
+    public String getDateModified() {
+        return dateModified;
+    }
+
+    public Purchase setDateModified(String dateModified) {
+        this.dateModified = dateModified;
+        return this;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Purchase purchase = (Purchase) object;
-        return Objects.equals(purchaseId, purchase.purchaseId) && Objects.equals(prescriptionId, purchase.prescriptionId) && Objects.equals(entityName, purchase.entityName);
+        return Objects.equals(purchaseId, purchase.purchaseId) && Objects.equals(prescriptionId, purchase.prescriptionId) && Objects.equals(patientId, purchase.patientId) && Objects.equals(drugStoreId, purchase.drugStoreId) && Objects.equals(dateModified, purchase.dateModified) && Objects.equals(entityName, purchase.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(purchaseId, prescriptionId, entityName);
-    }
-
-    @Override
-    public String toString() {
-        return "Purchase{" +
-                "purchaseId='" + purchaseId + '\'' +
-                ", prescriptionId='" + prescriptionId + '\'' +
-                ", entityName='" + entityName + '\'' +
-                '}';
+        return Objects.hash(purchaseId, prescriptionId, patientId, drugStoreId, dateModified, entityName);
     }
 }

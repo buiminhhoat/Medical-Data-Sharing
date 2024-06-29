@@ -35,7 +35,7 @@ public class GetPrescriptionForm {
         Field[] fields = this.getClass().getDeclaredFields();
 
         for (Field field : fields) {
-            field.setAccessible(true); // You might need this if fields are not accessible
+            field.setAccessible(true);
             try {
                 jsonObj.put(field.getName(), field.get(this));
             } catch (IllegalAccessException e) {

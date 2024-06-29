@@ -36,4 +36,12 @@ public class DrugDAO {
     public Drug addDrug(JSONObject jsonDto) {
         return drugCRUD.addDrug(jsonDto);
     }
+
+    public Drug getDrug(String drugId) {
+        return drugCRUD.getDrug(drugId);
+    }
+
+    public Drug transferDrug(JSONObject jsonDto) {
+        return drugCRUD.transferDrug(jsonDto);
+    }
 }

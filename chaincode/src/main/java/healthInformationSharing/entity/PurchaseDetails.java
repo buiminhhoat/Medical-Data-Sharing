@@ -3,7 +3,9 @@ package healthInformationSharing.entity;
 import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.Property;
+import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class PurchaseDetails {
@@ -14,6 +16,10 @@ public class PurchaseDetails {
     @Property
     @JsonProperty("prescriptionDetailId")
     private String prescriptionDetailId;
+
+    @Property
+    @JsonProperty("medicationId")
+    private String medicationId;
 
     @Property
     @JsonProperty("drugId")
@@ -32,6 +38,18 @@ public class PurchaseDetails {
         this.purchaseDetailId = purchaseDetailId;
         this.prescriptionDetailId = prescriptionDetailId;
         this.drugId = drugId;
+    }
+
+    public static PurchaseDetails createInstance(
+            String prescriptionDetailId,
+            String medicationId,
+            String drugId
+    ) {
+        PurchaseDetails purchaseDetails = new PurchaseDetails();
+        purchaseDetails.setPrescriptionDetailId(prescriptionDetailId);
+        purchaseDetails.setMedicationId(medicationId);
+        purchaseDetails.setDrugId(drugId);
+        return purchaseDetails;
     }
 
     public String getPurchaseDetailId() {
@@ -70,17 +88,13 @@ public class PurchaseDetails {
         return this;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        PurchaseDetails that = (PurchaseDetails) object;
-        return Objects.equals(purchaseDetailId, that.purchaseDetailId) && Objects.equals(prescriptionDetailId, that.prescriptionDetailId) && Objects.equals(drugId, that.drugId) && Objects.equals(entityName, that.entityName);
+    public String getMedicationId() {
+        return medicationId;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(purchaseDetailId, prescriptionDetailId, drugId, entityName);
+    public PurchaseDetails setMedicationId(String medicationId) {
+        this.medicationId = medicationId;
+        return this;
     }
 
     public static byte[] serialize(Object object) {
@@ -91,5 +105,33 @@ public class PurchaseDetails {
     public static PurchaseDetails deserialize(byte[] data) {
         Genson genson = new Genson();
         return genson.deserialize(data, PurchaseDetails.class);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        PurchaseDetails that = (PurchaseDetails) object;
+        return Objects.equals(purchaseDetailId, that.purchaseDetailId) && Objects.equals(prescriptionDetailId, that.prescriptionDetailId) && Objects.equals(medicationId, that.medicationId) && Objects.equals(drugId, that.drugId) && Objects.equals(entityName, that.entityName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(purchaseDetailId, prescriptionDetailId, medicationId, drugId, entityName);
+    }
+
+    public JSONObject toJSONObject() {
+        JSONObject jsonObj = new JSONObject();
+        Field[] fields = this.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                jsonObj.put(field.getName(), field.get(this));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonObj;
     }
 }

@@ -2,6 +2,7 @@ package healthInformationSharing.component;
 
 import healthInformationSharing.dao.*;
 import healthInformationSharing.entity.Medication;
+import healthInformationSharing.entity.PurchaseDetails;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
@@ -16,6 +17,8 @@ public class MedicalRecordContext extends Context {
     private PrescriptionDAO prescriptionDAO;
     private PrescriptionDetailsDAO prescriptionDetailsDAO;
     private ViewPrescriptionRequestDAO viewPrescriptionRequestDAO;
+    private PurchaseDAO purchaseDAO;
+    private PurchaseDetailsDAO purchaseDetailsDAO;
 
     public MedicalRecordContext(ChaincodeStub stub) {
         super(stub);
@@ -28,6 +31,8 @@ public class MedicalRecordContext extends Context {
         prescriptionDAO = new PrescriptionDAO(this);
         prescriptionDetailsDAO = new PrescriptionDetailsDAO(this);
         viewPrescriptionRequestDAO = new ViewPrescriptionRequestDAO(this);
+        purchaseDAO = new PurchaseDAO(this);
+        purchaseDetailsDAO = new PurchaseDetailsDAO(this);
     }
 
     public MedicalRecordDAO getMedicalRecordDAO() {
@@ -108,6 +113,24 @@ public class MedicalRecordContext extends Context {
 
     public MedicalRecordContext setViewPrescriptionRequestDAO(ViewPrescriptionRequestDAO viewPrescriptionRequestDAO) {
         this.viewPrescriptionRequestDAO = viewPrescriptionRequestDAO;
+        return this;
+    }
+
+    public PurchaseDAO getPurchaseDAO() {
+        return purchaseDAO;
+    }
+
+    public MedicalRecordContext setPurchaseDAO(PurchaseDAO purchaseDAO) {
+        this.purchaseDAO = purchaseDAO;
+        return this;
+    }
+
+    public PurchaseDetailsDAO getPurchaseDetailsDAO() {
+        return purchaseDetailsDAO;
+    }
+
+    public MedicalRecordContext setPurchaseDetailsDAO(PurchaseDetailsDAO purchaseDetailsDAO) {
+        this.purchaseDetailsDAO = purchaseDetailsDAO;
         return this;
     }
 }

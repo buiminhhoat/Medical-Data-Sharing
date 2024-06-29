@@ -4,12 +4,12 @@ import org.hyperledger.fabric.contract.Context;
 
 import java.util.logging.Logger;
 
-public class DrugQuery {
-    private final static Logger LOG = Logger.getLogger(DrugQuery.class.getName());
+public class PurchaseQuery {
+    private final static Logger LOG = Logger.getLogger(PurchaseQuery.class.getName());
     private Context ctx;
     private String entityName;
 
-    public DrugQuery(Context ctx, String entityName) {
+    public PurchaseQuery(Context ctx, String entityName) {
         this.ctx = ctx;
         this.entityName = entityName;
     }

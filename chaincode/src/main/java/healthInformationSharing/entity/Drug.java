@@ -97,28 +97,13 @@ public class Drug {
         return this;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Drug drug = (Drug) object;
-        return Objects.equals(drugId, drug.drugId) && Objects.equals(medicationId, drug.medicationId) && Objects.equals(manufactureDate, drug.manufactureDate) && Objects.equals(expirationDate, drug.expirationDate) && Objects.equals(ownerId, drug.ownerId);
+    public String getEntityName() {
+        return entityName;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(drugId, medicationId, manufactureDate, expirationDate, ownerId);
-    }
-
-    @Override
-    public String toString() {
-        return "Drug{" +
-                "drugId='" + drugId + '\'' +
-                ", medicationId='" + medicationId + '\'' +
-                ", manufactureDate='" + manufactureDate + '\'' +
-                ", expirationDate='" + expirationDate + '\'' +
-                ", ownerId='" + ownerId + '\'' +
-                '}';
+    public Drug setEntityName(String entityName) {
+        this.entityName = entityName;
+        return this;
     }
 
     public static byte[] serialize(Object object) {
@@ -129,5 +114,30 @@ public class Drug {
     public static Drug deserialize(byte[] data) {
         Genson genson = new Genson();
         return genson.deserialize(data, Drug.class);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Drug drug = (Drug) object;
+        return Objects.equals(drugId, drug.drugId) && Objects.equals(medicationId, drug.medicationId) && Objects.equals(manufactureDate, drug.manufactureDate) && Objects.equals(expirationDate, drug.expirationDate) && Objects.equals(ownerId, drug.ownerId) && Objects.equals(entityName, drug.entityName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(drugId, medicationId, manufactureDate, expirationDate, ownerId, entityName);
+    }
+
+    @Override
+    public String toString() {
+        return "Drug{" +
+                "drugId='" + drugId + '\'' +
+                ", medicationId='" + medicationId + '\'' +
+                ", manufactureDate='" + manufactureDate + '\'' +
+                ", expirationDate='" + expirationDate + '\'' +
+                ", ownerId='" + ownerId + '\'' +
+                ", entityName='" + entityName + '\'' +
+                '}';
     }
 }

@@ -7,7 +7,9 @@ import healthInformationSharing.dao.AppointmentRequestDAO;
 import healthInformationSharing.dao.EditRequestDAO;
 import healthInformationSharing.dao.ViewPrescriptionRequestDAO;
 import healthInformationSharing.dao.ViewRequestDAO;
+import healthInformationSharing.dto.MedicationPurchaseDto;
 import healthInformationSharing.dto.PrescriptionDto;
+import healthInformationSharing.dto.PurchaseDto;
 import healthInformationSharing.entity.*;
 import healthInformationSharing.enumeration.RequestStatus;
 import healthInformationSharing.enumeration.RequestType;
@@ -763,6 +765,99 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(viewPrescriptionRequest);
     }
 
+    public boolean checkDrugConditions() {
+        return true;
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String addPurchase(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String patientId = jsonObject.getString("patientId");
+        String dateModified = jsonObject.getString("dateModified");
+        String drugStoreId = jsonObject.getString("drugStoreId");
+        String medicationPurchaseListStr = jsonObject.getString("medicationPurchaseList");
+
+        if (!ctx.getPrescriptionDAO().prescriptionExist(prescriptionId)) {
+            throw new ChaincodeException("Prescription " + prescriptionId + " does not exist",
+                    MedicalRecordContractErrors.PRESCRIPTION_NOT_FOUND.toString());
+        }
+
+        authorizeRequest(ctx, drugStoreId, "addPurchase(validate drugStoreId)");
+
+        List<MedicationPurchaseDto> medicationPurchaseList = new Genson().deserialize(
+                medicationPurchaseListStr,
+                new GenericType<List<MedicationPurchaseDto>>() {}
+        );
+
+        List<PrescriptionDetails> updatePrescriptionDetailsList = new ArrayList<>();
+        List<PurchaseDetails> createPurchaseDetailsList = new ArrayList<>();
+        List<Drug> transferDrug = new ArrayList<>();
+
+        for (MedicationPurchaseDto medicationPurchaseDto: medicationPurchaseList) {
+            String medicationId = medicationPurchaseDto.getMedicationId();
+            String prescriptionDetailId = medicationPurchaseDto.getPrescriptionDetailId();
+            PrescriptionDetails prescriptionDetails = ctx.getPrescriptionDetailsDAO().getPrescriptionDetails(prescriptionDetailId);
+            List<String> drugIdList = medicationPurchaseDto.getDrugIdList();
+            int count = 0;
+            for (String drugId: drugIdList) {
+                Drug drug = ctx.getDrugDAO().getDrug(drugId);
+                if (checkDrugConditions()) {
+                    ++count;
+                }
+                else {
+                    throw new ChaincodeException("The drug is not qualified for sale",
+                            MedicalRecordContractErrors.NOT_QUALIFIED_FOR_SALE.toString());
+                }
+
+                transferDrug.add(drug);
+
+                PurchaseDetails purchaseDetails = new PurchaseDetails();
+                purchaseDetails.setPrescriptionDetailId(prescriptionDetailId);
+                purchaseDetails.setMedicationId(medicationId);
+                purchaseDetails.setDrugId(drugId);
+                purchaseDetails.setEntityName(PurchaseDetails.class.getSimpleName());
+
+                createPurchaseDetailsList.add(purchaseDetails);
+            }
+            Long newPurchasedQuantity = Long.parseLong(prescriptionDetails.getPurchasedQuantity()) + count;
+            if (newPurchasedQuantity <= Long.parseLong(prescriptionDetails.getQuantity())) {
+                prescriptionDetails.setPurchasedQuantity(newPurchasedQuantity.toString());
+                updatePrescriptionDetailsList.add(prescriptionDetails);
+            }
+        }
+
+        PurchaseDto purchaseDto = new PurchaseDto();
+        purchaseDto.setPrescriptionId(prescriptionId);
+        purchaseDto.setPatientId(patientId);
+        purchaseDto.setDrugStoreId(drugStoreId);
+        purchaseDto.setDateModified(dateModified);
+
+        Purchase purchase = ctx.getPurchaseDAO().addPurchase(
+                purchaseDto.toJSONObject()
+        );
+
+        for (PrescriptionDetails prescriptionDetails: updatePrescriptionDetailsList) {
+            prescriptionDetails = ctx.getPrescriptionDetailsDAO().updatePrescriptionDetails(prescriptionDetails);
+        }
+
+        for (PurchaseDetails purchaseDetails: createPurchaseDetailsList) {
+            purchaseDetails = ctx.getPurchaseDetailsDAO().addPurchaseDetails(purchaseDetails.toJSONObject());
+        }
+
+        for (Drug drug: transferDrug) {
+            JSONObject jsonDto = new JSONObject();
+            jsonDto.put("drugId", drug.getDrugId());
+            jsonDto.put("newOwnerId", patientId);
+            drug = ctx.getDrugDAO().transferDrug(jsonDto);
+        }
+
+        return new Genson().serialize(purchase);
+    }
+
     public enum MedicalRecordContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,
@@ -774,6 +869,8 @@ public class MedicalRecordContract implements ContractInterface {
         EDIT_REQUEST_NOT_FOUND,
         MEDICATION_NOT_FOUND,
         EMPTY_MEDICATION_ID_ERROR,
-        DRUG_NOT_FOUND;
+        DRUG_NOT_FOUND,
+        PRESCRIPTION_NOT_FOUND,
+        PURCHASE_NOT_FOUND, PRESCRIPTION_DETAIL_NOT_FOUND, NOT_QUALIFIED_FOR_SALE;
     }
 }

@@ -1,0 +1,60 @@
+package healthInformationSharing.dao;
+
+import com.owlike.genson.Genson;
+import healthInformationSharing.contract.MedicalRecordContract;
+import healthInformationSharing.entity.PurchaseDetails;
+import org.hyperledger.fabric.contract.Context;
+import org.hyperledger.fabric.shim.ChaincodeException;
+import org.hyperledger.fabric.shim.ledger.CompositeKey;
+import org.json.JSONObject;
+
+import java.util.logging.Logger;
+
+public class PurchaseDetailsCRUD {
+    private final static Logger LOG = Logger.getLogger(PurchaseDetailsCRUD.class.getName());
+    private Context ctx;
+    private String entityName;
+    private Genson genson;
+
+    public PurchaseDetailsCRUD(Context ctx, String entityName, Genson genson) {
+        this.ctx = ctx;
+        this.entityName = entityName;
+        this.genson = genson;
+    }
+
+    public PurchaseDetails addPurchaseDetails(JSONObject jsonDto) {
+        String prescriptionDetailId = jsonDto.getString("prescriptionDetailId");
+        String medicationId = jsonDto.getString("medicationId");
+        String drugId = jsonDto.getString("drugId");
+
+        String purchaseDetailsId = ctx.getStub().getTxId();
+        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, purchaseDetailsId);
+        String dbKey = compositeKey.toString();
+
+        PurchaseDetails purchaseDetails = PurchaseDetails.createInstance(
+                prescriptionDetailId,
+                medicationId,
+                drugId
+        );
+
+        String purchaseDetailsStr = genson.serialize(purchaseDetails);
+        ctx.getStub().putStringState(dbKey, purchaseDetailsStr);
+        return purchaseDetails;
+    }
+
+    public boolean purchaseDetailsExist(String purchaseDetailsId) {
+        String dbKey = ctx.getStub().createCompositeKey(entityName, purchaseDetailsId).toString();
+        byte[] result = ctx.getStub().getState(dbKey);
+        return result.length > 0;
+    }
+
+    public PurchaseDetails getPurchaseDetails(String purchaseDetailsId) throws ChaincodeException {
+        if (!purchaseDetailsExist(purchaseDetailsId)) {
+            throw new ChaincodeException("PurchaseDetails " + purchaseDetailsId + " does not exist",
+                    MedicalRecordContract.MedicalRecordContractErrors.PURCHASE_NOT_FOUND.toString());
+        }
+        String dbKey = ctx.getStub().createCompositeKey(entityName, purchaseDetailsId).toString();
+        byte[] result = ctx.getStub().getState(dbKey);
+        return PurchaseDetails.deserialize(result);
+    }
+}

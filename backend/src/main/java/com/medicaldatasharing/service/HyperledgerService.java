@@ -705,4 +705,21 @@ public class HyperledgerService {
         }
         return drug;
     }
+
+    public Purchase addPurchase(User user, PurchaseDto addPurchaseDto) throws Exception {
+        Purchase purchase = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = addPurchaseDto.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "addPurchase",
+                    jsonDto.toString()
+            );
+            purchase = new Genson().deserialize(new String(result), Purchase.class);
+            LOG.info("result: " + purchase);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return purchase;
+    }
 }
