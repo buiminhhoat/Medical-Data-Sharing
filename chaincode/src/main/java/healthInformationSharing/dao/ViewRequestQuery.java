@@ -8,9 +8,7 @@ import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class ViewRequestQuery {
@@ -24,14 +22,14 @@ public class ViewRequestQuery {
     }
 
     public List<ViewRequest> getListViewRequestBySenderQuery(JSONObject jsonDto) {
-        String requestId = jsonDto.getString("requestId");
-        String senderId = jsonDto.getString("senderId");
-        String recipientId = jsonDto.getString("recipientId");
-        String requestType = jsonDto.getString("requestType");
-        String requestStatus = jsonDto.getString("requestStatus");
-        String from = jsonDto.getString("from");
-        String until = jsonDto.getString("until");
-        String sortingOrder = jsonDto.getString("sortingOrder");
+        String requestId = jsonDto.has("requestId") ? jsonDto.getString("requestId") : "";
+        String senderId = jsonDto.has("senderId") ? jsonDto.getString("senderId") : "";
+        String recipientId = jsonDto.has("recipientId") ? jsonDto.getString("recipientId") : "";
+        String requestType = jsonDto.has("requestType") ? jsonDto.getString("requestType") : "";
+        String requestStatus = jsonDto.has("requestStatus") ? jsonDto.getString("requestStatus") : "";
+        String from = jsonDto.has("from") ? jsonDto.getString("from") : "";
+        String until = jsonDto.has("until") ? jsonDto.getString("until") : "";
+        String sortingOrder = jsonDto.has("sortingOrder") ? jsonDto.getString("sortingOrder") : "";
         List<ViewRequest> viewRequestList = new ArrayList<>();
         JSONObject queryJsonObject = createQuerySelector(
                 requestId,
@@ -59,6 +57,19 @@ public class ViewRequestQuery {
         return viewRequestList;
     }
 
+    public List<String> getListAllAuthorizedPatientForScientist(JSONObject jsonDto) {
+        List<ViewRequest> viewRequestList = getListViewRequestBySenderQuery(jsonDto);
+        Set<String> stringSet = new HashSet<>();
+        for (ViewRequest viewRequest: viewRequestList) {
+            stringSet.add(viewRequest.getRecipientId());
+        }
+        List<String> stringList = new ArrayList<>();
+        for (String s: stringSet) {
+            stringList.add(s);
+        }
+        return stringList;
+    }
+
     public JSONObject createQuerySelector(
             String requestId,
             String senderId,
@@ -79,11 +90,14 @@ public class ViewRequestQuery {
 
         JSONArray jsonArraySortAttributes = new JSONArray();
         JSONObject jsonObjectSortTimeAttr = new JSONObject();
-        jsonObjectSortTimeAttr.putOnce("dateModified", sortingOrder);
-        jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
-
+        if (!sortingOrder.isEmpty()) {
+            jsonObjectSortTimeAttr.putOnce("dateModified", sortingOrder);
+            jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
+        }
         JSONObject jsonObjectSelector = new JSONObject();
-        jsonObjectSelector.putOnce("dateModified", jsonObjectTimeRange);
+        if (!jsonObjectTimeRange.isEmpty()) {
+            jsonObjectSelector.putOnce("dateModified", jsonObjectTimeRange);
+        }
 
         if (!requestId.isEmpty()) {
             jsonObjectSelector.putOnce("requestId", requestId);
@@ -94,7 +108,7 @@ public class ViewRequestQuery {
         }
 
         if (!recipientId.isEmpty()) {
-            jsonObjectSelector.putOnce("testName", recipientId);
+            jsonObjectSelector.putOnce("recipientId", recipientId);
         }
 
         if (!requestType.isEmpty()) {

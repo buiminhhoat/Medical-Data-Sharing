@@ -1,7 +1,7 @@
 package com.medicaldatasharing.repository;
 
 import com.medicaldatasharing.model.Scientist;
-import com.medicaldatasharing.model.ResearchInstitute;
+import com.medicaldatasharing.model.ResearchCenter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface ScientistRepository extends JpaRepository<Scientist, String> {
 
     List<Scientist> findAllByRole(String role);
 
-    List<Scientist> findAllByResearchInstitute(ResearchInstitute researchInstitute);
+    List<Scientist> findAllByResearchCenter(ResearchCenter researchCenter);
 
-    List<Scientist> findAllByResearchInstituteAndRole(ResearchInstitute researchInstitute, String role);
+    List<Scientist> findAllByResearchCenterAndRole(ResearchCenter researchCenter, String role);
 }

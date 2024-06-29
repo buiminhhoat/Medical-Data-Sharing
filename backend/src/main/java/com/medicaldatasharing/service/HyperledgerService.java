@@ -94,6 +94,9 @@ public class HyperledgerService {
         if (user.getRole().equals(Constants.ROLE_DRUG_STORE)) {
             return Config.DRUG_STORE_ORG;
         }
+        if (user.getRole().equals(Constants.ROLE_SCIENTIST)) {
+            return Config.SCIENTIST_ORG;
+        }
         return null;
     }
 
@@ -313,6 +316,34 @@ public class HyperledgerService {
             String viewRequestStr = new String(result);
             viewRequest = new Genson().deserialize(viewRequestStr, ViewRequest.class);
             LOG.info("result: " + viewRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return viewRequest;
+    }
+
+    public ViewRequest defineViewRequest(User user,
+                                         DefineViewRequestDto defineViewRequestDto) throws Exception {
+        ViewRequest viewRequest = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Submit Transaction: defineViewRequest");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", defineViewRequestDto.getRequestId());
+            jsonObject.put("requestStatus", defineViewRequestDto.getRequestStatus());
+            System.out.println(jsonObject.toString());
+
+            byte[] result = contract.submitTransaction(
+                    "defineViewRequest",
+                    jsonObject.toString()
+            );
+
+            String viewRequestStr = new String(result);
+            viewRequest = new Genson().deserialize(
+                    viewRequestStr,
+                    ViewRequest.class
+            );
+            LOG.info("result: " + viewRequestStr);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
@@ -721,5 +752,53 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return purchase;
+    }
+
+    public List<String> getListAllAuthorizedPatientForScientist(User user,
+                                                                GetListAllAuthorizedPatientForScientistDto getListAllAuthorizedPatientForScientistDto) throws Exception {
+        List<String> getListAllAuthorizedPatientForScientistList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = getListAllAuthorizedPatientForScientistDto.toJSONObject();
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListAllAuthorizedPatientForScientist",
+                    jsonObject.toString()
+            );
+
+            String getListAllAuthorizedPatientForScientistListStr = new String(result);
+            getListAllAuthorizedPatientForScientistList = new Genson().deserialize(
+                    getListAllAuthorizedPatientForScientistListStr,
+                    new GenericType<List<String>>() {}
+            );
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return getListAllAuthorizedPatientForScientistList;
+    }
+
+    public List<MedicalRecord> getListAuthorizedMedicalRecordByScientistQuery(User user,
+                                                                              GetListAuthorizedMedicalRecordByScientistQueryDto getListAuthorizedMedicalRecordByScientistQueryDto) throws Exception {
+        List<MedicalRecord> getListAuthorizedMedicalRecordByScientistQueryList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = getListAuthorizedMedicalRecordByScientistQueryDto.toJSONObject();
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListAuthorizedMedicalRecordByScientistQuery",
+                    jsonObject.toString()
+            );
+
+            String getListAuthorizedMedicalRecordByScientistQueryListStr = new String(result);
+            getListAuthorizedMedicalRecordByScientistQueryList = new Genson().deserialize(
+                    getListAuthorizedMedicalRecordByScientistQueryListStr,
+                    new GenericType<List<MedicalRecord>>() {}
+            );
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return getListAuthorizedMedicalRecordByScientistQueryList;
     }
 }

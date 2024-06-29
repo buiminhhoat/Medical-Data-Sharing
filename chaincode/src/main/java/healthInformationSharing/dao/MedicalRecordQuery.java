@@ -46,20 +46,39 @@ public class MedicalRecordQuery {
         return medicalRecordList;
     }
 
-    public JSONObject createQuerySelector(JSONObject jsonDto) {
-        String medicalRecordId = jsonDto.getString("medicalRecordId");
-        String patientId = jsonDto.getString("patientId");
-        String doctorId = jsonDto.getString("doctorId");
-        String medicalInstitutionId = jsonDto.getString("medicalInstitutionId");
-        String testName = jsonDto.getString("testName");
-        String details = jsonDto.getString("details");
-        String medicalRecordStatus = jsonDto.getString("medicalRecordStatus");
-        String sortingOrder = jsonDto.getString("sortingOrder");
-        String from = jsonDto.getString("from");
-        String until = jsonDto.getString("until");
-        String prescriptionId = jsonDto.getString("prescriptionId");
-        String hashFile = jsonDto.getString("hashFile");
+    public List<MedicalRecord> getListAuthorizedMedicalRecordByScientistQuery(JSONObject jsonDto) {
+        List<MedicalRecord> medicalRecordList = new ArrayList<>();
+        JSONObject queryJsonObject = createQuerySelector(jsonDto);
 
+        LOG.info("query: " + queryJsonObject.toString());
+
+        QueryResultsIterator<KeyValue> resultsIterator = this.ctx.getStub().getQueryResult(queryJsonObject.toString());
+        for (KeyValue keyValue : resultsIterator) {
+            String key = keyValue.getKey();
+            String value = keyValue.getStringValue();
+            JSONObject jsonObject = new JSONObject(value);
+            byte[] bytes = keyValue.getValue();
+            LOG.info("keyValue class: " + keyValue.getClass().toString() + ", type: " + keyValue.getClass().getTypeName());
+            MedicalRecord medicalRecord = new Genson().deserialize(jsonObject.toString(), MedicalRecord.class);
+
+            medicalRecordList.add(medicalRecord);
+        }
+        return medicalRecordList;
+    }
+
+    public JSONObject createQuerySelector(JSONObject jsonDto) {
+        String medicalRecordId = jsonDto.has("medicalRecordId") ? jsonDto.getString("medicalRecordId") : "";
+        String patientId = jsonDto.has("patientId") ? jsonDto.getString("patientId") : "";
+        String doctorId = jsonDto.has("doctorId") ? jsonDto.getString("doctorId") : "";
+        String medicalInstitutionId = jsonDto.has("medicalInstitutionId") ? jsonDto.getString("medicalInstitutionId") : "";
+        String testName = jsonDto.has("testName") ? jsonDto.getString("testName") : "";
+        String details = jsonDto.has("details") ? jsonDto.getString("details") : "";
+        String medicalRecordStatus = jsonDto.has("medicalRecordStatus") ? jsonDto.getString("medicalRecordStatus") : "";
+        String sortingOrder = jsonDto.has("sortingOrder") ? jsonDto.getString("sortingOrder") : "";
+        String from = jsonDto.has("from") ? jsonDto.getString("from") : "";
+        String until = jsonDto.has("until") ? jsonDto.getString("until") : "";
+        String prescriptionId = jsonDto.has("prescriptionId") ? jsonDto.getString("prescriptionId") : "";
+        String hashFile = jsonDto.has("hashFile") ? jsonDto.getString("hashFile") : "";
 
         JSONObject jsonObjectTimeRange = new JSONObject();
 
@@ -70,13 +89,11 @@ public class MedicalRecordQuery {
             jsonObjectTimeRange.putOnce("$lt", until);
         }
 
-        JSONArray jsonArraySortAttributes = new JSONArray();
-        JSONObject jsonObjectSortTimeAttr = new JSONObject();
-        jsonObjectSortTimeAttr.putOnce("dateModified", sortingOrder);
-        jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
-
         JSONObject jsonObjectSelector = new JSONObject();
-        jsonObjectSelector.putOnce("dateModified", jsonObjectTimeRange);
+
+        if (!jsonObjectTimeRange.isEmpty()) {
+            jsonObjectSelector.putOnce("dateModified", jsonObjectTimeRange);
+        }
 
         if (!medicalRecordId.isEmpty()) {
             jsonObjectSelector.putOnce("medicalRecordId", medicalRecordId);
@@ -118,8 +135,16 @@ public class MedicalRecordQuery {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.putOnce("selector", jsonObjectSelector);
-        jsonObject.putOnce("sort", jsonArraySortAttributes);
+
+        if (!sortingOrder.isEmpty()) {
+            JSONArray jsonArraySortAttributes = new JSONArray();
+            JSONObject jsonObjectSortTimeAttr = new JSONObject();
+            jsonObjectSortTimeAttr.putOnce("dateModified", sortingOrder);
+            jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
+            jsonObject.putOnce("sort", jsonArraySortAttributes);
+        }
 
         return jsonObject;
     }
+
 }

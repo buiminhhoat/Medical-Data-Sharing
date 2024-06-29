@@ -11,6 +11,8 @@ import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.owlike.genson.Genson;
+import org.bouncycastle.cert.ocsp.Req;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +42,10 @@ public class InitDataLoader implements CommandLineRunner {
     @Autowired
     private DrugStoreRepository drugStoreRepository;
     @Autowired
+    private ScientistRepository scientistRepository;
+    @Autowired
+    private ResearchCenterRepository researchCenterRepository;
+    @Autowired
     private HyperledgerService hyperledgerService;
 
     @Override
@@ -47,8 +53,9 @@ public class InitDataLoader implements CommandLineRunner {
         initMedicalInstitutions();
         initManufacturer();
         initDrugStore();
+        initResearchCenter();
         initUsers();
-        initResearchInstitute();
+        initScientist();
         init();
     }
 
@@ -135,6 +142,28 @@ public class InitDataLoader implements CommandLineRunner {
             drugStoreRepository.delete(drugStoreB);
             e.printStackTrace();
         }
+    }
+
+    private void initResearchCenter() {
+        if (!researchCenterRepository.findAll().isEmpty()) {
+            return;
+        }
+
+        ResearchCenter researchCenter1 = ResearchCenter
+                .builder()
+                .name("Viện nghiên cứu dược phẩm ABC")
+                .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
+                .membershipOrganizationId(Config.ORG5)
+                .build();
+
+        ResearchCenter researchCenter2 = ResearchCenter
+                .builder()
+                .name("Viện nghiên cứu thuốc XYZ")
+                .address("40 P. Tràng Thi, Hàng Bông")
+                .membershipOrganizationId(Config.ORG5)
+                .build();
+        researchCenterRepository.save(researchCenter1);
+        researchCenterRepository.save(researchCenter2);
     }
 
     private void initUsers() throws Exception {
@@ -247,8 +276,33 @@ public class InitDataLoader implements CommandLineRunner {
         }
     }
 
-    private void initResearchInstitute() {
+    private void initScientist() {
+        if (!scientistRepository.findAll().isEmpty()) {
+            return;
+        }
+        List<ResearchCenter> researchCenterList = researchCenterRepository.findAll();
+        ResearchCenter researchCenter1 = researchCenterList.get(0);
+        ResearchCenter researchCenter2 = researchCenterList.get(1);
+        Scientist scientist1 = Scientist
+                .builder()
+                .firstName("Hoạt")
+                .lastName("Bùi Minh Hoạt")
+                .username("scientist1@gmail.com")
+                .email("scientist1@gmail.com")
+                .password(passwordEncoder.encode("scientist1@gmail.com"))
+                .enabled(true)
+                .role(Constants.ROLE_SCIENTIST)
+                .researchCenter(researchCenter1)
+                .build();
 
+        scientistRepository.save(scientist1);
+        LOG.info(scientist1.toString());
+        try {
+            RegisterUserHyperledger.enrollOrgAppUsers(scientist1.getEmail(), Config.SCIENTIST_ORG, scientist1.getId());
+        } catch (Exception e) {
+            scientistRepository.delete(scientist1);
+            e.printStackTrace();
+        }
     }
 
     private void init() throws Exception {
@@ -260,6 +314,9 @@ public class InitDataLoader implements CommandLineRunner {
 
         Doctor doctor2 = doctorRepository.findByUsername("tranthanhtam@gmail.com");
         String doctor2Id = doctor2.getId();
+
+        Scientist scientist1 = scientistRepository.findByUsername("scientist1@gmail.com");
+        String scientist1Id = scientist1.getId();
 
         try {
             Date dateModified = new Date();
@@ -462,6 +519,49 @@ public class InitDataLoader implements CommandLineRunner {
                     purchaseDto
             );
             System.out.println(purchase);
+
+            SendViewRequestForm sendViewRequestFormByScientist = new SendViewRequestForm();
+            sendViewRequestFormByScientist.setSenderId(scientist1Id);
+            sendViewRequestFormByScientist.setRecipientId(patientId);
+            sendViewRequestFormByScientist.setDateModified(StringUtil.parseDate(dateModified));
+
+            ViewRequest viewRequestByScientist = hyperledgerService.sendViewRequest(
+                    scientist1,
+                    sendViewRequestFormByScientist);
+            System.out.println(viewRequestByScientist);
+
+
+            DefineViewRequestDto defineViewRequestDto = new DefineViewRequestDto();
+            defineViewRequestDto.setRequestId(viewRequestByScientist.getRequestId());
+            defineViewRequestDto.setRequestStatus(RequestStatus.ACCEPTED.toString());
+
+            ViewRequest defineViewRequestByScientist = hyperledgerService.defineViewRequest(
+                    patient,
+                    defineViewRequestDto
+            );
+            System.out.println(defineViewRequestByScientist);
+
+            GetListAllAuthorizedPatientForScientistDto getListAllAuthorizedPatientForScientistDto = new GetListAllAuthorizedPatientForScientistDto();
+            getListAllAuthorizedPatientForScientistDto.setScientistId(scientist1Id);
+
+            List<String> getListAllAuthorizedPatientForScientistList = hyperledgerService.getListAllAuthorizedPatientForScientist(
+                    scientist1,
+                    getListAllAuthorizedPatientForScientistDto
+            );
+
+            System.out.println(getListAllAuthorizedPatientForScientistList);
+
+            GetListAuthorizedMedicalRecordByScientistQueryDto getListAuthorizedMedicalRecordByScientistQueryDto = new GetListAuthorizedMedicalRecordByScientistQueryDto();
+            getListAuthorizedMedicalRecordByScientistQueryDto.setScientistId(scientist1Id);
+            getListAuthorizedMedicalRecordByScientistQueryDto.setPatientId(patientId);
+
+            List<MedicalRecord> getListAuthorizedMedicalRecordByScientistQuery
+                    = hyperledgerService.getListAuthorizedMedicalRecordByScientistQuery(
+                    scientist1,
+                    getListAuthorizedMedicalRecordByScientistQueryDto
+            );
+
+            System.out.println(getListAuthorizedMedicalRecordByScientistQuery);
         } catch (Exception exception) {
             System.out.println(exception);
         }

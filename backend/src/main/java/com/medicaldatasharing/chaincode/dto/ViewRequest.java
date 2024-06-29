@@ -98,4 +98,6 @@ public class ViewRequest extends Request {
         this.entityName = entityName;
         return this;
     }
+
+
 }

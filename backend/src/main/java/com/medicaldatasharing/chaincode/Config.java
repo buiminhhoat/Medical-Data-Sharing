@@ -34,6 +34,7 @@ public class Config {
     public static final String DOCTOR_ORG = "org2";
     public static final String MANUFACTURER_ORG = "org3";
     public static final String DRUG_STORE_ORG = "org4";
+    public static final String SCIENTIST_ORG = "org5";
 
 
     public static final String CHANNEL_NAME = "healthcare";
@@ -61,8 +62,8 @@ public class Config {
     public static final String CA_ORG4_PEM_FILE = "../fabric-samples/test-network/organizations/peerOrganizations/org4.example.com/ca/ca.org4.example.com-cert.pem";
     public static final String CA_ORG4_URL = "https://localhost:13054";
 
-    public static final String CA_ORG5_PEM_FILE = "../fablo-target/fabric-config/crypto-config/peerOrganizations/org5.healthcare.com/ca/ca.org5.healthcare.com-cert.pem";
-    public static final String CA_ORG5_URL = "https://localhost:7120";
+    public static final String CA_ORG5_PEM_FILE = "../fabric-samples/test-network/organizations/peerOrganizations/org5.example.com/ca/ca.org5.example.com-cert.pem";
+    public static final String CA_ORG5_URL = "https://localhost:15054";
 
     public static final String ORG1_ADMIN_USERNAME = "admin";
     public static final String ORG1_ADMIN_PASSWORD = "adminpw";
