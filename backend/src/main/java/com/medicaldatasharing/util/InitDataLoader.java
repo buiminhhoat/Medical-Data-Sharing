@@ -48,6 +48,7 @@ public class InitDataLoader implements CommandLineRunner {
         initManufacturer();
         initDrugStore();
         initUsers();
+        initResearchInstitute();
         init();
     }
 
@@ -244,6 +245,10 @@ public class InitDataLoader implements CommandLineRunner {
             adminRepository.delete(admin);
             e.printStackTrace();
         }
+    }
+
+    private void initResearchInstitute() {
+
     }
 
     private void init() throws Exception {
