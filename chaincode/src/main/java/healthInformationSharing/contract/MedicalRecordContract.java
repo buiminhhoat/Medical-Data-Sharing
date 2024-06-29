@@ -23,7 +23,10 @@ import org.hyperledger.fabric.shim.ledger.KeyModification;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -765,7 +768,19 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(viewPrescriptionRequest);
     }
 
-    public boolean checkDrugConditions() {
+    public boolean checkDrugConditions(Drug drug, String dateModifiedStr, String drugStoreId) throws ChaincodeException, ParseException {
+        if (!Objects.equals(drug.getOwnerId(), drugStoreId)) {
+            throw new ChaincodeException("Drug " + drug.getDrugId() + " does not belong to the drug store " + drugStoreId,
+                    MedicalRecordContractErrors.DRUG_OWNERSHIP_ERROR.toString());
+        }
+
+        Date expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(drug.getExpirationDate());
+        Date dateModified = new SimpleDateFormat("yyyy-MM-dd").parse(dateModifiedStr);
+
+        if (dateModified.after(expirationDate)) {
+            throw new ChaincodeException("Drug " + drug.getDrugId() + " is expired",
+                    MedicalRecordContractErrors.DRUG_EXPIRED_ERROR.toString());
+        }
         return true;
     }
 
@@ -773,7 +788,7 @@ public class MedicalRecordContract implements ContractInterface {
     public String addPurchase(
             MedicalRecordContext ctx,
             String jsonString
-    ) {
+    ) throws ParseException {
         JSONObject jsonObject = new JSONObject(jsonString);
         String prescriptionId = jsonObject.getString("prescriptionId");
         String patientId = jsonObject.getString("patientId");
@@ -805,7 +820,7 @@ public class MedicalRecordContract implements ContractInterface {
             int count = 0;
             for (String drugId: drugIdList) {
                 Drug drug = ctx.getDrugDAO().getDrug(drugId);
-                if (checkDrugConditions()) {
+                if (checkDrugConditions(drug, dateModified, drugStoreId)) {
                     ++count;
                 }
                 else {
@@ -827,6 +842,10 @@ public class MedicalRecordContract implements ContractInterface {
             if (newPurchasedQuantity <= Long.parseLong(prescriptionDetails.getQuantity())) {
                 prescriptionDetails.setPurchasedQuantity(newPurchasedQuantity.toString());
                 updatePrescriptionDetailsList.add(prescriptionDetails);
+            }
+            else {
+                throw new ChaincodeException("The quantity purchased is more than the quantity prescribed in the Prescription Details",
+                        MedicalRecordContractErrors.EXCEEDED_THE_QUANTITY_PURCHASED_IN_THE_PRESCRIPTION_DETAILS.toString());
             }
         }
 
@@ -871,6 +890,11 @@ public class MedicalRecordContract implements ContractInterface {
         EMPTY_MEDICATION_ID_ERROR,
         DRUG_NOT_FOUND,
         PRESCRIPTION_NOT_FOUND,
-        PURCHASE_NOT_FOUND, PRESCRIPTION_DETAIL_NOT_FOUND, NOT_QUALIFIED_FOR_SALE;
+        PURCHASE_NOT_FOUND,
+        PRESCRIPTION_DETAIL_NOT_FOUND,
+        NOT_QUALIFIED_FOR_SALE,
+        EXCEEDED_THE_QUANTITY_PURCHASED_IN_THE_PRESCRIPTION_DETAILS,
+        DRUG_OWNERSHIP_ERROR,
+        DRUG_EXPIRED_ERROR;
     }
 }

@@ -311,7 +311,11 @@ public class InitDataLoader implements CommandLineRunner {
             MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto);
             System.out.println("chaincodeMedicalRecord: " + medicalRecord);
 
-            MedicalRecord getMedicalRecordByPatient = hyperledgerService.getMedicalRecordByPatient(patient, medicalRecord.getMedicalRecordId());
+            MedicalRecord getMedicalRecordByPatient = hyperledgerService.getMedicalRecordByPatient(
+                    patient,
+                    medicalRecord.getMedicalRecordId()
+            );
+
             System.out.println("getMedicalRecordByPatient: " + getMedicalRecordByPatient);
 
 
