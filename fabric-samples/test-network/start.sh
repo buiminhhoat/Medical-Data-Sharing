@@ -46,6 +46,12 @@ cd addOrg5
 
 ./addOrg5.sh up -c healthcare -ca -s couchdb
 
+cd ..
+
+cd addOrg6
+
+./addOrg6.sh up -c healthcare -ca -s couchdb
+
 cd ../../../chaincode
 
 chmod +x gradlew

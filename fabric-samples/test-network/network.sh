@@ -282,6 +282,7 @@ function networkDown() {
   docker-compose -f $COMPOSE_FILE_COUCH_ORG3 -f $COMPOSE_FILE_ORG3 down --volumes --remove-orphans
   docker-compose -f $COMPOSE_FILE_COUCH_ORG4 -f $COMPOSE_FILE_ORG4 down --volumes --remove-orphans
   docker-compose -f $COMPOSE_FILE_COUCH_ORG5 -f $COMPOSE_FILE_ORG5 down --volumes --remove-orphans
+  docker-compose -f $COMPOSE_FILE_COUCH_ORG6 -f $COMPOSE_FILE_ORG6 down --volumes --remove-orphans
 
   # Don't remove the generated artifacts -- note, the ledgers are always removed
   if [ "$MODE" != "restart" ]; then
@@ -299,6 +300,7 @@ function networkDown() {
     docker run --rm -v "$(pwd):/data" busybox sh -c 'cd /data && rm -rf addOrg3/fabric-ca/org3/msp addOrg3/fabric-ca/org3/tls-cert.pem addOrg3/fabric-ca/org3/ca-cert.pem addOrg3/fabric-ca/org3/IssuerPublicKey addOrg3/fabric-ca/org3/IssuerRevocationPublicKey addOrg3/fabric-ca/org3/fabric-ca-server.db'
     docker run --rm -v "$(pwd):/data" busybox sh -c 'cd /data && rm -rf addOrg4/fabric-ca/org4/msp addOrg4/fabric-ca/org4/tls-cert.pem addOrg4/fabric-ca/org4/ca-cert.pem addOrg4/fabric-ca/org4/IssuerPublicKey addOrg4/fabric-ca/org4/IssuerRevocationPublicKey addOrg4/fabric-ca/org4/fabric-ca-server.db'
     docker run --rm -v "$(pwd):/data" busybox sh -c 'cd /data && rm -rf addOrg5/fabric-ca/org5/msp addOrg5/fabric-ca/org5/tls-cert.pem addOrg5/fabric-ca/org5/ca-cert.pem addOrg5/fabric-ca/org5/IssuerPublicKey addOrg5/fabric-ca/org5/IssuerRevocationPublicKey addOrg5/fabric-ca/org5/fabric-ca-server.db'
+    docker run --rm -v "$(pwd):/data" busybox sh -c 'cd /data && rm -rf addOrg6/fabric-ca/org6/msp addOrg6/fabric-ca/org6/tls-cert.pem addOrg6/fabric-ca/org6/ca-cert.pem addOrg6/fabric-ca/org6/IssuerPublicKey addOrg6/fabric-ca/org6/IssuerRevocationPublicKey addOrg6/fabric-ca/org6/fabric-ca-server.db'
 
     # remove channel and script artifacts
     docker run --rm -v "$(pwd):/data" busybox sh -c 'cd /data && rm -rf channel-artifacts log.txt *.tar.gz'
@@ -342,6 +344,9 @@ COMPOSE_FILE_ORG4=addOrg4/docker/docker-compose-org4.yaml
 COMPOSE_FILE_COUCH_ORG5=addOrg5/docker/docker-compose-couch-org5.yaml
 # use this as the default docker-compose yaml definition for org5
 COMPOSE_FILE_ORG5=addOrg5/docker/docker-compose-org5.yaml
+# use this as the default docker-compose yaml definition for org5
+COMPOSE_FILE_COUCH_ORG6=addOrg6/docker/docker-compose-couch-org6.yaml
+COMPOSE_FILE_ORG6=addOrg6/docker/docker-compose-org6.yaml
 
 #
 # chaincode language defaults to "NA"

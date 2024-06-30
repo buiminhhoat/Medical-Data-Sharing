@@ -27,6 +27,12 @@ organizations/peerOrganizations/*
 /addOrg5/fabric-ca/org5/IssuerPublicKey
 /addOrg5/fabric-ca/org5/IssuerRevocationPublicKey
 /addOrg5/fabric-ca/org5/tls-cert.pem
+/addOrg6/fabric-ca/org6/msp/*
+/addOrg6/fabric-ca/org6/ca-cert.pem
+/addOrg6/fabric-ca/org6/fabric-ca-server.db
+/addOrg6/fabric-ca/org6/IssuerPublicKey
+/addOrg6/fabric-ca/org6/IssuerRevocationPublicKey
+/addOrg6/fabric-ca/org6/tls-cert.pem
 system-genesis-block/*
 *.tar.gz
 log.txt
