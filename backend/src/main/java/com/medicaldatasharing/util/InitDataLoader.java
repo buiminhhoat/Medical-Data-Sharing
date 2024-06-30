@@ -440,7 +440,7 @@ public class InitDataLoader implements CommandLineRunner {
             searchMedicalRecordForm.setUntil(StringUtil.createDate("2024-12-31"));
             searchMedicalRecordForm.setPrescriptionId(medicalRecord.getPrescriptionId());
             searchMedicalRecordForm.setHashFile("");
-            List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList
+            List<MedicalRecord> medicalRecordPreviewDtoList
                     = hyperledgerService.getListMedicalRecordByPatientQuery(patient, searchMedicalRecordForm);
 
             System.out.println("medicalRecordPreviewDtoList: " + medicalRecordPreviewDtoList);
@@ -494,7 +494,7 @@ public class InitDataLoader implements CommandLineRunner {
             searchMedicationForm.setMedicationId(medication.getMedicationId());
             searchMedicationForm.setFrom(StringUtil.createDate("2024-01-01"));
             searchMedicationForm.setUntil(StringUtil.createDate("2024-12-31"));
-            List<MedicationPreviewDto> medicationPreviewDtoList = hyperledgerService.getListMedication(doctor1, searchMedicationForm);
+            List<Medication> medicationPreviewDtoList = hyperledgerService.getListMedication(doctor1, searchMedicationForm);
             System.out.println(medicationPreviewDtoList);
 
 

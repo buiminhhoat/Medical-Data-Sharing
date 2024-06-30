@@ -397,11 +397,11 @@ public class HyperledgerService {
         return medicalRecord;
     }
 
-    public List<MedicalRecordPreviewDto> getListMedicalRecordByPatientQuery(
+    public List<MedicalRecord> getListMedicalRecordByPatientQuery(
             User user,
             SearchMedicalRecordForm searchMedicalRecordForm
     ) throws Exception {
-        List<MedicalRecordPreviewDto> medicalRecordPreviewDtoList = new ArrayList<>();
+        List<MedicalRecord> medicalRecordList = new ArrayList<>();
         try {
             Contract contract = getContract(user);
 
@@ -419,30 +419,17 @@ public class HyperledgerService {
             );
 
             String medicalRecordListStr = new String(result);
-            List<MedicalRecord> medicalRecordList = new Genson().deserialize(
+            medicalRecordList = new Genson().deserialize(
                     medicalRecordListStr,
                     new GenericType<List<MedicalRecord>>() {}
             );
 
             LOG.info("result: " + medicalRecordList);
-            for (MedicalRecord medicalRecord : medicalRecordList) {
-                MedicalRecordPreviewDto medicalRecordPreviewDto = new MedicalRecordPreviewDto();
-
-                medicalRecordPreviewDto.setMedicalRecordId(medicalRecord.getMedicalRecordId());
-                medicalRecordPreviewDto.setPatientId(medicalRecord.getPatientId());
-                medicalRecordPreviewDto.setDoctorId(medicalRecord.getDoctorId());
-                medicalRecordPreviewDto.setMedicalInstitutionId(medicalRecord.getMedicalInstitutionId());
-                medicalRecordPreviewDto.setDateModified(medicalRecord.getDateModified());
-                medicalRecordPreviewDto.setTestName(medicalRecord.getTestName());
-                medicalRecordPreviewDto.setDetails(medicalRecord.getDetails());
-                medicalRecordPreviewDto.setMedicalRecordStatus(medicalRecord.getMedicalRecordStatus());
-                medicalRecordPreviewDtoList.add(medicalRecordPreviewDto);
-            }
 
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return medicalRecordPreviewDtoList;
+        return medicalRecordList;
     }
 
     private Map<String, String> prepareSearchMedicalRecordParams(SearchMedicalRecordForm searchMedicalRecordForm) {
@@ -625,11 +612,11 @@ public class HyperledgerService {
         return medication;
     }
 
-    public List<MedicationPreviewDto> getListMedication(
+    public List<Medication> getListMedication(
             User user,
             SearchMedicationForm searchMedicationForm
     ) throws Exception {
-        List<MedicationPreviewDto> medicationPreviewDtoList = new ArrayList<>();
+        List<Medication> medicationList = new ArrayList<>();
         try {
             Contract contract = getContract(user);
 
@@ -647,27 +634,17 @@ public class HyperledgerService {
             );
 
             String medicationListStr = new String(result);
-            List<Medication> medicationList = new Genson().deserialize(
+            medicationList = new Genson().deserialize(
                     medicationListStr,
                     new GenericType<List<Medication>>() {
                     }
             );
 
             LOG.info("result: " + medicationList);
-            for (Medication medication : medicationList) {
-                MedicationPreviewDto medicationPreviewDto = new MedicationPreviewDto();
-                medicationPreviewDto.setMedicationId(medication.getMedicationId());
-                medicationPreviewDto.setManufacturerId(medication.getManufacturerId());
-                medicationPreviewDto.setMedicationName(medication.getMedicationName());
-                medicationPreviewDto.setDescription(medication.getDescription());
-                medicationPreviewDto.setDateModified(medication.getDateModified());
-                medicationPreviewDtoList.add(medicationPreviewDto);
-            }
-
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return medicationPreviewDtoList;
+        return medicationList;
     }
 
     public PrescriptionDto getPrescription(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
