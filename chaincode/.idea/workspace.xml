@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Insurance Product &amp; Insurance Contract">
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/MedicalRecordPreviewDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/MedicationPreviewDto.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/SearchInsuranceProductForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -237,7 +236,7 @@
       <workItem from="1719644213258" duration="1415000" />
       <workItem from="1719646671237" duration="6885000" />
       <workItem from="1719674526256" duration="11315000" />
-      <workItem from="1719757127147" duration="5758000" />
+      <workItem from="1719757127147" duration="6919000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

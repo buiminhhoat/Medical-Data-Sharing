@@ -646,6 +646,13 @@ public class InitDataLoader implements CommandLineRunner {
 
             System.out.println(editInsuranceProduct);
 
+            SearchInsuranceProductForm searchInsuranceProductForm = new SearchInsuranceProductForm();
+            searchInsuranceProductForm.setInsuranceCompanyId(insuranceCompany.getId());
+            List<InsuranceProduct> insuranceProductList = hyperledgerService.getListInsuranceProduct(
+                    insuranceCompany,
+                    searchInsuranceProductForm
+            );
+            System.out.println(insuranceProductList);
         } catch (Exception exception) {
             System.out.println(exception);
         }

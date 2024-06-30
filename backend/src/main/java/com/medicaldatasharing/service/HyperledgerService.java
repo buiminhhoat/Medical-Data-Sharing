@@ -870,4 +870,76 @@ public class HyperledgerService {
         return insuranceProduct;
     }
 
+    public List<InsuranceProduct> getListInsuranceProduct(
+            User user,
+            SearchInsuranceProductForm searchInsuranceProductForm
+    ) throws Exception {
+        List<InsuranceProduct> insuranceProductList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchInsuranceProductParams(searchInsuranceProductForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListInsuranceProduct",
+                    jsonObject.toString()
+            );
+
+            String insuranceProductListStr = new String(result);
+            insuranceProductList = new Genson().deserialize(
+                    insuranceProductListStr,
+                    new GenericType<List<InsuranceProduct>>() {
+                    }
+            );
+            System.out.println(insuranceProductList);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return insuranceProductList;
+    }
+
+    private Map<String, String> prepareSearchInsuranceProductParams(SearchInsuranceProductForm searchInsuranceProductForm) {
+        String insuranceProductId = searchInsuranceProductForm.getInsuranceProductId() == null ? "" : searchInsuranceProductForm.getInsuranceProductId();
+        String insuranceProductName = searchInsuranceProductForm.getInsuranceProductName() == null ? "" : searchInsuranceProductForm.getInsuranceProductName();
+        String insuranceCompanyId = searchInsuranceProductForm.getInsuranceCompanyId() == null ? "" : searchInsuranceProductForm.getInsuranceCompanyId();
+        String dateModified = searchInsuranceProductForm.getDateModified() == null ? "" : searchInsuranceProductForm.getDateModified();
+        String description = searchInsuranceProductForm.getDescription() == null ? "" : searchInsuranceProductForm.getDescription();
+        String hashFile = searchInsuranceProductForm.getHashFile() == null ? "" : searchInsuranceProductForm.getHashFile();
+
+        String from;
+        if (searchInsuranceProductForm.getFrom() == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, -6);
+            from = StringUtil.parseDate(calendar.getTime());
+        } else {
+            from = StringUtil.parseDate(searchInsuranceProductForm.getFrom());
+        }
+        String until;
+        if (searchInsuranceProductForm.getFrom() == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, +6);
+            until = StringUtil.parseDate(calendar.getTime());
+        } else {
+            until = StringUtil.parseDate(searchInsuranceProductForm.getUntil());
+        }
+        String sortingOrder = searchInsuranceProductForm.getSortingOrder() == null ? "desc" : searchInsuranceProductForm.getSortingOrder();
+
+        return new HashMap<String, String>() {{
+            put("insuranceProductId", insuranceProductId);
+            put("insuranceProductName", insuranceProductName);
+            put("insuranceCompanyId", insuranceCompanyId);
+            put("dateModified", dateModified);
+            put("description", description);
+            put("hashFile", hashFile);
+            put("from", from);
+            put("until", until);
+            put("sortingOrder", sortingOrder);
+        }};
+    }
 }
