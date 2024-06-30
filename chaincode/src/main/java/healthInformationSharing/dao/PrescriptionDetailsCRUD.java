@@ -42,7 +42,7 @@ public class PrescriptionDetailsCRUD {
     public PrescriptionDetails getPrescriptionDetails(String drugId) throws ChaincodeException {
         if (!drugExist(drugId)) {
             throw new ChaincodeException("PrescriptionDetails " + drugId + " does not exist",
-                    MedicalRecordContract.MedicalRecordContractErrors.PRESCRIPTION_DETAIL_NOT_FOUND.toString());
+                    MedicalRecordContract.ContractErrors.PRESCRIPTION_DETAIL_NOT_FOUND.toString());
         }
         String dbKey = ctx.getStub().createCompositeKey(entityName, drugId).toString();
         byte[] result = ctx.getStub().getState(dbKey);

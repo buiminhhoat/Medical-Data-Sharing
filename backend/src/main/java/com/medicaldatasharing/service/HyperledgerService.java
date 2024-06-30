@@ -168,11 +168,31 @@ public class HyperledgerService {
         MedicalRecord medicalRecord = null;
         try {
             Contract contract = getContract(user);
-            LOG.info("Evaluate Transaction: GetMedicalRecord");
+            LOG.info("Evaluate Transaction: getMedicalRecordByPatient");
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("medicalRecordId", medicalRecordId);
             byte[] result = contract.evaluateTransaction(
                     "getMedicalRecordByPatient",
+                    jsonObject.toString()
+            );
+            String medicalRecordStr = new String(result);
+            medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
+            LOG.info("result: " + medicalRecord);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicalRecord;
+    }
+
+    public MedicalRecord getMedicalRecordByDoctor(User user, String medicalRecordId) throws Exception {
+        MedicalRecord medicalRecord = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Evaluate Transaction: getMedicalRecordByDoctor");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("medicalRecordId", medicalRecordId);
+            byte[] result = contract.evaluateTransaction(
+                    "getMedicalRecordByDoctor",
                     jsonObject.toString()
             );
             String medicalRecordStr = new String(result);
@@ -800,5 +820,21 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return getListAuthorizedMedicalRecordByScientistQueryList;
+    }
+
+    public Prescription updateDrugReactionFromPatient(User user, JSONObject jsonDto) throws Exception {
+        Prescription prescription = null;
+        try {
+            Contract contract = getContract(user);
+            byte[] result = contract.submitTransaction(
+                    "updateDrugReactionFromPatient",
+                    jsonDto.toString()
+            );
+            prescription = new Genson().deserialize(new String(result), Prescription.class);
+            LOG.info("result: " + prescription);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return prescription;
     }
 }

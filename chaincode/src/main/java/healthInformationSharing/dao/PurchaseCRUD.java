@@ -54,7 +54,7 @@ public class PurchaseCRUD {
     public Purchase getPurchase(String purchaseId) throws ChaincodeException {
         if (!purchaseExist(purchaseId)) {
             throw new ChaincodeException("Purchase " + purchaseId + " does not exist",
-                    MedicalRecordContract.MedicalRecordContractErrors.PURCHASE_NOT_FOUND.toString());
+                    MedicalRecordContract.ContractErrors.PURCHASE_NOT_FOUND.toString());
         }
         String dbKey = ctx.getStub().createCompositeKey(entityName, purchaseId).toString();
         byte[] result = ctx.getStub().getState(dbKey);

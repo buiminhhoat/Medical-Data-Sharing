@@ -347,7 +347,6 @@ public class InitDataLoader implements CommandLineRunner {
             Drug drug = hyperledgerService.addDrug(manufacturer, addDrugForm);
             System.out.println(drug);
             AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
-            addPrescriptionForm.setDrugReaction("");
             List<PrescriptionDetails> prescriptionDetailsList = new ArrayList<>();
             prescriptionDetailsList.add(new PrescriptionDetails("", "",
                     medication.getMedicationId(), "10", "Uống 2 viên vào mỗi trưa và tối"));
@@ -380,6 +379,13 @@ public class InitDataLoader implements CommandLineRunner {
 
             System.out.println("getMedicalRecordByPatient: " + getMedicalRecordByPatient);
 
+
+            MedicalRecord getMedicalRecordByDoctor = hyperledgerService.getMedicalRecordByDoctor(
+                    doctor1,
+                    medicalRecord.getMedicalRecordId()
+            );
+
+            System.out.println("getMedicalRecordByDoctor: " + getMedicalRecordByDoctor);
 
             DefineMedicalRecordForm defineMedicalRecordForm = new DefineMedicalRecordForm();
             defineMedicalRecordForm.setMedicalRecordId(medicalRecord.getMedicalRecordId());
@@ -519,6 +525,15 @@ public class InitDataLoader implements CommandLineRunner {
                     purchaseDto
             );
             System.out.println(purchase);
+
+            Prescription prescription = hyperledgerService.updateDrugReactionFromPatient(
+                    patient,
+                    new JSONObject().put("medicalRecordId", medicalRecord.getMedicalRecordId())
+                            .put("prescriptionId", medicalRecord.getPrescriptionId())
+                            .put("drugReaction", "Cảm thấy buồn ngủ sau khi uống")
+            );
+
+
 
             SendViewRequestForm sendViewRequestFormByScientist = new SendViewRequestForm();
             sendViewRequestFormByScientist.setSenderId(scientist1Id);

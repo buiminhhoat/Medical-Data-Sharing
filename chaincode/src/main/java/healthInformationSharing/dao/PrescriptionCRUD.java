@@ -23,15 +23,12 @@ public class PrescriptionCRUD {
     }
 
     public Prescription addPrescription(JSONObject jsonDto) {
-        String drugReaction = jsonDto.getString("drugReaction");
         String prescriptionId = context.getStub().getTxId();
         CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, prescriptionId);
         String dbKey = compositeKey.toString();
 
-        Prescription prescription = Prescription.createInstance(
-                prescriptionId,
-                drugReaction
-        );
+        Prescription prescription = new Prescription();
+        prescription.setPrescriptionId(prescriptionId);
 
         String prescriptionStr = genson.serialize(prescription);
         context.getStub().putStringState(dbKey, prescriptionStr);
@@ -49,5 +46,21 @@ public class PrescriptionCRUD {
         String dbKey = context.getStub().createCompositeKey(entityName, prescriptionId).toString();
         byte[] result = context.getStub().getState(dbKey);
         return Prescription.deserialize(result);
+    }
+
+    public Prescription updateDrugReactionFromPatient(JSONObject jsonDto) {
+        String prescriptionId = jsonDto.getString("prescriptionId");
+        String drugReaction = jsonDto.getString("drugReaction");
+
+        CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, prescriptionId);
+        String dbKey = compositeKey.toString();
+
+        Prescription prescription = new Prescription();
+        prescription.setPrescriptionId(prescriptionId);
+        prescription.setDrugReaction(drugReaction);
+
+        String prescriptionStr = genson.serialize(prescription);
+        context.getStub().putStringState(dbKey, prescriptionStr);
+        return prescription;
     }
 }

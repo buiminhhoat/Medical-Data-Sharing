@@ -26,4 +26,8 @@ public class PrescriptionDAO {
     public Prescription getPrescription(String prescriptionId) {
         return prescriptionCRUD.getPrescription(prescriptionId);
     }
+
+    public Prescription updateDrugReactionFromPatient(JSONObject jsonDto) {
+        return prescriptionCRUD.updateDrugReactionFromPatient(jsonDto);
+    }
 }

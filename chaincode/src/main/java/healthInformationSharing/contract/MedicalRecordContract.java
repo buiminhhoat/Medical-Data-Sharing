@@ -72,7 +72,7 @@ public class MedicalRecordContract implements ContractInterface {
         } catch (Exception e) {
             String errorMessage = "Error during method ctx.getClientIdentity.getAttributeValue()";
             System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+            throw new ChaincodeException(errorMessage, ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
     }
 
@@ -100,12 +100,12 @@ public class MedicalRecordContract implements ContractInterface {
         } catch (Exception e) {
             String errorMessage = "Error during method ctx.getClientIdentity.getAttributeValue(...)";
             System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+            throw new ChaincodeException(errorMessage, ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
         if (!userIdentityId.equals(userIdentityInDb)) {
             String errorMessage = String.format("Error during method: %s , identified user does not have write rights", methodName);
             System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+            throw new ChaincodeException(errorMessage, ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
     }
 
@@ -127,7 +127,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         if (!ctx.getAppointmentRequestDAO().requestExist(requestId)) {
             throw new ChaincodeException("Request " + requestId + " does not exist",
-                    MedicalRecordContractErrors.REQUEST_NOT_FOUND.toString());
+                    ContractErrors.REQUEST_NOT_FOUND.toString());
         }
         AppointmentRequest appointmentRequest = ctx.getAppointmentRequestDAO().getAppointmentRequest(requestId);
         System.out.println(appointmentRequest.toString());
@@ -135,19 +135,19 @@ public class MedicalRecordContract implements ContractInterface {
         System.out.println(patientId);
         if (!Objects.equals(appointmentRequest.getSenderId(), patientId)) {
             throw new ChaincodeException("request.getSenderId() does not match patientId",
-                    MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
         if (!Objects.equals(appointmentRequest.getRecipientId(), doctorId)) {
             throw new ChaincodeException("request.getRecipientId() does not match doctorId",
-                    MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
         if (!Objects.equals(appointmentRequest.getRequestType(), RequestType.APPOINTMENT)) {
             throw new ChaincodeException("request.getRequestType() does not match RequestType.APPOINTMENT",
-                    MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
         if (!Objects.equals(appointmentRequest.getRequestStatus(), RequestStatus.PENDING)) {
             throw new ChaincodeException("request.getRequestStatus() does not match RequestStatus.PENDING",
-                    MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
         authorizeRequest(ctx, doctorId, "addMedicalRecord(validate doctorId)");
         String medicalRecordId = ctx.getStub().getTxId();
@@ -188,7 +188,7 @@ public class MedicalRecordContract implements ContractInterface {
         if (!ctx.getMedicalRecordDAO().medicalRecordExist(medicalRecordId)) {
             String errorMessage = String.format("Medical Record %s does not exist", medicalRecordId);
             System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
+            throw new ChaincodeException(errorMessage, ContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
         }
 
         jsonDto = new JSONObject();
@@ -216,10 +216,27 @@ public class MedicalRecordContract implements ContractInterface {
         } else {
             String errorMessage = String.format("Medical Record %s does not exist", medicalRecordId);
             System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
+            throw new ChaincodeException(errorMessage, ContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
         }
     }
 
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getMedicalRecordByDoctor(MedicalRecordContext ctx,
+                                            String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String medicalRecordId = jsonObject.getString("medicalRecordId");
+
+        if (ctx.getMedicalRecordDAO().medicalRecordExist(medicalRecordId)) {
+            MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecordId);
+            authorizeRequest(ctx, medicalRecord.getDoctorId(), "getMedicalRecordByDoctor(validate medicalRecord.getDoctorId())");
+            return new Genson().serialize(medicalRecord);
+        } else {
+            String errorMessage = String.format("Medical Record %s does not exist", medicalRecordId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, ContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
+        }
+    }
+    
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getMedicalRecordChangeHistory(MedicalRecordContext ctx, String jsonString) throws Exception {
         JSONObject jsonObject = new JSONObject(jsonString);
@@ -258,7 +275,7 @@ public class MedicalRecordContract implements ContractInterface {
         } else {
             String errorMessage = String.format("Edit Request %s does not exist", requestId);
             System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, MedicalRecordContractErrors.EDIT_REQUEST_NOT_FOUND.toString());
+            throw new ChaincodeException(errorMessage, ContractErrors.EDIT_REQUEST_NOT_FOUND.toString());
         }
     }
 
@@ -295,7 +312,7 @@ public class MedicalRecordContract implements ContractInterface {
         
         if (!appointmentRequestDAO.requestExist(requestId)) {
             throw new ChaincodeException("AppointmentRequest " + requestId + " does not exist",
-                    MedicalRecordContractErrors.REQUEST_NOT_FOUND.toString());
+                    ContractErrors.REQUEST_NOT_FOUND.toString());
         }
 
         AppointmentRequest appointmentRequest = appointmentRequestDAO.getAppointmentRequest(requestId);
@@ -325,7 +342,7 @@ public class MedicalRecordContract implements ContractInterface {
         authorizeRequest(ctx, medicalRecord.getDoctorId(), "sendEditRequest(validate doctorId)");
         if (!Objects.equals(medicalRecord.getPatientId(), recipientId)) {
             throw new ChaincodeException("medicalRecord.getPatientId() does not match recipientId",
-                    MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
         
         JSONObject jsonDto = new JSONObject();
@@ -360,7 +377,7 @@ public class MedicalRecordContract implements ContractInterface {
         EditRequestDAO editRequestDAO = ctx.getEditRequestDAO();
         if (!editRequestDAO.requestExist(requestId)) {
             throw new ChaincodeException("EditRequestDAO " + requestId + " does not exist",
-                    MedicalRecordContractErrors.REQUEST_NOT_FOUND.toString());
+                    ContractErrors.REQUEST_NOT_FOUND.toString());
         }
 
         EditRequest editRequest = editRequestDAO.getEditRequest(requestId);
@@ -376,12 +393,12 @@ public class MedicalRecordContract implements ContractInterface {
 
         if (!Objects.equals(medicalRecord.getPatientId(), curMedicalRecord.getPatientId())) {
             throw new ChaincodeException("editMedicalRecord.medicalRecordJson.getPatientId() does not match curMedicalRecord.getPatientId()",
-                    MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
 
         if (!Objects.equals(medicalRecord.getDoctorId(), curMedicalRecord.getDoctorId())) {
             throw new ChaincodeException("editMedicalRecord.medicalRecordJson.getDoctorId() does not match curMedicalRecord.getDoctorId()",
-                    MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
 
         jsonDto = new JSONObject();
@@ -401,7 +418,7 @@ public class MedicalRecordContract implements ContractInterface {
         }
         else {
             throw new ChaincodeException("editRequest.getRequestStatus() does not match RequestStatus.ACCEPTED",
-                    MedicalRecordContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
         return new Genson().serialize(medicalRecord);
     }
@@ -442,7 +459,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         if (!viewRequestDAO.requestExist(requestId)) {
             throw new ChaincodeException("ViewRequest " + requestId + " does not exist",
-                    MedicalRecordContractErrors.REQUEST_NOT_FOUND.toString());
+                    ContractErrors.REQUEST_NOT_FOUND.toString());
         }
 
         ViewRequest viewRequest = viewRequestDAO.getViewRequest(requestId);
@@ -600,14 +617,14 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         if (!jsonObject.has("medicationId")) {
             throw new ChaincodeException("MedicationId is empty",
-                    MedicalRecordContractErrors.EMPTY_MEDICATION_ID_ERROR.toString());
+                    ContractErrors.EMPTY_MEDICATION_ID_ERROR.toString());
         }
         String medicationId = jsonObject.getString("medicationId");
         String manufacturerId = jsonObject.getString("manufacturerId");
 
         if (!ctx.getMedicationDAO().medicationExist(medicationId)) {
             throw new ChaincodeException("Medication " + medicationId + " does not exist",
-                    MedicalRecordContractErrors.MEDICATION_NOT_FOUND.toString());
+                    ContractErrors.MEDICATION_NOT_FOUND.toString());
         }
 
         authorizeRequest(ctx, manufacturerId, "editMedication(validate manufacturerId)");
@@ -645,7 +662,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         if (!ctx.getMedicationDAO().medicationExist(medicationId)) {
             throw new ChaincodeException("Medication " + medicationId + " does not exist",
-                    MedicalRecordContractErrors.MEDICATION_NOT_FOUND.toString());
+                    ContractErrors.MEDICATION_NOT_FOUND.toString());
         }
 
         String manufacturerId = ctx.getMedicationDAO().getManufacturerId(medicationId);
@@ -682,7 +699,6 @@ public class MedicalRecordContract implements ContractInterface {
             String jsonString
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
-        String drugReaction = jsonObject.getString("drugReaction");
         String prescriptionDetailsListStr = jsonObject.getString("prescriptionDetailsList");
 
         JSONObject jsonDto = jsonObject;
@@ -706,6 +722,39 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String updateDrugReactionFromPatient(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String medicalRecordId = jsonObject.getString("medicalRecordId");
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String drugReaction = jsonObject.getString("drugReaction");
+
+        MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecordId);
+
+        if (!Objects.equals(prescriptionId, medicalRecord.getPrescriptionId())) {
+            throw new ChaincodeException("prescriptionId " + prescriptionId + " does not match medicalRecord.getPrescription()",
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+        }
+
+        List<Purchase> purchaseList = ctx.getPurchaseDAO().getListPurchaseByQuery(
+                new JSONObject().put("prescriptionId", prescriptionId)
+        );
+
+        if (purchaseList.isEmpty()) {
+            throw new ChaincodeException("Not found purchase",
+                    ContractErrors.PURCHASE_NOT_FOUND.toString());
+        }
+
+        authorizeRequest(ctx, medicalRecord.getPatientId(), "sendDrugReactionFromPatient(validate medicalRecord.getPatientId())");
+
+        JSONObject jsonDto = jsonObject;
+        Prescription prescription = ctx.getPrescriptionDAO().updateDrugReactionFromPatient(jsonDto);
+        return new Genson().serialize(prescription);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getPrescriptionByDrugStore(
             MedicalRecordContext ctx,
             String jsonString
@@ -726,7 +775,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         if (viewPrescriptionRequestList.isEmpty()) {
             throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
-                    MedicalRecordContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
         }
 
         Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
@@ -777,7 +826,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         if (!viewPrescriptionRequestDAO.requestExist(requestId)) {
             throw new ChaincodeException("ViewPrescriptionRequest " + requestId + " does not exist",
-                    MedicalRecordContractErrors.REQUEST_NOT_FOUND.toString());
+                    ContractErrors.REQUEST_NOT_FOUND.toString());
         }
 
         ViewPrescriptionRequest viewPrescriptionRequest = viewPrescriptionRequestDAO.getViewPrescriptionRequest(requestId);
@@ -796,7 +845,7 @@ public class MedicalRecordContract implements ContractInterface {
     public boolean checkDrugConditions(Drug drug, String dateModifiedStr, String drugStoreId) throws ChaincodeException, ParseException {
         if (!Objects.equals(drug.getOwnerId(), drugStoreId)) {
             throw new ChaincodeException("Drug " + drug.getDrugId() + " does not belong to the drug store " + drugStoreId,
-                    MedicalRecordContractErrors.DRUG_OWNERSHIP_ERROR.toString());
+                    ContractErrors.DRUG_OWNERSHIP_ERROR.toString());
         }
 
         Date expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(drug.getExpirationDate());
@@ -804,7 +853,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         if (dateModified.after(expirationDate)) {
             throw new ChaincodeException("Drug " + drug.getDrugId() + " is expired",
-                    MedicalRecordContractErrors.DRUG_EXPIRED_ERROR.toString());
+                    ContractErrors.DRUG_EXPIRED_ERROR.toString());
         }
         return true;
     }
@@ -823,7 +872,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         if (!ctx.getPrescriptionDAO().prescriptionExist(prescriptionId)) {
             throw new ChaincodeException("Prescription " + prescriptionId + " does not exist",
-                    MedicalRecordContractErrors.PRESCRIPTION_NOT_FOUND.toString());
+                    ContractErrors.PRESCRIPTION_NOT_FOUND.toString());
         }
 
         authorizeRequest(ctx, drugStoreId, "addPurchase(validate drugStoreId)");
@@ -850,7 +899,7 @@ public class MedicalRecordContract implements ContractInterface {
                 }
                 else {
                     throw new ChaincodeException("The drug is not qualified for sale",
-                            MedicalRecordContractErrors.NOT_QUALIFIED_FOR_SALE.toString());
+                            ContractErrors.NOT_QUALIFIED_FOR_SALE.toString());
                 }
 
                 transferDrug.add(drug);
@@ -870,7 +919,7 @@ public class MedicalRecordContract implements ContractInterface {
             }
             else {
                 throw new ChaincodeException("The quantity purchased is more than the quantity prescribed in the Prescription Details",
-                        MedicalRecordContractErrors.EXCEEDED_THE_QUANTITY_PURCHASED_IN_THE_PRESCRIPTION_DETAILS.toString());
+                        ContractErrors.EXCEEDED_THE_QUANTITY_PURCHASED_IN_THE_PRESCRIPTION_DETAILS.toString());
             }
         }
 
@@ -902,7 +951,7 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(purchase);
     }
 
-    public enum MedicalRecordContractErrors {
+    public enum ContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,
         UNAUTHORIZED_VIEW_ACCESS,

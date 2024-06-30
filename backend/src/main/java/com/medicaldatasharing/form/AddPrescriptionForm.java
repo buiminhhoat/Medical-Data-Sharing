@@ -13,9 +13,6 @@ import java.lang.reflect.Field;
 @AllArgsConstructor
 public class AddPrescriptionForm {
     @NotBlank
-    private String drugReaction;
-
-    @NotBlank
     private String prescriptionDetailsList;
 
     public JSONObject toJSONObject() {
