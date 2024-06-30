@@ -445,51 +445,6 @@ public class HyperledgerService {
         return medicalRecordPreviewDtoList;
     }
 
-    public List<MedicationPreviewDto> getListMedication(
-            User user,
-            SearchMedicationForm searchMedicationForm
-    ) throws Exception {
-        List<MedicationPreviewDto> medicationPreviewDtoList = new ArrayList<>();
-        try {
-            Contract contract = getContract(user);
-
-            Map<String, String> searchParams = prepareSearchMedicationParams(searchMedicationForm);
-
-            JSONObject jsonObject = new JSONObject();
-
-            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
-                jsonObject.put(entry.getKey(), entry.getValue());
-            }
-
-            byte[] result = contract.evaluateTransaction(
-                    "getListMedication",
-                    jsonObject.toString()
-            );
-
-            String medicationListStr = new String(result);
-            List<Medication> medicationList = new Genson().deserialize(
-                    medicationListStr,
-                    new GenericType<List<Medication>>() {
-                    }
-            );
-
-            LOG.info("result: " + medicationList);
-            for (Medication medication : medicationList) {
-                MedicationPreviewDto medicationPreviewDto = new MedicationPreviewDto();
-                medicationPreviewDto.setMedicationId(medication.getMedicationId());
-                medicationPreviewDto.setManufacturerId(medication.getManufacturerId());
-                medicationPreviewDto.setMedicationName(medication.getMedicationName());
-                medicationPreviewDto.setDescription(medication.getDescription());
-                medicationPreviewDto.setDateModified(medication.getDateModified());
-                medicationPreviewDtoList.add(medicationPreviewDto);
-            }
-
-        } catch (Exception e) {
-            formatExceptionMessage(e);
-        }
-        return medicationPreviewDtoList;
-    }
-
     private Map<String, String> prepareSearchMedicalRecordParams(SearchMedicalRecordForm searchMedicalRecordForm) {
         String medicalRecordId = searchMedicalRecordForm.getMedicalRecordId() == null ? "" : searchMedicalRecordForm.getMedicalRecordId();
         String patientId = searchMedicalRecordForm.getPatientId() == null ? "" : searchMedicalRecordForm.getPatientId();
@@ -651,6 +606,68 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return medication;
+    }
+
+    public Medication editMedication(User user, EditMedicationForm editMedicationForm) throws Exception {
+        Medication medication = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = editMedicationForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "editMedication",
+                    jsonDto.toString()
+            );
+            medication = new Genson().deserialize(new String(result), Medication.class);
+            LOG.info("result: " + medication);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medication;
+    }
+
+    public List<MedicationPreviewDto> getListMedication(
+            User user,
+            SearchMedicationForm searchMedicationForm
+    ) throws Exception {
+        List<MedicationPreviewDto> medicationPreviewDtoList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchMedicationParams(searchMedicationForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListMedication",
+                    jsonObject.toString()
+            );
+
+            String medicationListStr = new String(result);
+            List<Medication> medicationList = new Genson().deserialize(
+                    medicationListStr,
+                    new GenericType<List<Medication>>() {
+                    }
+            );
+
+            LOG.info("result: " + medicationList);
+            for (Medication medication : medicationList) {
+                MedicationPreviewDto medicationPreviewDto = new MedicationPreviewDto();
+                medicationPreviewDto.setMedicationId(medication.getMedicationId());
+                medicationPreviewDto.setManufacturerId(medication.getManufacturerId());
+                medicationPreviewDto.setMedicationName(medication.getMedicationName());
+                medicationPreviewDto.setDescription(medication.getDescription());
+                medicationPreviewDto.setDateModified(medication.getDateModified());
+                medicationPreviewDtoList.add(medicationPreviewDto);
+            }
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicationPreviewDtoList;
     }
 
     public PrescriptionDto getPrescription(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
@@ -840,4 +857,40 @@ public class HyperledgerService {
         }
         return prescription;
     }
+
+
+    public InsuranceProduct addInsuranceProduct(User user, AddInsuranceProductForm addInsuranceProductForm) throws Exception {
+        InsuranceProduct insuranceProduct = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = addInsuranceProductForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "addInsuranceProduct",
+                    jsonDto.toString()
+            );
+            insuranceProduct = new Genson().deserialize(new String(result), InsuranceProduct.class);
+            LOG.info("result: " + insuranceProduct);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return insuranceProduct;
+    }
+
+    public InsuranceProduct editInsuranceProduct(User user, EditInsuranceProductForm editInsuranceProductForm) throws Exception {
+        InsuranceProduct insuranceProduct = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = editInsuranceProductForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "editInsuranceProduct",
+                    jsonDto.toString()
+            );
+            insuranceProduct = new Genson().deserialize(new String(result), InsuranceProduct.class);
+            LOG.info("result: " + insuranceProduct);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return insuranceProduct;
+    }
+
 }

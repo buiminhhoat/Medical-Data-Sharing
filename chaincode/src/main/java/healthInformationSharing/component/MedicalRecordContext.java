@@ -19,6 +19,7 @@ public class MedicalRecordContext extends Context {
     private ViewPrescriptionRequestDAO viewPrescriptionRequestDAO;
     private PurchaseDAO purchaseDAO;
     private PurchaseDetailsDAO purchaseDetailsDAO;
+    private InsuranceProductDAO insuranceProductDAO;
 
     public MedicalRecordContext(ChaincodeStub stub) {
         super(stub);
@@ -33,6 +34,7 @@ public class MedicalRecordContext extends Context {
         viewPrescriptionRequestDAO = new ViewPrescriptionRequestDAO(this);
         purchaseDAO = new PurchaseDAO(this);
         purchaseDetailsDAO = new PurchaseDetailsDAO(this);
+        insuranceProductDAO = new InsuranceProductDAO(this);
     }
 
     public MedicalRecordDAO getMedicalRecordDAO() {
@@ -131,6 +133,15 @@ public class MedicalRecordContext extends Context {
 
     public MedicalRecordContext setPurchaseDetailsDAO(PurchaseDetailsDAO purchaseDetailsDAO) {
         this.purchaseDetailsDAO = purchaseDetailsDAO;
+        return this;
+    }
+
+    public InsuranceProductDAO getInsuranceProductDAO() {
+        return insuranceProductDAO;
+    }
+
+    public MedicalRecordContext setInsuranceProductDAO(InsuranceProductDAO insuranceProductDAO) {
+        this.insuranceProductDAO = insuranceProductDAO;
         return this;
     }
 }

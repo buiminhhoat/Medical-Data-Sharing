@@ -4,10 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Medical Data Sharing">
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/InsuranceContract.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/InsuranceProduct.java" afterDir="false" />
+    <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Insurance Product &amp; Insurance Contract">
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/InsuranceContract.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/InsuranceProduct.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/AddInsuranceProductForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/EditInsuranceProductForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/EditMedicationForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/InsuranceProductCRUD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/InsuranceProductDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/InsuranceProductQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/component/MedicalRecordContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/component/MedicalRecordContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,8 +128,8 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.2965495" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.2965495" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2965495" />
+      <window_info id="Commit" order="1" weight="0.2965495" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -164,8 +176,8 @@
       <recent name="$PROJECT_DIR$/build/install" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="healthInformationSharing.entity" />
       <recent name="healthInformationSharing.dao" />
+      <recent name="healthInformationSharing.entity" />
       <recent name="healthInformationSharing.enumeration" />
       <recent name="healthInformationSharing.component" />
     </key>
@@ -235,7 +247,7 @@
       <workItem from="1719644213258" duration="1415000" />
       <workItem from="1719646671237" duration="6885000" />
       <workItem from="1719674526256" duration="11315000" />
-      <workItem from="1719757127147" duration="1373000" />
+      <workItem from="1719757127147" duration="5038000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
@@ -309,7 +321,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719744238481</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Add Insurance Product &amp; Insurance Contract">
+      <option name="closed" value="true" />
+      <created>1719758511883</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1719758511883</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,7 +343,8 @@
     <MESSAGE value="Add Get Prescription" />
     <MESSAGE value="Add PrescriptionDto" />
     <MESSAGE value="Update Medical Data Sharing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Medical Data Sharing" />
+    <MESSAGE value="Add Insurance Product &amp; Insurance Contract" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Insurance Product &amp; Insurance Contract" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

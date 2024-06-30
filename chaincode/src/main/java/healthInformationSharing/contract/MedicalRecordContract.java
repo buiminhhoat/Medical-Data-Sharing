@@ -951,6 +951,61 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(purchase);
     }
 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String addInsuranceProduct(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String insuranceCompanyId = jsonObject.getString("insuranceCompanyId");
+
+        authorizeRequest(ctx, insuranceCompanyId, "addInsuranceProduct(validate insuranceCompanyId)");
+        JSONObject jsonDto = jsonObject;
+
+        InsuranceProduct insuranceProduct = ctx.getInsuranceProductDAO().addInsuranceProduct(jsonDto);
+
+        return new Genson().serialize(insuranceProduct);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String editInsuranceProduct(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        if (!jsonObject.has("insuranceProductId")) {
+            throw new ChaincodeException("InsuranceProductId is empty",
+                    ContractErrors.EMPTY_INSURANCE_PRODUCT_ID_ERROR.toString());
+        }
+        String insuranceProductId = jsonObject.getString("insuranceProductId");
+
+        if (!ctx.getInsuranceProductDAO().insuranceProductExist(insuranceProductId)) {
+            throw new ChaincodeException("InsuranceProduct " + insuranceProductId + " does not exist",
+                    ContractErrors.INSURANCE_PRODUCT_NOT_FOUND.toString());
+        }
+
+        String insuranceCompanyId = jsonObject.getString("insuranceCompanyId");
+        authorizeRequest(ctx, insuranceCompanyId, "editInsuranceProduct(validate insuranceCompanyId)");
+        JSONObject jsonDto = jsonObject;
+
+        InsuranceProduct insuranceProduct = ctx.getInsuranceProductDAO().editInsuranceProduct(jsonDto);
+
+        return new Genson().serialize(insuranceProduct);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListInsuranceProduct(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonDto = new JSONObject(jsonString);
+
+        List<InsuranceProduct> insuranceProductList = ctx.getInsuranceProductDAO().getListInsuranceProduct(
+                jsonDto
+        );
+        return new Genson().serialize(insuranceProductList);
+    }
+
     public enum ContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,
@@ -969,6 +1024,6 @@ public class MedicalRecordContract implements ContractInterface {
         NOT_QUALIFIED_FOR_SALE,
         EXCEEDED_THE_QUANTITY_PURCHASED_IN_THE_PRESCRIPTION_DETAILS,
         DRUG_OWNERSHIP_ERROR,
-        DRUG_EXPIRED_ERROR;
+        DRUG_EXPIRED_ERROR, EMPTY_INSURANCE_PRODUCT_ID_ERROR, INSURANCE_PRODUCT_NOT_FOUND;
     }
 }

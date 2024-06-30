@@ -345,6 +345,9 @@ public class InitDataLoader implements CommandLineRunner {
         Scientist scientist1 = scientistRepository.findByUsername("scientist1@gmail.com");
         String scientist1Id = scientist1.getId();
 
+        InsuranceCompany insuranceCompany = insuranceCompanyRepository.findInsuranceCompanyByEmail("congtybaohiemC@gmail.com");
+        String insuranceCompanyId = insuranceCompany.getId();
+
         try {
             Date dateModified = new Date();
 
@@ -364,7 +367,17 @@ public class InitDataLoader implements CommandLineRunner {
             addMedicationForm.setMedicationName("Paracetamol");
             addMedicationForm.setDescription("Điều trị đau đầu");
             addMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
+
             Medication medication = hyperledgerService.addMedication(manufacturer, addMedicationForm);
+
+            EditMedicationForm editMedicationForm = new EditMedicationForm();
+            editMedicationForm.setMedicationId(medication.getMedicationId());
+            editMedicationForm.setManufacturerId(manufacturer.getId());
+            editMedicationForm.setMedicationName("Paracetamol :)");
+            editMedicationForm.setDescription("Điều trị đau đầu :)");
+            editMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
+
+            medication = hyperledgerService.editMedication(manufacturer, editMedicationForm);
 
             AddDrugForm addDrugForm = new AddDrugForm();
             addDrugForm.setMedicationId(medication.getMedicationId());
@@ -604,6 +617,35 @@ public class InitDataLoader implements CommandLineRunner {
             );
 
             System.out.println(getListAuthorizedMedicalRecordByScientistQuery);
+
+            AddInsuranceProductForm addInsuranceProductForm = new AddInsuranceProductForm();
+            addInsuranceProductForm.setInsuranceProductName("Bảo hiểm ung thư");
+            addInsuranceProductForm.setInsuranceCompanyId(insuranceCompanyId);
+            addInsuranceProductForm.setDateModified(StringUtil.parseDate(dateModified));
+            addInsuranceProductForm.setDescription("Bảo hiểm ung thư");
+            addInsuranceProductForm.setHashFile("hashFile");
+
+            InsuranceProduct insuranceProduct = hyperledgerService.addInsuranceProduct(
+                    insuranceCompany,
+                    addInsuranceProductForm
+            );
+            System.out.println(insuranceProduct);
+
+            EditInsuranceProductForm editInsuranceProductForm = new EditInsuranceProductForm();
+            editInsuranceProductForm.setInsuranceProductId(insuranceProduct.getInsuranceProductId());
+            editInsuranceProductForm.setInsuranceProductName("Bảo hiểm ung thư :)");
+            editInsuranceProductForm.setInsuranceCompanyId(insuranceCompanyId);
+            editInsuranceProductForm.setDateModified(StringUtil.parseDate(dateModified));
+            editInsuranceProductForm.setDescription("Bảo hiểm ung thư :)");
+            editInsuranceProductForm.setHashFile("hashFile :)");
+
+            InsuranceProduct editInsuranceProduct = hyperledgerService.editInsuranceProduct(
+                    insuranceCompany,
+                    editInsuranceProductForm
+            );
+
+            System.out.println(editInsuranceProduct);
+
         } catch (Exception exception) {
             System.out.println(exception);
         }
