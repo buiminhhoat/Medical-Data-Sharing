@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Medical Data Sharing">
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/InsuranceCompany.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/repository/InsuranceCompanyRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/util/ConnectionParamsUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/util/ConnectionParamsUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/InsuranceContract.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/InsuranceProduct.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,8 +116,8 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2965495" />
-      <window_info id="Commit" order="1" weight="0.37076825" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2965495" />
+      <window_info active="true" id="Commit" order="1" visible="true" weight="0.2965495" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -139,8 +134,8 @@
       <window_info anchor="bottom" id="Services" order="7" />
       <window_info anchor="bottom" id="Duplicates" order="8" weight="0.3302696" />
       <window_info anchor="bottom" id="Analyze Dataflow to" order="9" weight="0.30453432" />
-      <window_info anchor="bottom" id="Dependency Viewer" order="9" weight="0.28002453" />
-      <window_info anchor="bottom" id="Find" order="9" weight="0.2689951" />
+      <window_info anchor="bottom" id="Dependency Viewer" order="10" weight="0.28002453" />
+      <window_info anchor="bottom" id="Find" order="11" weight="0.2689951" />
       <window_info anchor="right" id="Endpoints" show_stripe_button="false" />
       <window_info anchor="right" id="Module Dependencies" />
       <window_info anchor="right" id="documentation.v2" show_stripe_button="false" side_tool="true" />
@@ -169,8 +164,8 @@
       <recent name="$PROJECT_DIR$/build/install" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="healthInformationSharing.dao" />
       <recent name="healthInformationSharing.entity" />
+      <recent name="healthInformationSharing.dao" />
       <recent name="healthInformationSharing.enumeration" />
       <recent name="healthInformationSharing.component" />
     </key>
@@ -240,6 +235,7 @@
       <workItem from="1719644213258" duration="1415000" />
       <workItem from="1719646671237" duration="6885000" />
       <workItem from="1719674526256" duration="11315000" />
+      <workItem from="1719757127147" duration="1373000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
