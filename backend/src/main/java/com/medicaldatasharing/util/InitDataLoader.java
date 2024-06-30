@@ -46,6 +46,8 @@ public class InitDataLoader implements CommandLineRunner {
     @Autowired
     private ResearchCenterRepository researchCenterRepository;
     @Autowired
+    private InsuranceCompanyRepository insuranceCompanyRepository;
+    @Autowired
     private HyperledgerService hyperledgerService;
 
     @Override
@@ -56,6 +58,7 @@ public class InitDataLoader implements CommandLineRunner {
         initResearchCenter();
         initUsers();
         initScientist();
+        initInsuranceCompany();
         init();
     }
 
@@ -140,6 +143,30 @@ public class InitDataLoader implements CommandLineRunner {
         } catch (Exception e) {
             drugStoreRepository.delete(drugStoreA);
             drugStoreRepository.delete(drugStoreB);
+            e.printStackTrace();
+        }
+    }
+
+    private void initInsuranceCompany() {
+        if (!insuranceCompanyRepository.findAll().isEmpty()) {
+            return;
+        }
+        InsuranceCompany insuranceCompany1 = InsuranceCompany
+                .builder()
+                .firstName("C")
+                .lastName("Công ty bảo hiểm")
+                .email("congtybaohiemC@gmail.com")
+                .businessLicenseNumber("596475233654")
+                .role(Constants.ROLE_DRUG_STORE)
+                .username("congtybaohiemc")
+                .password("congtybaohiemc")
+                .build();
+        insuranceCompanyRepository.save(insuranceCompany1);
+
+        try {
+            RegisterUserHyperledger.enrollOrgAppUsers(insuranceCompany1.getEmail(), Config.INSURANCE_COMPANY_ORG, insuranceCompany1.getId());
+        } catch (Exception e) {
+            insuranceCompanyRepository.delete(insuranceCompany1);
             e.printStackTrace();
         }
     }

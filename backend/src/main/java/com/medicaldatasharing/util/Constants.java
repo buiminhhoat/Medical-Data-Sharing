@@ -19,4 +19,5 @@ public class Constants {
 
     public static final String ROLE_DRUG_STORE = "ROLE_DRUG_STORE";
     public static final String ROLE_SCIENTIST = "ROLE_SCIENTIST";
+    public static final String ROLE_INSURANCE_COMPANY = "ROLE_INSURANCE_COMPANY";
 }

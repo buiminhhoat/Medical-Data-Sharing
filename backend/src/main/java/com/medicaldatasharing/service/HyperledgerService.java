@@ -97,6 +97,9 @@ public class HyperledgerService {
         if (user.getRole().equals(Constants.ROLE_SCIENTIST)) {
             return Config.SCIENTIST_ORG;
         }
+        if (user.getRole().equals(Constants.ROLE_INSURANCE_COMPANY)) {
+            return Config.INSURANCE_COMPANY_ORG;
+        }
         return null;
     }
 

@@ -64,6 +64,17 @@ public class ConnectionParamsUtil {
                     put("orgAffiliation", Config.ORG5_AFFILIATION);
                     put("networkConfigPath", Config.ORG5_CONNECTION_PROFILE_PATH);
                 }};
+            case Config.ORG6:
+                return new HashMap<String, String>() {{
+                    put("pemFile", Config.CA_ORG6_PEM_FILE);
+                    put("caOrgUrl", Config.CA_ORG6_URL);
+                    put("caOrgAdminIdentityId", Config.CA_ORG6_ADMIN_IDENTITY_ID);
+                    put("orgMsp", Config.ORG6_MSP);
+                    put("caAdminUsername", Config.CA_ADMIN_USERNAME);
+                    put("caAdminPassword", Config.CA_ADMIN_PASSWORD);
+                    put("orgAffiliation", Config.ORG6_AFFILIATION);
+                    put("networkConfigPath", Config.ORG6_CONNECTION_PROFILE_PATH);
+                }};
             default:
                 throw new Exception();
         }
