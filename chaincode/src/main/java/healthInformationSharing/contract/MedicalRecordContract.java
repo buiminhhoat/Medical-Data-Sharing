@@ -3,10 +3,7 @@ package healthInformationSharing.contract;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import healthInformationSharing.component.MedicalRecordContext;
-import healthInformationSharing.dao.AppointmentRequestDAO;
-import healthInformationSharing.dao.EditRequestDAO;
-import healthInformationSharing.dao.ViewPrescriptionRequestDAO;
-import healthInformationSharing.dao.ViewRequestDAO;
+import healthInformationSharing.dao.*;
 import healthInformationSharing.dto.MedicationPurchaseDto;
 import healthInformationSharing.dto.PrescriptionDto;
 import healthInformationSharing.dto.PurchaseDto;
@@ -440,7 +437,6 @@ public class MedicalRecordContract implements ContractInterface {
         jsonDto.put("senderId", senderId);
         jsonDto.put("recipientId", recipientId);
         jsonDto.put("dateModified", dateModified);
-        jsonDto.put("requestType", RequestType.VIEW_RECORD);
         ViewRequest viewRequest = ctx.getViewRequestDAO().sendViewRequest(
                 jsonDto
         );
@@ -1006,6 +1002,91 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(insuranceProductList);
     }
 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String sendPurchaseRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String senderId = jsonObject.getString("senderId");
+        String recipientId = jsonObject.getString("recipientId");
+        String dateModified = jsonObject.getString("dateModified");
+        String insuranceProductId = jsonObject.getString("insuranceProductId");
+
+        authorizeRequest(ctx, senderId, "sendPurchaseRequest(validate senderId)");
+
+        JSONObject jsonDto = jsonObject;
+        jsonDto.put("requestType", RequestType.PURCHASE);
+
+        InsuranceProduct insuranceProduct = ctx.getInsuranceProductDAO().getInsuranceProductCRUD()
+                .getInsuranceProduct(insuranceProductId);
+
+        jsonDto.put("numberOfDaysInsured", insuranceProduct.getNumberOfDaysInsured());
+        System.out.println("numberOfDaysInsured: " + insuranceProduct.getNumberOfDaysInsured());
+        PurchaseRequest purchaseRequest = ctx.getPurchaseRequestDAO().sendPurchaseRequest(jsonDto);
+
+        ctx.getViewRequestDAO().sendViewRequestAccepted(
+                new JSONObject().put("senderId", insuranceProductId)
+                        .put("recipientId", senderId)
+                        .put("dateModified", dateModified)
+        );
+        return new Genson().serialize(purchaseRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String definePurchaseRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        String requestStatus = jsonObject.getString("requestStatus");
+        String hashFile = jsonObject.has("hashFile") ? jsonObject.getString("hashFile") : "";
+        String dateModified = jsonObject.has("dateModified") ? jsonObject.getString("dateModified") : "";
+        PurchaseRequestDAO purchaseRequestDAO = ctx.getPurchaseRequestDAO();
+
+        if (!purchaseRequestDAO.requestExist(requestId)) {
+            throw new ChaincodeException("PurchaseRequest " + requestId + " does not exist",
+                    ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+
+        PurchaseRequest purchaseRequest = purchaseRequestDAO.getPurchaseRequest(requestId);
+        authorizeRequest(ctx, purchaseRequest.getRecipientId(), "definePurchaseRequest(validate recipientId");
+
+        if (Objects.equals(requestStatus, RequestStatus.APPROVED) && !jsonObject.has("hashFile")) {
+            throw new ChaincodeException("Error: hashFile is empty",
+                    ContractErrors.HASH_FILE_IS_EMPTY.toString());
+        }
+
+        if (Objects.equals(requestStatus, RequestStatus.ACCEPTED)) {
+            if (!Objects.equals(hashFile, purchaseRequest.getHashFile())) {
+                throw new ChaincodeException("Error: Cannot edit hashFile",
+                        ContractErrors.CAN_NOT_EDIT_HASH_FILE.toString());
+            }
+            else {
+                JSONObject jsonInsuranceContractDto = new JSONObject();
+                jsonInsuranceContractDto.put("insuranceContractId", ctx.getStub().getTxId());
+                jsonInsuranceContractDto.put("insuranceProductId", purchaseRequest.getInsuranceProductId());
+                jsonInsuranceContractDto.put("patientId", purchaseRequest.getSenderId());
+                jsonInsuranceContractDto.put("insuranceCompanyId", purchaseRequest.getRecipientId());
+                jsonInsuranceContractDto.put("startDate", purchaseRequest.getStartDate());
+                jsonInsuranceContractDto.put("endDate", purchaseRequest.getEndDate());
+                jsonInsuranceContractDto.put("dateModified", dateModified);
+                jsonInsuranceContractDto.put("hashFile", hashFile);
+                ctx.getInsuranceContractDAO().addInsuranceContract(
+                        jsonInsuranceContractDto
+                );
+            }
+        }
+
+        JSONObject jsonDto = jsonObject;
+        purchaseRequest = ctx.getPurchaseRequestDAO().defineRequest(
+                jsonDto
+        );
+
+        return new Genson().serialize(purchaseRequest);
+    }
+
     public enum ContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,
@@ -1024,6 +1105,10 @@ public class MedicalRecordContract implements ContractInterface {
         NOT_QUALIFIED_FOR_SALE,
         EXCEEDED_THE_QUANTITY_PURCHASED_IN_THE_PRESCRIPTION_DETAILS,
         DRUG_OWNERSHIP_ERROR,
-        DRUG_EXPIRED_ERROR, EMPTY_INSURANCE_PRODUCT_ID_ERROR, INSURANCE_PRODUCT_NOT_FOUND;
+        DRUG_EXPIRED_ERROR,
+        EMPTY_INSURANCE_PRODUCT_ID_ERROR,
+        INSURANCE_PRODUCT_NOT_FOUND,
+        HASH_FILE_IS_EMPTY,
+        CAN_NOT_EDIT_HASH_FILE;
     }
 }

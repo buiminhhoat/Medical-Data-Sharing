@@ -30,6 +30,14 @@ public class InsuranceProduct {
     private String description;
 
     @Property
+    @JsonProperty("numberOfDaysInsured")
+    private String numberOfDaysInsured;
+
+    @Property
+    @JsonProperty("price")
+    private String price;
+
+    @Property
     @JsonProperty("hashFile")
     private String hashFile;
 
@@ -46,6 +54,8 @@ public class InsuranceProduct {
                             String insuranceCompanyId,
                             String dateModified,
                             String description,
+                            String numberOfDaysInsured,
+                            String price,
                             String hashFile) {
         super();
         this.insuranceProductId = insuranceProductId;
@@ -53,6 +63,8 @@ public class InsuranceProduct {
         this.insuranceCompanyId = insuranceCompanyId;
         this.dateModified = dateModified;
         this.description = description;
+        this.numberOfDaysInsured = numberOfDaysInsured;
+        this.price = price;
         this.hashFile = hashFile;
     }
 
@@ -61,6 +73,8 @@ public class InsuranceProduct {
                                                   String insuranceCompanyId,
                                                   String dateModified,
                                                   String description,
+                                                  String numberOfDaysInsured,
+                                                  String price,
                                                   String hashFile) {
         InsuranceProduct insuranceProduct = new InsuranceProduct();
         insuranceProduct.setInsuranceProductId(insuranceProductId);
@@ -68,6 +82,8 @@ public class InsuranceProduct {
         insuranceProduct.setInsuranceCompanyId(insuranceCompanyId);
         insuranceProduct.setDateModified(dateModified);
         insuranceProduct.setDescription(description);
+        insuranceProduct.setNumberOfDaysInsured(numberOfDaysInsured);
+        insuranceProduct.setPrice(price);
         insuranceProduct.setHashFile(hashFile);
         return insuranceProduct;
     }
@@ -145,16 +161,21 @@ public class InsuranceProduct {
         return this;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        InsuranceProduct that = (InsuranceProduct) object;
-        return Objects.equals(insuranceProductId, that.insuranceProductId) && Objects.equals(insuranceProductName, that.insuranceProductName) && Objects.equals(insuranceCompanyId, that.insuranceCompanyId) && Objects.equals(dateModified, that.dateModified) && Objects.equals(description, that.description) && Objects.equals(hashFile, that.hashFile) && Objects.equals(entityName, that.entityName);
+    public String getNumberOfDaysInsured() {
+        return numberOfDaysInsured;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(insuranceProductId, insuranceProductName, insuranceCompanyId, dateModified, description, hashFile, entityName);
+    public InsuranceProduct setNumberOfDaysInsured(String numberOfDaysInsured) {
+        this.numberOfDaysInsured = numberOfDaysInsured;
+        return this;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public InsuranceProduct setPrice(String price) {
+        this.price = price;
+        return this;
     }
 }

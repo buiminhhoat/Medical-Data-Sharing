@@ -942,4 +942,52 @@ public class HyperledgerService {
             put("sortingOrder", sortingOrder);
         }};
     }
+
+    public PurchaseRequest sendPurchaseRequest(User user, SendPurchaseRequestForm sendPurchaseRequestForm)
+            throws Exception {
+        PurchaseRequest purchaseRequest = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("senderId", sendPurchaseRequestForm.getSenderId());
+            jsonObject.put("recipientId", sendPurchaseRequestForm.getRecipientId());
+            jsonObject.put("dateModified", sendPurchaseRequestForm.getDateModified());
+            jsonObject.put("insuranceProductId", sendPurchaseRequestForm.getInsuranceProductId());
+            jsonObject.put("startDate", sendPurchaseRequestForm.getStartDate());
+
+            byte[] result = contract.submitTransaction(
+                    "sendPurchaseRequest",
+                    jsonObject.toString()
+            );
+            String purchaseRequestStr = new String(result);
+            purchaseRequest = new Genson().deserialize(purchaseRequestStr, PurchaseRequest.class);
+            LOG.info("result: " + purchaseRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return purchaseRequest;
+    }
+
+    public PurchaseRequest definePurchaseRequest(User user, DefinePurchaseRequestForm definePurchaseRequestForm) throws Exception {
+        PurchaseRequest purchaseRequest = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", definePurchaseRequestForm.getRequestId());
+            jsonObject.put("requestStatus", definePurchaseRequestForm.getRequestStatus());
+            jsonObject.put("hashFile", definePurchaseRequestForm.getHashFile());
+            jsonObject.put("dateModified", definePurchaseRequestForm.getDateModified());
+
+            byte[] result = contract.submitTransaction(
+                    "definePurchaseRequest",
+                    jsonObject.toString()
+            );
+            String purchaseRequestStr = new String(result);
+            purchaseRequest = new Genson().deserialize(purchaseRequestStr, PurchaseRequest.class);
+            LOG.info("result: " + purchaseRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return purchaseRequest;
+    }
 }

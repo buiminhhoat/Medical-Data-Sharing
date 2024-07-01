@@ -11,27 +11,17 @@ import java.lang.reflect.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddInsuranceProductForm {
+public class DefinePurchaseRequestForm {
     @NotBlank
-    String insuranceProductName;
+    private String requestId;
 
     @NotBlank
-    String insuranceCompanyId;
+    private String requestStatus;
+
+    private String hashFile;
 
     @NotBlank
-    String dateModified;
-
-    @NotBlank
-    String description;
-
-    @NotBlank
-    String numberOfDaysInsured;
-
-    @NotBlank
-    String price;
-
-    @NotBlank
-    String hashFile;
+    private String dateModified;
 
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
@@ -48,3 +38,4 @@ public class AddInsuranceProductForm {
         return jsonObj;
     }
 }
+

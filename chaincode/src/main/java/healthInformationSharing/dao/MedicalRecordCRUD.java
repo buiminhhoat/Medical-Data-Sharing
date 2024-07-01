@@ -41,7 +41,6 @@ public class MedicalRecordCRUD {
         CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
         String dbKey = compositeKey.toString();
 
-        List<MedicalRecord> changeHistory = new ArrayList<>();
         MedicalRecord medicalRecord = MedicalRecord.createInstance(
                 medicalRecordId,
                 patientId,

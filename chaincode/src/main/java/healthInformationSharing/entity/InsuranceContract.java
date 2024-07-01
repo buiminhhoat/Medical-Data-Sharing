@@ -26,6 +26,14 @@ public class InsuranceContract {
     private String insuranceCompanyId;
 
     @Property
+    @JsonProperty("startDate")
+    private String startDate;
+
+    @Property
+    @JsonProperty("endDate")
+    private String endDate;
+
+    @Property
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -42,14 +50,21 @@ public class InsuranceContract {
     }
 
     public InsuranceContract(String insuranceContractId,
+                             String insuranceProductId,
                              String patientId,
                              String insuranceCompanyId,
+                             String startDate,
+                             String endDate,
                              String dateModified,
-                             String hashFile) {
+                             String hashFile
+    ) {
         super();
         this.insuranceContractId = insuranceContractId;
+        this.insuranceProductId = insuranceProductId;
         this.patientId = patientId;
         this.insuranceCompanyId = insuranceCompanyId;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.dateModified = dateModified;
         this.hashFile = hashFile;
     }
@@ -58,13 +73,18 @@ public class InsuranceContract {
                                                    String insuranceProductId,
                                                    String patientId,
                                                    String insuranceCompanyId,
+                                                   String startDate,
+                                                   String endDate,
                                                    String dateModified,
-                                                   String hashFile) {
+                                                   String hashFile
+    ) {
         InsuranceContract insuranceContract = new InsuranceContract();
-        insuranceContract.setInsuranceProductId(insuranceContractId);
+        insuranceContract.setInsuranceContractId(insuranceContractId);
         insuranceContract.setInsuranceProductId(insuranceProductId);
         insuranceContract.setPatientId(patientId);
         insuranceContract.setInsuranceCompanyId(insuranceCompanyId);
+        insuranceContract.setStartDate(startDate);
+        insuranceContract.setEndDate(endDate);
         insuranceContract.setDateModified(dateModified);
         insuranceContract.setHashFile(hashFile);
         return insuranceContract;
@@ -144,16 +164,21 @@ public class InsuranceContract {
         return this;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        InsuranceContract that = (InsuranceContract) object;
-        return Objects.equals(insuranceContractId, that.insuranceContractId) && Objects.equals(insuranceProductId, that.insuranceProductId) && Objects.equals(patientId, that.patientId) && Objects.equals(insuranceCompanyId, that.insuranceCompanyId) && Objects.equals(dateModified, that.dateModified) && Objects.equals(hashFile, that.hashFile) && Objects.equals(entityName, that.entityName);
+    public String getStartDate() {
+        return startDate;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(insuranceContractId, insuranceProductId, patientId, insuranceCompanyId, dateModified, hashFile, entityName);
+    public InsuranceContract setStartDate(String startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public InsuranceContract setEndDate(String endDate) {
+        this.endDate = endDate;
+        return this;
     }
 }

@@ -18,6 +18,12 @@ public class InsuranceContract {
     @JsonProperty("insuranceCompanyId")
     private String insuranceCompanyId;
 
+    @JsonProperty("startDate")
+    private String startDate;
+
+    @JsonProperty("endDate")
+    private String endDate;
+
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -34,12 +40,16 @@ public class InsuranceContract {
     public InsuranceContract(String insuranceContractId,
                              String patientId,
                              String insuranceCompanyId,
+                             String startDate,
+                             String endDate,
                              String dateModified,
                              String hashFile) {
         super();
         this.insuranceContractId = insuranceContractId;
         this.patientId = patientId;
         this.insuranceCompanyId = insuranceCompanyId;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.dateModified = dateModified;
         this.hashFile = hashFile;
     }
@@ -48,6 +58,8 @@ public class InsuranceContract {
                                                    String insuranceProductId,
                                                    String patientId,
                                                    String insuranceCompanyId,
+                                                   String startDate,
+                                                   String endDate,
                                                    String dateModified,
                                                    String hashFile) {
         InsuranceContract insuranceContract = new InsuranceContract();
@@ -55,6 +67,8 @@ public class InsuranceContract {
         insuranceContract.setInsuranceProductId(insuranceProductId);
         insuranceContract.setPatientId(patientId);
         insuranceContract.setInsuranceCompanyId(insuranceCompanyId);
+        insuranceContract.setStartDate(startDate);
+        insuranceContract.setEndDate(endDate);
         insuranceContract.setDateModified(dateModified);
         insuranceContract.setHashFile(hashFile);
         return insuranceContract;
@@ -134,16 +148,34 @@ public class InsuranceContract {
         return this;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public InsuranceContract setStartDate(String startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public InsuranceContract setEndDate(String endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         InsuranceContract that = (InsuranceContract) object;
-        return Objects.equals(insuranceContractId, that.insuranceContractId) && Objects.equals(insuranceProductId, that.insuranceProductId) && Objects.equals(patientId, that.patientId) && Objects.equals(insuranceCompanyId, that.insuranceCompanyId) && Objects.equals(dateModified, that.dateModified) && Objects.equals(hashFile, that.hashFile) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(insuranceContractId, that.insuranceContractId) && Objects.equals(insuranceProductId, that.insuranceProductId) && Objects.equals(patientId, that.patientId) && Objects.equals(insuranceCompanyId, that.insuranceCompanyId) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(dateModified, that.dateModified) && Objects.equals(hashFile, that.hashFile) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(insuranceContractId, insuranceProductId, patientId, insuranceCompanyId, dateModified, hashFile, entityName);
+        return Objects.hash(insuranceContractId, insuranceProductId, patientId, insuranceCompanyId, startDate, endDate, dateModified, hashFile, entityName);
     }
 }

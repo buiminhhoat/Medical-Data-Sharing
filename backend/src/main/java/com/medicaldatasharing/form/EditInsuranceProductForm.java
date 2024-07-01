@@ -28,6 +28,12 @@ public class EditInsuranceProductForm {
     String description;
 
     @NotBlank
+    String numberOfDaysInsured;
+
+    @NotBlank
+    String price;
+
+    @NotBlank
     String hashFile;
 
 

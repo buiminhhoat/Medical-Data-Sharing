@@ -1,5 +1,6 @@
 package com.medicaldatasharing.form;
 
+import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
 import org.json.JSONObject;
 
@@ -11,27 +12,21 @@ import java.lang.reflect.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddInsuranceProductForm {
+public class SendPurchaseRequestForm {
     @NotBlank
-    String insuranceProductName;
+    private String senderId;
 
     @NotBlank
-    String insuranceCompanyId;
+    private String recipientId;
 
     @NotBlank
-    String dateModified;
+    private String dateModified;
 
     @NotBlank
-    String description;
+    private String insuranceProductId;
 
     @NotBlank
-    String numberOfDaysInsured;
-
-    @NotBlank
-    String price;
-
-    @NotBlank
-    String hashFile;
+    private String startDate;
 
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
@@ -48,3 +43,4 @@ public class AddInsuranceProductForm {
         return jsonObj;
     }
 }
+

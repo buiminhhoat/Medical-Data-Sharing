@@ -573,8 +573,6 @@ public class InitDataLoader implements CommandLineRunner {
                             .put("drugReaction", "Cảm thấy buồn ngủ sau khi uống")
             );
 
-
-
             SendViewRequestForm sendViewRequestFormByScientist = new SendViewRequestForm();
             sendViewRequestFormByScientist.setSenderId(scientist1Id);
             sendViewRequestFormByScientist.setRecipientId(patientId);
@@ -623,6 +621,8 @@ public class InitDataLoader implements CommandLineRunner {
             addInsuranceProductForm.setInsuranceCompanyId(insuranceCompanyId);
             addInsuranceProductForm.setDateModified(StringUtil.parseDate(dateModified));
             addInsuranceProductForm.setDescription("Bảo hiểm ung thư");
+            addInsuranceProductForm.setNumberOfDaysInsured("90");
+            addInsuranceProductForm.setPrice("500000");
             addInsuranceProductForm.setHashFile("hashFile");
 
             InsuranceProduct insuranceProduct = hyperledgerService.addInsuranceProduct(
@@ -637,6 +637,8 @@ public class InitDataLoader implements CommandLineRunner {
             editInsuranceProductForm.setInsuranceCompanyId(insuranceCompanyId);
             editInsuranceProductForm.setDateModified(StringUtil.parseDate(dateModified));
             editInsuranceProductForm.setDescription("Bảo hiểm ung thư :)");
+            editInsuranceProductForm.setNumberOfDaysInsured("90");
+            editInsuranceProductForm.setPrice("1000000");
             editInsuranceProductForm.setHashFile("hashFile :)");
 
             InsuranceProduct editInsuranceProduct = hyperledgerService.editInsuranceProduct(
@@ -653,6 +655,31 @@ public class InitDataLoader implements CommandLineRunner {
                     searchInsuranceProductForm
             );
             System.out.println(insuranceProductList);
+
+            SendPurchaseRequestForm sendPurchaseRequestForm = new SendPurchaseRequestForm();
+            sendPurchaseRequestForm.setSenderId(patientId);
+            sendPurchaseRequestForm.setRecipientId(insuranceCompanyId);
+            sendPurchaseRequestForm.setDateModified(StringUtil.parseDate(dateModified));
+            sendPurchaseRequestForm.setInsuranceProductId(insuranceProduct.getInsuranceProductId());
+            sendPurchaseRequestForm.setStartDate(StringUtil.parseDate(StringUtil.createDate("2024-10-10")));
+            PurchaseRequest purchaseRequest = hyperledgerService.sendPurchaseRequest(
+                    patient,
+                    sendPurchaseRequestForm);
+            System.out.println("purchaseRequest: " + purchaseRequest);
+
+            DefinePurchaseRequestForm definePurchaseRequestForm = new DefinePurchaseRequestForm();
+            definePurchaseRequestForm.setRequestId(purchaseRequest.getRequestId());
+            definePurchaseRequestForm.setDateModified(StringUtil.parseDate(dateModified));
+            definePurchaseRequestForm.setRequestStatus(RequestStatus.APPROVED.toString());
+            definePurchaseRequestForm.setHashFile("hashFile");
+
+            PurchaseRequest definePurchaseRequest = hyperledgerService.definePurchaseRequest(
+                    insuranceCompany,
+                    definePurchaseRequestForm
+            );
+
+            System.out.println(definePurchaseRequest);
+
         } catch (Exception exception) {
             System.out.println(exception);
         }

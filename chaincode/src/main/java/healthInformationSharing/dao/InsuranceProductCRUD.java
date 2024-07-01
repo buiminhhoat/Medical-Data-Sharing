@@ -25,6 +25,8 @@ public class InsuranceProductCRUD {
         String insuranceCompanyId = jsonDto.has("insuranceCompanyId") ? jsonDto.getString("insuranceCompanyId") : "";
         String dateModified = jsonDto.has("dateModified") ? jsonDto.getString("dateModified") : "";
         String description = jsonDto.has("description") ? jsonDto.getString("description") : "";
+        String numberOfDaysInsured = jsonDto.has("numberOfDaysInsured") ? jsonDto.getString("numberOfDaysInsured") : "0";
+        String price = jsonDto.has("price") ? jsonDto.getString("price") : "";
         String hashFile = jsonDto.has("hashFile") ? jsonDto.getString("hashFile") : "";
 
 
@@ -38,6 +40,8 @@ public class InsuranceProductCRUD {
                 insuranceCompanyId,
                 dateModified,
                 description,
+                numberOfDaysInsured,
+                price,
                 hashFile
         );
 
@@ -58,6 +62,8 @@ public class InsuranceProductCRUD {
         String insuranceCompanyId = jsonDto.has("insuranceCompanyId") ? jsonDto.getString("insuranceCompanyId") : "";
         String dateModified = jsonDto.has("dateModified") ? jsonDto.getString("dateModified") : "";
         String description = jsonDto.has("description") ? jsonDto.getString("description") : "";
+        String numberOfDaysInsured = jsonDto.has("numberOfDaysInsured") ? jsonDto.getString("numberOfDaysInsured") : "";
+        String price = jsonDto.has("price") ? jsonDto.getString("price") : "";
         String hashFile = jsonDto.has("hashFile") ? jsonDto.getString("hashFile") : "";
 
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, insuranceProductId);
@@ -69,6 +75,8 @@ public class InsuranceProductCRUD {
                 insuranceCompanyId,
                 dateModified,
                 description,
+                numberOfDaysInsured,
+                price,
                 hashFile
         );
 

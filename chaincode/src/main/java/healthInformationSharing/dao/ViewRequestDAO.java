@@ -63,4 +63,8 @@ public class ViewRequestDAO {
     public List<String> getListAllAuthorizedPatientForScientist(JSONObject jsonDto) {
         return viewRequestQuery.getListAllAuthorizedPatientForScientist(jsonDto);
     }
+
+    public ViewRequest sendViewRequestAccepted(JSONObject jsonDto) {
+        return viewRequestCRUD.sendViewRequestAccepted(jsonDto);
+    }
 }
