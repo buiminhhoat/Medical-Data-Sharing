@@ -41,10 +41,4 @@ public class InsuranceContractDAO {
     public InsuranceContract editInsuranceContract(JSONObject jsonDto) {
         return insuranceContractCRUD.editInsuranceContract(jsonDto);
     }
-
-    public List<InsuranceContract> getListAuthorizedInsuranceContractByScientistQuery(JSONObject jsonDto) {
-        return insuranceContractQuery.getListAuthorizedInsuranceContractByScientistQuery(
-                jsonDto
-        );
-    }
 }

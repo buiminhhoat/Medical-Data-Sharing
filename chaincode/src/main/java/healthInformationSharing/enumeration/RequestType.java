@@ -7,4 +7,6 @@ public class RequestType {
     public final static String VIEW_RECORD = "VIEW_RECORD";
     public static final String VIEW_PRESCRIPTION = "VIEW_PRESCRIPTION";
     public static final String PURCHASE = "PURCHASE";
+    public static final String PAYMENT = "PAYMENT";
+    public static final String CONFIRM_PAYMENT = "CONFIRM_PAYMENT";
 }

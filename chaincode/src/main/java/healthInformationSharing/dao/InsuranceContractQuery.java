@@ -43,39 +43,17 @@ public class InsuranceContractQuery {
         return insuranceContractList;
     }
 
-    public List<InsuranceContract> getListAuthorizedInsuranceContractByScientistQuery(JSONObject jsonDto) {
-        List<InsuranceContract> insuranceContractList = new ArrayList<>();
-        JSONObject queryJsonObject = createQuerySelector(jsonDto);
-
-        LOG.info("query: " + queryJsonObject.toString());
-
-        QueryResultsIterator<KeyValue> resultsIterator = this.ctx.getStub().getQueryResult(queryJsonObject.toString());
-        for (KeyValue keyValue : resultsIterator) {
-            String key = keyValue.getKey();
-            String value = keyValue.getStringValue();
-            JSONObject jsonObject = new JSONObject(value);
-            byte[] bytes = keyValue.getValue();
-            LOG.info("keyValue class: " + keyValue.getClass().toString() + ", type: " + keyValue.getClass().getTypeName());
-            InsuranceContract insuranceContract = new Genson().deserialize(jsonObject.toString(), InsuranceContract.class);
-
-            insuranceContractList.add(insuranceContract);
-        }
-        return insuranceContractList;
-    }
-
     public JSONObject createQuerySelector(JSONObject jsonDto) {
         String insuranceContractId = jsonDto.has("insuranceContractId") ? jsonDto.getString("insuranceContractId") : "";
+        String insuranceProductId = jsonDto.has("insuranceProductId") ? jsonDto.getString("insuranceProductId") : "";
         String patientId = jsonDto.has("patientId") ? jsonDto.getString("patientId") : "";
-        String doctorId = jsonDto.has("doctorId") ? jsonDto.getString("doctorId") : "";
-        String medicalInstitutionId = jsonDto.has("medicalInstitutionId") ? jsonDto.getString("medicalInstitutionId") : "";
-        String testName = jsonDto.has("testName") ? jsonDto.getString("testName") : "";
-        String details = jsonDto.has("details") ? jsonDto.getString("details") : "";
-        String insuranceContractStatus = jsonDto.has("insuranceContractStatus") ? jsonDto.getString("insuranceContractStatus") : "";
+        String insuranceCompanyId = jsonDto.has("insuranceCompanyId") ? jsonDto.getString("insuranceCompanyId") : "";
+        String startDate = jsonDto.has("startDate") ? jsonDto.getString("startDate") : "";
+        String endDate = jsonDto.has("endDate") ? jsonDto.getString("endDate") : "";
+        String hashFile = jsonDto.has("hashFile") ? jsonDto.getString("hashFile") : "";
         String sortingOrder = jsonDto.has("sortingOrder") ? jsonDto.getString("sortingOrder") : "";
         String from = jsonDto.has("from") ? jsonDto.getString("from") : "";
         String until = jsonDto.has("until") ? jsonDto.getString("until") : "";
-        String prescriptionId = jsonDto.has("prescriptionId") ? jsonDto.getString("prescriptionId") : "";
-        String hashFile = jsonDto.has("hashFile") ? jsonDto.getString("hashFile") : "";
 
         JSONObject jsonObjectTimeRange = new JSONObject();
 
@@ -96,28 +74,24 @@ public class InsuranceContractQuery {
             jsonObjectSelector.putOnce("insuranceContractId", insuranceContractId);
         }
 
+        if (!insuranceProductId.isEmpty()) {
+            jsonObjectSelector.putOnce("insuranceProductId", insuranceProductId);
+        }
+
         if (!patientId.isEmpty()) {
             jsonObjectSelector.putOnce("patientId", patientId);
         }
 
-        if (!doctorId.isEmpty()) {
-            jsonObjectSelector.putOnce("doctorId", doctorId);
+        if (!insuranceCompanyId.isEmpty()) {
+            jsonObjectSelector.putOnce("insuranceCompanyId", insuranceCompanyId);
         }
 
-        if (!testName.isEmpty()) {
-            jsonObjectSelector.putOnce("testName", testName);
+        if (!startDate.isEmpty()) {
+            jsonObjectSelector.putOnce("startDate", startDate);
         }
 
-        if (!medicalInstitutionId.isEmpty()) {
-            jsonObjectSelector.putOnce("medicalInstitutionId", medicalInstitutionId);
-        }
-
-        if (!details.isEmpty()) {
-            jsonObjectSelector.putOnce("details", details);
-        }
-
-        if (!prescriptionId.isEmpty()) {
-            jsonObjectSelector.putOnce("prescriptionId", prescriptionId);
+        if (!endDate.isEmpty()) {
+            jsonObjectSelector.putOnce("endDate", endDate);
         }
 
         if (!hashFile.isEmpty()) {
@@ -125,10 +99,6 @@ public class InsuranceContractQuery {
         }
 
         jsonObjectSelector.putOnce("entityName", entityName);
-
-        if (!insuranceContractStatus.isEmpty()) {
-            jsonObjectSelector.putOnce("insuranceContractStatus", insuranceContractStatus);
-        }
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.putOnce("selector", jsonObjectSelector);

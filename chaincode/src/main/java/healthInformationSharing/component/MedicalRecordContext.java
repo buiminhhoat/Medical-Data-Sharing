@@ -23,6 +23,8 @@ public class MedicalRecordContext extends Context {
     private InsuranceProductDAO insuranceProductDAO;
     private PurchaseRequestDAO purchaseRequestDAO;
     private InsuranceContractDAO insuranceContractDAO;
+    private PaymentRequestDAO paymentRequestDAO;
+    private ConfirmPaymentRequestDAO confirmPaymentRequestDAO;
 
     public MedicalRecordContext(ChaincodeStub stub) {
         super(stub);
@@ -40,6 +42,8 @@ public class MedicalRecordContext extends Context {
         insuranceProductDAO = new InsuranceProductDAO(this);
         purchaseRequestDAO = new PurchaseRequestDAO(this);
         insuranceContractDAO = new InsuranceContractDAO(this);
+        paymentRequestDAO = new PaymentRequestDAO(this);
+        confirmPaymentRequestDAO = new ConfirmPaymentRequestDAO(this);
     }
 
     public MedicalRecordDAO getMedicalRecordDAO() {
@@ -165,6 +169,24 @@ public class MedicalRecordContext extends Context {
 
     public MedicalRecordContext setInsuranceContractDAO(InsuranceContractDAO insuranceContractDAO) {
         this.insuranceContractDAO = insuranceContractDAO;
+        return this;
+    }
+
+    public PaymentRequestDAO getPaymentRequestDAO() {
+        return paymentRequestDAO;
+    }
+
+    public MedicalRecordContext setPaymentRequestDAO(PaymentRequestDAO paymentRequestDAO) {
+        this.paymentRequestDAO = paymentRequestDAO;
+        return this;
+    }
+
+    public ConfirmPaymentRequestDAO getConfirmPaymentRequestDAO() {
+        return confirmPaymentRequestDAO;
+    }
+
+    public MedicalRecordContext setConfirmPaymentRequestDAO(ConfirmPaymentRequestDAO confirmPaymentRequestDAO) {
+        this.confirmPaymentRequestDAO = confirmPaymentRequestDAO;
         return this;
     }
 }

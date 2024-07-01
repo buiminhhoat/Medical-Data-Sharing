@@ -1087,6 +1087,217 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(purchaseRequest);
     }
 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String sendPaymentRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String senderId = jsonObject.getString("senderId");
+        String recipientId = jsonObject.getString("recipientId");
+        String dateModified = jsonObject.getString("dateModified");
+        String insuranceContractId = jsonObject.getString("insuranceContractId");
+        String medicalRecordId = jsonObject.getString("medicalRecordId");
+        Genson genson = new Genson();
+
+        InsuranceContract insuranceContract = ctx.getInsuranceContractDAO().getInsuranceContract(insuranceContractId);
+        authorizeRequest(ctx, insuranceContract.getPatientId(), "sendPaymentRequest(validate senderId)");
+
+        JSONObject jsonDto = jsonObject;
+        jsonDto.put("requestType", RequestType.PAYMENT);
+        PaymentRequest paymentRequest = ctx.getPaymentRequestDAO().sendPaymentRequest(
+                jsonDto
+        );
+        System.out.println("sendPaymentRequest - paymentRequest: " + paymentRequest);
+        return new Genson().serialize(paymentRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String definePaymentRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        System.out.println("jsonString: " + jsonString);
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        System.out.println("jsonObject: " + jsonObject);
+
+        String requestId = jsonObject.getString("requestId");
+        String requestStatus = jsonObject.getString("requestStatus");
+        String dateModified = jsonObject.getString("dateModified");
+
+        System.out.println("requestId: " + requestId);
+        System.out.println("requestStatus: " + requestStatus);
+
+        PaymentRequestDAO paymentRequestDAO = ctx.getPaymentRequestDAO();
+        if (!paymentRequestDAO.requestExist(requestId)) {
+            throw new ChaincodeException("PaymentRequest " + requestId + " does not exist",
+                    ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+
+        PaymentRequest paymentRequest = paymentRequestDAO.getPaymentRequest(requestId);
+        authorizeRequest(ctx, paymentRequest.getRecipientId(), "definePaymentRequest(validate recipientId");
+
+        JSONObject jsonDto = new JSONObject();
+
+        jsonDto = new JSONObject();
+        jsonDto.put("requestId", requestId);
+        jsonDto.put("requestStatus", requestStatus);
+
+        System.out.println("jsonDto: " + jsonDto.toString());
+        paymentRequest = ctx.getPaymentRequestDAO().definePaymentRequest(
+                jsonDto
+        );
+
+        if (Objects.equals(requestStatus, RequestStatus.ACCEPTED)) {
+            ctx.getConfirmPaymentRequestDAO().sendConfirmPaymentRequest(
+                    new JSONObject()
+                            .put("senderId", paymentRequest.getRecipientId())
+                            .put("recipientId", paymentRequest.getSenderId())
+                            .put("dateModified", dateModified)
+                            .put("paymentRequestId", paymentRequest.getRequestId())
+            );
+        }
+        return new Genson().serialize(paymentRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String sendConfirmPaymentRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String senderId = jsonObject.getString("senderId");
+        String recipientId = jsonObject.getString("recipientId");
+        String dateModified = jsonObject.getString("dateModified");
+        String paymentRequestId = jsonObject.getString("paymentRequestId");
+        Genson genson = new Genson();
+
+        PaymentRequest paymentRequest = ctx.getPaymentRequestDAO().getPaymentRequest(paymentRequestId);
+        authorizeRequest(ctx, paymentRequest.getRecipientId(), "sendConfirmPaymentRequest(validate paymentRequest.getRecipientId())");
+
+        JSONObject jsonDto = jsonObject;
+        jsonDto.put("requestType", RequestType.CONFIRM_PAYMENT);
+        ConfirmPaymentRequest confirmPaymentRequest = ctx.getConfirmPaymentRequestDAO().sendConfirmPaymentRequest(
+                jsonDto
+        );
+        System.out.println("confirmPaymentRequest: " + confirmPaymentRequest);
+        return new Genson().serialize(confirmPaymentRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String defineConfirmPaymentRequest(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        System.out.println("jsonString: " + jsonString);
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        System.out.println("jsonObject: " + jsonObject);
+
+        String requestId = jsonObject.getString("requestId");
+        String requestStatus = jsonObject.getString("requestStatus");
+        String dateModified = jsonObject.getString("dateModified");
+
+        System.out.println("requestId: " + requestId);
+        System.out.println("requestStatus: " + requestStatus);
+
+        ConfirmPaymentRequestDAO confirmPaymentRequestDAO = ctx.getConfirmPaymentRequestDAO();
+        if (!confirmPaymentRequestDAO.requestExist(requestId)) {
+            throw new ChaincodeException("ConfirmPaymentRequest " + requestId + " does not exist",
+                    ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+
+        ConfirmPaymentRequest confirmPaymentRequest = confirmPaymentRequestDAO.getConfirmPaymentRequest(requestId);
+
+        authorizeRequest(ctx, confirmPaymentRequest.getRecipientId(), "defineConfirmPaymentRequest(validate recipientId");
+
+        JSONObject jsonDto = jsonObject;
+
+        System.out.println("jsonDto: " + jsonDto.toString());
+        confirmPaymentRequest = ctx.getConfirmPaymentRequestDAO().defineConfirmPaymentRequest(
+                jsonDto
+        );
+
+        return new Genson().serialize(confirmPaymentRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListInsuranceContractByPatientQuery(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        if (!jsonObject.has("patientId")
+                || (jsonObject.has("patientId") & Objects.equals(jsonObject.getString("patientId"), ""))) {
+            throw new ChaincodeException("Error: patientId is empty",
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+        }
+
+        String patientId = jsonObject.getString("patientId");
+
+        authorizeRequest(ctx, patientId, "getListMedicalRecordByPatientQuery(validate patientId)");
+
+        JSONObject jsonDto = jsonObject;
+
+        List<InsuranceContract> insuranceContractList = ctx.getInsuranceContractDAO().getListInsuranceContractByQuery(
+                jsonDto
+        );
+        return new Genson().serialize(insuranceContractList);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListConfirmPaymentRequestBySenderQuery(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        if (!jsonObject.has("senderId")
+                || (jsonObject.has("senderId") & Objects.equals(jsonObject.getString("senderId"), ""))) {
+            throw new ChaincodeException("Error: senderId is empty",
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+        }
+
+        String senderId = jsonObject.getString("senderId");
+
+        authorizeRequest(ctx, senderId, "getListConfirmPaymentRequestBySenderQuery(validate senderId)");
+
+        JSONObject jsonDto = jsonObject;
+
+        List<ConfirmPaymentRequest> confirmPaymentRequestList = ctx.getConfirmPaymentRequestDAO().getListConfirmPaymentRequestByQuery(
+                jsonDto
+        );
+
+        return new Genson().serialize(confirmPaymentRequestList);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListConfirmPaymentRequestByRecipientQuery(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        if (!jsonObject.has("recipientId")
+                || (jsonObject.has("recipientId") & Objects.equals(jsonObject.getString("recipientId"), ""))) {
+            throw new ChaincodeException("Error: recipientId is empty",
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+        }
+
+        String recipientId = jsonObject.getString("recipientId");
+
+        authorizeRequest(ctx, recipientId, "getListConfirmPaymentRequestByRecipientQuery(validate recipientId)");
+
+        JSONObject jsonDto = jsonObject;
+
+        List<ConfirmPaymentRequest> confirmPaymentRequestList = ctx.getConfirmPaymentRequestDAO().getListConfirmPaymentRequestByQuery(
+                jsonDto
+        );
+
+        return new Genson().serialize(confirmPaymentRequestList);
+    }
+
     public enum ContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,

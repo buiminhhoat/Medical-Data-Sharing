@@ -990,4 +990,258 @@ public class HyperledgerService {
         }
         return purchaseRequest;
     }
+
+    public List<InsuranceContract> getListInsuranceContractByPatientQuery(User user,
+                                                                          SearchInsuranceContractForm searchInsuranceContractForm) throws Exception {
+        List<InsuranceContract> insuranceContractList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchInsuranceContractParams(searchInsuranceContractForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListInsuranceContractByPatientQuery",
+                    jsonObject.toString()
+            );
+
+            String insuranceContractListStr = new String(result);
+            insuranceContractList = new Genson().deserialize(
+                    insuranceContractListStr,
+                    new GenericType<List<InsuranceContract>>() {}
+            );
+
+            LOG.info("result: " + insuranceContractList);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return insuranceContractList;
+    }
+
+    private Map<String, String> prepareSearchInsuranceContractParams(SearchInsuranceContractForm searchInsuranceContractForm) {
+        String insuranceContractId = searchInsuranceContractForm.getInsuranceContractId() == null ? "" : searchInsuranceContractForm.getInsuranceContractId();
+        String insuranceProductId = searchInsuranceContractForm.getInsuranceProductId() == null ? "" : searchInsuranceContractForm.getInsuranceProductId();
+        String patientId = searchInsuranceContractForm.getPatientId() == null ? "" : searchInsuranceContractForm.getPatientId();
+        String insuranceCompanyId = searchInsuranceContractForm.getInsuranceCompanyId() == null ? "" : searchInsuranceContractForm.getInsuranceCompanyId();
+        String startDate = searchInsuranceContractForm.getStartDate() == null ? "" : searchInsuranceContractForm.getStartDate();
+        String endDate = searchInsuranceContractForm.getEndDate() == null ? "" : searchInsuranceContractForm.getEndDate();
+        String hashFile = searchInsuranceContractForm.getHashFile() == null ? "" : searchInsuranceContractForm.getHashFile();
+        String from;
+        if (searchInsuranceContractForm.getFrom() == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, -6);
+            from = StringUtil.parseDate(calendar.getTime());
+        } else {
+            from = StringUtil.parseDate(searchInsuranceContractForm.getFrom());
+        }
+        String until;
+        if (searchInsuranceContractForm.getFrom() == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, +6);
+            until = StringUtil.parseDate(calendar.getTime());
+        } else {
+            until = StringUtil.parseDate(searchInsuranceContractForm.getUntil());
+        }
+        String sortingOrder = searchInsuranceContractForm.getSortingOrder() == null ? "desc" : searchInsuranceContractForm.getSortingOrder();
+
+        return new HashMap<String, String>() {{
+            put("insuranceContractId", insuranceContractId);
+            put("insuranceProductId", insuranceProductId);
+            put("patientId", patientId);
+            put("insuranceCompanyId", insuranceCompanyId);
+            put("startDate", startDate);
+            put("endDate", endDate);
+            put("hashFile", hashFile);
+            put("from", from);
+            put("until", until);
+            put("sortingOrder", sortingOrder);
+        }};
+    }
+
+    public PaymentRequest sendPaymentRequest(User user, SendPaymentRequestForm sendPaymentRequestForm) throws Exception {
+        PaymentRequest paymentRequest = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("senderId", sendPaymentRequestForm.getSenderId());
+            jsonObject.put("recipientId", sendPaymentRequestForm.getRecipientId());
+            jsonObject.put("dateModified", sendPaymentRequestForm.getDateModified());
+            jsonObject.put("insuranceContractId", sendPaymentRequestForm.getInsuranceContractId());
+            jsonObject.put("medicalRecordId", sendPaymentRequestForm.getMedicalRecordId());
+
+            byte[] result = contract.submitTransaction(
+                    "sendPaymentRequest",
+                    jsonObject.toString()
+            );
+
+            String paymentRequestStr = new String(result);
+            paymentRequest = new Genson().deserialize(paymentRequestStr, PaymentRequest.class);
+            LOG.info("result: " + paymentRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return paymentRequest;
+    }
+
+    public PaymentRequest definePaymentRequest(User user, DefinePaymentRequestForm definePaymentRequestForm) throws Exception {
+        PaymentRequest paymentRequest = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Submit Transaction: definePaymentRequest");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", definePaymentRequestForm.getRequestId());
+            jsonObject.put("requestStatus", definePaymentRequestForm.getRequestStatus());
+            jsonObject.put("dateModified", definePaymentRequestForm.getDateModified());
+            System.out.println(jsonObject.toString());
+
+            byte[] result = contract.submitTransaction(
+                    "definePaymentRequest",
+                    jsonObject.toString()
+            );
+            String paymentRequestStr = new String(result);
+            paymentRequest = new Genson().deserialize(paymentRequestStr, PaymentRequest.class);
+            LOG.info("result: " + paymentRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return paymentRequest;
+    }
+
+    public List<ConfirmPaymentRequest> getListConfirmPaymentRequestBySenderQuery(
+            User user,
+            SearchConfirmPaymentRequestForm searchConfirmPaymentRequestForm
+    ) throws Exception {
+        List<ConfirmPaymentRequest> confirmPaymentRequestList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchConfirmPaymentRequestParams(searchConfirmPaymentRequestForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListConfirmPaymentRequestBySenderQuery",
+                    jsonObject.toString()
+            );
+
+            String confirmPaymentRequestListStr = new String(result);
+            confirmPaymentRequestList = new Genson().deserialize(
+                    confirmPaymentRequestListStr,
+                    new GenericType<List<ConfirmPaymentRequest>>() {}
+            );
+
+            LOG.info("result: " + confirmPaymentRequestList);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return confirmPaymentRequestList;
+    }
+
+    public List<ConfirmPaymentRequest> getListConfirmPaymentRequestByRecipientQuery(
+            User user,
+            SearchConfirmPaymentRequestForm searchConfirmPaymentRequestForm
+    ) throws Exception {
+        List<ConfirmPaymentRequest> confirmPaymentRequestList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchConfirmPaymentRequestParams(searchConfirmPaymentRequestForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListConfirmPaymentRequestByRecipientQuery",
+                    jsonObject.toString()
+            );
+
+            String confirmPaymentRequestListStr = new String(result);
+            confirmPaymentRequestList = new Genson().deserialize(
+                    confirmPaymentRequestListStr,
+                    new GenericType<List<ConfirmPaymentRequest>>() {}
+            );
+
+            LOG.info("result: " + confirmPaymentRequestList);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return confirmPaymentRequestList;
+    }
+
+    private Map<String, String> prepareSearchConfirmPaymentRequestParams(SearchConfirmPaymentRequestForm searchConfirmPaymentRequestForm) {
+        String requestId = searchConfirmPaymentRequestForm.getRequestId() == null ? "" : searchConfirmPaymentRequestForm.getRequestId();
+        String senderId = searchConfirmPaymentRequestForm.getSenderId() == null ? "" : searchConfirmPaymentRequestForm.getSenderId();
+        String recipientId = searchConfirmPaymentRequestForm.getRecipientId() == null ? "" : searchConfirmPaymentRequestForm.getRecipientId();
+        String dateModified = searchConfirmPaymentRequestForm.getDateModified() == null ? "" : searchConfirmPaymentRequestForm.getDateModified();
+        String requestType = searchConfirmPaymentRequestForm.getRequestType() == null ? "" : searchConfirmPaymentRequestForm.getRequestType();
+        String requestStatus = searchConfirmPaymentRequestForm.getRequestStatus() == null ? "" : searchConfirmPaymentRequestForm.getRequestStatus();
+        String paymentRequestId = searchConfirmPaymentRequestForm.getPaymentRequestId() == null ? "" : searchConfirmPaymentRequestForm.getPaymentRequestId();
+        String from;
+        if (searchConfirmPaymentRequestForm.getFrom() == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, -6);
+            from = StringUtil.parseDate(calendar.getTime());
+        } else {
+            from = StringUtil.parseDate(searchConfirmPaymentRequestForm.getFrom());
+        }
+        String until;
+        if (searchConfirmPaymentRequestForm.getFrom() == null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, +6);
+            until = StringUtil.parseDate(calendar.getTime());
+        } else {
+            until = StringUtil.parseDate(searchConfirmPaymentRequestForm.getUntil());
+        }
+        String sortingOrder = searchConfirmPaymentRequestForm.getSortingOrder() == null ? "desc" : searchConfirmPaymentRequestForm.getSortingOrder();
+
+        return new HashMap<String, String>() {{
+            put("requestId", requestId);
+            put("senderId", senderId);
+            put("recipientId", recipientId);
+            put("requestType", requestType);
+            put("from", from);
+            put("until", until);
+            put("dateModified", dateModified);
+            put("requestStatus", requestStatus);
+            put("sortingOrder", sortingOrder);
+            put("paymentRequestId", paymentRequestId);
+        }};
+    }
+
+    public ConfirmPaymentRequest defineConfirmPaymentRequest(User user,
+                                                             DefineConfirmPaymentRequestForm defineConfirmPaymentRequestForm) throws Exception {
+        ConfirmPaymentRequest confirmPaymentRequest = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Submit Transaction: defineConfirmPaymentRequest");
+            JSONObject jsonObject = defineConfirmPaymentRequestForm.toJSONObject();
+            System.out.println(jsonObject.toString());
+
+            byte[] result = contract.submitTransaction(
+                    "defineConfirmPaymentRequest",
+                    jsonObject.toString()
+            );
+            String confirmPaymentRequestStr = new String(result);
+            confirmPaymentRequest = new Genson().deserialize(confirmPaymentRequestStr, ConfirmPaymentRequest.class);
+            LOG.info("result: " + confirmPaymentRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return confirmPaymentRequest;
+    }
 }

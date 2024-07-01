@@ -440,10 +440,10 @@ public class InitDataLoader implements CommandLineRunner {
             searchMedicalRecordForm.setUntil(StringUtil.createDate("2024-12-31"));
             searchMedicalRecordForm.setPrescriptionId(medicalRecord.getPrescriptionId());
             searchMedicalRecordForm.setHashFile("");
-            List<MedicalRecord> medicalRecordPreviewDtoList
+            List<MedicalRecord> medicalRecordList
                     = hyperledgerService.getListMedicalRecordByPatientQuery(patient, searchMedicalRecordForm);
 
-            System.out.println("medicalRecordPreviewDtoList: " + medicalRecordPreviewDtoList);
+            System.out.println("medicalRecordList: " + medicalRecordList);
 
             SendEditRequestForm sendEditRequestForm = new SendEditRequestForm();
             sendEditRequestForm.setSenderId(doctor1Id);
@@ -494,8 +494,8 @@ public class InitDataLoader implements CommandLineRunner {
             searchMedicationForm.setMedicationId(medication.getMedicationId());
             searchMedicationForm.setFrom(StringUtil.createDate("2024-01-01"));
             searchMedicationForm.setUntil(StringUtil.createDate("2024-12-31"));
-            List<Medication> medicationPreviewDtoList = hyperledgerService.getListMedication(doctor1, searchMedicationForm);
-            System.out.println(medicationPreviewDtoList);
+            List<Medication> medicationList = hyperledgerService.getListMedication(doctor1, searchMedicationForm);
+            System.out.println(medicationList);
 
 
             DrugStore drugStore = drugStoreRepository.findDrugStoreByEmail("nhathuoca@gmail.com");
@@ -677,9 +677,72 @@ public class InitDataLoader implements CommandLineRunner {
                     insuranceCompany,
                     definePurchaseRequestForm
             );
-
             System.out.println(definePurchaseRequest);
 
+            definePurchaseRequestForm.setRequestId(purchaseRequest.getRequestId());
+            definePurchaseRequestForm.setDateModified(StringUtil.parseDate(dateModified));
+            definePurchaseRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            definePurchaseRequestForm.setHashFile("hashFile");
+
+            definePurchaseRequest = hyperledgerService.definePurchaseRequest(
+                    insuranceCompany,
+                    definePurchaseRequestForm
+            );
+            System.out.println(definePurchaseRequest);
+
+            SearchInsuranceContractForm searchInsuranceContractForm = new SearchInsuranceContractForm();
+            searchInsuranceContractForm.setPatientId(patientId);
+
+            List<InsuranceContract> insuranceContractList
+                    = hyperledgerService.getListInsuranceContractByPatientQuery(patient, searchInsuranceContractForm);
+
+            SendPaymentRequestForm sendPaymentRequestForm = new SendPaymentRequestForm();
+            sendPaymentRequestForm.setSenderId(patientId);
+            sendPaymentRequestForm.setRecipientId(insuranceCompanyId);
+            sendPaymentRequestForm.setDateModified(StringUtil.parseDate(dateModified));
+            sendPaymentRequestForm.setMedicalRecordId(medicalRecord.getMedicalRecordId());
+            sendPaymentRequestForm.setInsuranceContractId(insuranceContractList.get(0).getInsuranceContractId());
+
+            PaymentRequest paymentRequest = hyperledgerService.sendPaymentRequest(
+                    patient,
+                    sendPaymentRequestForm
+            );
+
+            System.out.println(paymentRequest);
+
+            DefinePaymentRequestForm definePaymentRequestForm = new DefinePaymentRequestForm();
+            definePaymentRequestForm.setRequestId(paymentRequest.getRequestId());
+            definePaymentRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            definePaymentRequestForm.setDateModified(StringUtil.parseDate(dateModified));
+
+            paymentRequest = hyperledgerService.definePaymentRequest(
+                    insuranceCompany,
+                    definePaymentRequestForm
+            );
+            System.out.println(paymentRequest);
+
+            SearchConfirmPaymentRequestForm searchConfirmPaymentRequestForm = new SearchConfirmPaymentRequestForm();
+            searchConfirmPaymentRequestForm.setPaymentRequestId(paymentRequest.getRequestId());
+            searchConfirmPaymentRequestForm.setRecipientId(patientId);
+
+            List<ConfirmPaymentRequest> confirmPaymentRequestList = hyperledgerService.getListConfirmPaymentRequestByRecipientQuery(
+                    patient,
+                    searchConfirmPaymentRequestForm
+            );
+
+            System.out.println(confirmPaymentRequestList.size());
+
+            DefineConfirmPaymentRequestForm defineConfirmPaymentRequestForm = new DefineConfirmPaymentRequestForm();
+            defineConfirmPaymentRequestForm.setRequestId(confirmPaymentRequestList.get(0).getRequestId());
+            defineConfirmPaymentRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            defineConfirmPaymentRequestForm.setDateModified(StringUtil.parseDate(dateModified));
+
+            ConfirmPaymentRequest defineConfirmPaymentRequest = hyperledgerService.defineConfirmPaymentRequest(
+                    patient,
+                    defineConfirmPaymentRequestForm
+            );
+
+            System.out.println(defineConfirmPaymentRequest);
         } catch (Exception exception) {
             System.out.println(exception);
         }
