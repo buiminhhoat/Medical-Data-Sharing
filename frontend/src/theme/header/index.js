@@ -2,7 +2,7 @@ import { memo } from "react";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
-import theme from "../../../../styles/pages/theme";
+import theme from "../../styles/pages/theme";
 
 const HeaderStyle = styled.div`
   font-weight: 600;
