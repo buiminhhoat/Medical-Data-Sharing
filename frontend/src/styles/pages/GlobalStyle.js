@@ -36,6 +36,58 @@ const GlobalStyle = createGlobalStyle`
         flex: 0 0 50%;
         max-width: 50%;
     }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        color: #333333;
+        font-size: 16px;
+        overflow-x: hidden;
+    }
+
+    .no-padding {
+        padding: 0;
+    }
+
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: #333333;
+    }
+
+    a:hover {
+        color: #285430;
+    }
+
+    a:hover,
+    a:focus {
+        outline: none;
+        text-decoration: none;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: "Poppins";
+        font-weight: 600;
+    }
+
+    h2 {
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 40px;
+        margin: 0;
+        padding-bottom: 10px;
+    }
+
+    img {
+        border: none;
+    }
 `;
 
 export default GlobalStyle;

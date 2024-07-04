@@ -3,3 +3,27 @@ export const DIALOGS = {
   REGISTER: "register",
   FORGOT_PASSWORD: "forgot-password",
 };
+
+export const API = {
+  PUBLIC: {
+    LOGIN_ENDPOINT: "/api/public/login",
+  },
+};
+
+export const LOGIN = {
+  LOGIN: "Đăng nhập",
+  EMAIL_PHONE: "Email/Số điện thoại",
+  EMAIL_PHONE_PLACEHOLDER: "Nhập email hoặc số điện thoại",
+  PASSWORD: "Mật khẩu",
+  PASSWORD_PLACEHOLDER: "Nhập mật khẩu",
+  FORGOT_PASSWORD_QUESTION: "Quên mật khẩu?",
+  LOGIN_BUTTON: "Đăng nhập",
+  NO_ACCOUNT_QUESTION: "Chưa có tài khoản?",
+  REGISTER_HERE: "Đăng ký tại đây",
+};
+
+export const ERROR = {
+  NO_TOKEN_ERROR: "Không có token.",
+  SENDING_TOKEN_ERROR: "Lỗi khi gửi token.",
+  SERVER_CONNECTION_ERROR: "Lỗi kết nối tới máy chủ, vui lòng thử lại sau!",
+};

@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { DIALOGS } from "@Const";
 import ProfileMenu from "@Components/ProfileMenu/ProfileMenu";
 import LoginDialog from "@Components/dialogs/LoginDialog/LoginDialog";
+import "./styles.css";
 
 const HeaderStyle = styled.div`
   font-weight: 600;
