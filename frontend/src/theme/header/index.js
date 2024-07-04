@@ -1,8 +1,10 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import styled from "styled-components";
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Space } from "antd";
 import theme from "../../styles/pages/theme";
+import { useCookies } from "react-cookie";
+import { DIALOGS } from "@Const";
+import ProfileMenu from "@Components/ProfileMenu/ProfileMenu";
+import LoginDialog from "@Components/dialogs/LoginDialog/LoginDialog";
 
 const HeaderStyle = styled.div`
   font-weight: 600;
@@ -36,8 +38,45 @@ const HeaderStyle = styled.div`
     font-size: 15px;
     display: flex;
   }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đục */
+    z-index: 1000; /* Đảm bảo nằm trên các phần tử khác */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
+
 const Header = () => {
+  const [menuItems, setMenuItems] = useState([{}]);
+
+  const [openDialog, setOpenDialog] = useState(null);
+
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
+  };
+
+  const [cookies] = useCookies(["access_token"]);
+
+  console.log(openDialog);
   return (
     <HeaderStyle>
       <div className="header-top">
@@ -56,43 +95,33 @@ const Header = () => {
                     opacity="0.8"
                     d="M12 0V24"
                     stroke="#F4FFF3"
-                    stroke-width="8"
-                    stroke-miterlimit="10"
+                    style={{ strokeWidth: 8, strokeMiterlimit: 10 }}
                   />
                   <path
                     opacity="0.6"
                     d="M0 12H24"
                     stroke="#F4FFF3"
-                    stroke-width="8"
-                    stroke-miterlimit="10"
+                    style={{ strokeWidth: 8, strokeMiterlimit: 10 }}
                   />
                 </svg>
               </div>
               <div>Medical Data Sharing</div>
             </div>
             <div className="col-6 header-top-right">
-              <div className="info">
-                <div>
-                  <ul style={{ marginRight: 20, textAlign: "right" }}>
-                    <li>Bùi Minh Hoạt</li>
-                    <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>
-                      Admin
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <Space direction="vertical" size={16}>
-                    <Space wrap size={16}>
-                      <Avatar size={45} icon={<UserOutlined />} />
-                    </Space>
-                  </Space>
-                </div>
-              </div>
+              <ProfileMenu openModal={openModal} />
             </div>
           </div>
         </div>
       </div>
+
+      {openDialog === DIALOGS.LOGIN && (
+        <div className="modal-overlay">
+          <LoginDialog
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
     </HeaderStyle>
   );
 };
