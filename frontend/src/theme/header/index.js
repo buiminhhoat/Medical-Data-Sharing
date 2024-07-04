@@ -5,7 +5,6 @@ import { useCookies } from "react-cookie";
 import { DIALOGS } from "@Const";
 import ProfileMenu from "@Components/ProfileMenu/ProfileMenu";
 import LoginDialog from "@Components/dialogs/LoginDialog/LoginDialog";
-import "./styles.css";
 
 const HeaderStyle = styled.div`
   font-weight: 600;
@@ -46,8 +45,8 @@ const HeaderStyle = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đục */
-    z-index: 1000; /* Đảm bảo nằm trên các phần tử khác */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;

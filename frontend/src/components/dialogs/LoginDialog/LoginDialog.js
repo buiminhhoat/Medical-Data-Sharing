@@ -5,7 +5,9 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
 import styled from "styled-components";
-import theme from "../../../styles/pages/theme";
+import { CgEnter } from "react-icons/cg";
+import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
+const { Option } = Select;
 
 const LoginDialogStyle = styled.div``;
 const LoginDialog = ({ onClose, onSwitch }) => {
@@ -16,99 +18,128 @@ const LoginDialog = ({ onClose, onSwitch }) => {
   const [password, setPassword] = useState("");
   const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
 
-  const handleButtonCloseClick = () => {
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const handleOk = () => {
+    setIsModalOpen(false);
     onClose();
   };
 
-  const handleLoginFormSubmit = () => {};
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    onClose();
+  };
 
-  const handleSwitchToOtherDialog = () => {};
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
   return (
     <LoginDialogStyle>
-      <div
-        className="modal fade show"
-        id="modal-auth"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        style={{ display: "block", paddingLeft: "0px" }}
-        aria-modal="true"
-        role="dialog"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-body">
-              <div className="title-header-wrap" style={{ marginTop: "5px" }}>
-                <span className="title">{LOGIN.LOGIN}</span>
-                <button
-                  type="button"
-                  className="btn-close pointer-cursor"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={handleButtonCloseClick}
-                ></button>
-                <div className="form-wrap">
-                  <form
-                    method="POST"
-                    action={apiLoginUrl}
-                    className="form"
-                    id="form-login"
-                    onSubmit={handleLoginFormSubmit}
-                  >
-                    <input
-                      type="hidden"
-                      name="_token"
-                      value="kd38LX3442ZoaFGkcWgeVWKJ0xwLrIk5YxQOdqzJ"
-                    />
-                    <div className="input-wrap">
-                      <label className="title">Email</label>
-                      <input
-                        id="email-login"
-                        name="email"
-                        type="text"
-                        placeholder={LOGIN.EMAIL_PHONE_PLACEHOLDER}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                    <span className="text-danger error-text email-error"></span>
-                    <div className="input-wrap input-password-wrap">
-                      <label className="title">{LOGIN.PASSWORD}</label>
-                      <input
-                        id="password-login"
-                        name="password"
-                        className="input-password"
-                        type="password"
-                        placeholder={LOGIN.PASSWORD_PLACEHOLDER}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </div>
-                    <span className="text-danger error-text password-error"></span>
-                    <div className="tool-wrap">
-                      <span
-                        className="title btn-open-fotgot-password"
-                        style={{ fontSize: "13px", color: "#285430" }}
-                        onClick={() =>
-                          handleSwitchToOtherDialog(DIALOGS.FORGOT_PASSWORD)
-                        }
-                      >
-                        {LOGIN.FORGOT_PASSWORD_QUESTION}
-                      </span>
-                    </div>
-                    <div className="btn-wrap">
-                      <button
-                        type="submit"
-                        className="btn btn-primary btn-login"
-                      >
-                        {LOGIN.LOGIN_BUTTON}
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <>
+        <Modal
+          title="Đăng nhập"
+          open={isModalOpen}
+          onCancel={handleCancel}
+          footer={null}
+          centered
+        >
+          <Form
+            name="basic"
+            labelCol={{
+              span: 7,
+            }}
+            wrapperCol={{
+              span: 16,
+            }}
+            style={{
+              maxWidth: 600,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="on"
+          >
+            <Form.Item
+              style={{ marginTop: 25 }}
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập Email!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Mật khẩu"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập mật khẩu!",
+                },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              label="Tổ chức"
+              name="organization"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng chọn tổ chức!",
+                },
+              ]}
+            >
+              <Select placeholder="Tổ chức">
+                <Option value="Bệnh nhân">Bệnh nhân</Option>
+                <Option value="Bác sĩ">Bác sĩ</Option>
+                <Option value="Công ty sản xuất thuốc">
+                  Công ty sản xuất thuốc
+                </Option>
+                <Option value="Cửa hàng thuốc">Cửa hàng thuốc</Option>
+                <Option value="Trung tâm nghiên cứu">
+                  Trung tâm nghiên cứu
+                </Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="remember"
+              valuePropName="checked"
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <Checkbox>Ghi nhớ đăng nhập</Checkbox>
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </>
     </LoginDialogStyle>
   );
 };
