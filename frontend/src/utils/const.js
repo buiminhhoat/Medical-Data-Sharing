@@ -6,7 +6,7 @@ export const DIALOGS = {
 
 export const API = {
   PUBLIC: {
-    LOGIN_ENDPOINT: "/api/public/login",
+    LOGIN_ENDPOINT: "/api/auth/login",
   },
 };
 

@@ -82,8 +82,8 @@ public class AuthRestAPIs {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
-        User user = userDetailsService.getUser(loginDto.getUsername());
+    public ResponseEntity<?> authenticateUser(@ModelAttribute LoginDto loginDto) {
+        User user = userDetailsService.getUser(loginDto.getEmail());
 
         if (user == null) {
             return new ResponseEntity<>(new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
@@ -97,7 +97,7 @@ public class AuthRestAPIs {
         try {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            loginDto.getUsername(),
+                            loginDto.getEmail(),
                             loginDto.getPassword()
                     )
             );

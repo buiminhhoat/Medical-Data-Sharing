@@ -2297,7 +2297,7 @@
   "resolved" "https://registry.npmjs.org/@types/http-errors/-/http-errors-2.0.4.tgz"
   "version" "2.0.4"
 
-"@types/http-proxy@^1.17.8":
+"@types/http-proxy@^1.17.10", "@types/http-proxy@^1.17.8":
   "integrity" "sha512-SSrD0c1OQzlFX7pGu1eXxSEjemej64aaNPRhhVYUGqXh0BtldAAx37MG8btcumvpgKyZp1F5Gn3JkktdxiFv6w=="
   "resolved" "https://registry.npmjs.org/@types/http-proxy/-/http-proxy-1.17.14.tgz"
   "version" "1.17.14"
@@ -5726,6 +5726,18 @@
     "is-glob" "^4.0.1"
     "is-plain-obj" "^3.0.0"
     "micromatch" "^4.0.2"
+
+"http-proxy-middleware@^3.0.0":
+  "integrity" "sha512-36AV1fIaI2cWRzHo+rbcxhe3M3jUDCNzc4D5zRl57sEWRAxdXYtw7FSQKYY6PDKssiAKjLYypbssHk+xs/kMXw=="
+  "resolved" "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "@types/http-proxy" "^1.17.10"
+    "debug" "^4.3.4"
+    "http-proxy" "^1.18.1"
+    "is-glob" "^4.0.1"
+    "is-plain-obj" "^3.0.0"
+    "micromatch" "^4.0.5"
 
 "http-proxy@^1.18.1":
   "integrity" "sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ=="

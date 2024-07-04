@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -13,28 +13,49 @@ const LoginDialogStyle = styled.div``;
 const LoginDialog = ({ onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
-
+  // const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
+  const apiLoginUrl = "http://localhost:9999/api/auth/login";
   const [isModalOpen, setIsModalOpen] = useState(true);
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-    onClose();
-  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
   };
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+  };
+
+  const handleLoginFormSubmit = async (values) => {
+    console.log(values);
+
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    formData.append("organization", values.organization);
+
+    try {
+      const response = await fetch(apiLoginUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.status === 200) {
+        let jsonResponse = await response.json();
+        console.log(jsonResponse);
+        let accessToken = jsonResponse.accessToken;
+        console.log(accessToken);
+
+        const cookies = new Cookies();
+        if (!cookies["accessToken"]) {
+          cookies.set("accessToken", accessToken, { path: "/" });
+        }
+
+        window.location.reload();
+      }
+    } catch (e) {
+    } finally {
+    }
   };
 
   return (
@@ -63,7 +84,7 @@ const LoginDialog = ({ onClose, onSwitch }) => {
             initialValues={{
               remember: true,
             }}
-            onFinish={onFinish}
+            onFinish={handleLoginFormSubmit}
             onFinishFailed={onFinishFailed}
             autoComplete="on"
           >
@@ -95,28 +116,6 @@ const LoginDialog = ({ onClose, onSwitch }) => {
             </Form.Item>
 
             <Form.Item
-              label="Tổ chức"
-              name="organization"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng chọn tổ chức!",
-                },
-              ]}
-            >
-              <Select placeholder="Tổ chức">
-                <Option value="Bệnh nhân">Bệnh nhân</Option>
-                <Option value="Bác sĩ">Bác sĩ</Option>
-                <Option value="Công ty sản xuất thuốc">
-                  Công ty sản xuất thuốc
-                </Option>
-                <Option value="Cửa hàng thuốc">Cửa hàng thuốc</Option>
-                <Option value="Trung tâm nghiên cứu">
-                  Trung tâm nghiên cứu
-                </Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
               name="remember"
               valuePropName="checked"
               wrapperCol={{
@@ -134,7 +133,7 @@ const LoginDialog = ({ onClose, onSwitch }) => {
               }}
             >
               <Button type="primary" htmlType="submit">
-                Submit
+                Đăng nhập
               </Button>
             </Form.Item>
           </Form>
