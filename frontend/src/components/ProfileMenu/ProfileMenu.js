@@ -22,17 +22,50 @@ const ProfileMenuStyle = styled.div`
     cursor: pointer; /* Thiết lập biểu tượng ngón tay */
   }
 `;
+
 const ProfileMenu = ({ openModal }) => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
+  const [fullName, setFullName] = useState("");
+  const [role, setRole] = useState("");
+
+  const fetchUserData = async () => {
+    if (access_token) {
+      try {
+        const response = await fetch(
+          "http://localhost:9999/api/public/get-user-data",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
+        console.log(response);
+
+        if (response.status === 200) {
+          const json = await response.json();
+          console.log(json);
+          const fullName = json.firstName + " " + json.lastName;
+          const role = json.role;
+          setFullName(fullName);
+          setRole(role);
+        }
+      } catch (e) {}
+    }
+  };
+
+  useEffect(() => {
+    if (access_token) fetchUserData().then((r) => {});
+  }, [access_token]);
 
   return (
     <ProfileMenuStyle>
       <div className="info">
         <div>
           <ul style={{ marginRight: 20, textAlign: "right" }}>
-            <li>Bùi Minh Hoạt</li>
-            <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>Admin</li>
+            <li>{fullName}</li>
+            <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>{role}</li>
           </ul>
         </div>
 

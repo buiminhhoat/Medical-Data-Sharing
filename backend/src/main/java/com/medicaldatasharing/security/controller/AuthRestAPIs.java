@@ -5,6 +5,7 @@ import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.PatientRepository;
+import com.medicaldatasharing.response.GetUserDataResponse;
 import com.medicaldatasharing.security.dto.ErrorResponse;
 import com.medicaldatasharing.security.dto.JwtResponse;
 import com.medicaldatasharing.security.dto.LoginDto;
@@ -12,6 +13,7 @@ import com.medicaldatasharing.security.dto.RegisterDto;
 import com.medicaldatasharing.security.jwt.JwtProvider;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/public")
 public class AuthRestAPIs {
     @Autowired
     private PatientRepository patientRepository;
@@ -111,6 +113,26 @@ public class AuthRestAPIs {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+    }
+
+    @GetMapping("/get-user-data")
+    public ResponseEntity<?> getUserData(@RequestHeader("Authorization") String access_token) {
+        User user = null;
+        if (access_token != null && access_token.startsWith("Bearer ")) {
+            access_token = access_token.replace("Bearer ", "");
+            String username = jwtProvider.getUserNameFromJwtToken(access_token);
+            user = userDetailsService.getUser(username);
+        }
+
+        if (user == null) {
+            return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (!user.isEnabled()) {
+            return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+        }
+
+        return ResponseEntity.ok(new GetUserDataResponse(user.getFirstName(), user.getLastName(), user.getRole()));
     }
 }
 

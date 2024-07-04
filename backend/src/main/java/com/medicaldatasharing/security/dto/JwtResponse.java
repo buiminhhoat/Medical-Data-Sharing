@@ -7,12 +7,12 @@ import java.util.Collection;
 
 @Data
 public class JwtResponse {
-    private String accessToken;
+    private String access_token;
     private String username;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtResponse(String accessToken, String username, Collection<? extends GrantedAuthority> authorities) {
-        this.accessToken = accessToken;
+    public JwtResponse(String access_token, String username, Collection<? extends GrantedAuthority> authorities) {
+        this.access_token = access_token;
         this.username = username;
         this.authorities = authorities;
     }

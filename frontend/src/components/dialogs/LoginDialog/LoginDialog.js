@@ -14,7 +14,7 @@ const LoginDialog = ({ onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
   // const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
-  const apiLoginUrl = "http://localhost:9999/api/auth/login";
+  const apiLoginUrl = "http://localhost:9999/api/public/login";
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleCancel = () => {
@@ -43,12 +43,12 @@ const LoginDialog = ({ onClose, onSwitch }) => {
       if (response.status === 200) {
         let jsonResponse = await response.json();
         console.log(jsonResponse);
-        let accessToken = jsonResponse.accessToken;
-        console.log(accessToken);
+        let access_token = jsonResponse.access_token;
+        console.log(access_token);
 
         const cookies = new Cookies();
-        if (!cookies["accessToken"]) {
-          cookies.set("accessToken", accessToken, { path: "/" });
+        if (!cookies["access_token"]) {
+          cookies.set("access_token", access_token, { path: "/" });
         }
 
         window.location.reload();
