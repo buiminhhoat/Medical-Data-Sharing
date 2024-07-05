@@ -3,4 +3,8 @@ export const ROUTERS = {
     HOME: "",
     PROFILE: "/profile",
   },
+
+  PATIENT: {
+    APPOINTMENT: "/appointment",
+  },
 };

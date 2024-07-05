@@ -5,6 +5,8 @@ import { useCookies } from "react-cookie";
 import { DIALOGS } from "@Const";
 import ProfileMenu from "@Components/ProfileMenu/ProfileMenu";
 import LoginDialog from "@Components/dialogs/LoginDialog/LoginDialog";
+import { ROUTERS } from "@Utils/router";
+import { Link } from "react-router-dom";
 
 const HeaderStyle = styled.div`
   font-weight: 600;
@@ -19,9 +21,13 @@ const HeaderStyle = styled.div`
     text-align: left;
     justify-content: left;
     align-items: center;
-    ul {
-      column-gap: 50px;
-      list-style-type: none;
+
+    .col {
+      margin-right: 25px;
+      ul {
+        column-gap: 50px;
+        list-style-type: none;
+      }
     }
   }
 
@@ -51,10 +57,19 @@ const HeaderStyle = styled.div`
     justify-content: center;
     align-items: center;
   }
+
+  .link {
+    color: white;
+  }
 `;
 
 const Header = () => {
-  const [menuItems, setMenuItems] = useState([{}]);
+  const [menuItems, setMenuItems] = useState([
+    {
+      name: "Đặt lịch khám",
+      path: ROUTERS.PATIENT.APPOINTMENT,
+    },
+  ]);
 
   const [openDialog, setOpenDialog] = useState(null);
 
@@ -82,8 +97,8 @@ const Header = () => {
       <div className="header-top">
         <div className="container">
           <div className="row">
-            <div className="col-6 header-top-left">
-              <div style={{ marginRight: 20 }}>
+            <div className="col-3 header-top-left">
+              <div className="col">
                 <svg
                   width="24"
                   height="24"
@@ -105,8 +120,24 @@ const Header = () => {
                   />
                 </svg>
               </div>
-              <div>Medical Data Sharing</div>
+              <div className="col">
+                <Link to={ROUTERS.USER.HOME} className="link">
+                  Medical Data Sharing
+                </Link>
+              </div>
+              <div className="col">
+                <ul>
+                  {menuItems?.map((menu, index) => (
+                    <li key={index}>
+                      <Link to={menu?.path} className="link">
+                        {menu?.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
+
             <div className="col-6 header-top-right">
               <ProfileMenu openModal={openModal} />
             </div>

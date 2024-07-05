@@ -1,13 +1,18 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "@Pages/users/homePage";
+import Appointment from "./pages/users/AppointmentPage/AppointmentPage";
 import { ROUTERS } from "@Utils/router";
-import MasterLayout from "@Theme/masterLayout";
+import MasterLayout from "./layout/masterLayout";
 
 const renderUserRouter = () => {
   const userRouters = [
     {
       path: ROUTERS.USER.HOME,
       component: <HomePage></HomePage>,
+    },
+    {
+      path: ROUTERS.PATIENT.APPOINTMENT,
+      component: <Appointment></Appointment>,
     },
   ];
 

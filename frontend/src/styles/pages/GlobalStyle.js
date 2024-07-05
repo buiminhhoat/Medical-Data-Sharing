@@ -8,10 +8,6 @@ const GlobalStyle = createGlobalStyle`
         font-style: normal;
     }
     
-    html,
-    body {
-        margin: 0;
-    }
 
     * {
         font-family: Poppins;
@@ -20,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     .container {
-        max-width: 1170px;
+        max-width: 80%;
         width: 100%;
         padding-left: 20px;
         padding-right: 20px;
@@ -32,6 +28,11 @@ const GlobalStyle = createGlobalStyle`
         flex-wrap: wrap;
     }
 
+    .col-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
     .col-6 {
         flex: 0 0 50%;
         max-width: 50%;
@@ -41,10 +42,12 @@ const GlobalStyle = createGlobalStyle`
     body {
         margin: 0;
         padding: 0;
-        background-color: #ffffff;
+        background-color: rgb(250, 250, 250);
         color: #333333;
         font-size: 16px;
         overflow-x: hidden;
+        height: 100%;
+        width: 100%;
     }
 
     .no-padding {
