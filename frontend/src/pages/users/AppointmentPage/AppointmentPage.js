@@ -120,6 +120,7 @@ const AppointmentPage = () => {
       <div className="page">
         <div className="container">
           <div style={{ marginTop: "20px" }}>
+            <h1>Tìm kiếm</h1>
             <Card
               style={{
                 border: "none",

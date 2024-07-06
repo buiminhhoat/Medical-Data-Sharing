@@ -10,6 +10,7 @@ import {
   Input,
   Card,
   message,
+  DatePicker,
 } from "antd";
 import {
   InfoCircleOutlined,
@@ -53,6 +54,9 @@ const RequestPage = () => {
   const [searchRequestId, setSearchRequestId] = useState("");
   const [searchSenderId, setSearchSenderId] = useState("");
   const [searchRecipientId, setSearchRecipientId] = useState("");
+  const [searchSenderName, setSearchSenderName] = useState("");
+  const [searchRecipientName, setSearchRecipientName] = useState("");
+
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -126,6 +130,7 @@ const RequestPage = () => {
     setDataSource(filteredData);
     setLoading(false);
   };
+
   const fetGetAllRequest = async () => {
     if (access_token) {
       try {
@@ -305,6 +310,7 @@ const RequestPage = () => {
       <div className="page">
         <div className="container">
           <div style={{ marginTop: "20px" }}>
+            <h1>Tìm kiếm</h1>
             <Card
               style={{
                 border: "none",
@@ -318,45 +324,111 @@ const RequestPage = () => {
                   alignItems: "center",
                 }}
               >
-                <Input
-                  prefix={<SearchOutlined />}
-                  placeholder="Mã yêu cầu"
-                  value={searchRequestId}
-                  onChange={(e) => {
-                    setSearchRequestId(e.target.value);
-                  }}
-                  style={{ width: "25%", marginRight: "2%" }}
-                />
-                <Input
-                  prefix={<SearchOutlined />}
-                  placeholder="Mã người gửi"
-                  value={searchSenderId}
-                  onChange={(e) => {
-                    setSearchSenderId(e.target.value);
-                  }}
-                  style={{ width: "25%", marginRight: "2%" }}
-                />
-                <Input
-                  prefix={<SearchOutlined />}
-                  placeholder="Mã người nhận"
-                  value={searchRecipientId}
-                  onChange={(e) => {
-                    setSearchRecipientId(e.target.value);
-                  }}
-                  style={{ width: "25%", marginRight: "2%" }}
-                />
-
-                <Button
-                  icon={<SearchOutlined />}
+                <div
                   style={{
-                    backgroundColor: `${styleTheme.colors.green}`,
-                    color: "white",
-                    fontWeight: 600,
+                    width: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                  onClick={handleSearch}
                 >
-                  Tìm kiếm
-                </Button>
+                  <div
+                    style={{
+                      width: "100%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <Input
+                        placeholder="Mã yêu cầu"
+                        value={searchRequestId}
+                        onChange={(e) => {
+                          setSearchRequestId(e.target.value);
+                        }}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+                      <Input
+                        placeholder="Mã người gửi"
+                        value={searchSenderId}
+                        onChange={(e) => {
+                          setSearchSenderId(e.target.value);
+                        }}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+                      <Input
+                        placeholder="Mã người nhận"
+                        value={searchRecipientId}
+                        onChange={(e) => {
+                          setSearchRecipientId(e.target.value);
+                        }}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <DatePicker
+                        format={{
+                          format: "YYYY-MM-DD",
+                          type: "mask",
+                        }}
+                        placeholder="Ngày chỉnh sửa"
+                        onChange={onChange}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+
+                      <Input
+                        placeholder="Tên người gửi"
+                        value={searchSenderName}
+                        onChange={(e) => {
+                          setSearchSenderName(e.target.value);
+                        }}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+
+                      <Input
+                        placeholder="Tên người nhận"
+                        value={searchRecipientName}
+                        onChange={(e) => {
+                          setSearchRecipientName(e.target.value);
+                        }}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <ConfigProvider
+                    theme={{
+                      token: {},
+                    }}
+                  >
+                    <Button
+                      icon={<SearchOutlined />}
+                      style={{
+                        backgroundColor: `${styleTheme.colors.green}`,
+                        color: "white",
+                        fontWeight: 600,
+                      }}
+                      onClick={handleSearch}
+                    >
+                      Tìm kiếm
+                    </Button>
+                  </ConfigProvider>
+                </div>
               </div>
             </Card>
           </div>
@@ -378,7 +450,6 @@ const RequestPage = () => {
                 showSorterTooltip={{
                   target: "sorter-icon",
                 }}
-                // pagination={{ pageSize: 3 }}
               />
             </ConfigProvider>
           </div>
