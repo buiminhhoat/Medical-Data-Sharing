@@ -1,7 +1,8 @@
 import {memo, useState} from "react";
 import styled from "styled-components";
-import theme from "../../../styles/pages/theme";
-import { Space, Table, Tag } from 'antd';
+// import theme from "../../../styles/pages/theme";
+import { ConfigProvider, Space, Table, Tag,  } from 'antd';
+import { Calendar, theme } from 'antd';
 
 const HomePageStyle = styled.div`
 
@@ -71,7 +72,7 @@ const HomePsenderName = () => {
         {
             title: 'Ngày tạo',
             dataIndex: 'dateCreated',
-            width: "15%",
+            width: "13%",
             align: "center",
             sorter: (a, b) => new Date(a.dateCreated) - new Date(b.dateCreated),
             sortDirections: ["descend", "ascend"],
@@ -80,7 +81,7 @@ const HomePsenderName = () => {
         {
             title: 'Ngày chỉnh sửa',
             dataIndex: 'dateModified',
-            width: "15%",
+            width: "13%",
             align: "center",
             sorter: (a, b) => new Date(a.dateModified) - new Date(b.dateModified),
             sortDirections: ["descend", "ascend"],
@@ -173,26 +174,49 @@ const HomePsenderName = () => {
         console.log('params', pagination, filters, sorter, extra);
     };
 
+    const { token } = theme.useToken();
+    const wrapperStyle = {
+        width: 300,
+        border: `1px solid ${token.colorBorderSecondary}`,
+        borderRadius: token.borderRadiusLG,
+    };
+
+    const onPanelChange = (value, mode) => {
+        console.log(value.format('YYYY-MM-DD'), mode);
+    };
+
     return (
       <HomePageStyle>
-          <div className="container" style={{display: "flex", marginTop: "20px", marginRight: "5%"}}>
-              <div style={{width: "70%"}}>
+          <div className="container" style={{display: "flex", marginTop: "20px"}}>
+              <div style={{width: "75%", marginRight: "2%"}}>
                   <h1>Danh sách yêu cầu</h1>
-                  <Table
-                      columns={columns}
-                      dataSource={data}
-                      onChange={onChange}
-                      showSorterTooltip={{
-                          target: 'sorter-icon',
+                  <ConfigProvider
+                      theme={{
+                          token: {
+                              borderRadius:6
+                          },
                       }}
-                  />
+                  >
+                      <Table
+                          columns={columns}
+                          dataSource={data}
+                          onChange={onChange}
+                          showSorterTooltip={{
+                              target: 'sorter-icon',
+                          }}
+                          // pagination={{ pageSize: 3 }}
+                      />
+                  </ConfigProvider>
               </div>
               <div style={{width: "20%"}}>
                   <h1>Lịch</h1>
+                  <div style={wrapperStyle}>
+                      <Calendar fullscreen={false} onPanelChange={onPanelChange}/>
+                  </div>
               </div>
           </div>
       </HomePageStyle>
-  );
+    );
 };
 
 export default memo(HomePsenderName);
