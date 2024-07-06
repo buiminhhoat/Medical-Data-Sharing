@@ -1,8 +1,21 @@
 import { memo, useEffect, useState } from "react";
 import styled from "styled-components";
-// import theme from "../../../styles/pages/theme";
-import { Button, ConfigProvider, Space, Table, Tag } from "antd";
-import { InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
+import styleTheme from "../../../styles/pages/theme";
+import {
+  Button,
+  ConfigProvider,
+  Space,
+  Table,
+  Tag,
+  Input,
+  Card,
+  message,
+} from "antd";
+import {
+  InfoCircleOutlined,
+  EditOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import { Calendar, theme } from "antd";
 import { useCookies } from "react-cookie";
 import { API } from "@Const";
@@ -37,9 +50,84 @@ const RequestPage = () => {
     },
   ]);
 
+  const [searchRequestId, setSearchRequestId] = useState("");
+  const [searchSenderId, setSearchSenderId] = useState("");
+  const [searchRecipientId, setSearchRecipientId] = useState("");
+  const [data, setData] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  const handleData = (json) => {
+    console.log("*");
+    const requestTypeSet = new Set();
+
+    json.map((record, index) => {
+      record.shortenedRequestId =
+        record.requestId.substring(0, 4) +
+        "..." +
+        record.requestId.substring(record.requestId.length - 4);
+      record.key = index;
+      switch (record.requestType) {
+        case "APPOINTMENT":
+          record.requestType = "Đặt lịch khám";
+          break;
+        case "VIEW_RECORD":
+          record.requestType = "Xem hồ sơ y tế";
+          break;
+        case "PAYMENT":
+          record.requestType = "Thanh toán";
+          break;
+        case "PURCHASE":
+          record.requestType = "Mua hàng";
+          break;
+        case "CONFIRM_PAYMENT":
+          record.requestType = "Xác nhận thanh toán";
+          break;
+        case "EDIT_RECORD":
+          record.requestType = "Chỉnh sửa hồ sơ y tế";
+          break;
+        case "VIEW_PRESCRIPTION":
+          record.requestType = "Xem đơn thuốc";
+          break;
+        default:
+      }
+      requestTypeSet.add(record.requestType);
+    });
+
+    setDataSource(json);
+    const requestTypeArr = [];
+    requestTypeSet.forEach((item) => {
+      requestTypeArr.push({ value: item, text: item });
+    });
+
+    console.log(requestTypeSet);
+    console.log(requestTypeArr);
+    setfiltersRequestType(requestTypeArr);
+    setLoading(false);
+  };
+
+  const handleSearch = () => {
+    console.log(searchRequestId);
+    setLoading(true);
+    const filteredData = data.filter((entry) => {
+      const matchesRequestId = searchRequestId
+        ? entry.requestId.toLowerCase().includes(searchRequestId.toLowerCase())
+        : true;
+      const matchesSenderId = searchSenderId
+        ? entry.senderId.toLowerCase().includes(searchSenderId.toLowerCase())
+        : true;
+      const matchesRecipientId = searchRecipientId
+        ? entry.recipientId
+            .toLowerCase()
+            .includes(searchRecipientId.toLowerCase())
+        : true;
+      return matchesRequestId & matchesSenderId & matchesRecipientId;
+    });
+    setDataSource(filteredData);
+    setLoading(false);
+  };
   const fetGetAllRequest = async () => {
     if (access_token) {
-      const requestTypeSet = new Set();
       try {
         const response = await fetch(apiGetAllRequest, {
           method: "GET",
@@ -50,49 +138,8 @@ const RequestPage = () => {
 
         if (response.status === 200) {
           const json = await response.json();
-          json.map((record, index) => {
-            record.shortenedRequestId =
-              record.requestId.substring(0, 4) +
-              "..." +
-              record.requestId.substring(record.requestId.length - 4);
-            record.key = index;
-            switch (record.requestType) {
-              case "APPOINTMENT":
-                record.requestType = "Đặt lịch khám";
-                break;
-              case "VIEW_RECORD":
-                record.requestType = "Xem hồ sơ y tế";
-                break;
-              case "PAYMENT":
-                record.requestType = "Thanh toán";
-                break;
-              case "PURCHASE":
-                record.requestType = "Mua hàng";
-                break;
-              case "CONFIRM_PAYMENT":
-                record.requestType = "Xác nhận thanh toán";
-                break;
-              case "EDIT_RECORD":
-                record.requestType = "Chỉnh sửa hồ sơ y tế";
-                break;
-              case "VIEW_PRESCRIPTION":
-                record.requestType = "Xem đơn thuốc";
-                break;
-              default:
-                record.requestType = "Yêu cầu không xác định";
-            }
-            requestTypeSet.add(record.requestType);
-          });
-
           setData(json);
-          const requestTypeArr = [];
-          requestTypeSet.forEach((item) => {
-            requestTypeArr.push({ value: item, text: item });
-          });
-
-          console.log(requestTypeSet);
-          console.log(requestTypeArr);
-          setfiltersRequestType(requestTypeArr);
+          handleData(json);
         }
       } catch (e) {}
     }
@@ -102,6 +149,19 @@ const RequestPage = () => {
     if (access_token) fetGetAllRequest().then((r) => {});
   }, [access_token]);
 
+  useEffect(() => {
+    handleSearch();
+  }, [searchRequestId]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchSenderId]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchRecipientId]);
+
+  const [highlightedText, setHighlightedText] = useState(null);
   const columns = [
     {
       title: "Mã yêu cầu",
@@ -113,6 +173,32 @@ const RequestPage = () => {
       align: "center",
       onFilter: (value, record) =>
         record.shortenedRequestId.indexOf(value) === 0,
+      render: (text, record, index) => (
+        <span
+          onMouseEnter={() => setHighlightedText(index)}
+          onMouseLeave={() => setHighlightedText(null)}
+          style={{
+            backgroundColor: highlightedText === index ? "#ffe898" : "", // sử dụng màu để làm nổi bật văn bản
+            border:
+              highlightedText === index
+                ? "2px dashed rgb(234, 179, 8)"
+                : "none",
+            borderRadius: "4px",
+            padding: "2px", // Thêm padding để đường viền không dính sát vào chữ
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            navigator.clipboard
+              .writeText(dataSource[index].requestId)
+              .then(() =>
+                message.success("Đã sao chép " + dataSource[index].requestId)
+              )
+              .catch((err) => message.error("Sao chép thất bại!"));
+          }}
+        >
+          {text}
+        </span>
+      ),
     },
     {
       title: "Người gửi",
@@ -195,7 +281,7 @@ const RequestPage = () => {
     },
   ];
 
-  const [data, setData] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
 
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
@@ -212,11 +298,70 @@ const RequestPage = () => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
 
+  console.log(searchRecipientId);
+
   return (
     <RequestPageStyle>
       <div className="page">
-        <div className="container" style={{ display: "flex" }}>
-          <div style={{ width: "100%" }}>
+        <div className="container">
+          <div style={{ marginTop: "20px" }}>
+            <Card
+              style={{
+                border: "none",
+                background: "white",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder="Mã yêu cầu"
+                  value={searchRequestId}
+                  onChange={(e) => {
+                    setSearchRequestId(e.target.value);
+                  }}
+                  style={{ width: "25%", marginRight: "2%" }}
+                />
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder="Mã người gửi"
+                  value={searchSenderId}
+                  onChange={(e) => {
+                    setSearchSenderId(e.target.value);
+                  }}
+                  style={{ width: "25%", marginRight: "2%" }}
+                />
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder="Mã người nhận"
+                  value={searchRecipientId}
+                  onChange={(e) => {
+                    setSearchRecipientId(e.target.value);
+                  }}
+                  style={{ width: "25%", marginRight: "2%" }}
+                />
+
+                <Button
+                  icon={<SearchOutlined />}
+                  style={{
+                    backgroundColor: `${styleTheme.colors.green}`,
+                    color: "white",
+                    fontWeight: 600,
+                  }}
+                  onClick={handleSearch}
+                >
+                  Tìm kiếm
+                </Button>
+              </div>
+            </Card>
+          </div>
+
+          <div style={{ width: "100%", marginTop: "20px" }}>
             <h1>Danh sách yêu cầu</h1>
             <ConfigProvider
               theme={{
@@ -227,8 +372,9 @@ const RequestPage = () => {
             >
               <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={dataSource}
                 onChange={onChange}
+                loading={loading}
                 showSorterTooltip={{
                   target: "sorter-icon",
                 }}
