@@ -19,7 +19,7 @@ const ProfileMenuStyle = styled.div`
   }
 
   .pointer-cursor {
-    cursor: pointer; /* Thiết lập biểu tượng ngón tay */
+    cursor: pointer;
   }
 `;
 
