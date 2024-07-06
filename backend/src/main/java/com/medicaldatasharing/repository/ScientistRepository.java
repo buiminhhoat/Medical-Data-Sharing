@@ -9,6 +9,7 @@ import java.util.List;
 public interface ScientistRepository extends JpaRepository<Scientist, String> {
 
     Scientist findByUsername(String username);
+    Scientist findScientistById(String id);
 
     List<Scientist> findAllBy();
 
@@ -17,4 +18,6 @@ public interface ScientistRepository extends JpaRepository<Scientist, String> {
     List<Scientist> findAllByResearchCenter(ResearchCenter researchCenter);
 
     List<Scientist> findAllByResearchCenterAndRole(ResearchCenter researchCenter, String role);
+
+    Scientist findScientistByEmail(String email);
 }

@@ -17,7 +17,6 @@ public class Doctor extends User {
 
     private String occupation;
 
-    @ManyToOne
-    private MedicalInstitution medicalInstitution;
+    private String medicalInstitutionId;
 }
 

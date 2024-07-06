@@ -1023,10 +1023,11 @@ public class MedicalRecordContract implements ContractInterface {
 
         jsonDto.put("numberOfDaysInsured", insuranceProduct.getNumberOfDaysInsured());
         System.out.println("numberOfDaysInsured: " + insuranceProduct.getNumberOfDaysInsured());
+
         PurchaseRequest purchaseRequest = ctx.getPurchaseRequestDAO().sendPurchaseRequest(jsonDto);
 
         ctx.getViewRequestDAO().sendViewRequestAccepted(
-                new JSONObject().put("senderId", insuranceProductId)
+                new JSONObject().put("senderId", insuranceProduct.getInsuranceCompanyId())
                         .put("recipientId", senderId)
                         .put("dateModified", dateModified)
         );
@@ -1256,7 +1257,7 @@ public class MedicalRecordContract implements ContractInterface {
         if (!jsonObject.has("senderId")
                 || (jsonObject.has("senderId") & Objects.equals(jsonObject.getString("senderId"), ""))) {
             throw new ChaincodeException("Error: senderId is empty",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_VIEW_ACCESS.toString());
         }
 
         String senderId = jsonObject.getString("senderId");
@@ -1282,7 +1283,7 @@ public class MedicalRecordContract implements ContractInterface {
         if (!jsonObject.has("recipientId")
                 || (jsonObject.has("recipientId") & Objects.equals(jsonObject.getString("recipientId"), ""))) {
             throw new ChaincodeException("Error: recipientId is empty",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED_VIEW_ACCESS.toString());
         }
 
         String recipientId = jsonObject.getString("recipientId");
@@ -1296,6 +1297,44 @@ public class MedicalRecordContract implements ContractInterface {
         );
 
         return new Genson().serialize(confirmPaymentRequestList);
+    }
+
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListAllRequestByUserQuery(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        if (!jsonObject.has("userId")
+                || (jsonObject.has("userId") & Objects.equals(jsonObject.getString("userId"), ""))) {
+            throw new ChaincodeException("Error: userId is empty",
+                    ContractErrors.UNAUTHORIZED_VIEW_ACCESS.toString());
+        }
+
+        String userId = jsonObject.getString("userId");
+
+        authorizeRequest(ctx, userId, "getListAllRequestByUserQuery(validate userId)");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("senderId", userId);
+
+        List<Request> requestListBySender = ctx.getRequestDAO().getListRequest(
+                jsonDto
+        );
+
+        jsonDto = new JSONObject();
+        jsonDto.put("recipientId", userId);
+
+        List<Request> requestListByRecipient = ctx.getRequestDAO().getListRequest(
+                jsonDto
+        );
+
+        List<Request> requestList = new ArrayList<>();
+        for (Request request: requestListBySender) requestList.add(request);
+        for (Request request: requestListByRecipient) requestList.add(request);
+        return new Genson().serialize(requestList);
     }
 
     public enum ContractErrors {

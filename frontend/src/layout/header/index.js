@@ -31,6 +31,12 @@ const HeaderStyle = styled.div`
     }
   }
 
+  .header-container {
+    max-width: 85%;
+    width: 100%;
+    margin: auto;
+  }
+
   .header-top-right {
     display: grid;
     justify-content: end;
@@ -93,67 +99,67 @@ const Header = () => {
 
   console.log(openDialog);
   return (
-    <HeaderStyle>
-      <div className="header-top">
-        <div className="container">
-          <div className="row">
-            <div className="col-3 header-top-left">
-              <div className="col">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    opacity="0.8"
-                    d="M12 0V24"
-                    stroke="#F4FFF3"
-                    style={{ strokeWidth: 8, strokeMiterlimit: 10 }}
-                  />
-                  <path
-                    opacity="0.6"
-                    d="M0 12H24"
-                    stroke="#F4FFF3"
-                    style={{ strokeWidth: 8, strokeMiterlimit: 10 }}
-                  />
-                </svg>
+      <HeaderStyle>
+        <div className="header-top">
+          <div className="header-container">
+            <div className="row">
+              <div className="col-3 header-top-left">
+                <div className="col">
+                  <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                        opacity="0.8"
+                        d="M12 0V24"
+                        stroke="#F4FFF3"
+                        style={{ strokeWidth: 8, strokeMiterlimit: 10 }}
+                    />
+                    <path
+                        opacity="0.6"
+                        d="M0 12H24"
+                        stroke="#F4FFF3"
+                        style={{ strokeWidth: 8, strokeMiterlimit: 10 }}
+                    />
+                  </svg>
+                </div>
+                <div className="col">
+                  <Link to={ROUTERS.USER.HOME} className="link">
+                    Medical Data Sharing
+                  </Link>
+                </div>
+                <div className="col">
+                  <ul>
+                    {menuItems?.map((menu, index) => (
+                        <li key={index}>
+                          <Link to={menu?.path} className="link">
+                            {menu?.name}
+                          </Link>
+                        </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className="col">
-                <Link to={ROUTERS.USER.HOME} className="link">
-                  Medical Data Sharing
-                </Link>
-              </div>
-              <div className="col">
-                <ul>
-                  {menuItems?.map((menu, index) => (
-                    <li key={index}>
-                      <Link to={menu?.path} className="link">
-                        {menu?.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
 
-            <div className="col-6 header-top-right">
-              <ProfileMenu openModal={openModal} />
+              <div className="col-6 header-top-right">
+                <ProfileMenu openModal={openModal} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {openDialog === DIALOGS.LOGIN && (
-        <div className="modal-overlay">
-          <LoginDialog
-            onClose={handleDialogClose}
-            onSwitch={handleDialogSwitch}
-          />
-        </div>
-      )}
-    </HeaderStyle>
+        {openDialog === DIALOGS.LOGIN && (
+            <div className="modal-overlay">
+              <LoginDialog
+                  onClose={handleDialogClose}
+                  onSwitch={handleDialogSwitch}
+              />
+            </div>
+        )}
+      </HeaderStyle>
   );
 };
 

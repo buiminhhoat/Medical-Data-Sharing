@@ -7,7 +7,8 @@ export const DIALOGS = {
 export const API = {
   PUBLIC: {
     LOGIN_ENDPOINT: "/api/public/login",
-    GET_USER_DATA: "/api/public/get-user-data"
+    GET_USER_DATA: "/api/public/get-user-data",
+    GET_ALL_REQUEST: "/api/public/get-all-request",
   },
 };
 

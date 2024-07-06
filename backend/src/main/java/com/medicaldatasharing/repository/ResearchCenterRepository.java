@@ -8,5 +8,7 @@ import java.util.List;
 public interface ResearchCenterRepository extends JpaRepository<ResearchCenter, String> {
     List<ResearchCenter> findAllBy();
 
-    ResearchCenter findResearchInstituteByResearchInstituteId(String researchInstituteId);
+    ResearchCenter findResearchInstituteById(String id);
+
+    ResearchCenter findResearchInstituteByEmail(String email);
 }

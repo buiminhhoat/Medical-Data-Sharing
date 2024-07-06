@@ -9,12 +9,10 @@ import java.util.List;
 public interface DoctorRepository extends JpaRepository<Doctor, String> {
 
     Doctor findByUsername(String username);
+    Doctor findDoctorById(String id);
 
     List<Doctor> findAllBy();
 
     List<Doctor> findAllByRole(String role);
 
-    List<Doctor> findAllByMedicalInstitution(MedicalInstitution medicalInstitution);
-
-    List<Doctor> findAllByMedicalInstitutionAndRole(MedicalInstitution medicalInstitution, String role);
 }

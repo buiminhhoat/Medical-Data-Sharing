@@ -3,18 +3,29 @@ import Header from "../header";
 import Footer from "../footer";
 import styled from "styled-components";
 
-const MasterLayoutStyle = styled.div``;
+const MasterLayoutStyle = styled.div`
+    width: 100%;
+    height: 100%;
+    
+    .main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+`;
 
 const MasterLayout = ({ children, ...props }) => {
-  return (
-    <MasterLayoutStyle>
-      <div {...props}>
-        <Header />
-        {children}
-        <Footer />
-      </div>
-    </MasterLayoutStyle>
-  );
+    return (
+        <MasterLayoutStyle>
+            <div className="main" {...props}>
+                <Header/>
+                {children}
+                <Footer/>
+            </div>
+        </MasterLayoutStyle>
+    );
 };
 
 export default memo(MasterLayout);

@@ -9,10 +9,10 @@ import theme from "./styles/pages/theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ThemeProvider theme={theme}>
-    <GlobalStyle />
-    <BrowserRouter>
-      <RouterCustom></RouterCustom>
-    </BrowserRouter>
-  </ThemeProvider>
+    <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <BrowserRouter>
+            <RouterCustom></RouterCustom>
+        </BrowserRouter>
+    </ThemeProvider>
 );

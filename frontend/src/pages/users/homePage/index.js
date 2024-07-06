@@ -1,14 +1,20 @@
-import {memo, useState} from "react";
+import {memo, useEffect, useState} from "react";
 import styled from "styled-components";
 // import theme from "../../../styles/pages/theme";
 import { ConfigProvider, Space, Table, Tag,  } from 'antd';
 import { Calendar, theme } from 'antd';
+import {useCookies} from "react-cookie";
+import {API} from "@Const";
 
 const HomePageStyle = styled.div`
-
+    width: 100%;
+    height: 100%;
 `;
 
-const HomePsenderName = () => {
+const HomePage = () => {
+    const [cookies] = useCookies(["access_token"]);
+    const access_token = cookies.access_token;
+    const apiGetAllRequest = API.PUBLIC.GET_ALL_REQUEST;
     const [filtersSenderName, setFiltersSenderName] = useState([
         {
             text: 'Nguyễn Tiến Dũng',
@@ -42,16 +48,81 @@ const HomePsenderName = () => {
         },
     ]);
 
+    const fetGetAllRequest = async () => {
+        if (access_token) {
+            const requestTypeSet = new Set();
+            try {
+                const response = await fetch(apiGetAllRequest, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    const json = await response.json();
+                    json.map((record, index) => {
+                        record.shortenedRequestId = record.requestId.substring(0, 4) + "..." + record.requestId.substring(record.requestId.length - 4);
+                        record.key = index;
+                        switch (record.requestType) {
+                            case "APPOINTMENT":
+                                record.requestType = "Đặt lịch khám";
+                                break
+                            case "VIEW_RECORD":
+                                record.requestType = "Xem hồ sơ y tế";
+                                break;
+                            case "PAYMENT":
+                                record.requestType = "Thanh toán";
+                                break;
+                            case "PURCHASE":
+                                record.requestType = "Mua hàng";
+                                break;
+                            case "CONFIRM_PAYMENT":
+                                record.requestType = "Xác nhận thanh toán";
+                                break;
+                            case "EDIT_RECORD":
+                                record.requestType = "Chỉnh sửa hồ sơ y tế";
+                                break;
+                            case "VIEW_PRESCRIPTION":
+                                record.requestType = "Xem đơn thuốc";
+                                break;
+                            default:
+                                record.requestType = "Yêu cầu không xác định"
+                        }
+                        requestTypeSet.add(record.requestType);
+                    })
+
+                    setData(json);
+                    const requestTypeArr = [];
+                    requestTypeSet.forEach((item) => {
+                        requestTypeArr.push({value: item, text: item});
+                    });
+
+                    console.log(requestTypeSet);
+                    console.log(requestTypeArr);
+                    setfiltersRequestType(requestTypeArr);
+                }
+            }
+            catch (e) {
+
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (access_token) fetGetAllRequest().then((r) => {});
+    }, [access_token]);
+
     const columns = [
         {
             title: 'Mã yêu cầu',
-            dataIndex: 'requestId',
+            dataIndex: 'shortenedRequestId',
             showSorterTooltip: {
                 target: 'full-header',
             },
             width: "10%",
             align: "center",
-            onFilter: (value, record) => record.requestId.indexOf(value) === 0,
+            onFilter: (value, record) => record.shortenedRequestId.indexOf(value) === 0,
         },
         {
             title: 'Người gửi',
@@ -126,50 +197,8 @@ const HomePsenderName = () => {
         },
     ];
 
-    console.log(new Date("2024-07-03") - new Date("2024-07-05"));
+    const [data, setData] = useState([]);
 
-    const data = [
-        {
-            key: '1',
-            requestId: '7cd02...6d1a',
-            senderName: "Bùi Minh Hoạt",
-            recipientName: 'Nguyễn Tiến Dũng',
-            dateCreated: "2024-07-03",
-            dateModified: "2024-07-03",
-            requestType: "Xem hồ sơ y tế",
-            requestStatus: "PENDING"
-        },
-        {
-            key: '2',
-            requestId: '7cd02...6d1b',
-            senderName: "Bùi Minh Hoạt",
-            recipientName: 'Nguyễn Tiến Dũng',
-            dateCreated: "2024-07-05",
-            dateModified: "2024-07-03",
-            requestType: "Đặt lịch khám",
-            requestStatus: "APPROVED"
-        },
-        {
-            key: '3',
-            requestId: '7cd02...6d1c',
-            senderName: "Bùi Minh Hoạt",
-            recipientName: 'Nguyễn Tiến Dũng',
-            dateCreated: "2024-05-05",
-            dateModified: "2024-07-03",
-            requestType: "Xem hồ sơ y tế",
-            requestStatus: "ACCEPTED"
-        },
-        {
-            key: '4',
-            requestId: '7cd02...6d1d',
-            senderName: "Bùi Minh Hoạt",
-            recipientName: 'Nguyễn Tiến Dũng',
-            dateCreated: "2024-03-05",
-            dateModified: "2024-07-03",
-            requestType: "Chỉnh sửa hồ sơ y tế",
-            requestStatus: "DECLINED"
-        },
-    ];
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
@@ -186,37 +215,33 @@ const HomePsenderName = () => {
     };
 
     return (
-      <HomePageStyle>
-          <div className="container" style={{display: "flex", marginTop: "20px"}}>
-              <div style={{width: "75%", marginRight: "2%"}}>
-                  <h1>Danh sách yêu cầu</h1>
-                  <ConfigProvider
-                      theme={{
-                          token: {
-                              borderRadius:6
-                          },
-                      }}
-                  >
-                      <Table
-                          columns={columns}
-                          dataSource={data}
-                          onChange={onChange}
-                          showSorterTooltip={{
-                              target: 'sorter-icon',
-                          }}
-                          // pagination={{ pageSize: 3 }}
-                      />
-                  </ConfigProvider>
-              </div>
-              <div style={{width: "20%"}}>
-                  <h1>Lịch</h1>
-                  <div style={wrapperStyle}>
-                      <Calendar fullscreen={false} onPanelChange={onPanelChange}/>
-                  </div>
-              </div>
-          </div>
-      </HomePageStyle>
+        <HomePageStyle>
+            <div className="page">
+                <div className="container" style={{display: "flex"}}>
+                    <div style={{width: "100%"}}>
+                        <h1>Danh sách yêu cầu</h1>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    borderRadius: 6
+                                },
+                            }}
+                        >
+                            <Table
+                                columns={columns}
+                                dataSource={data}
+                                onChange={onChange}
+                                showSorterTooltip={{
+                                    target: 'sorter-icon',
+                                }}
+                                // pagination={{ pageSize: 3 }}
+                            />
+                        </ConfigProvider>
+                    </div>
+                </div>
+            </div>
+        </HomePageStyle>
     );
 };
 
-export default memo(HomePsenderName);
+export default memo(HomePage);

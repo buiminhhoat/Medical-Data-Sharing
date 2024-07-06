@@ -52,14 +52,14 @@ public class InitDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        initMedicalInstitutions();
-//        initManufacturer();
-//        initDrugStore();
-//        initResearchCenter();
-//        initUsers();
-//        initScientist();
-//        initInsuranceCompany();
-//        init();
+        initMedicalInstitutions();
+        initManufacturer();
+        initDrugStore();
+        initResearchCenter();
+        initUsers();
+        initScientist();
+        initInsuranceCompany();
+        init();
     }
 
     private void initMedicalInstitutions() {
@@ -71,14 +71,12 @@ public class InitDataLoader implements CommandLineRunner {
                 .builder()
                 .name("Bệnh viện ĐHQGHN")
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
-                .membershipOrganizationId(Config.ORG2)
                 .build();
 
         MedicalInstitution medicalInstitution2 = MedicalInstitution
                 .builder()
                 .name("Bệnh viện Việt Đức")
                 .address("40 P. Tràng Thi, Hàng Bông")
-                .membershipOrganizationId(Config.ORG2)
                 .build();
 
         medicalInstitutionRepository.save(medicalInstitution1);
@@ -241,7 +239,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR)
                 .occupation("oncologist")
-                .medicalInstitution(medicalInstitution1)
+                .medicalInstitutionId(medicalInstitution1.getId())
                 .build();
         LOG.info(doctor1.toString());
 
@@ -255,7 +253,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR)
                 .occupation("cardiologist")
-                .medicalInstitution(medicalInstitution2)
+                .medicalInstitutionId(medicalInstitution2.getId())
                 .build();
         LOG.info(doctor2.toString());
 
@@ -268,7 +266,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .password(passwordEncoder.encode("nguyentiendung"))
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR_ADMIN)
-                .medicalInstitution(medicalInstitution1)
+                .medicalInstitutionId(medicalInstitution1.getId())
                 .build();
 
         doctorRepository.save(doctor1);
@@ -333,7 +331,7 @@ public class InitDataLoader implements CommandLineRunner {
     }
 
     private void init() throws Exception {
-        Patient patient = patientRepository.findByUsername("lehuy5c2003@gmail.com");
+        Patient patient = patientRepository.findByUsername("daoquangvinh@gmail.com");
         String patientId = patient.getId();
 
         Doctor doctor1 = doctorRepository.findByUsername("nguyenthanhhai@gmail.com");
@@ -402,7 +400,7 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecordDto.setRequestId(appointmentRequest.getRequestId());
             medicalRecordDto.setPatientId(patientId);
             medicalRecordDto.setDoctorId(doctor1Id);
-            medicalRecordDto.setMedicalInstitutionId(doctor1.getMedicalInstitution().getMedicalInstitutionId());
+            medicalRecordDto.setMedicalInstitutionId(doctor1.getMedicalInstitutionId());
             medicalRecordDto.setDateModified(StringUtil.parseDate(dateModified));
             medicalRecordDto.setTestName(testName);
             medicalRecordDto.setDetails(details);
@@ -743,6 +741,13 @@ public class InitDataLoader implements CommandLineRunner {
             );
 
             System.out.println(defineConfirmPaymentRequest);
+
+            List<Request> requestList = hyperledgerService.getAllRequest(
+                    patient,
+                    patientId
+            );
+
+            System.out.println(requestList);
         } catch (Exception exception) {
             System.out.println(exception);
         }

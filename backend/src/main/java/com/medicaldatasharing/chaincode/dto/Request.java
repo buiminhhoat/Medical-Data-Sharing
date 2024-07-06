@@ -2,7 +2,7 @@ package com.medicaldatasharing.chaincode.dto;
 
 import com.owlike.genson.annotation.JsonProperty;
 
-public abstract class Request {
+public class Request {
     @JsonProperty("requestId")
     protected String requestId;
 
@@ -23,4 +23,70 @@ public abstract class Request {
 
     @JsonProperty("entityName")
     protected String entityName;
+
+    public Request() {
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public Request setRequestId(String requestId) {
+        this.requestId = requestId;
+        return this;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public Request setSenderId(String senderId) {
+        this.senderId = senderId;
+        return this;
+    }
+
+    public String getRecipientId() {
+        return recipientId;
+    }
+
+    public Request setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
+        return this;
+    }
+
+    public String getDateModified() {
+        return dateModified;
+    }
+
+    public Request setDateModified(String dateModified) {
+        this.dateModified = dateModified;
+        return this;
+    }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
+    public Request setRequestType(String requestType) {
+        this.requestType = requestType;
+        return this;
+    }
+
+    public String getRequestStatus() {
+        return requestStatus;
+    }
+
+    public Request setRequestStatus(String requestStatus) {
+        this.requestStatus = requestStatus;
+        return this;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public Request setEntityName(String entityName) {
+        this.entityName = entityName;
+        return this;
+    }
 }

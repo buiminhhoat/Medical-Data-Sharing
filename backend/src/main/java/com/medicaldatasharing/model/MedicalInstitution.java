@@ -14,16 +14,8 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicalInstitution {
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(columnDefinition = "CHAR(32)")
-    private String medicalInstitutionId;
-
+public class MedicalInstitution extends User {
     private String name;
 
     private String address;
-
-    private String membershipOrganizationId;
 }

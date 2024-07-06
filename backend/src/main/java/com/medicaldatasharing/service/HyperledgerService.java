@@ -14,6 +14,7 @@ import com.medicaldatasharing.util.StringUtil;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import lombok.SneakyThrows;
+import org.bouncycastle.cert.ocsp.Req;
 import org.bouncycastle.util.encoders.Hex;
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
@@ -101,11 +102,6 @@ public class HyperledgerService {
             return Config.INSURANCE_COMPANY_ORG;
         }
         return null;
-    }
-
-    private MedicalInstitution getMedicalInstitution(User user) {
-        Doctor doctor = (Doctor) user;
-        return doctor.getMedicalInstitution();
     }
 
     private Contract getContract(User user) throws Exception {
@@ -1181,6 +1177,38 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return confirmPaymentRequestList;
+    }
+
+
+    public List<Request> getAllRequest(
+            User user,
+            String userId
+    ) throws Exception {
+        List<Request> requestList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("userId", userId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListAllRequestByUserQuery",
+                    jsonObject.toString()
+            );
+
+            String requestListStr = new String(result);
+            requestList = new Genson().deserialize(
+                    requestListStr,
+                    new GenericType<List<Request>>() {}
+            );
+
+            LOG.info("result: " + requestList);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return requestList;
     }
 
     private Map<String, String> prepareSearchConfirmPaymentRequestParams(SearchConfirmPaymentRequestForm searchConfirmPaymentRequestForm) {

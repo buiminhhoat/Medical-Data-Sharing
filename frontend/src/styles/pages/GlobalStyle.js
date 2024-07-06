@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
         font-weight: normal;
         font-style: normal;
     }
-    
+
 
     * {
         font-family: Poppins;
@@ -15,10 +15,17 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
     }
 
+    .page {
+        background-color: rgb(250, 250, 250);
+        min-height: 100%;
+        width: 100%;
+    }
+
     .container {
-        max-width: 80%;
+        max-width: 82%;
         width: 100%;
         margin: auto;
+        padding-top: 20px;
     }
 
     .row {
@@ -40,13 +47,35 @@ const GlobalStyle = createGlobalStyle`
     body {
         margin: 0;
         padding: 0;
-        background-color: rgb(250, 250, 250);
         color: #333333;
         font-size: 16px;
-        overflow-x: hidden;
         height: 100%;
         width: 100%;
     }
+
+    body {
+        overflow-y: scroll;
+    }
+
+    body::-webkit-scrollbar {
+        z-index: 1000;
+        position: fixed;
+        width: 5px;
+        height: 5px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: rgb(216, 236, 203);
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background-color: rgba(10, 101, 22, 0.5);
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(10, 101, 22, 0.75);
+    }
+
 
     .no-padding {
         padding: 0;
@@ -78,8 +107,12 @@ const GlobalStyle = createGlobalStyle`
         font-weight: 600;
     }
 
-    h2 {
+    h1 {
         font-size: 30px;
+    }
+
+    h2 {
+        font-size: 25px;
         font-weight: 700;
         line-height: 40px;
         margin: 0;

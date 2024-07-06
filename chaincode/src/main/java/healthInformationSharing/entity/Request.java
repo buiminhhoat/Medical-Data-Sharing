@@ -5,7 +5,7 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 @DataType()
-public abstract class Request {
+public class Request {
     @Property()
     @JsonProperty("requestId")
     protected String requestId;
@@ -33,4 +33,7 @@ public abstract class Request {
     @Property()
     @JsonProperty("entityName")
     protected String entityName;
+
+    public Request() {
+    }
 }
