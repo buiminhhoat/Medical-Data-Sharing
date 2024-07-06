@@ -13,8 +13,7 @@ const LoginDialogStyle = styled.div``;
 const LoginDialog = ({ onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
-  // const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
-  const apiLoginUrl = "http://localhost:9999/api/public/login";
+  const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleCancel = () => {

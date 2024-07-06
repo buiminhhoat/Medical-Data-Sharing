@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
-import { DIALOGS } from "@Const";
+import { API, DIALOGS } from "@Const";
 import styled from "styled-components";
 import theme from "../../styles/pages/theme";
 
@@ -28,12 +28,12 @@ const ProfileMenu = ({ openModal }) => {
   const access_token = cookies.access_token;
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState("");
-
+  const apiGetUserData = API.PUBLIC.GET_USER_DATA;
   const fetchUserData = async () => {
     if (access_token) {
       try {
         const response = await fetch(
-          "http://localhost:9999/api/public/get-user-data",
+            apiGetUserData,
           {
             method: "GET",
             headers: {
