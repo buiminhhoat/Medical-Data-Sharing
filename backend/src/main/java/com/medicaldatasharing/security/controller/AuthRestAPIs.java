@@ -61,8 +61,7 @@ public class AuthRestAPIs {
 
         Patient patient = Patient
                 .builder()
-                .firstName(registerDto.getFirstName())
-                .lastName(registerDto.getLastName())
+                .fullName(registerDto.getFullName())
                 .gender(registerDto.getGender())
                 .birthday(registerDto.getBirthday())
                 .username(registerDto.getEmail())
@@ -132,7 +131,7 @@ public class AuthRestAPIs {
             return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
         }
 
-        return ResponseEntity.ok(new GetUserDataResponse(user.getFirstName(), user.getLastName(), user.getRole()));
+        return ResponseEntity.ok(new GetUserDataResponse(user.getFullName(), user.getRole()));
     }
 }
 

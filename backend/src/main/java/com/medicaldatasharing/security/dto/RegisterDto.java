@@ -17,7 +17,7 @@ public class RegisterDto {
     private String password;
 
     @NotBlank
-    private String firstName;
+    private String fullName;
 
     @NotBlank
     private String lastName;

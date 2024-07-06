@@ -69,13 +69,21 @@ public class InitDataLoader implements CommandLineRunner {
 
         MedicalInstitution medicalInstitution1 = MedicalInstitution
                 .builder()
-                .name("Bệnh viện ĐHQGHN")
+                .fullName("Bệnh viện ĐHQGHN")
+                .email("benhviendhqghn@gmail.com")
+                .role(Constants.ROLE_HOSPITAL)
+                .username("benhviendhqghn")
+                .password("benhviendhqghn")
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
                 .build();
 
         MedicalInstitution medicalInstitution2 = MedicalInstitution
                 .builder()
-                .name("Bệnh viện Việt Đức")
+                .fullName("Bệnh viện Việt Đức")
+                .email("benhvienvietduc@gmail.com")
+                .role(Constants.ROLE_HOSPITAL)
+                .username("benhvienvietduc")
+                .password("benhvienvietduc")
                 .address("40 P. Tràng Thi, Hàng Bông")
                 .build();
 
@@ -89,8 +97,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         Manufacturer manufacturer1 = Manufacturer
                 .builder()
-                .firstName("ABC")
-                .lastName("Công ty dược phẩm")
+                .fullName("Công ty dược phẩm ABC")
                 .email("congtyduocphama@gmail.com")
                 .businessLicenseNumber("01993884423")
                 .role(Constants.ROLE_MANUFACTURER)
@@ -113,8 +120,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         DrugStore drugStoreA = DrugStore
                 .builder()
-                .firstName("A")
-                .lastName("Nhà thuốc")
+                .fullName("Nhà thuốc A")
                 .email("nhathuoca@gmail.com")
                 .businessLicenseNumber("82933928848")
                 .role(Constants.ROLE_DRUG_STORE)
@@ -125,8 +131,7 @@ public class InitDataLoader implements CommandLineRunner {
 
         DrugStore drugStoreB = DrugStore
                 .builder()
-                .firstName("B")
-                .lastName("Nhà thuốc")
+                .fullName("Nhà thuốc B")
                 .email("nhathuocb@gmail.com")
                 .businessLicenseNumber("00033928848")
                 .role(Constants.ROLE_DRUG_STORE)
@@ -151,8 +156,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         InsuranceCompany insuranceCompany1 = InsuranceCompany
                 .builder()
-                .firstName("C")
-                .lastName("Công ty bảo hiểm")
+                .fullName("Công ty bảo hiểm C")
                 .email("congtybaohiemC@gmail.com")
                 .businessLicenseNumber("596475233654")
                 .role(Constants.ROLE_DRUG_STORE)
@@ -197,8 +201,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         Patient patient1 = Patient
                 .builder()
-                .firstName("Vinh")
-                .lastName("Đào Quang")
+                .fullName("Đào Quang Vinh")
                 .address("144 Xuân Thủy, Cầu Giấy, Hà Nội")
                 .gender("Male")
                 .birthday(new Date(1047722400000l))
@@ -212,8 +215,7 @@ public class InitDataLoader implements CommandLineRunner {
 
         Patient patient2 = Patient
                 .builder()
-                .firstName("Huy")
-                .lastName("Phạm Lê")
+                .fullName("Phạm Lê Huy")
                 .address("")
                 .gender("Male")
                 .birthday(new Date(1062928800000l)) //29.05.1996 10h
@@ -231,8 +233,7 @@ public class InitDataLoader implements CommandLineRunner {
 
         Doctor doctor1 = Doctor
                 .builder()
-                .firstName("Tâm")
-                .lastName("Trần Thanh")
+                .fullName("Trần Thanh Tâm")
                 .username("tranthanhtam@gmail.com")
                 .email("tranthanhtam@gmail.com")
                 .password(passwordEncoder.encode("tranthanhtam"))
@@ -245,8 +246,7 @@ public class InitDataLoader implements CommandLineRunner {
 
         Doctor doctor2 = Doctor
                 .builder()
-                .firstName("Hải")
-                .lastName("Nguyễn Thanh")
+                .fullName("Nguyễn Thanh Hải")
                 .username("nguyenthanhhai@gmail.com")
                 .email("nguyenthanhhai@gmail.com")
                 .password(passwordEncoder.encode("nguyenthanhhai"))
@@ -259,8 +259,7 @@ public class InitDataLoader implements CommandLineRunner {
 
         Doctor doctorAdmin = Doctor
                 .builder()
-                .firstName("Dũng")
-                .lastName("Nguyễn Tiến")
+                .fullName("Nguyễn Tiến Dũng")
                 .username("nguyentiendung@gmail.com")
                 .email("nguyentiendung@gmail.com")
                 .password(passwordEncoder.encode("nguyentiendung"))
@@ -275,8 +274,7 @@ public class InitDataLoader implements CommandLineRunner {
 
         Admin admin = Admin
                 .builder()
-                .firstName("Hoạt")
-                .lastName("Bùi Minh")
+                .fullName("Bùi Minh Hoạt")
                 .username("official.buiminhhoat@gmail.com")
                 .email("official.buiminhhoat@gmail.com")
                 .password(passwordEncoder.encode("official.buiminhhoat@gmail.com"))
@@ -310,8 +308,7 @@ public class InitDataLoader implements CommandLineRunner {
         ResearchCenter researchCenter2 = researchCenterList.get(1);
         Scientist scientist1 = Scientist
                 .builder()
-                .firstName("Hoạt")
-                .lastName("Bùi Minh Hoạt")
+                .fullName("Hoạt")
                 .username("scientist1@gmail.com")
                 .email("scientist1@gmail.com")
                 .password(passwordEncoder.encode("scientist1@gmail.com"))

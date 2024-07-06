@@ -28,8 +28,7 @@ public abstract class User implements Serializable, UserDetails {
     private String username;
     private String password;
     private String email;
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private boolean accountExpired;
     private boolean accountLocked;
     private boolean credentialsExpired;
@@ -47,8 +46,7 @@ public abstract class User implements Serializable, UserDetails {
         return "Users{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }

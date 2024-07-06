@@ -1,31 +1,20 @@
 package com.medicaldatasharing.response;
 
 public class GetUserDataResponse {
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private String role;
 
-    public GetUserDataResponse(String firstName, String lastName, String role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public GetUserDataResponse(String fullName, String role) {
+        this.fullName = fullName;
         this.role = role;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public GetUserDataResponse setFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public GetUserDataResponse setLastName(String lastName) {
-        this.lastName = lastName;
+    public GetUserDataResponse setFullName(String fullName) {
+        this.fullName = fullName;
         return this;
     }
 
@@ -41,8 +30,7 @@ public class GetUserDataResponse {
     @Override
     public String toString() {
         return "GetUserDataResponse{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "fullName='" + fullName + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }

@@ -117,168 +117,116 @@ const AppointmentPage = () => {
     <AppointmentPageStyle
       style={{ backgroundColor: "rgb(250, 250, 250)", height: "100%" }}
     >
-      <div className="container">
-        <div style={{ marginTop: "20px" }}>
-          <Card
-            style={{
-              border: "none",
-              background: "white",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Input
-                prefix={<SearchOutlined />}
-                placeholder="Tên bác sĩ"
-                style={{ width: "25%", marginRight: "2%" }}
-              />
-              <Input
-                prefix={<SearchOutlined />}
-                placeholder="Tên bệnh viện"
-                style={{ width: "25%", marginRight: "2%" }}
-              />
-              <Input
-                prefix={<SearchOutlined />}
-                placeholder="Chuyên khoa"
-                style={{ width: "25%", marginRight: "2%" }}
-              />
-
-              <Button
-                icon={<SearchOutlined />}
-                style={{
-                  backgroundColor: `${theme.colors.green}`,
-                  color: "white",
-                  fontWeight: 600,
-                }}
-              >
-                Tìm kiếm
-              </Button>
-            </div>
-          </Card>
-        </div>
-        <h1 style={{ marginTop: "20px", marginBottom: "20px" }}>
-          Danh sách bác sĩ
-        </h1>
-
-        <Row gutter={[16, 16]}>
-          {doctorList?.map((doctor, index) => (
-            <Col span={12} key={index}>
-              <div className="doctorinfo">
-                <Card
-                  style={{
-                    border: "none",
-                    background: "white",
-                  }}
-                >
-                  <div style={{ display: "flex" }}>
-                    <div className="avatar">
-                      <Image
-                        width={200}
-                        src={doctor.avatar}
-                        style={{
-                          borderRadius: "50%",
-                        }}
-                        preview={false}
-                      />
-                    </div>
-                    <div style={{ width: "100%" }}>
-                      <div className="fullName">{doctor.fullName}</div>
-                      <div className="department">{doctor.department}</div>
-                      <div className="hospital">{doctor.hospital}</div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginTop: "10%",
-                        }}
-                      >
-                        <ConfigProvider
-                          theme={{
-                            token: {
-                              controlHeight: 50,
-                            },
-                          }}
-                        >
-                          <Button
-                            icon={<CalendarOutlined />}
-                            style={{
-                              backgroundColor: `${theme.colors.green}`,
-                              color: "white",
-                              fontWeight: 600,
-                            }}
-                          >
-                            Đặt lịch khám
-                          </Button>
-                        </ConfigProvider>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </Col>
-          ))}
-        </Row>
-
-        {/* 
-        <div className="doctorlist">
-          <div className="doctorinfo">
+      <div className="page">
+        <div className="container">
+          <div style={{ marginTop: "20px" }}>
             <Card
               style={{
                 border: "none",
                 background: "white",
               }}
             >
-              <div style={{ display: "flex" }}>
-                <div className="avatar">
-                  <Image
-                    width={200}
-                    src="https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F"
-                    style={{
-                      borderRadius: "50%",
-                    }}
-                    preview={false}
-                  />
-                </div>
-                <div style={{ width: "100%" }}>
-                  <div className="name">Bùi Minh Hoạt</div>
-                  <div className="department">Chuyên khoa tim mạch</div>
-                  <div className="hospital">Bệnh viện ABC</div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginTop: "10%",
-                    }}
-                  >
-                    <ConfigProvider
-                      theme={{
-                        token: {
-                          controlHeight: 50,
-                        },
-                      }}
-                    >
-                      <Button
-                        icon={<CalendarOutlined />}
-                        style={{
-                          backgroundColor: `${theme.colors.green}`,
-                          color: "white",
-                          fontWeight: 600,
-                        }}
-                      >
-                        Đặt lịch khám
-                      </Button>
-                    </ConfigProvider>
-                  </div>
-                </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder="Tên bác sĩ"
+                  style={{ width: "25%", marginRight: "2%" }}
+                />
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder="Tên bệnh viện"
+                  style={{ width: "25%", marginRight: "2%" }}
+                />
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder="Chuyên khoa"
+                  style={{ width: "25%", marginRight: "2%" }}
+                />
+
+                <Button
+                  icon={<SearchOutlined />}
+                  style={{
+                    backgroundColor: `${theme.colors.green}`,
+                    color: "white",
+                    fontWeight: 600,
+                  }}
+                >
+                  Tìm kiếm
+                </Button>
               </div>
             </Card>
           </div>
-        </div> */}
+          <h1 style={{ marginTop: "20px", marginBottom: "20px" }}>
+            Danh sách bác sĩ
+          </h1>
+
+          <div style={{ padding: "0 5% 0 5%" }}>
+            <Row gutter={[16, 16]}>
+              {doctorList?.map((doctor, index) => (
+                <Col span={12} key={index}>
+                  <div className="doctorinfo">
+                    <Card
+                      style={{
+                        border: "none",
+                        background: "white",
+                      }}
+                    >
+                      <div style={{ display: "flex" }}>
+                        <div className="avatar">
+                          <Image
+                            width={130}
+                            src={doctor.avatar}
+                            style={{
+                              borderRadius: "50%",
+                            }}
+                            preview={false}
+                          />
+                        </div>
+                        <div style={{ width: "100%" }}>
+                          <div className="fullName">{doctor.fullName}</div>
+                          <div className="department">{doctor.department}</div>
+                          <div className="hospital">{doctor.hospital}</div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              marginTop: "10%",
+                            }}
+                          >
+                            <ConfigProvider
+                              theme={{
+                                token: {
+                                  controlHeight: 50,
+                                },
+                              }}
+                            >
+                              <Button
+                                icon={<CalendarOutlined />}
+                                style={{
+                                  backgroundColor: `${theme.colors.green}`,
+                                  color: "white",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                Đặt lịch khám
+                              </Button>
+                            </ConfigProvider>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        </div>
       </div>
     </AppointmentPageStyle>
   );

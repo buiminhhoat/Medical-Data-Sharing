@@ -43,16 +43,9 @@ public class UserService {
             for (Request request: requestList) {
                 GetRequestResponse getRequestResponse = new GetRequestResponse(request);
                 User sender = userDetailsService.getUserByUserId(request.getSenderId());
-                if (sender == null) {
-                    System.out.println(request.getSenderId());
-                }
-                getRequestResponse.setSenderName(sender.getFirstName() + " " + sender.getLastName());
-
+                getRequestResponse.setSenderName(sender.getFullName());
                 User recipient = userDetailsService.getUserByUserId(request.getRecipientId());
-                if (recipient == null) {
-                    System.out.println(request.getRecipientId());
-                }
-                getRequestResponse.setRecipientName(recipient.getFirstName() + " " + recipient.getLastName());
+                getRequestResponse.setRecipientName(recipient.getFullName());
                 getRequestResponseList.add(getRequestResponse);
             }
             return new Genson().serialize(getRequestResponseList);
@@ -61,18 +54,4 @@ public class UserService {
             throw e;
         }
     }
-
-//    public SendRequestDto sendRequest(
-//            SendRequestForm sendRequestForm) throws Exception {
-//        User user = userDetailsService.getLoggedUser();
-//        Request request = hyperledgerService.sendRequest(user, sendRequestForm);
-//
-//        SendRequestDto sendRequestDto = new SendRequestDto();
-//        sendRequestDto.setSenderId(request.getSenderId());
-//        sendRequestDto.setRecipientId(request.getRecipientId());
-//        sendRequestDto.setMedicalRecordId(request.getMedicalRecordId());
-//        sendRequestDto.setDateModified(request.getDateModified());
-//        sendRequestDto.setRequestType(request.getRequestType());
-//        return sendRequestDto;
-//    }
 }

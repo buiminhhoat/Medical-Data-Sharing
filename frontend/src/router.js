@@ -3,6 +3,7 @@ import HomePage from "@Pages/users/homePage";
 import Appointment from "./pages/users/AppointmentPage/AppointmentPage";
 import { ROUTERS } from "@Utils/router";
 import MasterLayout from "./layout/masterLayout";
+import RequestPage from "./pages/users/RequestPage";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -14,6 +15,10 @@ const renderUserRouter = () => {
       path: ROUTERS.PATIENT.APPOINTMENT,
       component: <Appointment></Appointment>,
     },
+    {
+      path: ROUTERS.USER.REQUEST,
+      component: <RequestPage></RequestPage>,
+    }
   ];
 
   return (

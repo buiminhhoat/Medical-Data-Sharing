@@ -36,8 +36,8 @@ public class StringUtil {
         return input.replaceAll(searchPattern, replacement);
     }
 
-    public static String anonymizePatientData(String input, String firstName, String lastName) {
-        input = anonymizeWord(input, firstName, "X");
+    public static String anonymizePatientData(String input, String fullName, String lastName) {
+        input = anonymizeWord(input, fullName, "X");
         return anonymizeWord(input, lastName, "Y");
     }
 

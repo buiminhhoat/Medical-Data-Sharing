@@ -32,21 +32,18 @@ const ProfileMenu = ({ openModal }) => {
   const fetchUserData = async () => {
     if (access_token) {
       try {
-        const response = await fetch(
-            apiGetUserData,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-            },
-          }
-        );
+        const response = await fetch(apiGetUserData, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        });
         console.log(response);
 
         if (response.status === 200) {
           const json = await response.json();
           console.log(json);
-          const fullName = json.firstName + " " + json.lastName;
+          const fullName = json.fullName;
           const role = json.role;
           setFullName(fullName);
           setRole(role);
