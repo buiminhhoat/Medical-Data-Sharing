@@ -1,7 +1,10 @@
 package com.medicaldatasharing.response;
 
-import com.medicaldatasharing.chaincode.dto.Request;
+import com.medicaldatasharing.chaincode.dto.*;
+import com.medicaldatasharing.enumeration.RequestType;
 import com.owlike.genson.annotation.JsonProperty;
+
+import java.util.Objects;
 
 public class GetRequestResponse {
     @JsonProperty("requestId")
@@ -31,6 +34,33 @@ public class GetRequestResponse {
     @JsonProperty("entityName")
     protected String entityName;
 
+    @JsonProperty("paymentRequestId")
+    private String paymentRequestId;
+
+    @JsonProperty("medicalRecord")
+    private String medicalRecord;
+
+    @JsonProperty("insuranceContractId")
+    private String insuranceContractId;
+
+    @JsonProperty("medicalRecordId")
+    private String medicalRecordId;
+
+    @JsonProperty("insuranceProductId")
+    private String insuranceProductId;
+
+    @JsonProperty("startDate")
+    private String startDate;
+
+    @JsonProperty("endDate")
+    private String endDate;
+
+    @JsonProperty("hashFile")
+    private String hashFile;
+
+    @JsonProperty("prescriptionId")
+    private String prescriptionId;
+
     public GetRequestResponse(Request request) {
         this.requestId = request.getRequestId();
         this.senderId = request.getSenderId();
@@ -39,6 +69,35 @@ public class GetRequestResponse {
         this.requestType = request.getRequestType();
         this.requestStatus = request.getRequestStatus();
         this.entityName = request.getEntityName();
+
+        if (request instanceof ConfirmPaymentRequest && Objects.equals(requestType, RequestType.CONFIRM_PAYMENT.toString())) {
+            ConfirmPaymentRequest confirmPaymentRequest = (ConfirmPaymentRequest) request;
+            this.paymentRequestId = confirmPaymentRequest.getPaymentRequestId();
+        }
+
+        if (request instanceof EditRequest && Objects.equals(requestType, RequestType.EDIT_RECORD.toString())) {
+            EditRequest editRequest = (EditRequest) request;
+            this.medicalRecord = editRequest.getMedicalRecord();
+        }
+
+        if (request instanceof PaymentRequest && Objects.equals(requestType, RequestType.PAYMENT.toString())) {
+            PaymentRequest paymentRequest = (PaymentRequest) request;
+            this.insuranceContractId = paymentRequest.getInsuranceContractId();
+            this.medicalRecordId = paymentRequest.getMedicalRecordId();
+        }
+
+        if (request instanceof PurchaseRequest && Objects.equals(requestType, RequestType.PURCHASE.toString())) {
+            PurchaseRequest purchaseRequest =(PurchaseRequest) request;
+            this.insuranceProductId = purchaseRequest.getInsuranceProductId();
+            this.startDate = purchaseRequest.getStartDate();
+            this.endDate = purchaseRequest.getEndDate();
+            this.hashFile = purchaseRequest.getHashFile();
+        }
+
+        if (request instanceof ViewPrescriptionRequest && Objects.equals(requestType, RequestType.VIEW_PRESCRIPTION.toString())) {
+            ViewPrescriptionRequest viewPrescriptionRequest = (ViewPrescriptionRequest) request;
+            this.prescriptionId = viewPrescriptionRequest.getPrescriptionId();
+        }
     }
 
     public String getRequestId() {
@@ -119,6 +178,87 @@ public class GetRequestResponse {
 
     public GetRequestResponse setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getPaymentRequestId() {
+        return paymentRequestId;
+    }
+
+    public GetRequestResponse setPaymentRequestId(String paymentRequestId) {
+        this.paymentRequestId = paymentRequestId;
+        return this;
+    }
+
+    public String getMedicalRecord() {
+        return medicalRecord;
+    }
+
+    public GetRequestResponse setMedicalRecord(String medicalRecord) {
+        this.medicalRecord = medicalRecord;
+        return this;
+    }
+
+    public String getInsuranceContractId() {
+        return insuranceContractId;
+    }
+
+    public GetRequestResponse setInsuranceContractId(String insuranceContractId) {
+        this.insuranceContractId = insuranceContractId;
+        return this;
+    }
+
+    public String getMedicalRecordId() {
+        return medicalRecordId;
+    }
+
+    public GetRequestResponse setMedicalRecordId(String medicalRecordId) {
+        this.medicalRecordId = medicalRecordId;
+        return this;
+    }
+
+    public String getInsuranceProductId() {
+        return insuranceProductId;
+    }
+
+    public GetRequestResponse setInsuranceProductId(String insuranceProductId) {
+        this.insuranceProductId = insuranceProductId;
+        return this;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public GetRequestResponse setStartDate(String startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public GetRequestResponse setEndDate(String endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public String getHashFile() {
+        return hashFile;
+    }
+
+    public GetRequestResponse setHashFile(String hashFile) {
+        this.hashFile = hashFile;
+        return this;
+    }
+
+    public String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public GetRequestResponse setPrescriptionId(String prescriptionId) {
+        this.prescriptionId = prescriptionId;
         return this;
     }
 }

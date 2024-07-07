@@ -7,18 +7,18 @@ public class Constants {
 
     public static final String DOCTOR_API = "/doctor/**";
 
-    public static final String ROLE_PATIENT = "ROLE_PATIENT";
+    public static final String ROLE_PATIENT = "Bệnh nhân";
 
-    public static final String ROLE_SUPER_ADMIN = "ROLE_SUPER_ADMIN";
+    public static final String ROLE_SUPER_ADMIN = "Quản trị viên";
 
-    public static final String ROLE_DOCTOR = "ROLE_DOCTOR";
+    public static final String ROLE_DOCTOR = "Bác sĩ";
 
-    public static final String ROLE_DOCTOR_ADMIN = "ROLE_DOCTOR_ADMIN";
+    public static final String ROLE_DOCTOR_ADMIN = "Quản trị viên tổ chức bệnh viện";
 
-    public static final String ROLE_MANUFACTURER = "ROLE_MANUFACTURER";
+    public static final String ROLE_MANUFACTURER = "Nhà sản xuất thuốc";
 
-    public static final String ROLE_DRUG_STORE = "ROLE_DRUG_STORE";
-    public static final String ROLE_SCIENTIST = "ROLE_SCIENTIST";
-    public static final String ROLE_INSURANCE_COMPANY = "ROLE_INSURANCE_COMPANY";
-    public static final String ROLE_HOSPITAL = "ROLE_HOSPITAL";
+    public static final String ROLE_DRUG_STORE = "Cửa hàng thuốc";
+    public static final String ROLE_SCIENTIST = "Nhà khoa học";
+    public static final String ROLE_INSURANCE_COMPANY = "Công ty bảo hiểm";
+    public static final String ROLE_HOSPITAL = "Bệnh viện";
 }

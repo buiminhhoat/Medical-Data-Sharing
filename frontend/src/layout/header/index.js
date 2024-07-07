@@ -63,7 +63,7 @@ const Header = () => {
       path: ROUTERS.PATIENT.APPOINTMENT,
     },
     {
-      name: "Danh sách yêu cầu",
+      name: "Quản lý yêu cầu",
       path: ROUTERS.USER.REQUEST,
     },
   ]);

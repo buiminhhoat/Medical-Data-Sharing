@@ -1,5 +1,7 @@
 package com.medicaldatasharing.enumeration;
 
-public enum MedicalRecordStatus {
-    PENDING, ACCEPTED, DECLINED;
+public class MedicalRecordStatus {
+    public final static String PENDING = "Chờ xử lý";
+    public final static String ACCEPTED = "Đồng ý";
+    public final static String DECLINED = "Từ chối";
 }

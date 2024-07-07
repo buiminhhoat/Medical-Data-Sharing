@@ -1,8 +1,8 @@
 package healthInformationSharing.enumeration;
 
 public class RequestStatus {
-    public static final String PENDING = "PENDING";
-    public static final String ACCEPTED = "ACCEPTED";
-    public static final String DECLINED = "DECLINED";
-    public static final String APPROVED = "APPROVED";
+    public final static String PENDING = "Chờ xử lý";
+    public final static String ACCEPTED = "Đồng ý";
+    public final static String DECLINED = "Từ chối";
+    public final static String APPROVED = "Chấp thuận";
 }

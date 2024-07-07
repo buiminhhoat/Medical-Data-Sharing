@@ -37,20 +37,20 @@ const RequestPage = () => {
   const [filtersRequestType, setfiltersRequestType] = useState([]);
   const [filtersRequestStatus, setfiltersRequestStatus] = useState([
     {
-      value: "PENDING",
-      text: "PENDING",
+      value: "Chờ xử lý",
+      text: "Chờ xử lý",
     },
     {
-      value: "APPROVED",
-      text: "APPROVED",
+      value: "Chấp thuận",
+      text: "Chấp thuận",
     },
     {
-      value: "ACCEPTED",
-      text: "ACCEPTED",
+      value: "Đồng ý",
+      text: "Đồng ý",
     },
     {
-      value: "DECLINED",
-      text: "DECLINED",
+      value: "Từ chối",
+      text: "Từ chối",
     },
   ]);
 
@@ -93,7 +93,7 @@ const RequestPage = () => {
 
   const handleSearch = () => {
     console.log(searchRequestId);
-    setLoading(true);
+    // setLoading(true);
     const filteredData = data.filter((entry) => {
       const matchesRequestId = searchRequestId
         ? entry.requestId.toLowerCase().includes(searchRequestId.toLowerCase())
@@ -155,7 +155,7 @@ const RequestPage = () => {
       );
     });
     setDataSource(filteredData);
-    setLoading(false);
+    // setLoading(false);
   };
 
   const handleDelete = () => {
@@ -184,6 +184,7 @@ const RequestPage = () => {
           const json = await response.json();
           setData(json);
           handleData(json);
+          console.log(json);
         }
       } catch (e) {}
     }
@@ -321,13 +322,13 @@ const RequestPage = () => {
       onFilter: (value, record) => record.requestStatus.indexOf(value) === 0,
       render: (requestStatus) => {
         let color = "white";
-        if (requestStatus === "PENDING") {
+        if (requestStatus === "Chờ xử lý") {
           color = "yellow";
-        } else if (requestStatus === "DECLINED") {
+        } else if (requestStatus === "Từ chối") {
           color = "red";
-        } else if (requestStatus === "APPROVED") {
+        } else if (requestStatus === "Chấp thuận") {
           color = "geekblue";
-        } else if (requestStatus === "ACCEPTED") {
+        } else if (requestStatus === "Đồng ý") {
           color = "green";
         }
         return (

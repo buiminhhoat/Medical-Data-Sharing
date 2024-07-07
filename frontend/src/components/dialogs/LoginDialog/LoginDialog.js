@@ -43,11 +43,17 @@ const LoginDialog = ({ onClose, onSwitch }) => {
         let jsonResponse = await response.json();
         console.log(jsonResponse);
         let access_token = jsonResponse.access_token;
+        let userId = jsonResponse.userId;
+
         console.log(access_token);
 
         const cookies = new Cookies();
         if (!cookies["access_token"]) {
           cookies.set("access_token", access_token, { path: "/" });
+        }
+
+        if (!cookies["userId"]) {
+          cookies.set("userId", userId, { path: "/" });
         }
 
         window.location.reload();

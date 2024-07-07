@@ -1,7 +1,7 @@
 package healthInformationSharing.enumeration;
 
 public class MedicalRecordStatus {
-    public static final String PENDING = "PENDING";
-    public static final String ACCEPTED = "ACCEPTED";
-    public static final String DECLINED = "DECLINED";
+    public final static String PENDING = "Chờ xử lý";
+    public final static String ACCEPTED = "Đồng ý";
+    public final static String DECLINED = "Từ chối";
 }

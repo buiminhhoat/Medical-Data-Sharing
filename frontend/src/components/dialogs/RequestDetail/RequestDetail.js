@@ -24,20 +24,14 @@ const Info = styled.div`
 `;
 
 const RequestDetail = ({ request, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token", "userId"]);
   const access_token = cookies.access_token;
+  const userId = cookies.userId;
   const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const [senderID, setSenderId] = useState("");
-  const [senderName, setSenderName] = useState("");
-  const [recipientID, setRecipientId] = useState("");
-  const [recipientName, setRecipientName] = useState("");
-  const [dateCreated, setDateCreated] = useState("");
-  const [dateModified, setDateModified] = useState("");
-  const [requestType, setRequestType] = useState("");
-  const [requestStatus, setRequestStatus] = useState("");
   const [data, setData] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const apiGetRequest = API.PUBLIC.GET_REQUEST;
   const handleCancel = () => {
@@ -82,14 +76,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
   useEffect(() => {
     if (data) {
-      setSenderId(data.senderId);
-      setSenderName(data.senderName);
-      setRecipientId(data.recipientId);
-      setRecipientName(data.recipientName);
-      setDateCreated(data.dateCreated);
-      setDateModified(data.dateModified);
-      setRequestType(data.requestType);
-      setRequestStatus(data.requestStatus);
+      console.log(data);
+      setLoading(false);
     }
   }, [data]);
 
@@ -101,49 +89,111 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
         onCancel={handleCancel}
         footer={null}
         centered
-        width={"50%"}
+        width={"55%"}
+        loading={loading}
       >
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ marginTop: "20px", marginLeft: "20px" }}>
           <Info>
             <div className="field">RequestID</div>
-            <div>{request.requestId}</div>
+            <div>{data.requestId}</div>
           </Info>
           <Info>
             <div className="field">ID người gửi</div>
-            <div>{senderID}</div>
+            <div>{data.senderId}</div>
           </Info>
           <Info>
             <div className="field">Tên người gửi</div>
-            <div>{senderName}</div>
+            <div>{data.senderName}</div>
           </Info>
 
           <Info>
             <div className="field">ID người nhận</div>
-            <div>{recipientID}</div>
+            <div>{data.recipientId}</div>
           </Info>
           <Info>
             <div className="field">Tên người nhận</div>
-            <div>{recipientName}</div>
+            <div>{data.recipientName}</div>
           </Info>
           <Info>
             <div className="field">Ngày tạo</div>
-            <div>{dateCreated}</div>
+            <div>{data.dateCreated}</div>
           </Info>
 
           <Info>
             <div className="field">Ngày chỉnh sửa</div>
-            <div>{dateModified}</div>
+            <div>{data.dateModified}</div>
           </Info>
 
           <Info>
             <div className="field">Loại yêu cầu</div>
-            <div>{requestType}</div>
+            <div>{data.requestType}</div>
           </Info>
 
           <Info>
             <div className="field">Trạng thái</div>
-            <div>{requestStatus}</div>
+            <div>{data.requestStatus}</div>
           </Info>
+
+          {data.requestType === "Xác nhận thanh toán" && (
+            <Info>
+              <div className="field">ID yêu cầu thanh toán</div>
+              <div>{data.paymentRequestId}</div>
+            </Info>
+          )}
+
+          {data.requestType === "Chỉnh sửa hồ sơ y tế" && (
+            <Info>
+              <div className="field">Hồ sơ y tế mới</div>
+              <div>Xem</div>
+            </Info>
+          )}
+
+          {data.requestType === "Thanh toán" && (
+            <>
+              <Info>
+                <div className="field">ID hợp đồng bảo hiểm</div>
+                <div>{data.insuranceContractId}</div>
+              </Info>
+
+              <Info>
+                <div className="field">ID hồ sơ y tế</div>
+                <div>{data.medicalRecordId}</div>
+              </Info>
+            </>
+          )}
+
+          {data.requestType === "Mua bảo hiểm" && (
+            <>
+              <Info>
+                <div className="field">ID sản phẩm bảo hiểm</div>
+                <div>{data.insuranceProductId}</div>
+              </Info>
+
+              <Info>
+                <div className="field">Ngày bắt đầu</div>
+                <div>{data.startDate}</div>
+              </Info>
+
+              <Info>
+                <div className="field">Ngày kết thúc</div>
+                <div>{data.endDate}</div>
+              </Info>
+
+              <Info>
+                <div className="field">File hợp đồng bảo hiểm</div>
+                <div>{data.hashFile}</div>
+              </Info>
+            </>
+          )}
+
+          {data.requestType === "Xem đơn thuốc" && (
+            <>
+              <Info>
+                <div className="field">ID đơn thuốc</div>
+                <div>{data.prescriptionId}</div>
+              </Info>
+            </>
+          )}
         </div>
 
         <div
@@ -153,9 +203,43 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             justifyItems: "center",
           }}
         >
-          <Button style={{ marginRight: "5%" }}>Xem hồ sơ bệnh nhân</Button>
-          <Button style={{ marginRight: "5%" }}>Cập nhật trạng thái</Button>
-          <Button>Thêm hồ sơ y tế mới</Button>
+          {(data.requestType === "Đặt lịch khám" ||
+            data.requestType === "Xem hồ sơ y tế") && (
+            <>
+              <Button style={{ marginRight: "3%" }}>Xem hồ sơ y tế</Button>
+            </>
+          )}
+
+          {data.requestType === "Xem đơn thuốc" && (
+            <>
+              <Button style={{ marginRight: "3%" }}>Xem đơn thuốc</Button>
+            </>
+          )}
+
+          {data.recipientId === userId &&
+            data.requestStatus === "Chờ xử lý" &&
+            (data.requestType === "Đặt lịch khám" ||
+              data.requestType === "Thanh toán" ||
+              data.requestType === "Mua bảo hiểm") && (
+              <Button style={{ marginRight: "3%" }}>Chấp thuận</Button>
+            )}
+          {data.recipientId === userId && data.requestStatus == "Chờ xử lý" && (
+            <Button style={{ marginRight: "3%" }}>Đồng ý</Button>
+          )}
+
+          {(data.requestStatus === "Chờ xử lý" ||
+            data.requestStatus === "Chấp thuận") && (
+            <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+          )}
+
+          {data.recipientId === userId &&
+            data.requestType === "Đặt lịch khám" &&
+            data.requestStatus !==
+              "Đồng ý"(
+                <>
+                  <Button>Thêm hồ sơ y tế mới</Button>
+                </>
+              )}
         </div>
       </Modal>
     </RequestDetailStyle>
