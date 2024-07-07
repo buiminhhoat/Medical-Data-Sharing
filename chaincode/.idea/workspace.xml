@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Insurance Product &amp; Insurance Contract">
-      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/AppointmentPage/AppointmentPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/users/AppointmentPage/AppointmentPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/RequestPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/users/RequestPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,7 +243,7 @@
       <workItem from="1720184345050" duration="3075000" />
       <workItem from="1720245685943" duration="4789000" />
       <workItem from="1720259817322" duration="618000" />
-      <workItem from="1720277001396" duration="608000" />
+      <workItem from="1720277001396" duration="1343000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

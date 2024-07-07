@@ -16,6 +16,7 @@ import {
   InfoCircleOutlined,
   EditOutlined,
   SearchOutlined,
+  ClearOutlined,
 } from "@ant-design/icons";
 import { Calendar, theme } from "antd";
 import { useCookies } from "react-cookie";
@@ -56,6 +57,10 @@ const RequestPage = () => {
   const [searchRecipientId, setSearchRecipientId] = useState("");
   const [searchSenderName, setSearchSenderName] = useState("");
   const [searchRecipientName, setSearchRecipientName] = useState("");
+  const [searchDateCreated, setSearchDateCreated] = useState(null);
+  const [searchDateModified, setSearchDateModified] = useState(null);
+  const [searchRequestType, setSearchRequestType] = useState("");
+  const [searchRequestStatus, setSearchRequestStatus] = useState("");
 
   const [data, setData] = useState([]);
 
@@ -104,8 +109,6 @@ const RequestPage = () => {
       requestTypeArr.push({ value: item, text: item });
     });
 
-    console.log(requestTypeSet);
-    console.log(requestTypeArr);
     setfiltersRequestType(requestTypeArr);
     setLoading(false);
   };
@@ -125,12 +128,69 @@ const RequestPage = () => {
             .toLowerCase()
             .includes(searchRecipientId.toLowerCase())
         : true;
-      return matchesRequestId & matchesSenderId & matchesRecipientId;
+      const matchesSenderName = searchSenderName
+        ? entry.senderName
+            .toLowerCase()
+            .includes(searchSenderName.toLowerCase())
+        : true;
+
+      const matchesRecipientName = searchRecipientName
+        ? entry.recipientName
+            .toLowerCase()
+            .includes(searchRecipientName.toLowerCase())
+        : true;
+
+      const matchesDateCreated = searchDateCreated
+        ? entry.dateCreated
+            .toLowerCase()
+            .includes(searchDateCreated.toLowerCase())
+        : true;
+
+      const matchesDateModified = searchDateModified
+        ? entry.dateModified
+            .toLowerCase()
+            .includes(searchDateModified.toLowerCase())
+        : true;
+
+      const matchesRequestType = searchRequestType
+        ? entry.requestType
+            .toLowerCase()
+            .includes(searchRequestType.toLowerCase())
+        : true;
+
+      const matchesRequestStatus = searchRequestStatus
+        ? entry.requestStatus
+            .toLowerCase()
+            .includes(searchRequestStatus.toLowerCase())
+        : true;
+
+      return (
+        matchesRequestId &
+        matchesSenderId &
+        matchesRecipientId &
+        matchesDateCreated &
+        matchesSenderName &
+        matchesRecipientName &
+        matchesDateModified &
+        matchesRequestType &
+        matchesRequestStatus
+      );
     });
     setDataSource(filteredData);
     setLoading(false);
   };
 
+  const handleDelete = () => {
+    setSearchRequestId("");
+    setSearchSenderId("");
+    setSearchRequestId("");
+    setSearchSenderName("");
+    setSearchRecipientName("");
+    setSearchDateCreated("");
+    setSearchDateModified("");
+    setSearchRequestType("");
+    setSearchRequestStatus("");
+  };
   const fetGetAllRequest = async () => {
     if (access_token) {
       try {
@@ -156,15 +216,17 @@ const RequestPage = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [searchRequestId]);
-
-  useEffect(() => {
-    handleSearch();
-  }, [searchSenderId]);
-
-  useEffect(() => {
-    handleSearch();
-  }, [searchRecipientId]);
+  }, [
+    searchRequestId,
+    searchSenderId,
+    searchRecipientId,
+    searchSenderName,
+    searchRecipientName,
+    searchDateCreated,
+    searchDateModified,
+    searchRequestType,
+    searchRequestStatus,
+  ]);
 
   const [highlightedText, setHighlightedText] = useState(null);
   const columns = [
@@ -377,15 +439,18 @@ const RequestPage = () => {
                         width: "100%",
                         display: "flex",
                         justifyContent: "center",
+                        marginBottom: "20px",
                       }}
                     >
                       <DatePicker
                         format={{
                           format: "YYYY-MM-DD",
-                          type: "mask",
                         }}
-                        placeholder="Ngày chỉnh sửa"
-                        onChange={onChange}
+                        placeholder="Ngày tạo"
+                        // value={searchDateCreated}
+                        onChange={(_, value) => {
+                          setSearchDateCreated(value);
+                        }}
                         style={{ width: "30%", marginRight: "2%" }}
                       />
 
@@ -407,27 +472,82 @@ const RequestPage = () => {
                         style={{ width: "30%", marginRight: "2%" }}
                       />
                     </div>
+
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <DatePicker
+                        format={{
+                          format: "YYYY-MM-DD",
+                        }}
+                        placeholder="Ngày chỉnh sửa"
+                        onChange={(_, value) => {
+                          setSearchDateModified(value);
+                        }}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+
+                      <Input
+                        placeholder="Loại yêu cầu"
+                        value={searchRequestType}
+                        onChange={(e) => {
+                          setSearchRequestType(e.target.value);
+                        }}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+
+                      <Input
+                        placeholder="Trạng thái"
+                        value={searchRequestStatus}
+                        onChange={(e) => {
+                          setSearchRequestStatus(e.target.value);
+                        }}
+                        style={{ width: "30%", marginRight: "2%" }}
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div>
-                  <ConfigProvider
-                    theme={{
-                      token: {},
-                    }}
-                  >
+                  <div>
+                    <ConfigProvider
+                      theme={{
+                        token: {},
+                      }}
+                    >
+                      <Button
+                        icon={<SearchOutlined />}
+                        style={{
+                          backgroundColor: `${styleTheme.colors.green}`,
+                          color: "white",
+                          fontWeight: 600,
+                          width: "100%",
+                        }}
+                        onClick={handleSearch}
+                      >
+                        Tìm kiếm
+                      </Button>
+                    </ConfigProvider>
+                  </div>
+
+                  <div style={{ marginTop: "5%" }}>
                     <Button
-                      icon={<SearchOutlined />}
+                      icon={<ClearOutlined />}
                       style={{
-                        backgroundColor: `${styleTheme.colors.green}`,
+                        backgroundColor: "red",
                         color: "white",
                         fontWeight: 600,
+                        width: "100%",
                       }}
-                      onClick={handleSearch}
+                      onClick={handleDelete}
                     >
-                      Tìm kiếm
+                      Xóa bộ lọc
                     </Button>
-                  </ConfigProvider>
+                  </div>
                 </div>
               </div>
             </Card>
