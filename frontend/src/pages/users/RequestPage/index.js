@@ -21,6 +21,8 @@ import {
 import { Calendar, theme } from "antd";
 import { useCookies } from "react-cookie";
 import { API } from "@Const";
+import { DIALOGS } from "@Const";
+import AppointmentRequestDetail from "../../../components/dialogs/AppointmentRequestDetail/AppointmentRequestDetail";
 
 const RequestPageStyle = styled.div`
   width: 100%;
@@ -191,6 +193,7 @@ const RequestPage = () => {
     setSearchRequestType("");
     setSearchRequestStatus("");
   };
+
   const fetGetAllRequest = async () => {
     if (access_token) {
       try {
@@ -227,6 +230,34 @@ const RequestPage = () => {
     searchRequestType,
     searchRequestStatus,
   ]);
+
+  const [openDialog, setOpenDialog] = useState(null);
+  const [selectedRequest, setSelectedRequest] = useState(null);
+
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
+  };
+
+  const openRequestDetail = (request) => {
+    console.log("openRequestDetail");
+    console.log(request);
+    if (request.requestType == "Đặt lịch khám") {
+      openModal(DIALOGS.APPOINTMENT_REQUEST_DETAIL);
+      setSelectedRequest(request);
+    }
+  };
 
   const [highlightedText, setHighlightedText] = useState(null);
   const columns = [
@@ -293,7 +324,7 @@ const RequestPage = () => {
     {
       title: "Ngày chỉnh sửa",
       dataIndex: "dateModified",
-      width: "13%",
+      width: "15%",
       align: "center",
       sorter: (a, b) => new Date(a.dateModified) - new Date(b.dateModified),
       sortDirections: ["descend", "ascend"],
@@ -340,8 +371,12 @@ const RequestPage = () => {
       render: (index, record) => {
         return (
           <Space size="middle">
-            <Button icon={<EditOutlined />}>Cập nhật</Button>
-            <Button icon={<InfoCircleOutlined />}>Chi tiết</Button>
+            <Button
+              icon={<InfoCircleOutlined />}
+              onClick={() => openRequestDetail(record)}
+            >
+              Chi tiết
+            </Button>
           </Space>
         );
       },
@@ -575,6 +610,16 @@ const RequestPage = () => {
           </div>
         </div>
       </div>
+
+      {openDialog === DIALOGS.APPOINTMENT_REQUEST_DETAIL && (
+        <div className="modal-overlay">
+          <AppointmentRequestDetail
+            request={selectedRequest}
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
     </RequestPageStyle>
   );
 };

@@ -1,5 +1,6 @@
 package com.medicaldatasharing.controller;
 
+import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.UserService;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/public")
@@ -25,6 +28,26 @@ public class UserController {
         try {
             String getAllRequest = userService.getAllRequest();
             return ResponseEntity.status(HttpStatus.OK).body(getAllRequest);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/get-request")
+    public ResponseEntity<?> getRequest(HttpServletRequest request) throws Exception {
+        String requestId = request.getParameter("requestId");
+        String requestType = request.getParameter("requestType");
+        if (requestId.isEmpty() || requestType.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+            String getRequest = "";
+            if (requestType.equals(RequestType.APPOINTMENT.toString())) {
+                getRequest = userService.getAppointmentRequest(requestId);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(getRequest);
+
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

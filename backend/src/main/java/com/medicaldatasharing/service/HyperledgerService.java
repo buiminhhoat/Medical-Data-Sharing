@@ -6,6 +6,7 @@ import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
 import com.medicaldatasharing.dto.*;
+import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
@@ -1179,6 +1180,33 @@ public class HyperledgerService {
         return confirmPaymentRequestList;
     }
 
+    public AppointmentRequest getAppointmentRequest(
+            User user,
+            String requestId
+    ) throws Exception {
+        AppointmentRequest request = new AppointmentRequest();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("requestId", requestId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getAppointmentRequest",
+                    jsonObject.toString()
+            );
+
+            String requestStr = new String(result);
+            request = new Genson().deserialize(requestStr, AppointmentRequest.class);
+
+            LOG.info("result: " + request);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return request;
+    }
 
     public List<Request> getAllRequest(
             User user,

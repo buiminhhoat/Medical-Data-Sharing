@@ -272,7 +272,33 @@ public class MedicalRecordContract implements ContractInterface {
         } else {
             String errorMessage = String.format("Edit Request %s does not exist", requestId);
             System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, ContractErrors.EDIT_REQUEST_NOT_FOUND.toString());
+            throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getAppointmentRequest(MedicalRecordContext ctx, String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        if (ctx.getAppointmentRequestDAO().requestExist(requestId)) {
+            AppointmentRequest appointmentRequest = ctx.getAppointmentRequestDAO().getAppointmentRequest(requestId);
+            try {
+                authorizeRequest(ctx, appointmentRequest.getSenderId(), "getAppointmentRequest(validate senderId)");
+            }
+            catch (ChaincodeException chaincodeException) {
+                try {
+                    authorizeRequest(ctx, appointmentRequest.getRecipientId(), "getAppointmentRequest(validate recipientId)");
+                }
+                catch (ChaincodeException ce) {
+                    throw ce;
+                }
+            }
+            System.out.println("getAppointmentRequest: " + appointmentRequest);
+            return new Genson().serialize(appointmentRequest);
+        } else {
+            String errorMessage = String.format("Edit Request %s does not exist", requestId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
         }
     }
 
