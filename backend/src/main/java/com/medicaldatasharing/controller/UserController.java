@@ -35,18 +35,15 @@ public class UserController {
     }
 
     @PostMapping("/get-request")
-    public ResponseEntity<?> getRequest(HttpServletRequest request) throws Exception {
-        String requestId = request.getParameter("requestId");
-        String requestType = request.getParameter("requestType");
+    public ResponseEntity<?> getRequest(HttpServletRequest httpServletRequest) throws Exception {
+        String requestId = httpServletRequest.getParameter("requestId");
+        String requestType = httpServletRequest.getParameter("requestType");
         if (requestId.isEmpty() || requestType.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         try {
-            String getRequest = "";
-            if (requestType.equals(RequestType.APPOINTMENT.toString())) {
-                getRequest = userService.getAppointmentRequest(requestId);
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(getRequest);
+            String request = userService.getRequest(requestId, requestType);
+            return ResponseEntity.status(HttpStatus.OK).body(request);
 
         }
         catch (Exception e) {

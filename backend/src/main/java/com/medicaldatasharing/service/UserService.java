@@ -2,6 +2,7 @@ package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.Request;
+import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -56,11 +58,38 @@ public class UserService {
         }
     }
 
-    public String getAppointmentRequest(String requestId) throws Exception {
+    public String getRequest(String requestId, String requestType) throws Exception {
         User user = userDetailsService.getLoggedUser();
+        Request request = new Request();
         try {
-            AppointmentRequest appointmentRequest = hyperledgerService.getAppointmentRequest(user, requestId);
-            return new Genson().serialize(appointmentRequest);
+            if (Objects.equals(requestType, RequestType.APPOINTMENT.toString())) {
+                request = hyperledgerService.getAppointmentRequest(user, requestId);
+            }
+            if (Objects.equals(requestType, RequestType.EDIT_RECORD.toString())) {
+                request = hyperledgerService.getEditRequest(user, requestId);
+            }
+            if (Objects.equals(requestType, RequestType.VIEW_RECORD.toString())) {
+                request = hyperledgerService.getViewRequest(user, requestId);
+            }
+            if (Objects.equals(requestType, RequestType.VIEW_PRESCRIPTION.toString())) {
+                request = hyperledgerService.getViewPrescriptionRequest(user, requestId);
+            }
+            if (Objects.equals(requestType, RequestType.PURCHASE.toString())) {
+                request = hyperledgerService.getPurchaseRequest(user, requestId);
+            }
+            if (Objects.equals(requestType, RequestType.PAYMENT.toString())) {
+                request = hyperledgerService.getPaymentRequest(user, requestId);
+            }
+            if (Objects.equals(requestType, RequestType.CONFIRM_PAYMENT.toString())) {
+                request = hyperledgerService.getConfirmPaymentRequest(user, requestId);
+            }
+
+            GetRequestResponse getRequestResponse = new GetRequestResponse(request);
+            User sender = userDetailsService.getUserByUserId(request.getSenderId());
+            getRequestResponse.setSenderName(sender.getFullName());
+            User recipient = userDetailsService.getUserByUserId(request.getRecipientId());
+            getRequestResponse.setRecipientName(recipient.getFullName());
+            return new Genson().serialize(getRequestResponse);
         }
         catch (Exception e) {
             throw e;

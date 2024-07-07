@@ -267,6 +267,17 @@ public class MedicalRecordContract implements ContractInterface {
         String requestId = jsonObject.getString("requestId");
         if (ctx.getEditRequestDAO().requestExist(requestId)) {
             EditRequest editRequest = ctx.getEditRequestDAO().getEditRequest(requestId);
+            try {
+                authorizeRequest(ctx, editRequest.getSenderId(), "getEditRequest(validate senderId)");
+            }
+            catch (ChaincodeException chaincodeException) {
+                try {
+                    authorizeRequest(ctx, editRequest.getRecipientId(), "getEditRequest(validate recipientId)");
+                }
+                catch (ChaincodeException ce) {
+                    throw ce;
+                }
+            }
             System.out.println("getEditRequest: " + editRequest);
             return new Genson().serialize(editRequest);
         } else {
@@ -296,7 +307,137 @@ public class MedicalRecordContract implements ContractInterface {
             System.out.println("getAppointmentRequest: " + appointmentRequest);
             return new Genson().serialize(appointmentRequest);
         } else {
-            String errorMessage = String.format("Edit Request %s does not exist", requestId);
+            String errorMessage = String.format("Appointment Request %s does not exist", requestId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getViewRequest(MedicalRecordContext ctx, String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        if (ctx.getViewRequestDAO().requestExist(requestId)) {
+            ViewRequest viewRequest = ctx.getViewRequestDAO().getViewRequest(requestId);
+            try {
+                authorizeRequest(ctx, viewRequest.getSenderId(), "getViewRequest(validate senderId)");
+            }
+            catch (ChaincodeException chaincodeException) {
+                try {
+                    authorizeRequest(ctx, viewRequest.getRecipientId(), "getViewRequest(validate recipientId)");
+                }
+                catch (ChaincodeException ce) {
+                    throw ce;
+                }
+            }
+            System.out.println("getViewRequest: " + viewRequest);
+            return new Genson().serialize(viewRequest);
+        } else {
+            String errorMessage = String.format("View Request %s does not exist", requestId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getViewPrescriptionRequest(MedicalRecordContext ctx, String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        if (ctx.getViewPrescriptionRequestDAO().requestExist(requestId)) {
+            ViewPrescriptionRequest viewPrescriptionRequest = ctx.getViewPrescriptionRequestDAO().getViewPrescriptionRequest(requestId);
+            try {
+                authorizeRequest(ctx, viewPrescriptionRequest.getSenderId(), "getViewPrescriptionRequest(validate senderId)");
+            }
+            catch (ChaincodeException chaincodeException) {
+                try {
+                    authorizeRequest(ctx, viewPrescriptionRequest.getRecipientId(), "getViewPrescriptionRequest(validate recipientId)");
+                }
+                catch (ChaincodeException ce) {
+                    throw ce;
+                }
+            }
+            System.out.println("getViewPrescriptionRequest: " + viewPrescriptionRequest);
+            return new Genson().serialize(viewPrescriptionRequest);
+        } else {
+            String errorMessage = String.format("View Prescription Request %s does not exist", requestId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPurchaseRequest(MedicalRecordContext ctx, String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        if (ctx.getPurchaseRequestDAO().requestExist(requestId)) {
+            PurchaseRequest purchaseRequest = ctx.getPurchaseRequestDAO().getPurchaseRequest(requestId);
+            try {
+                authorizeRequest(ctx, purchaseRequest.getSenderId(), "getPurchaseRequest(validate senderId)");
+            }
+            catch (ChaincodeException chaincodeException) {
+                try {
+                    authorizeRequest(ctx, purchaseRequest.getRecipientId(), "getPurchaseRequest(validate recipientId)");
+                }
+                catch (ChaincodeException ce) {
+                    throw ce;
+                }
+            }
+            System.out.println("getPurchaseRequest: " + purchaseRequest);
+            return new Genson().serialize(purchaseRequest);
+        } else {
+            String errorMessage = String.format("Purchase Request %s does not exist", requestId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPaymentRequest(MedicalRecordContext ctx, String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        if (ctx.getPaymentRequestDAO().requestExist(requestId)) {
+            PaymentRequest paymentRequest = ctx.getPaymentRequestDAO().getPaymentRequest(requestId);
+            try {
+                authorizeRequest(ctx, paymentRequest.getSenderId(), "getPaymentRequest(validate senderId)");
+            }
+            catch (ChaincodeException chaincodeException) {
+                try {
+                    authorizeRequest(ctx, paymentRequest.getRecipientId(), "getPaymentRequest(validate recipientId)");
+                }
+                catch (ChaincodeException ce) {
+                    throw ce;
+                }
+            }
+            System.out.println("getPaymentRequest: " + paymentRequest);
+            return new Genson().serialize(paymentRequest);
+        } else {
+            String errorMessage = String.format("Payment Request %s does not exist", requestId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
+        }
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getConfirmPaymentRequest(MedicalRecordContext ctx, String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String requestId = jsonObject.getString("requestId");
+        if (ctx.getConfirmPaymentRequestDAO().requestExist(requestId)) {
+            ConfirmPaymentRequest confirmPaymentRequest = ctx.getConfirmPaymentRequestDAO().getConfirmPaymentRequest(requestId);
+            try {
+                authorizeRequest(ctx, confirmPaymentRequest.getSenderId(), "getConfirmPaymentRequest(validate senderId)");
+            }
+            catch (ChaincodeException chaincodeException) {
+                try {
+                    authorizeRequest(ctx, confirmPaymentRequest.getRecipientId(), "getConfirmPaymentRequest(validate recipientId)");
+                }
+                catch (ChaincodeException ce) {
+                    throw ce;
+                }
+            }
+            System.out.println("getConfirmPaymentRequest: " + confirmPaymentRequest);
+            return new Genson().serialize(confirmPaymentRequest);
+        } else {
+            String errorMessage = String.format("Confirm Payment Request %s does not exist", requestId);
             System.out.println(errorMessage);
             throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
         }

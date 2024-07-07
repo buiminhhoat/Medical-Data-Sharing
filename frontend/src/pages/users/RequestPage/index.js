@@ -22,7 +22,7 @@ import { Calendar, theme } from "antd";
 import { useCookies } from "react-cookie";
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
-import AppointmentRequestDetail from "../../../components/dialogs/AppointmentRequestDetail/AppointmentRequestDetail";
+import RequestDetail from "../../../components/dialogs/RequestDetail/RequestDetail";
 
 const RequestPageStyle = styled.div`
   width: 100%;
@@ -78,30 +78,6 @@ const RequestPage = () => {
         "..." +
         record.requestId.substring(record.requestId.length - 4);
       record.key = index;
-      switch (record.requestType) {
-        case "APPOINTMENT":
-          record.requestType = "Đặt lịch khám";
-          break;
-        case "VIEW_RECORD":
-          record.requestType = "Xem hồ sơ y tế";
-          break;
-        case "PAYMENT":
-          record.requestType = "Thanh toán";
-          break;
-        case "PURCHASE":
-          record.requestType = "Mua hàng";
-          break;
-        case "CONFIRM_PAYMENT":
-          record.requestType = "Xác nhận thanh toán";
-          break;
-        case "EDIT_RECORD":
-          record.requestType = "Chỉnh sửa hồ sơ y tế";
-          break;
-        case "VIEW_PRESCRIPTION":
-          record.requestType = "Xem đơn thuốc";
-          break;
-        default:
-      }
       requestTypeSet.add(record.requestType);
     });
 
@@ -253,10 +229,8 @@ const RequestPage = () => {
   const openRequestDetail = (request) => {
     console.log("openRequestDetail");
     console.log(request);
-    if (request.requestType == "Đặt lịch khám") {
-      openModal(DIALOGS.APPOINTMENT_REQUEST_DETAIL);
-      setSelectedRequest(request);
-    }
+    openModal(DIALOGS.REQUEST_DETAIL);
+    setSelectedRequest(request);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
@@ -611,9 +585,9 @@ const RequestPage = () => {
         </div>
       </div>
 
-      {openDialog === DIALOGS.APPOINTMENT_REQUEST_DETAIL && (
+      {openDialog === DIALOGS.REQUEST_DETAIL && (
         <div className="modal-overlay">
-          <AppointmentRequestDetail
+          <RequestDetail
             request={selectedRequest}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}

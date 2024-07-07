@@ -10,7 +10,7 @@ import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 const { Option } = Select;
 
-const AppointmentRequestDetailStyle = styled.div``;
+const RequestDetailStyle = styled.div``;
 
 const Info = styled.div`
   display: flex;
@@ -23,13 +23,11 @@ const Info = styled.div`
   }
 `;
 
-const AppointmentRequestDetail = ({ request, onClose, onSwitch }) => {
+const RequestDetail = ({ request, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
   const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
   const [isModalOpen, setIsModalOpen] = useState(true);
-
-  console.log(request);
 
   const [senderID, setSenderId] = useState("");
   const [senderName, setSenderName] = useState("");
@@ -39,6 +37,7 @@ const AppointmentRequestDetail = ({ request, onClose, onSwitch }) => {
   const [dateModified, setDateModified] = useState("");
   const [requestType, setRequestType] = useState("");
   const [requestStatus, setRequestStatus] = useState("");
+  const [data, setData] = useState("");
 
   const apiGetRequest = API.PUBLIC.GET_REQUEST;
   const handleCancel = () => {
@@ -54,7 +53,7 @@ const AppointmentRequestDetail = ({ request, onClose, onSwitch }) => {
     if (access_token) {
       const formData = new FormData();
       formData.append("requestId", request.requestId);
-      formData.append("requestType", requestType);
+      formData.append("requestType", request.requestType);
 
       console.log(access_token);
 
@@ -69,8 +68,7 @@ const AppointmentRequestDetail = ({ request, onClose, onSwitch }) => {
         });
 
         if (response.status === 200) {
-          const json = await response.json();
-          console.log(json);
+          setData(await response.json());
         }
       } catch (e) {
         console.log(e);
@@ -80,10 +78,23 @@ const AppointmentRequestDetail = ({ request, onClose, onSwitch }) => {
 
   useEffect(() => {
     if (access_token) fetchGetRequest().then((r) => {});
-  }, [requestType]);
+  }, [access_token]);
+
+  useEffect(() => {
+    if (data) {
+      setSenderId(data.senderId);
+      setSenderName(data.senderName);
+      setRecipientId(data.recipientId);
+      setRecipientName(data.recipientName);
+      setDateCreated(data.dateCreated);
+      setDateModified(data.dateModified);
+      setRequestType(data.requestType);
+      setRequestStatus(data.requestStatus);
+    }
+  }, [data]);
 
   return (
-    <AppointmentRequestDetailStyle>
+    <RequestDetailStyle>
       <Modal
         title="Chi tiết yêu cầu"
         open={isModalOpen}
@@ -147,8 +158,8 @@ const AppointmentRequestDetail = ({ request, onClose, onSwitch }) => {
           <Button>Thêm hồ sơ y tế mới</Button>
         </div>
       </Modal>
-    </AppointmentRequestDetailStyle>
+    </RequestDetailStyle>
   );
 };
 
-export default AppointmentRequestDetail;
+export default RequestDetail;

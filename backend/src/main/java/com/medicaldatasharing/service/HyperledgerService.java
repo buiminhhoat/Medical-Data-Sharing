@@ -1208,6 +1208,146 @@ public class HyperledgerService {
         return request;
     }
 
+    public ViewRequest getViewRequest(
+            User user,
+            String requestId
+    ) throws Exception {
+        ViewRequest request = new ViewRequest();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("requestId", requestId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getViewRequest",
+                    jsonObject.toString()
+            );
+
+            String requestStr = new String(result);
+            request = new Genson().deserialize(requestStr, ViewRequest.class);
+
+            LOG.info("result: " + request);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return request;
+    }
+
+    public ViewPrescriptionRequest getViewPrescriptionRequest(
+            User user,
+            String requestId
+    ) throws Exception {
+        ViewPrescriptionRequest request = new ViewPrescriptionRequest();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("requestId", requestId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getViewPrescriptionRequest",
+                    jsonObject.toString()
+            );
+
+            String requestStr = new String(result);
+            request = new Genson().deserialize(requestStr, ViewPrescriptionRequest.class);
+
+            LOG.info("result: " + request);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return request;
+    }
+
+    public PurchaseRequest getPurchaseRequest(
+            User user,
+            String requestId
+    ) throws Exception {
+        PurchaseRequest request = new PurchaseRequest();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("requestId", requestId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getPurchaseRequest",
+                    jsonObject.toString()
+            );
+
+            String requestStr = new String(result);
+            request = new Genson().deserialize(requestStr, PurchaseRequest.class);
+
+            LOG.info("result: " + request);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return request;
+    }
+
+    public PaymentRequest getPaymentRequest(
+            User user,
+            String requestId
+    ) throws Exception {
+        PaymentRequest request = new PaymentRequest();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("requestId", requestId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getPaymentRequest",
+                    jsonObject.toString()
+            );
+
+            String requestStr = new String(result);
+            request = new Genson().deserialize(requestStr, PaymentRequest.class);
+
+            LOG.info("result: " + request);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return request;
+    }
+
+    public ConfirmPaymentRequest getConfirmPaymentRequest(
+            User user,
+            String requestId
+    ) throws Exception {
+        ConfirmPaymentRequest request = new ConfirmPaymentRequest();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("requestId", requestId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getConfirmPaymentRequest",
+                    jsonObject.toString()
+            );
+
+            String requestStr = new String(result);
+            request = new Genson().deserialize(requestStr, ConfirmPaymentRequest.class);
+
+            LOG.info("result: " + request);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return request;
+    }
+
     public List<Request> getAllRequest(
             User user,
             String userId

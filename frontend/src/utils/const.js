@@ -2,7 +2,7 @@ export const DIALOGS = {
   LOGIN: "login",
   REGISTER: "register",
   FORGOT_PASSWORD: "forgot-password",
-  APPOINTMENT_REQUEST_DETAIL: "APPOINTMENT_REQUEST_DETAIL",
+  REQUEST_DETAIL: "REQUEST_DETAIL",
 };
 
 export const API = {

@@ -2,11 +2,11 @@ package healthInformationSharing.enumeration;
 
 public class RequestType {
     public final static String IDLE = "IDLE";
-    public final static String APPOINTMENT = "APPOINTMENT";
-    public final static String EDIT_RECORD = "EDIT_RECORD";
-    public final static String VIEW_RECORD = "VIEW_RECORD";
-    public static final String VIEW_PRESCRIPTION = "VIEW_PRESCRIPTION";
-    public static final String PURCHASE = "PURCHASE";
-    public static final String PAYMENT = "PAYMENT";
-    public static final String CONFIRM_PAYMENT = "CONFIRM_PAYMENT";
+    public final static String APPOINTMENT = "Đặt lịch khám";
+    public final static String EDIT_RECORD = "Chỉnh sửa hồ sơ y tế";
+    public final static String VIEW_RECORD = "Xem hồ sơ y tế";
+    public static final String VIEW_PRESCRIPTION = "Xem đơn thuốc";
+    public static final String PURCHASE = "Mua bảo hiểm";
+    public static final String PAYMENT = "Thanh toán";
+    public static final String CONFIRM_PAYMENT = "Xác nhận thanh toán";
 }
