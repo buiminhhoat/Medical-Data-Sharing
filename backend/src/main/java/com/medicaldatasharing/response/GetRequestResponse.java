@@ -22,6 +22,9 @@ public class GetRequestResponse {
     @JsonProperty("recipientName")
     protected String recipientName;
 
+    @JsonProperty("dateCreated")
+    protected String dateCreated;
+
     @JsonProperty("dateModified")
     protected String dateModified;
 
@@ -65,6 +68,7 @@ public class GetRequestResponse {
         this.requestId = request.getRequestId();
         this.senderId = request.getSenderId();
         this.recipientId = request.getRecipientId();
+        this.dateCreated = request.getDateCreated();
         this.dateModified = request.getDateModified();
         this.requestType = request.getRequestType();
         this.requestStatus = request.getRequestStatus();

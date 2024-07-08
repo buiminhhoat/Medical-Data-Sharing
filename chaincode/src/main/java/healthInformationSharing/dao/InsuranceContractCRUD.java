@@ -31,6 +31,7 @@ public class InsuranceContractCRUD {
         String insuranceCompanyId = jsonDto.getString("insuranceCompanyId");
         String startDate = jsonDto.getString("startDate");
         String endDate = jsonDto.getString("endDate");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String hashFile = jsonDto.getString("hashFile");
 
@@ -44,6 +45,7 @@ public class InsuranceContractCRUD {
                 insuranceCompanyId,
                 startDate,
                 endDate,
+                dateCreated,
                 dateModified,
                 hashFile
         );

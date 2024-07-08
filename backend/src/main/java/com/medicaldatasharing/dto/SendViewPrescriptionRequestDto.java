@@ -18,6 +18,9 @@ public class SendViewPrescriptionRequestDto {
     private String recipientId;
 
     @NotBlank
+    private String dateCreated;
+
+    @NotBlank
     private String dateModified;
 
     @NotBlank

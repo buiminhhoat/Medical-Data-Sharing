@@ -23,6 +23,9 @@ public class EditMedicationForm {
     String medicationName;
 
     @NotBlank
+    String dateCreated;
+
+    @NotBlank
     String dateModified;
     
     @NotBlank

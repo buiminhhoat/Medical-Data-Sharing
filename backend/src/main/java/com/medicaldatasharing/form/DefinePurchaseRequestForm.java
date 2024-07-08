@@ -21,6 +21,9 @@ public class DefinePurchaseRequestForm {
     private String hashFile;
 
     @NotBlank
+    private String dateCreated;
+
+    @NotBlank
     private String dateModified;
 
     public JSONObject toJSONObject() {

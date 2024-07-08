@@ -19,6 +19,10 @@ public class Request {
     protected String recipientId;
 
     @Property()
+    @JsonProperty("dateCreated")
+    protected String dateCreated;
+
+    @Property()
     @JsonProperty("dateModified")
     protected String dateModified;
 
@@ -36,4 +40,6 @@ public class Request {
 
     public Request() {
     }
+
+
 }

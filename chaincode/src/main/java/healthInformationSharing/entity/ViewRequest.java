@@ -6,6 +6,8 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.Property;
 
+import javax.swing.text.View;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @DataType()
@@ -39,6 +41,15 @@ public class ViewRequest extends Request {
 
     public ViewRequest setRecipientId(String recipientId) {
         this.recipientId = recipientId;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public ViewRequest setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 
@@ -82,6 +93,7 @@ public class ViewRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus
@@ -90,6 +102,7 @@ public class ViewRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);

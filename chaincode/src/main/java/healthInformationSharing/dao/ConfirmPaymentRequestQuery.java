@@ -65,6 +65,7 @@ public class ConfirmPaymentRequestQuery {
         String requestId = jsonDto.has("requestId") ? jsonDto.getString("requestId") : "";
         String senderId = jsonDto.has("senderId") ? jsonDto.getString("senderId") : "";
         String recipientId = jsonDto.has("recipientId") ? jsonDto.getString("recipientId") : "";
+        String dateCreated = jsonDto.has("dateCreated") ? jsonDto.getString("dateCreated") : "";
         String dateModified = jsonDto.has("dateModified") ? jsonDto.getString("dateModified") : "";
         String requestType = jsonDto.has("requestType") ? jsonDto.getString("requestType") : "";
         String requestStatus = jsonDto.has("requestStatus") ? jsonDto.getString("requestStatus") : "";
@@ -102,6 +103,10 @@ public class ConfirmPaymentRequestQuery {
 
         if (!recipientId.isEmpty()) {
             jsonObjectSelector.putOnce("recipientId", recipientId);
+        }
+
+        if (!dateCreated.isEmpty()) {
+            jsonObjectSelector.putOnce("dateCreated", dateCreated);
         }
 
         if (!dateModified.isEmpty()) {

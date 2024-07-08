@@ -344,12 +344,14 @@ public class InitDataLoader implements CommandLineRunner {
         String insuranceCompanyId = insuranceCompany.getId();
 
         try {
+            Date dateCreated = new Date();
             Date dateModified = new Date();
 
             SendAppointmentRequestForm sendAppointmentRequestForm = new SendAppointmentRequestForm();
             sendAppointmentRequestForm.setSenderId(patientId);
             sendAppointmentRequestForm.setRecipientId(doctor1Id);
             sendAppointmentRequestForm.setDateModified(StringUtil.parseDate(dateModified));
+            sendAppointmentRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             AppointmentRequest appointmentRequest = hyperledgerService.sendAppointmentRequest(
                     patient,
                     sendAppointmentRequestForm);
@@ -361,6 +363,7 @@ public class InitDataLoader implements CommandLineRunner {
             addMedicationForm.setManufacturerId(manufacturer.getId());
             addMedicationForm.setMedicationName("Paracetamol");
             addMedicationForm.setDescription("Điều trị đau đầu");
+            addMedicationForm.setDateCreated(StringUtil.parseDate(dateCreated));
             addMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
 
             Medication medication = hyperledgerService.addMedication(manufacturer, addMedicationForm);
@@ -370,6 +373,7 @@ public class InitDataLoader implements CommandLineRunner {
             editMedicationForm.setManufacturerId(manufacturer.getId());
             editMedicationForm.setMedicationName("Paracetamol :)");
             editMedicationForm.setDescription("Điều trị đau đầu :)");
+            editMedicationForm.setDateCreated(StringUtil.parseDate(dateCreated));
             editMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
 
             medication = hyperledgerService.editMedication(manufacturer, editMedicationForm);
@@ -398,6 +402,7 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecordDto.setPatientId(patientId);
             medicalRecordDto.setDoctorId(doctor1Id);
             medicalRecordDto.setMedicalInstitutionId(doctor1.getMedicalInstitutionId());
+            medicalRecordDto.setDateCreated(StringUtil.parseDate(dateCreated));
             medicalRecordDto.setDateModified(StringUtil.parseDate(dateModified));
             medicalRecordDto.setTestName(testName);
             medicalRecordDto.setDetails(details);
@@ -443,6 +448,7 @@ public class InitDataLoader implements CommandLineRunner {
             SendEditRequestForm sendEditRequestForm = new SendEditRequestForm();
             sendEditRequestForm.setSenderId(doctor1Id);
             sendEditRequestForm.setRecipientId(patientId);
+            sendEditRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             sendEditRequestForm.setDateModified(StringUtil.parseDate(dateModified));
             medicalRecord.setDetails("details -_-");
             sendEditRequestForm.setMedicalRecordJson(JsonConverter.objectToJson(medicalRecord).toString());
@@ -466,6 +472,7 @@ public class InitDataLoader implements CommandLineRunner {
             SendViewRequestForm sendViewRequestForm = new SendViewRequestForm();
             sendViewRequestForm.setSenderId(doctor2Id);
             sendViewRequestForm.setRecipientId(patientId);
+            sendViewRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             sendViewRequestForm.setDateModified(StringUtil.parseDate(dateModified));
 
             ViewRequest viewRequest = hyperledgerService.sendViewRequest(doctor2, sendViewRequestForm);
@@ -499,6 +506,7 @@ public class InitDataLoader implements CommandLineRunner {
             sendViewPrescriptionRequestDto.setSenderId(drugStore.getId());
             sendViewPrescriptionRequestDto.setRecipientId(patientId);
             sendViewPrescriptionRequestDto.setPrescriptionId(medicalRecord.getPrescriptionId());
+            sendViewPrescriptionRequestDto.setDateCreated(StringUtil.parseDate(dateCreated));
             sendViewPrescriptionRequestDto.setDateModified(StringUtil.parseDate(dateModified));
 
             ViewPrescriptionRequest sendViewPrescriptionRequest = hyperledgerService.sendViewPrescriptionRequest(
@@ -553,6 +561,7 @@ public class InitDataLoader implements CommandLineRunner {
             purchaseDto.setMedicationPurchaseList(new Genson().serialize(medicationPurchaseList));
             purchaseDto.setPatientId(patientId);
             purchaseDto.setDrugStoreId(drugStore.getId());
+            purchaseDto.setDateCreated(StringUtil.parseDate(dateCreated));
             purchaseDto.setDateModified(StringUtil.parseDate(dateModified));
 
             Purchase purchase = hyperledgerService.addPurchase(
@@ -571,6 +580,7 @@ public class InitDataLoader implements CommandLineRunner {
             SendViewRequestForm sendViewRequestFormByScientist = new SendViewRequestForm();
             sendViewRequestFormByScientist.setSenderId(scientist1Id);
             sendViewRequestFormByScientist.setRecipientId(patientId);
+            sendViewRequestFormByScientist.setDateCreated(StringUtil.parseDate(dateCreated));
             sendViewRequestFormByScientist.setDateModified(StringUtil.parseDate(dateModified));
 
             ViewRequest viewRequestByScientist = hyperledgerService.sendViewRequest(
@@ -614,6 +624,7 @@ public class InitDataLoader implements CommandLineRunner {
             AddInsuranceProductForm addInsuranceProductForm = new AddInsuranceProductForm();
             addInsuranceProductForm.setInsuranceProductName("Bảo hiểm ung thư");
             addInsuranceProductForm.setInsuranceCompanyId(insuranceCompanyId);
+            addInsuranceProductForm.setDateCreated(StringUtil.parseDate(dateCreated));
             addInsuranceProductForm.setDateModified(StringUtil.parseDate(dateModified));
             addInsuranceProductForm.setDescription("Bảo hiểm ung thư");
             addInsuranceProductForm.setNumberOfDaysInsured("90");
@@ -630,6 +641,7 @@ public class InitDataLoader implements CommandLineRunner {
             editInsuranceProductForm.setInsuranceProductId(insuranceProduct.getInsuranceProductId());
             editInsuranceProductForm.setInsuranceProductName("Bảo hiểm ung thư :)");
             editInsuranceProductForm.setInsuranceCompanyId(insuranceCompanyId);
+            editInsuranceProductForm.setDateCreated(StringUtil.parseDate(dateCreated));
             editInsuranceProductForm.setDateModified(StringUtil.parseDate(dateModified));
             editInsuranceProductForm.setDescription("Bảo hiểm ung thư :)");
             editInsuranceProductForm.setNumberOfDaysInsured("90");
@@ -654,6 +666,7 @@ public class InitDataLoader implements CommandLineRunner {
             SendPurchaseRequestForm sendPurchaseRequestForm = new SendPurchaseRequestForm();
             sendPurchaseRequestForm.setSenderId(patientId);
             sendPurchaseRequestForm.setRecipientId(insuranceCompanyId);
+            sendPurchaseRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             sendPurchaseRequestForm.setDateModified(StringUtil.parseDate(dateModified));
             sendPurchaseRequestForm.setInsuranceProductId(insuranceProduct.getInsuranceProductId());
             sendPurchaseRequestForm.setStartDate(StringUtil.parseDate(StringUtil.createDate("2024-10-10")));
@@ -664,6 +677,7 @@ public class InitDataLoader implements CommandLineRunner {
 
             DefinePurchaseRequestForm definePurchaseRequestForm = new DefinePurchaseRequestForm();
             definePurchaseRequestForm.setRequestId(purchaseRequest.getRequestId());
+            definePurchaseRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             definePurchaseRequestForm.setDateModified(StringUtil.parseDate(dateModified));
             definePurchaseRequestForm.setRequestStatus(RequestStatus.APPROVED.toString());
             definePurchaseRequestForm.setHashFile("hashFile");
@@ -675,6 +689,7 @@ public class InitDataLoader implements CommandLineRunner {
             System.out.println(definePurchaseRequest);
 
             definePurchaseRequestForm.setRequestId(purchaseRequest.getRequestId());
+            definePurchaseRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             definePurchaseRequestForm.setDateModified(StringUtil.parseDate(dateModified));
             definePurchaseRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
             definePurchaseRequestForm.setHashFile("hashFile");
@@ -694,6 +709,7 @@ public class InitDataLoader implements CommandLineRunner {
             SendPaymentRequestForm sendPaymentRequestForm = new SendPaymentRequestForm();
             sendPaymentRequestForm.setSenderId(patientId);
             sendPaymentRequestForm.setRecipientId(insuranceCompanyId);
+            sendPaymentRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             sendPaymentRequestForm.setDateModified(StringUtil.parseDate(dateModified));
             sendPaymentRequestForm.setMedicalRecordId(medicalRecord.getMedicalRecordId());
             sendPaymentRequestForm.setInsuranceContractId(insuranceContractList.get(0).getInsuranceContractId());
@@ -708,6 +724,7 @@ public class InitDataLoader implements CommandLineRunner {
             DefinePaymentRequestForm definePaymentRequestForm = new DefinePaymentRequestForm();
             definePaymentRequestForm.setRequestId(paymentRequest.getRequestId());
             definePaymentRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            definePaymentRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             definePaymentRequestForm.setDateModified(StringUtil.parseDate(dateModified));
 
             paymentRequest = hyperledgerService.definePaymentRequest(
@@ -730,6 +747,7 @@ public class InitDataLoader implements CommandLineRunner {
             DefineConfirmPaymentRequestForm defineConfirmPaymentRequestForm = new DefineConfirmPaymentRequestForm();
             defineConfirmPaymentRequestForm.setRequestId(confirmPaymentRequestList.get(0).getRequestId());
             defineConfirmPaymentRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            defineConfirmPaymentRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             defineConfirmPaymentRequestForm.setDateModified(StringUtil.parseDate(dateModified));
 
             ConfirmPaymentRequest defineConfirmPaymentRequest = hyperledgerService.defineConfirmPaymentRequest(

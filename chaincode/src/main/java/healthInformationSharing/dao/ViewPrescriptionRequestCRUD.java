@@ -54,6 +54,7 @@ public class ViewPrescriptionRequestCRUD {
     public ViewPrescriptionRequest sendViewPrescriptionRequest(JSONObject jsonDto) {
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String requestType = jsonDto.getString("requestType");
         String prescriptionId = jsonDto.getString("prescriptionId");
@@ -66,6 +67,7 @@ public class ViewPrescriptionRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
+                dateCreated,
                 dateModified,
                 requestType,
                 RequestStatus.PENDING,

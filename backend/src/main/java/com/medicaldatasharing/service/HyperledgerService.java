@@ -145,6 +145,7 @@ public class HyperledgerService {
             jsonObject.put("patientId", medicalRecordDto.getPatientId());
             jsonObject.put("doctorId", medicalRecordDto.getDoctorId());
             jsonObject.put("medicalInstitutionId", medicalRecordDto.getMedicalInstitutionId());
+            jsonObject.put("dateCreated", medicalRecordDto.getDateCreated());
             jsonObject.put("dateModified", medicalRecordDto.getDateModified());
             jsonObject.put("testName", medicalRecordDto.getTestName());
             jsonObject.put("details", medicalRecordDto.getDetails());
@@ -276,6 +277,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendAppointmentRequestForm.getSenderId());
             jsonObject.put("recipientId", sendAppointmentRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendAppointmentRequestForm.getDateCreated());
             jsonObject.put("dateModified", sendAppointmentRequestForm.getDateModified());
 
             byte[] result = contract.submitTransaction(
@@ -301,6 +303,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendEditRequestForm.getSenderId());
             jsonObject.put("recipientId", sendEditRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendEditRequestForm.getDateCreated());
             jsonObject.put("dateModified", sendEditRequestForm.getDateModified());
             jsonObject.put("medicalRecordJson", sendEditRequestForm.getMedicalRecordJson());
             byte[] result = contract.submitTransaction(
@@ -327,6 +330,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendViewRequestForm.getSenderId());
             jsonObject.put("recipientId", sendViewRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendViewRequestForm.getDateCreated());
             jsonObject.put("dateModified", sendViewRequestForm.getDateModified());
             byte[] result = contract.submitTransaction(
                     "sendViewRequest",
@@ -429,6 +433,41 @@ public class HyperledgerService {
         return medicalRecordList;
     }
 
+    public List<MedicalRecord> getListMedicalRecordByDoctorQuery(
+            User user,
+            SearchMedicalRecordForm searchMedicalRecordForm
+    ) throws Exception {
+        List<MedicalRecord> medicalRecordList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchMedicalRecordParams(searchMedicalRecordForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListMedicalRecordByDoctorQuery",
+                    jsonObject.toString()
+            );
+
+            String medicalRecordListStr = new String(result);
+            medicalRecordList = new Genson().deserialize(
+                    medicalRecordListStr,
+                    new GenericType<List<MedicalRecord>>() {}
+            );
+
+            LOG.info("result: " + medicalRecordList);
+
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicalRecordList;
+    }
+
     private Map<String, String> prepareSearchMedicalRecordParams(SearchMedicalRecordForm searchMedicalRecordForm) {
         String medicalRecordId = searchMedicalRecordForm.getMedicalRecordId() == null ? "" : searchMedicalRecordForm.getMedicalRecordId();
         String patientId = searchMedicalRecordForm.getPatientId() == null ? "" : searchMedicalRecordForm.getPatientId();
@@ -440,15 +479,17 @@ public class HyperledgerService {
         String hashFile = searchMedicalRecordForm.getHashFile() == null ? "" : searchMedicalRecordForm.getHashFile();
         String from;
         if (searchMedicalRecordForm.getFrom() == null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, -6);
-            from = StringUtil.parseDate(calendar.getTime());
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.add(Calendar.MONTH, -6);
+//            from = StringUtil.parseDate(calendar.getTime());
+            from = "";
         } else {
             from = StringUtil.parseDate(searchMedicalRecordForm.getFrom());
         }
         String until;
         if (searchMedicalRecordForm.getFrom() == null) {
-            until = StringUtil.parseDate(new Date());
+//            until = StringUtil.parseDate(new Date());
+            until = "";
         } else {
             until = StringUtil.parseDate(searchMedicalRecordForm.getUntil());
         }
@@ -668,6 +709,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendViewPrescriptionRequestDto.getSenderId());
             jsonObject.put("recipientId", sendViewPrescriptionRequestDto.getRecipientId());
+            jsonObject.put("dateCreated", sendViewPrescriptionRequestDto.getDateCreated());
             jsonObject.put("dateModified", sendViewPrescriptionRequestDto.getDateModified());
             jsonObject.put("prescriptionId", sendViewPrescriptionRequestDto.getPrescriptionId());
             byte[] result = contract.submitTransaction(
@@ -905,6 +947,7 @@ public class HyperledgerService {
         String insuranceProductId = searchInsuranceProductForm.getInsuranceProductId() == null ? "" : searchInsuranceProductForm.getInsuranceProductId();
         String insuranceProductName = searchInsuranceProductForm.getInsuranceProductName() == null ? "" : searchInsuranceProductForm.getInsuranceProductName();
         String insuranceCompanyId = searchInsuranceProductForm.getInsuranceCompanyId() == null ? "" : searchInsuranceProductForm.getInsuranceCompanyId();
+        String dateCreated = searchInsuranceProductForm.getDateCreated() == null ? "" : searchInsuranceProductForm.getDateCreated();
         String dateModified = searchInsuranceProductForm.getDateModified() == null ? "" : searchInsuranceProductForm.getDateModified();
         String description = searchInsuranceProductForm.getDescription() == null ? "" : searchInsuranceProductForm.getDescription();
         String hashFile = searchInsuranceProductForm.getHashFile() == null ? "" : searchInsuranceProductForm.getHashFile();
@@ -931,6 +974,7 @@ public class HyperledgerService {
             put("insuranceProductId", insuranceProductId);
             put("insuranceProductName", insuranceProductName);
             put("insuranceCompanyId", insuranceCompanyId);
+            put("dateCreated", dateCreated);
             put("dateModified", dateModified);
             put("description", description);
             put("hashFile", hashFile);
@@ -948,6 +992,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendPurchaseRequestForm.getSenderId());
             jsonObject.put("recipientId", sendPurchaseRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendPurchaseRequestForm.getDateCreated());
             jsonObject.put("dateModified", sendPurchaseRequestForm.getDateModified());
             jsonObject.put("insuranceProductId", sendPurchaseRequestForm.getInsuranceProductId());
             jsonObject.put("startDate", sendPurchaseRequestForm.getStartDate());
@@ -973,6 +1018,7 @@ public class HyperledgerService {
             jsonObject.put("requestId", definePurchaseRequestForm.getRequestId());
             jsonObject.put("requestStatus", definePurchaseRequestForm.getRequestStatus());
             jsonObject.put("hashFile", definePurchaseRequestForm.getHashFile());
+            jsonObject.put("dateCreated", definePurchaseRequestForm.getDateCreated());
             jsonObject.put("dateModified", definePurchaseRequestForm.getDateModified());
 
             byte[] result = contract.submitTransaction(
@@ -1068,6 +1114,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendPaymentRequestForm.getSenderId());
             jsonObject.put("recipientId", sendPaymentRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendPaymentRequestForm.getDateCreated());
             jsonObject.put("dateModified", sendPaymentRequestForm.getDateModified());
             jsonObject.put("insuranceContractId", sendPaymentRequestForm.getInsuranceContractId());
             jsonObject.put("medicalRecordId", sendPaymentRequestForm.getMedicalRecordId());
@@ -1094,6 +1141,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("requestId", definePaymentRequestForm.getRequestId());
             jsonObject.put("requestStatus", definePaymentRequestForm.getRequestStatus());
+            jsonObject.put("dateCreated", definePaymentRequestForm.getDateCreated());
             jsonObject.put("dateModified", definePaymentRequestForm.getDateModified());
             System.out.println(jsonObject.toString());
 
@@ -1383,6 +1431,7 @@ public class HyperledgerService {
         String requestId = searchConfirmPaymentRequestForm.getRequestId() == null ? "" : searchConfirmPaymentRequestForm.getRequestId();
         String senderId = searchConfirmPaymentRequestForm.getSenderId() == null ? "" : searchConfirmPaymentRequestForm.getSenderId();
         String recipientId = searchConfirmPaymentRequestForm.getRecipientId() == null ? "" : searchConfirmPaymentRequestForm.getRecipientId();
+        String dateCreated = searchConfirmPaymentRequestForm.getDateCreated() == null ? "" : searchConfirmPaymentRequestForm.getDateCreated();
         String dateModified = searchConfirmPaymentRequestForm.getDateModified() == null ? "" : searchConfirmPaymentRequestForm.getDateModified();
         String requestType = searchConfirmPaymentRequestForm.getRequestType() == null ? "" : searchConfirmPaymentRequestForm.getRequestType();
         String requestStatus = searchConfirmPaymentRequestForm.getRequestStatus() == null ? "" : searchConfirmPaymentRequestForm.getRequestStatus();
@@ -1412,6 +1461,7 @@ public class HyperledgerService {
             put("requestType", requestType);
             put("from", from);
             put("until", until);
+            put("dateCreated", dateCreated);
             put("dateModified", dateModified);
             put("requestStatus", requestStatus);
             put("sortingOrder", sortingOrder);

@@ -32,6 +32,10 @@ public class Purchase {
     private String drugStoreId;
 
     @Property
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
+    @Property
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -48,6 +52,7 @@ public class Purchase {
             String prescriptionId,
             String patientId,
             String drugStoreId,
+            String dateCreated,
             String dateModified
     ) {
         Purchase purchase = new Purchase();
@@ -55,6 +60,7 @@ public class Purchase {
         purchase.setPrescriptionId(prescriptionId);
         purchase.setPatientId(patientId);
         purchase.setDrugStoreId(drugStoreId);
+        purchase.setDateCreated(dateCreated);
         purchase.setDateModified(dateModified);
         return purchase;
     }
@@ -111,6 +117,15 @@ public class Purchase {
 
     public Purchase setDrugStoreId(String drugStoreId) {
         this.drugStoreId = drugStoreId;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public Purchase setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

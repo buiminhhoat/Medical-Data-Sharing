@@ -34,6 +34,7 @@ public class PurchaseRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus,
@@ -46,6 +47,7 @@ public class PurchaseRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);

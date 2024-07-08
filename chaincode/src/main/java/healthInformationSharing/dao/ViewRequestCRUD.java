@@ -66,6 +66,7 @@ public class ViewRequestCRUD {
 
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String requestType = RequestType.VIEW_RECORD;
 
@@ -78,6 +79,7 @@ public class ViewRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
+                dateCreated,
                 dateModified,
                 requestType,
                 RequestStatus.PENDING
@@ -91,6 +93,7 @@ public class ViewRequestCRUD {
     public ViewRequest sendViewRequestAccepted(JSONObject jsonDto) {
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String requestType = RequestType.VIEW_RECORD;
 
@@ -103,6 +106,7 @@ public class ViewRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
+                dateCreated,
                 dateModified,
                 requestType,
                 RequestStatus.ACCEPTED

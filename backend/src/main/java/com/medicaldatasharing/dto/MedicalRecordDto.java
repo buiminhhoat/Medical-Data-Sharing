@@ -31,6 +31,9 @@ public class MedicalRecordDto {
     private String medicalInstitutionId;
 
     @NotBlank
+    private String dateCreated;
+
+    @NotBlank
     private String dateModified;
 
     @NotBlank
@@ -55,6 +58,7 @@ public class MedicalRecordDto {
         String patientId = jsonObject.getString("patientId");
         String doctorId = jsonObject.getString("doctorId");
         String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
@@ -67,6 +71,7 @@ public class MedicalRecordDto {
                 patientId,
                 doctorId,
                 medicalInstitutionId,
+                dateCreated,
                 dateModified,
                 testName,
                 details,
@@ -91,6 +96,7 @@ public class MedicalRecordDto {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
+            String dateCreated,
             String dateModified,
             String testName,
             String details,
@@ -103,6 +109,7 @@ public class MedicalRecordDto {
         medicalRecord.setPatientId(patientId);
         medicalRecord.setDoctorId(doctorId);
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
+        medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setDateModified(dateModified);
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
@@ -136,6 +143,42 @@ public class MedicalRecordDto {
 
     public MedicalRecordDto setMedicalInstitutionId(@NotBlank String medicalInstitutionId) {
         this.medicalInstitutionId = medicalInstitutionId;
+        return this;
+    }
+
+    public @NotBlank String getDateCreated() {
+        return dateCreated;
+    }
+
+    public MedicalRecordDto setDateCreated(@NotBlank String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
+    public String getAddPrescription() {
+        return addPrescription;
+    }
+
+    public MedicalRecordDto setAddPrescription(String addPrescription) {
+        this.addPrescription = addPrescription;
+        return this;
+    }
+
+    public @NotBlank String getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public MedicalRecordDto setPrescriptionId(@NotBlank String prescriptionId) {
+        this.prescriptionId = prescriptionId;
+        return this;
+    }
+
+    public @NotBlank String getHashFile() {
+        return hashFile;
+    }
+
+    public MedicalRecordDto setHashFile(@NotBlank String hashFile) {
+        this.hashFile = hashFile;
         return this;
     }
 

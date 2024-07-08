@@ -13,6 +13,10 @@ export const API = {
     GET_ALL_REQUEST: "/api/public/get-all-request",
     GET_REQUEST: "/api/public/get-request",
   },
+  PATIENT: {
+    GET_LIST_MEDICAL_RECORD:
+      "/api/patient/get-list-medical-record-by-patientId",
+  },
 };
 
 export const LOGIN = {

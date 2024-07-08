@@ -46,11 +46,13 @@ public class ConfirmPaymentRequestCRUD {
     ) {
         String requestId = jsonDto.getString("requestId");
         String requestStatus = jsonDto.getString("requestStatus");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
 
         ConfirmPaymentRequest request = getConfirmPaymentRequest(requestId);
 
         request.setRequestStatus(requestStatus);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
 
         String dbKey = ctx.getStub().createCompositeKey(entityName, requestId).toString();
@@ -72,6 +74,7 @@ public class ConfirmPaymentRequestCRUD {
     public ConfirmPaymentRequest sendConfirmPaymentRequest(JSONObject jsonDto) {
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String paymentRequestId = jsonDto.getString("paymentRequestId");
         String requestId = ctx.getStub().getTxId();
@@ -83,6 +86,7 @@ public class ConfirmPaymentRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
+                dateCreated,
                 dateModified,
                 requestType,
                 RequestStatus.PENDING,

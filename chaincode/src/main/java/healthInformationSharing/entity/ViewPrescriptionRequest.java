@@ -44,6 +44,15 @@ public class ViewPrescriptionRequest extends Request {
         return this;
     }
 
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public ViewPrescriptionRequest setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
     public String getDateModified() {
         return dateModified;
     }
@@ -93,6 +102,7 @@ public class ViewPrescriptionRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus,
@@ -102,6 +112,7 @@ public class ViewPrescriptionRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);

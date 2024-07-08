@@ -23,6 +23,7 @@ public class InsuranceProductCRUD {
     public InsuranceProduct addInsuranceProduct(JSONObject jsonDto) {
         String insuranceProductName = jsonDto.has("insuranceProductName") ? jsonDto.getString("insuranceProductName") : "";
         String insuranceCompanyId = jsonDto.has("insuranceCompanyId") ? jsonDto.getString("insuranceCompanyId") : "";
+        String dateCreated = jsonDto.has("dateCreated") ? jsonDto.getString("dateCreated") : "";
         String dateModified = jsonDto.has("dateModified") ? jsonDto.getString("dateModified") : "";
         String description = jsonDto.has("description") ? jsonDto.getString("description") : "";
         String numberOfDaysInsured = jsonDto.has("numberOfDaysInsured") ? jsonDto.getString("numberOfDaysInsured") : "0";
@@ -38,6 +39,7 @@ public class InsuranceProductCRUD {
                 insuranceProductId,
                 insuranceProductName,
                 insuranceCompanyId,
+                dateCreated,
                 dateModified,
                 description,
                 numberOfDaysInsured,
@@ -60,6 +62,7 @@ public class InsuranceProductCRUD {
         String insuranceProductId = jsonDto.has("insuranceProductId") ? jsonDto.getString("insuranceProductId") : "";
         String insuranceProductName = jsonDto.has("insuranceProductName") ? jsonDto.getString("insuranceProductName") : "";
         String insuranceCompanyId = jsonDto.has("insuranceCompanyId") ? jsonDto.getString("insuranceCompanyId") : "";
+        String dateCreated = jsonDto.has("dateCreated") ? jsonDto.getString("dateCreated") : "";
         String dateModified = jsonDto.has("dateModified") ? jsonDto.getString("dateModified") : "";
         String description = jsonDto.has("description") ? jsonDto.getString("description") : "";
         String numberOfDaysInsured = jsonDto.has("numberOfDaysInsured") ? jsonDto.getString("numberOfDaysInsured") : "";
@@ -73,6 +76,7 @@ public class InsuranceProductCRUD {
                 insuranceProductId,
                 insuranceProductName,
                 insuranceCompanyId,
+                dateCreated,
                 dateModified,
                 description,
                 numberOfDaysInsured,

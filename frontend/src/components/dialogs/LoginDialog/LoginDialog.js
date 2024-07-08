@@ -44,18 +44,16 @@ const LoginDialog = ({ onClose, onSwitch }) => {
         console.log(jsonResponse);
         let access_token = jsonResponse.access_token;
         let userId = jsonResponse.userId;
+        let role = jsonResponse.authorities[0].authority;
 
         console.log(access_token);
 
         const cookies = new Cookies();
-        if (!cookies["access_token"]) {
-          cookies.set("access_token", access_token, { path: "/" });
-        }
+        cookies.set("access_token", access_token, { path: "/" });
+        cookies.set("userId", userId, { path: "/" });
+        cookies.set("role", role);
 
-        if (!cookies["userId"]) {
-          cookies.set("userId", userId, { path: "/" });
-        }
-
+        console.log(role);
         window.location.reload();
       }
     } catch (e) {

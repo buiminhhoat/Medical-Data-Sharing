@@ -26,6 +26,9 @@ public class PurchaseDto {
     @JsonProperty("drugStoreId")
     private String drugStoreId;
 
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
     @JsonProperty("dateModified")
     private String dateModified;
 

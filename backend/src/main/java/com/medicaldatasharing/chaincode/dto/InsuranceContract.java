@@ -24,6 +24,9 @@ public class InsuranceContract {
     @JsonProperty("endDate")
     private String endDate;
 
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -42,6 +45,7 @@ public class InsuranceContract {
                              String insuranceCompanyId,
                              String startDate,
                              String endDate,
+                             String dateCreated,
                              String dateModified,
                              String hashFile) {
         super();
@@ -50,6 +54,7 @@ public class InsuranceContract {
         this.insuranceCompanyId = insuranceCompanyId;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.hashFile = hashFile;
     }
@@ -60,6 +65,7 @@ public class InsuranceContract {
                                                    String insuranceCompanyId,
                                                    String startDate,
                                                    String endDate,
+                                                   String dateCreated,
                                                    String dateModified,
                                                    String hashFile) {
         InsuranceContract insuranceContract = new InsuranceContract();
@@ -127,6 +133,15 @@ public class InsuranceContract {
 
     public InsuranceContract setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public InsuranceContract setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

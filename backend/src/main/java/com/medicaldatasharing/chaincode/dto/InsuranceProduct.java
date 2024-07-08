@@ -15,6 +15,9 @@ public class InsuranceProduct {
     @JsonProperty("insuranceCompanyId")
     private String insuranceCompanyId;
 
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -34,6 +37,7 @@ public class InsuranceProduct {
     public InsuranceProduct(String insuranceProductId,
                             String insuranceProductName,
                             String insuranceCompanyId,
+                            String dateCreated,
                             String dateModified,
                             String description,
                             String hashFile) {
@@ -41,6 +45,7 @@ public class InsuranceProduct {
         this.insuranceProductId = insuranceProductId;
         this.insuranceProductName = insuranceProductName;
         this.insuranceCompanyId = insuranceCompanyId;
+        this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.description = description;
         this.hashFile = hashFile;
@@ -49,6 +54,7 @@ public class InsuranceProduct {
     public static InsuranceProduct createInstance(String insuranceProductId,
                                                   String insuranceProductName,
                                                   String insuranceCompanyId,
+                                                  String dateCreated,
                                                   String dateModified,
                                                   String description,
                                                   String hashFile) {
@@ -56,6 +62,7 @@ public class InsuranceProduct {
         insuranceProduct.setInsuranceProductId(insuranceProductId);
         insuranceProduct.setInsuranceProductName(insuranceProductName);
         insuranceProduct.setInsuranceCompanyId(insuranceCompanyId);
+        insuranceProduct.setDateCreated(dateCreated);
         insuranceProduct.setDateModified(dateModified);
         insuranceProduct.setDescription(description);
         insuranceProduct.setHashFile(hashFile);
@@ -114,6 +121,15 @@ public class InsuranceProduct {
 
     public InsuranceProduct setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public InsuranceProduct setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

@@ -116,6 +116,7 @@ public class MedicalRecordContract implements ContractInterface {
         String patientId = jsonObject.getString("patientId");
         String doctorId = jsonObject.getString("doctorId");
         String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String testName = jsonObject.getString("testName");
         String details = jsonObject.getString("details");
@@ -157,6 +158,7 @@ public class MedicalRecordContract implements ContractInterface {
         jsonDto.put("patientId", patientId);
         jsonDto.put("doctorId", doctorId);
         jsonDto.put("medicalInstitutionId", medicalInstitutionId);
+        jsonDto.put("dateCreated", dateCreated);
         jsonDto.put("dateModified", dateModified);
         jsonDto.put("testName", testName);
         jsonDto.put("details", details);
@@ -451,6 +453,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         authorizeRequest(ctx, senderId, "sendAppointmentRequest(validate senderId)");
 
@@ -458,6 +461,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         jsonDto.put("senderId", senderId);
         jsonDto.put("recipientId", recipientId);
+        jsonDto.put("dateCreated", dateCreated);
         jsonDto.put("dateModified", dateModified);
         jsonDto.put("requestType", RequestType.APPOINTMENT);
         AppointmentRequest appointmentRequest = ctx.getAppointmentRequestDAO().sendAppointmentRequest(jsonDto);
@@ -499,6 +503,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String medicalRecordJson = jsonObject.getString("medicalRecordJson");
         Genson genson = new Genson();
@@ -512,6 +517,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("senderId", senderId);
         jsonDto.put("recipientId", recipientId);
+        jsonDto.put("dateCreated", dateCreated);
         jsonDto.put("dateModified", dateModified);
         jsonDto.put("requestType", RequestType.EDIT_RECORD);
         jsonDto.put("medicalRecordJson", medicalRecordJson);
@@ -596,6 +602,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
 
         authorizeRequest(ctx, senderId, "sendViewRequest(validate senderId)");
@@ -603,6 +610,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("senderId", senderId);
         jsonDto.put("recipientId", recipientId);
+        jsonDto.put("dateCreated", dateCreated);
         jsonDto.put("dateModified", dateModified);
         ViewRequest viewRequest = ctx.getViewRequestDAO().sendViewRequest(
                 jsonDto
@@ -960,6 +968,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String prescriptionId = jsonObject.getString("prescriptionId");
 
@@ -968,6 +977,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("senderId", senderId);
         jsonDto.put("recipientId", recipientId);
+        jsonDto.put("dateCreated", dateCreated);
         jsonDto.put("dateModified", dateModified);
         jsonDto.put("requestType", RequestType.VIEW_PRESCRIPTION);
         jsonDto.put("prescriptionId", prescriptionId);
@@ -1005,16 +1015,16 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(viewPrescriptionRequest);
     }
 
-    public boolean checkDrugConditions(Drug drug, String dateModifiedStr, String drugStoreId) throws ChaincodeException, ParseException {
+    public boolean checkDrugConditions(Drug drug, String dateCreatedStr, String drugStoreId) throws ChaincodeException, ParseException {
         if (!Objects.equals(drug.getOwnerId(), drugStoreId)) {
             throw new ChaincodeException("Drug " + drug.getDrugId() + " does not belong to the drug store " + drugStoreId,
                     ContractErrors.DRUG_OWNERSHIP_ERROR.toString());
         }
 
         Date expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(drug.getExpirationDate());
-        Date dateModified = new SimpleDateFormat("yyyy-MM-dd").parse(dateModifiedStr);
+        Date dateCreated = new SimpleDateFormat("yyyy-MM-dd").parse(dateCreatedStr);
 
-        if (dateModified.after(expirationDate)) {
+        if (dateCreated.after(expirationDate)) {
             throw new ChaincodeException("Drug " + drug.getDrugId() + " is expired",
                     ContractErrors.DRUG_EXPIRED_ERROR.toString());
         }
@@ -1029,6 +1039,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String prescriptionId = jsonObject.getString("prescriptionId");
         String patientId = jsonObject.getString("patientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String drugStoreId = jsonObject.getString("drugStoreId");
         String medicationPurchaseListStr = jsonObject.getString("medicationPurchaseList");
@@ -1057,7 +1068,7 @@ public class MedicalRecordContract implements ContractInterface {
             int count = 0;
             for (String drugId: drugIdList) {
                 Drug drug = ctx.getDrugDAO().getDrug(drugId);
-                if (checkDrugConditions(drug, dateModified, drugStoreId)) {
+                if (checkDrugConditions(drug, dateCreated, drugStoreId)) {
                     ++count;
                 }
                 else {
@@ -1090,6 +1101,7 @@ public class MedicalRecordContract implements ContractInterface {
         purchaseDto.setPrescriptionId(prescriptionId);
         purchaseDto.setPatientId(patientId);
         purchaseDto.setDrugStoreId(drugStoreId);
+        purchaseDto.setDateCreated(dateCreated);
         purchaseDto.setDateModified(dateModified);
 
         Purchase purchase = ctx.getPurchaseDAO().addPurchase(
@@ -1177,6 +1189,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String insuranceProductId = jsonObject.getString("insuranceProductId");
 
@@ -1196,6 +1209,7 @@ public class MedicalRecordContract implements ContractInterface {
         ctx.getViewRequestDAO().sendViewRequestAccepted(
                 new JSONObject().put("senderId", insuranceProduct.getInsuranceCompanyId())
                         .put("recipientId", senderId)
+                        .put("dateCreated", dateCreated)
                         .put("dateModified", dateModified)
         );
         return new Genson().serialize(purchaseRequest);
@@ -1210,6 +1224,7 @@ public class MedicalRecordContract implements ContractInterface {
         String requestId = jsonObject.getString("requestId");
         String requestStatus = jsonObject.getString("requestStatus");
         String hashFile = jsonObject.has("hashFile") ? jsonObject.getString("hashFile") : "";
+        String dateCreated = jsonObject.has("dateCreated") ? jsonObject.getString("dateCreated") : "";
         String dateModified = jsonObject.has("dateModified") ? jsonObject.getString("dateModified") : "";
         PurchaseRequestDAO purchaseRequestDAO = ctx.getPurchaseRequestDAO();
 
@@ -1239,6 +1254,7 @@ public class MedicalRecordContract implements ContractInterface {
                 jsonInsuranceContractDto.put("insuranceCompanyId", purchaseRequest.getRecipientId());
                 jsonInsuranceContractDto.put("startDate", purchaseRequest.getStartDate());
                 jsonInsuranceContractDto.put("endDate", purchaseRequest.getEndDate());
+                jsonInsuranceContractDto.put("dateCreated", dateCreated);
                 jsonInsuranceContractDto.put("dateModified", dateModified);
                 jsonInsuranceContractDto.put("hashFile", hashFile);
                 ctx.getInsuranceContractDAO().addInsuranceContract(
@@ -1263,6 +1279,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String insuranceContractId = jsonObject.getString("insuranceContractId");
         String medicalRecordId = jsonObject.getString("medicalRecordId");
@@ -1292,6 +1309,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         String requestId = jsonObject.getString("requestId");
         String requestStatus = jsonObject.getString("requestStatus");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
 
         System.out.println("requestId: " + requestId);
@@ -1322,6 +1340,7 @@ public class MedicalRecordContract implements ContractInterface {
                     new JSONObject()
                             .put("senderId", paymentRequest.getRecipientId())
                             .put("recipientId", paymentRequest.getSenderId())
+                            .put("dateCreated", dateCreated)
                             .put("dateModified", dateModified)
                             .put("paymentRequestId", paymentRequest.getRequestId())
             );
@@ -1337,6 +1356,7 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String paymentRequestId = jsonObject.getString("paymentRequestId");
         Genson genson = new Genson();
@@ -1365,6 +1385,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         String requestId = jsonObject.getString("requestId");
         String requestStatus = jsonObject.getString("requestStatus");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
 
         System.out.println("requestId: " + requestId);

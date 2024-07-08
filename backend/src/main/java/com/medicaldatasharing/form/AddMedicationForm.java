@@ -22,6 +22,9 @@ public class AddMedicationForm {
     String description;
 
     @NotBlank
+    String dateCreated;
+
+    @NotBlank
     String dateModified;
 
     public JSONObject toJSONObject() {

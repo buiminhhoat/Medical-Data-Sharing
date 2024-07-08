@@ -31,6 +31,10 @@ public class Medication {
     @JsonProperty("description")
     private String description;
 
+    @Property()
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
     @Property
     @JsonProperty("dateModified")
     private String dateModified;
@@ -46,11 +50,13 @@ public class Medication {
     public Medication(String medicationId,
                       String manufacturerId,
                       String medicationName,
+                      String dateCreated,
                       String dateModified,
                       String description) {
         this.medicationId = medicationId;
         this.manufacturerId = manufacturerId;
         this.medicationName = medicationName;
+        this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.description = description;
     }
@@ -58,12 +64,14 @@ public class Medication {
     public static Medication createInstance(String medicationId,
                                             String manufacturerId,
                                             String medicationName,
+                                            String dateCreated,
                                             String dateModified,
                                             String description) {
         Medication medication = new Medication();
         medication.setMedicationId(medicationId);
         medication.setManufacturerId(manufacturerId);
         medication.setMedicationName(medicationName);
+        medication.setDateCreated(dateCreated);
         medication.setDateModified(dateModified);
         medication.setDescription(description);
         return medication;
@@ -121,6 +129,15 @@ public class Medication {
 
     public Medication setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public Medication setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

@@ -16,6 +16,7 @@ public class SearchInsuranceProductForm {
 
     private String insuranceCompanyId;
 
+    private String dateCreated;
     private String dateModified;
 
     private String description;

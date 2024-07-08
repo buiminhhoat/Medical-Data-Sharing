@@ -26,6 +26,7 @@ public class PurchaseCRUD {
         String prescriptionId = jsonDto.getString("prescriptionId");
         String patientId = jsonDto.getString("patientId");
         String drugStoreId = jsonDto.getString("drugStoreId");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
 
         String purchaseId = ctx.getStub().getTxId();
@@ -37,6 +38,7 @@ public class PurchaseCRUD {
                 prescriptionId,
                 patientId,
                 drugStoreId,
+                dateCreated,
                 dateModified
         );
 

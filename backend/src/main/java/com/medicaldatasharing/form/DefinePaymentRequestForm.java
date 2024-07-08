@@ -19,6 +19,9 @@ public class DefinePaymentRequestForm {
     private String requestStatus;
 
     @NotBlank
+    private String dateCreated;
+
+    @NotBlank
     private String dateModified;
 
     public JSONObject toJSONObject() {

@@ -67,6 +67,7 @@ public class PaymentRequestCRUD {
     public PaymentRequest sendPaymentRequest(JSONObject jsonDto) {
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String requestType = jsonDto.getString("requestType");
         String insuranceContractId = jsonDto.getString("insuranceContractId");
@@ -79,6 +80,7 @@ public class PaymentRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
+                dateCreated,
                 dateModified,
                 requestType,
                 RequestStatus.PENDING,

@@ -59,6 +59,15 @@ public class PaymentRequest extends Request {
         return this;
     }
 
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public PaymentRequest setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
     public String getDateModified() {
         return dateModified;
     }
@@ -117,6 +126,7 @@ public class PaymentRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus,
@@ -127,6 +137,7 @@ public class PaymentRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);

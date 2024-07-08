@@ -16,6 +16,9 @@ public class Medication {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -40,12 +43,14 @@ public class Medication {
                                             String manufacturerId,
                                             String medicationName,
                                             String description,
+                                            String dateCreated,
                                             String dateModified) {
         Medication medication = new Medication();
         medication.setMedicationId(medicationId);
         medication.setManufacturerId(manufacturerId);
         medication.setMedicationName(medicationName);
         medication.setDescription(description);
+        medication.setDateCreated(dateCreated);
         medication.setDateModified(dateModified);
         medication.setEntityName(Medication.class.getSimpleName());
         return medication;
@@ -84,6 +89,15 @@ public class Medication {
 
     public Medication setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public Medication setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

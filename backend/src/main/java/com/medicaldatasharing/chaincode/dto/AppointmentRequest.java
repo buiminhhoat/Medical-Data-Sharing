@@ -21,6 +21,7 @@ public class AppointmentRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus
@@ -29,6 +30,7 @@ public class AppointmentRequest extends Request {
         appointmentRequest.setSenderId(senderId);
         appointmentRequest.setRequestId(requestId);
         appointmentRequest.setRecipientId(recipientId);
+        appointmentRequest.setDateCreated(dateCreated);
         appointmentRequest.setDateModified(dateModified);
         appointmentRequest.setRequestType(requestType);
         appointmentRequest.setRequestStatus(requestStatus);

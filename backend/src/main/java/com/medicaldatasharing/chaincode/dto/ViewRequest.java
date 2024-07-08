@@ -21,6 +21,7 @@ public class ViewRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus
@@ -29,6 +30,7 @@ public class ViewRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
@@ -98,6 +100,4 @@ public class ViewRequest extends Request {
         this.entityName = entityName;
         return this;
     }
-
-
 }

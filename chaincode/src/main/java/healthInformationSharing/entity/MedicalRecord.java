@@ -33,6 +33,10 @@ public final class MedicalRecord {
     private String medicalInstitutionId;
 
     @Property()
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
+    @Property()
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -70,6 +74,7 @@ public final class MedicalRecord {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
+            String dateCreated,
             String dateModified,
             String testName,
             String details,
@@ -82,6 +87,7 @@ public final class MedicalRecord {
         medicalRecord.setPatientId(patientId);
         medicalRecord.setDoctorId(doctorId);
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
+        medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setDateModified(dateModified);
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
@@ -122,6 +128,15 @@ public final class MedicalRecord {
 
     public void setMedicalInstitutionId(String medicalInstitutionId) {
         this.medicalInstitutionId = medicalInstitutionId;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public MedicalRecord setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
     }
 
     public String getDateModified() {

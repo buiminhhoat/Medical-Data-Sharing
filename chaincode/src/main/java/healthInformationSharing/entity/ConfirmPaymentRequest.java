@@ -54,6 +54,15 @@ public class ConfirmPaymentRequest extends Request {
         return this;
     }
 
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public ConfirmPaymentRequest setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
     public String getDateModified() {
         return dateModified;
     }
@@ -103,6 +112,7 @@ public class ConfirmPaymentRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus,
@@ -112,6 +122,7 @@ public class ConfirmPaymentRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);

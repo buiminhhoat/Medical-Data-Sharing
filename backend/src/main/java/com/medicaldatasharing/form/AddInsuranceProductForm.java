@@ -19,6 +19,9 @@ public class AddInsuranceProductForm {
     String insuranceCompanyId;
 
     @NotBlank
+    String dateCreated;
+
+    @NotBlank
     String dateModified;
 
     @NotBlank

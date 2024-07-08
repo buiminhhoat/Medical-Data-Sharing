@@ -17,6 +17,9 @@ public class MedicalRecord {
     @JsonProperty("medicalInstitutionId")
     private String medicalInstitutionId;
 
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -57,6 +60,7 @@ public class MedicalRecord {
             String patientId,
             String doctorId,
             String medicalInstitutionId,
+            String dateCreated,
             String dateModified,
             String testName,
             String details,
@@ -69,6 +73,7 @@ public class MedicalRecord {
         medicalRecord.setPatientId(patientId);
         medicalRecord.setDoctorId(doctorId);
         medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
+        medicalRecord.setDateCreated(dateCreated);
         medicalRecord.setDateModified(dateModified);
         medicalRecord.setTestName(testName);
         medicalRecord.setDetails(details);
@@ -86,11 +91,12 @@ public class MedicalRecord {
                 ", patientId='" + patientId + '\'' +
                 ", doctorId='" + doctorId + '\'' +
                 ", medicalInstitutionId='" + medicalInstitutionId + '\'' +
+                ", dateCreated='" + dateCreated + '\'' +
                 ", dateModified='" + dateModified + '\'' +
                 ", testName='" + testName + '\'' +
                 ", details='" + details + '\'' +
-                ", hashFile='" + hashFile + '\'' +
                 ", prescriptionId='" + prescriptionId + '\'' +
+                ", hashFile='" + hashFile + '\'' +
                 ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
                 ", entityName='" + entityName + '\'' +
                 '}';
@@ -138,6 +144,15 @@ public class MedicalRecord {
 
     public MedicalRecord setMedicalInstitutionId(String medicalInstitutionId) {
         this.medicalInstitutionId = medicalInstitutionId;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public MedicalRecord setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

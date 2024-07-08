@@ -24,6 +24,9 @@ public class PurchaseDto {
     @JsonProperty("drugStoreId")
     private String drugStoreId;
 
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -72,6 +75,15 @@ public class PurchaseDto {
 
     public PurchaseDto setPurchaseId(String purchaseId) {
         this.purchaseId = purchaseId;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public PurchaseDto setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

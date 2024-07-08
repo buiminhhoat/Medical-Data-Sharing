@@ -12,6 +12,9 @@ public class Request {
     @JsonProperty("recipientId")
     protected String recipientId;
 
+    @JsonProperty("dateCreated")
+    protected String dateCreated;
+
     @JsonProperty("dateModified")
     protected String dateModified;
 
@@ -51,6 +54,15 @@ public class Request {
 
     public Request setRecipientId(String recipientId) {
         this.recipientId = recipientId;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public Request setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

@@ -14,6 +14,7 @@ public class SearchConfirmPaymentRequestForm {
     private String paymentRequestId;
     private String senderId;
     private String recipientId;
+    private String dateCreated;
     private String dateModified;
     private String requestType;
     private String requestStatus;

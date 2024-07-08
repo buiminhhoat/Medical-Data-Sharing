@@ -52,10 +52,12 @@ public class PurchaseRequestCRUD {
         String requestId = jsonDto.getString("requestId");
         String requestStatus = jsonDto.getString("requestStatus");
         String hashFile = jsonDto.getString("hashFile");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         PurchaseRequest request = getPurchaseRequest(requestId);
         request.setRequestStatus(requestStatus);
         request.setHashFile(hashFile);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
 
         String dbKey = ctx.getStub().createCompositeKey(entityName, requestId).toString();
@@ -77,6 +79,7 @@ public class PurchaseRequestCRUD {
     public PurchaseRequest sendPurchaseRequest(JSONObject jsonDto) {
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String requestType = jsonDto.getString("requestType");
         String insuranceProductId = jsonDto.getString("insuranceProductId");
@@ -95,6 +98,7 @@ public class PurchaseRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
+                dateCreated,
                 dateModified,
                 requestType,
                 RequestStatus.PENDING,

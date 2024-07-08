@@ -1,5 +1,6 @@
 package com.medicaldatasharing.response;
 
+import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
 
@@ -11,11 +12,23 @@ public class MedicalRecordResponse {
     @JsonProperty("patientId")
     private String patientId;
 
+    @JsonProperty("patientName")
+    private String patientName;
+
     @JsonProperty("doctorId")
     private String doctorId;
 
+    @JsonProperty("doctorName")
+    private String doctorName;
+
     @JsonProperty("medicalInstitutionId")
     private String medicalInstitutionId;
+
+    @JsonProperty("medicalInstitutionName")
+    private String medicalInstitutionName;
+
+    @JsonProperty("dateCreated")
+    private String dateCreated;
 
     @JsonProperty("dateModified")
     private String dateModified;
@@ -42,6 +55,21 @@ public class MedicalRecordResponse {
         this.entityName = MedicalRecordResponse.class.getSimpleName();
     }
 
+    public MedicalRecordResponse(MedicalRecord medicalRecord) {
+        super();
+        this.medicalRecordId = medicalRecord.getMedicalRecordId();
+        this.patientId = medicalRecord.getPatientId();
+        this.doctorId = medicalRecord.getDoctorId();
+        this.medicalInstitutionId = medicalRecord.getMedicalInstitutionId();
+        this.dateCreated = medicalRecord.getDateCreated();
+        this.dateModified = medicalRecord.getDateModified();
+        this.testName = medicalRecord.getTestName();
+        this.details = medicalRecord.getDetails();
+        this.prescriptionId = medicalRecord.getPrescriptionId();
+        this.hashFile = medicalRecord.getHashFile();
+        this.medicalRecordStatus = medicalRecord.getMedicalRecordStatus();
+    }
+
     public static byte[] serialize(Object object) {
         Genson genson = new Genson();
         return genson.serializeBytes(object);
@@ -50,50 +78,6 @@ public class MedicalRecordResponse {
     public static MedicalRecordResponse deserialize(byte[] data) {
         Genson genson = new Genson();
         return genson.deserialize(data, MedicalRecordResponse.class);
-    }
-
-    public static MedicalRecordResponse createInstance(
-            String medicalRecordId,
-            String patientId,
-            String doctorId,
-            String medicalInstitutionId,
-            String dateModified,
-            String testName,
-            String details,
-            String prescriptionId,
-            String hashFile,
-            String medicalRecordStatus
-    ) {
-        MedicalRecordResponse medicalRecord = new MedicalRecordResponse();
-        medicalRecord.setMedicalRecordId(medicalRecordId);
-        medicalRecord.setPatientId(patientId);
-        medicalRecord.setDoctorId(doctorId);
-        medicalRecord.setMedicalInstitutionId(medicalInstitutionId);
-        medicalRecord.setDateModified(dateModified);
-        medicalRecord.setTestName(testName);
-        medicalRecord.setDetails(details);
-        medicalRecord.setPrescriptionId(prescriptionId);
-        medicalRecord.setHashFile(hashFile);
-        medicalRecord.setMedicalRecordStatus(medicalRecordStatus);
-        medicalRecord.setEntityName(MedicalRecordResponse.class.getSimpleName());
-        return medicalRecord;
-    }
-
-    @Override
-    public String toString() {
-        return "MedicalRecord{" +
-                "medicalRecordId='" + medicalRecordId + '\'' +
-                ", patientId='" + patientId + '\'' +
-                ", doctorId='" + doctorId + '\'' +
-                ", medicalInstitutionId='" + medicalInstitutionId + '\'' +
-                ", dateModified='" + dateModified + '\'' +
-                ", testName='" + testName + '\'' +
-                ", details='" + details + '\'' +
-                ", hashFile='" + hashFile + '\'' +
-                ", prescriptionId='" + prescriptionId + '\'' +
-                ", medicalRecordStatus='" + medicalRecordStatus + '\'' +
-                ", entityName='" + entityName + '\'' +
-                '}';
     }
 
     public String getTestName() {
@@ -192,6 +176,42 @@ public class MedicalRecordResponse {
 
     public MedicalRecordResponse setPrescriptionId(String prescriptionId) {
         this.prescriptionId = prescriptionId;
+        return this;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public MedicalRecordResponse setPatientName(String patientName) {
+        this.patientName = patientName;
+        return this;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public MedicalRecordResponse setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+        return this;
+    }
+
+    public String getMedicalInstitutionName() {
+        return medicalInstitutionName;
+    }
+
+    public MedicalRecordResponse setMedicalInstitutionName(String medicalInstitutionName) {
+        this.medicalInstitutionName = medicalInstitutionName;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public MedicalRecordResponse setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 }

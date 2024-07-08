@@ -23,6 +23,9 @@ public class MedicalRecordForm {
     private String medicalInstitutionId;
 
     @NotBlank
+    private String dateCreated;
+
+    @NotBlank
     private String dateModified;
 
     @NotBlank

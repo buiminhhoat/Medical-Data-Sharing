@@ -15,6 +15,9 @@ public class Purchase {
     @JsonProperty("drugStoreId")
     private String drugStoreId;
 
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -72,6 +75,15 @@ public class Purchase {
 
     public Purchase setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public Purchase setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 }

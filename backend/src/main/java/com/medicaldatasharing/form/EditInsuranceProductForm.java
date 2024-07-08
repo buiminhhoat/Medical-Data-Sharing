@@ -22,6 +22,9 @@ public class EditInsuranceProductForm {
     String insuranceCompanyId;
 
     @NotBlank
+    String dateCreated;
+
+    @NotBlank
     String dateModified;
     
     @NotBlank

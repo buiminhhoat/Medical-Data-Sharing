@@ -47,68 +47,13 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
-  const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
+  const role = cookies.role;
+  const apiAllMedicalRecord = API.PATIENT.GET_LIST_MEDICAL_RECORD;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const [data, setData] = useState([
-    {
-      _id: "\u0000MedicalRecord\u00000ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554\u0000",
-      _rev: "3-2687f951b0c83cf2e2bcc0c933e74eb7",
-      dateModified: "2024-07-08",
-      details: "details -_-",
-      doctorId: "ff808181908e5daa01908e5db7a3000a",
-      entityName: "MedicalRecord",
-      hashFile: "",
-      medicalInstitutionId: "ff808181908e5daa01908e5daf810001",
-      medicalRecordId:
-        "0ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554",
-      medicalRecordStatus: "Đồng ý",
-      patientId: "ff808181908e5daa01908e5db63f0007",
-      prescriptionId:
-        "0ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554",
-      testName: "Cardiovascular Test",
-      "~version": "CgMBMwA=",
-    },
-    {
-      _id: "\u0000MedicalRecord\u00000ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554\u0000",
-      _rev: "3-2687f951b0c83cf2e2bcc0c933e74eb7",
-      dateModified: "2024-07-08",
-      details: "details -_-",
-      doctorId: "ff808181908e5daa01908e5db7a3000a",
-      entityName: "MedicalRecord",
-      hashFile: "",
-      medicalInstitutionId: "ff808181908e5daa01908e5daf810001",
-      medicalRecordId:
-        "0ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554",
-      medicalRecordStatus: "Đồng ý",
-      patientId: "ff808181908e5daa01908e5db63f0007",
-      prescriptionId:
-        "0ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554",
-      testName: "Cardiovascular Test",
-      "~version": "CgMBMwA=",
-    },
-    {
-      _id: "\u0000MedicalRecord\u00000ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554\u0000",
-      _rev: "3-2687f951b0c83cf2e2bcc0c933e74eb7",
-      dateModified: "2024-07-08",
-      details: "details -_-",
-      doctorId: "ff808181908e5daa01908e5db7a3000a",
-      entityName: "MedicalRecord",
-      hashFile: "",
-      medicalInstitutionId: "ff808181908e5daa01908e5daf810001",
-      medicalRecordId:
-        "0ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554",
-      medicalRecordStatus: "Đồng ý",
-      patientId: "ff808181908e5daa01908e5db63f0007",
-      prescriptionId:
-        "0ba77879315c9f8ec8ab6ba51360da36e6fc3b09007a6168df56979fe5c2e554",
-      testName: "Cardiovascular Test",
-      "~version": "CgMBMwA=",
-    },
-  ]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const apiGetRequest = API.PUBLIC.GET_REQUEST;
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
@@ -118,17 +63,13 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
     console.log("Failed:", errorInfo);
   };
 
-  const fetchGetRequest = async () => {
+  const fetchAllMedicalRecord = async () => {
     if (access_token) {
       const formData = new FormData();
-      // formData.append("requestId", request.requestId);
-      // formData.append("requestType", request.requestType);
-
-      console.log(access_token);
+      formData.append("patientId", patientId);
 
       try {
-        console.log("***");
-        const response = await fetch(apiGetRequest, {
+        const response = await fetch(apiAllMedicalRecord, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -138,6 +79,7 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
 
         if (response.status === 200) {
           setData(await response.json());
+          console.log(data);
         }
       } catch (e) {
         console.log(e);
@@ -146,7 +88,7 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
   };
 
   useEffect(() => {
-    if (access_token) fetchGetRequest().then((r) => {});
+    if (access_token) fetchAllMedicalRecord().then((r) => {});
   }, [access_token]);
 
   useEffect(() => {

@@ -32,6 +32,7 @@ public class MedicalRecordCRUD {
         String patientId = jsonDto.getString("patientId");
         String doctorId = jsonDto.getString("doctorId");
         String medicalInstitutionId = jsonDto.getString("medicalInstitutionId");
+        String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String testName = jsonDto.getString("testName");
         String details = jsonDto.getString("details");
@@ -46,6 +47,7 @@ public class MedicalRecordCRUD {
                 patientId,
                 doctorId,
                 medicalInstitutionId,
+                dateCreated,
                 dateModified,
                 testName,
                 details,

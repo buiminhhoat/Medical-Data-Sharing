@@ -34,6 +34,10 @@ public class InsuranceContract {
     private String endDate;
 
     @Property
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
+    @Property
     @JsonProperty("dateModified")
     private String dateModified;
 
@@ -55,6 +59,7 @@ public class InsuranceContract {
                              String insuranceCompanyId,
                              String startDate,
                              String endDate,
+                             String dateCreated,
                              String dateModified,
                              String hashFile
     ) {
@@ -65,6 +70,7 @@ public class InsuranceContract {
         this.insuranceCompanyId = insuranceCompanyId;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.hashFile = hashFile;
     }
@@ -75,6 +81,7 @@ public class InsuranceContract {
                                                    String insuranceCompanyId,
                                                    String startDate,
                                                    String endDate,
+                                                   String dateCreated,
                                                    String dateModified,
                                                    String hashFile
     ) {
@@ -85,6 +92,7 @@ public class InsuranceContract {
         insuranceContract.setInsuranceCompanyId(insuranceCompanyId);
         insuranceContract.setStartDate(startDate);
         insuranceContract.setEndDate(endDate);
+        insuranceContract.setDateCreated(dateCreated);
         insuranceContract.setDateModified(dateModified);
         insuranceContract.setHashFile(hashFile);
         return insuranceContract;
@@ -143,6 +151,15 @@ public class InsuranceContract {
 
     public InsuranceContract setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public InsuranceContract setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 

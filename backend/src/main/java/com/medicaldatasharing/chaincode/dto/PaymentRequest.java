@@ -47,6 +47,7 @@ public class PaymentRequest extends Request {
         String requestId = jsonObject.getString("requestId");
         String senderId = jsonObject.getString("senderId");
         String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
         String dateModified = jsonObject.getString("dateModified");
         String requestType = jsonObject.getString("requestType");
         String requestStatus = jsonObject.getString("requestStatus");
@@ -56,6 +57,7 @@ public class PaymentRequest extends Request {
                 requestId,
                 senderId,
                 recipientId,
+                dateCreated,
                 dateModified,
                 requestType,
                 requestStatus,
@@ -68,6 +70,7 @@ public class PaymentRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus,
@@ -78,6 +81,7 @@ public class PaymentRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);

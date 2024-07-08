@@ -43,6 +43,7 @@ public class EditRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String dateCreated,
             String dateModified,
             String requestType,
             String requestStatus,
@@ -52,6 +53,7 @@ public class EditRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);
         request.setRequestStatus(requestStatus);
@@ -84,6 +86,15 @@ public class EditRequest extends Request {
 
     public EditRequest setRecipientId(String recipientId) {
         this.recipientId = recipientId;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public EditRequest setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 
