@@ -3,6 +3,7 @@ export const DIALOGS = {
   REGISTER: "register",
   FORGOT_PASSWORD: "forgot-password",
   REQUEST_DETAIL: "REQUEST_DETAIL",
+  MEDICAL_RECORD: "MEDICAL_RECORD",
 };
 
 export const API = {

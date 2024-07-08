@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
 import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import MedicalRecordDialog from "../MedicalRecordDialog/MedicalRecordDialog";
 const { Option } = Select;
 
 const RequestDetailStyle = styled.div``;
@@ -80,6 +81,32 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
       setLoading(false);
     }
   }, [data]);
+
+  const [openDialog, setOpenDialog] = useState(null);
+  const [patientId, setPatientId] = useState(null);
+
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
+  };
+
+  const openMedicalRecord = (patientId) => {
+    console.log("openMedicalRecord");
+    console.log(patientId);
+    openModal(DIALOGS.MEDICAL_RECORD);
+    setPatientId(patientId);
+  };
 
   return (
     <RequestDetailStyle>
@@ -206,7 +233,12 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
           {(data.requestType === "Đặt lịch khám" ||
             data.requestType === "Xem hồ sơ y tế") && (
             <>
-              <Button style={{ marginRight: "3%" }}>Xem hồ sơ y tế</Button>
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={() => openMedicalRecord(data.senderId)}
+              >
+                Xem hồ sơ y tế
+              </Button>
             </>
           )}
 
@@ -241,6 +273,16 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
                 </>
               )}
         </div>
+
+        {openDialog === DIALOGS.MEDICAL_RECORD && (
+          <div>
+            <MedicalRecordDialog
+              patientId={patientId}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            />
+          </div>
+        )}
       </Modal>
     </RequestDetailStyle>
   );
