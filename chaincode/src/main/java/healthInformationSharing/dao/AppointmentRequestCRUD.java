@@ -69,6 +69,7 @@ public class AppointmentRequestCRUD {
     public AppointmentRequest sendAppointmentRequest(JSONObject jsonDto) {
         String senderId = jsonDto.getString("senderId");
         String recipientId = jsonDto.getString("recipientId");
+        String medicalInstitutionId = jsonDto.getString("medicalInstitutionId");
         String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String requestType = jsonDto.getString("requestType");
@@ -80,6 +81,7 @@ public class AppointmentRequestCRUD {
                 requestId,
                 senderId,
                 recipientId,
+                medicalInstitutionId,
                 dateCreated,
                 dateModified,
                 requestType,

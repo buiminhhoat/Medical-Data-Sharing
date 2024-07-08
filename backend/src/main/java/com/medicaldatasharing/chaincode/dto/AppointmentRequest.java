@@ -1,8 +1,12 @@
 package com.medicaldatasharing.chaincode.dto;
 
 import com.owlike.genson.Genson;
+import com.owlike.genson.annotation.JsonProperty;
 
 public class AppointmentRequest extends Request {
+    @JsonProperty("medicalInstitutionId")
+    private String medicalInstitutionId;
+
     public AppointmentRequest() {
         this.entityName = AppointmentRequest.class.getSimpleName();
     }
@@ -21,6 +25,7 @@ public class AppointmentRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String medicalInstitutionId,
             String dateCreated,
             String dateModified,
             String requestType,
@@ -30,6 +35,7 @@ public class AppointmentRequest extends Request {
         appointmentRequest.setSenderId(senderId);
         appointmentRequest.setRequestId(requestId);
         appointmentRequest.setRecipientId(recipientId);
+        appointmentRequest.setMedicalInstitutionId(medicalInstitutionId);
         appointmentRequest.setDateCreated(dateCreated);
         appointmentRequest.setDateModified(dateModified);
         appointmentRequest.setRequestType(requestType);
@@ -62,6 +68,15 @@ public class AppointmentRequest extends Request {
 
     public AppointmentRequest setRecipientId(String recipientId) {
         this.recipientId = recipientId;
+        return this;
+    }
+
+    public String getMedicalInstitutionId() {
+        return medicalInstitutionId;
+    }
+
+    public AppointmentRequest setMedicalInstitutionId(String medicalInstitutionId) {
+        this.medicalInstitutionId = medicalInstitutionId;
         return this;
     }
 

@@ -452,17 +452,9 @@ public class MedicalRecordContract implements ContractInterface {
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
-        String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
-        String dateModified = jsonObject.getString("dateModified");
         authorizeRequest(ctx, senderId, "sendAppointmentRequest(validate senderId)");
 
-        JSONObject jsonDto = new JSONObject();
-
-        jsonDto.put("senderId", senderId);
-        jsonDto.put("recipientId", recipientId);
-        jsonDto.put("dateCreated", dateCreated);
-        jsonDto.put("dateModified", dateModified);
+        JSONObject jsonDto = jsonObject;
         jsonDto.put("requestType", RequestType.APPOINTMENT);
         AppointmentRequest appointmentRequest = ctx.getAppointmentRequestDAO().sendAppointmentRequest(jsonDto);
         return new Genson().serialize(appointmentRequest);

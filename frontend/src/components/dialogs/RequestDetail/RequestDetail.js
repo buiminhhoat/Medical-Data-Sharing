@@ -9,6 +9,7 @@ import { CgEnter } from "react-icons/cg";
 import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import MedicalRecordDialog from "../MedicalRecordDialog/MedicalRecordDialog";
+import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 const { Option } = Select;
 
 const RequestDetailStyle = styled.div``;
@@ -108,6 +109,12 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
     setPatientId(patientId);
   };
 
+  const createMedicalRecord = (request) => {
+    console.log("createMedicalRecord");
+    console.log(request);
+    openModal(DIALOGS.ADD_MEDICAL_RECORD);
+  };
+
   return (
     <RequestDetailStyle>
       <Modal
@@ -141,6 +148,21 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             <div className="field">Tên người nhận</div>
             <div>{data.recipientName}</div>
           </Info>
+
+          {data.requestType === "Đặt lịch khám" && (
+            <>
+              <Info>
+                <div className="field">ID cơ sở y tế</div>
+                <div>{data.medicalInstitutionId}</div>
+              </Info>
+
+              <Info>
+                <div className="field">Tên cơ sở y tế</div>
+                <div>{data.medicalInstitutionName}</div>
+              </Info>
+            </>
+          )}
+
           <Info>
             <div className="field">Ngày tạo</div>
             <div>{data.dateCreated}</div>
@@ -253,31 +275,51 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             (data.requestType === "Đặt lịch khám" ||
               data.requestType === "Thanh toán" ||
               data.requestType === "Mua bảo hiểm") && (
-              <Button style={{ marginRight: "3%" }}>Chấp thuận</Button>
+              <>
+                <Button style={{ marginRight: "3%" }}>Chấp thuận</Button>
+              </>
             )}
-          {data.recipientId === userId && data.requestStatus == "Chờ xử lý" && (
-            <Button style={{ marginRight: "3%" }}>Đồng ý</Button>
-          )}
+
+          {data.recipientId === userId &&
+            data.requestStatus === "Chờ xử lý" &&
+            data.requestType !== "Đặt lịch khám" && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Đồng ý</Button>
+              </>
+            )}
 
           {(data.requestStatus === "Chờ xử lý" ||
             data.requestStatus === "Chấp thuận") && (
-            <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+            <>
+              <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+            </>
           )}
 
           {data.recipientId === userId &&
             data.requestType === "Đặt lịch khám" &&
-            data.requestStatus !==
-              "Đồng ý"(
-                <>
-                  <Button>Thêm hồ sơ y tế mới</Button>
-                </>
-              )}
+            data.requestStatus !== "Đồng ý" && (
+              <>
+                <Button onClick={() => createMedicalRecord(data.requestId)}>
+                  Tạo hồ sơ y tế
+                </Button>
+              </>
+            )}
         </div>
 
         {openDialog === DIALOGS.MEDICAL_RECORD && (
           <div>
             <MedicalRecordDialog
               patientId={patientId}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            />
+          </div>
+        )}
+
+        {openDialog === DIALOGS.ADD_MEDICAL_RECORD && (
+          <div>
+            <AddMedicalRecordDialog
+              request={data}
               onClose={handleDialogClose}
               onSwitch={handleDialogSwitch}
             />

@@ -19,6 +19,9 @@ public class SendAppointmentRequestForm {
     private String recipientId;
 
     @NotBlank
+    private String medicalInstitutionId;
+
+    @NotBlank
     private String dateCreated;
 
     @NotBlank

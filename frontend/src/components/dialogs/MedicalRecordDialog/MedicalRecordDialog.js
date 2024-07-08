@@ -48,7 +48,9 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  const apiAllMedicalRecord = API.PATIENT.GET_LIST_MEDICAL_RECORD;
+  let apiAllMedicalRecord = API.PATIENT.GET_LIST_MEDICAL_RECORD;
+  if (role === "Bác sĩ")
+    apiAllMedicalRecord = API.DOCTOR.GET_LIST_MEDICAL_RECORD;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState([]);
@@ -57,10 +59,6 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   const fetchAllMedicalRecord = async () => {

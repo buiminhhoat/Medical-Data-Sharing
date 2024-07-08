@@ -1,6 +1,5 @@
 package com.medicaldatasharing.service;
 
-import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.model.User;
@@ -8,7 +7,7 @@ import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
-import com.medicaldatasharing.response.GetRequestResponse;
+import com.medicaldatasharing.response.RequestResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,16 +41,16 @@ public class UserService {
         User user = userDetailsService.getLoggedUser();
         try {
             List<Request> requestList = hyperledgerService.getAllRequest(user, user.getId());
-            List<GetRequestResponse> getRequestResponseList = new ArrayList<>();
+            List<RequestResponse> requestResponseList = new ArrayList<>();
             for (Request request: requestList) {
-                GetRequestResponse getRequestResponse = new GetRequestResponse(request);
+                RequestResponse requestResponse = new RequestResponse(request);
                 User sender = userDetailsService.getUserByUserId(request.getSenderId());
-                getRequestResponse.setSenderName(sender.getFullName());
+                requestResponse.setSenderName(sender.getFullName());
                 User recipient = userDetailsService.getUserByUserId(request.getRecipientId());
-                getRequestResponse.setRecipientName(recipient.getFullName());
-                getRequestResponseList.add(getRequestResponse);
+                requestResponse.setRecipientName(recipient.getFullName());
+                requestResponseList.add(requestResponse);
             }
-            return new Genson().serialize(getRequestResponseList);
+            return new Genson().serialize(requestResponseList);
         }
         catch (Exception e) {
             throw e;
@@ -84,12 +83,18 @@ public class UserService {
                 request = hyperledgerService.getConfirmPaymentRequest(user, requestId);
             }
 
-            GetRequestResponse getRequestResponse = new GetRequestResponse(request);
+            RequestResponse requestResponse = new RequestResponse(request);
             User sender = userDetailsService.getUserByUserId(request.getSenderId());
-            getRequestResponse.setSenderName(sender.getFullName());
+            requestResponse.setSenderName(sender.getFullName());
             User recipient = userDetailsService.getUserByUserId(request.getRecipientId());
-            getRequestResponse.setRecipientName(recipient.getFullName());
-            return new Genson().serialize(getRequestResponse);
+            requestResponse.setRecipientName(recipient.getFullName());
+
+            if (Objects.equals(requestResponse.getRequestType(), RequestType.APPOINTMENT.toString())) {
+                User medicalInstitution = userDetailsService.getUserByUserId(requestResponse.getMedicalInstitutionId());
+                requestResponse.setMedicalInstitutionName(medicalInstitution.getFullName());
+            }
+
+            return new Genson().serialize(requestResponse);
         }
         catch (Exception e) {
             throw e;

@@ -10,6 +10,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 @DataType()
 public class AppointmentRequest extends Request {
+    @Property()
+    @JsonProperty("medicalInstitutionId")
+    private String medicalInstitutionId;
+
     public AppointmentRequest() {
         this.requestType = RequestType.APPOINTMENT;
         this.entityName = AppointmentRequest.class.getSimpleName();
@@ -31,6 +35,15 @@ public class AppointmentRequest extends Request {
 
     public AppointmentRequest setRequestId(String requestId) {
         this.requestId = requestId;
+        return this;
+    }
+
+    public String getMedicalInstitutionId() {
+        return medicalInstitutionId;
+    }
+
+    public AppointmentRequest setMedicalInstitutionId(String medicalInstitutionId) {
+        this.medicalInstitutionId = medicalInstitutionId;
         return this;
     }
 
@@ -101,6 +114,7 @@ public class AppointmentRequest extends Request {
             String requestId,
             String senderId,
             String recipientId,
+            String medicalInstitutionId,
             String dateCreated,
             String dateModified,
             String requestType,
@@ -110,6 +124,7 @@ public class AppointmentRequest extends Request {
         request.setRequestId(requestId);
         request.setSenderId(senderId);
         request.setRecipientId(recipientId);
+        request.setMedicalInstitutionId(medicalInstitutionId);
         request.setDateCreated(dateCreated);
         request.setDateModified(dateModified);
         request.setRequestType(requestType);

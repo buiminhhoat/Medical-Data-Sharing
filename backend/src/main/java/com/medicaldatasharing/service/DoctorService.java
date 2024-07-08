@@ -1,7 +1,6 @@
 package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.form.MedicalRecordForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
@@ -10,7 +9,6 @@ import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
-import com.medicaldatasharing.response.GetRequestResponse;
 import com.medicaldatasharing.response.MedicalRecordResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
@@ -59,7 +57,7 @@ public class DoctorService {
 
                 medicalRecordResponseList.add(medicalRecordResponse);
             }
-            return new Genson().serialize(medicalRecordList);
+            return new Genson().serialize(medicalRecordResponseList);
         }
         catch (Exception e) {
             throw e;

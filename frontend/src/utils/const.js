@@ -4,6 +4,7 @@ export const DIALOGS = {
   FORGOT_PASSWORD: "forgot-password",
   REQUEST_DETAIL: "REQUEST_DETAIL",
   MEDICAL_RECORD: "MEDICAL_RECORD",
+  ADD_MEDICAL_RECORD: "ADD_MEDICAL_RECORD",
 };
 
 export const API = {
@@ -16,6 +17,10 @@ export const API = {
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:
       "/api/patient/get-list-medical-record-by-patientId",
+  },
+  DOCTOR: {
+    GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
+    ADD_MEDICAL_RECORD: "/api/doctor/add-medical-record",
   },
 };
 

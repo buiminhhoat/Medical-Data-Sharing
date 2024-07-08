@@ -44,7 +44,6 @@ public class UserController {
         try {
             String request = userService.getRequest(requestId, requestType);
             return ResponseEntity.status(HttpStatus.OK).body(request);
-
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

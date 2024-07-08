@@ -277,6 +277,7 @@ public class HyperledgerService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("senderId", sendAppointmentRequestForm.getSenderId());
             jsonObject.put("recipientId", sendAppointmentRequestForm.getRecipientId());
+            jsonObject.put("medicalInstitutionId", sendAppointmentRequestForm.getMedicalInstitutionId());
             jsonObject.put("dateCreated", sendAppointmentRequestForm.getDateCreated());
             jsonObject.put("dateModified", sendAppointmentRequestForm.getDateModified());
 
