@@ -6,7 +6,7 @@ import com.owlike.genson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class GetRequestResponse {
+public class RequestResponse {
     @JsonProperty("requestId")
     protected String requestId;
 
@@ -15,6 +15,12 @@ public class GetRequestResponse {
 
     @JsonProperty("senderName")
     protected String senderName;
+
+    @JsonProperty("medicalInstitutionId")
+    protected String medicalInstitutionId;
+
+    @JsonProperty("medicalInstitutionName")
+    protected String medicalInstitutionName;
 
     @JsonProperty("recipientId")
     protected String recipientId;
@@ -64,7 +70,7 @@ public class GetRequestResponse {
     @JsonProperty("prescriptionId")
     private String prescriptionId;
 
-    public GetRequestResponse(Request request) {
+    public RequestResponse(Request request) {
         this.requestId = request.getRequestId();
         this.senderId = request.getSenderId();
         this.recipientId = request.getRecipientId();
@@ -74,6 +80,10 @@ public class GetRequestResponse {
         this.requestStatus = request.getRequestStatus();
         this.entityName = request.getEntityName();
 
+        if (request instanceof AppointmentRequest && Objects.equals(requestType, RequestType.APPOINTMENT.toString())) {
+            AppointmentRequest appointmentRequest = (AppointmentRequest) request;
+            this.medicalInstitutionId = appointmentRequest.getMedicalInstitutionId();
+        }
         if (request instanceof ConfirmPaymentRequest && Objects.equals(requestType, RequestType.CONFIRM_PAYMENT.toString())) {
             ConfirmPaymentRequest confirmPaymentRequest = (ConfirmPaymentRequest) request;
             this.paymentRequestId = confirmPaymentRequest.getPaymentRequestId();
@@ -108,7 +118,7 @@ public class GetRequestResponse {
         return requestId;
     }
 
-    public GetRequestResponse setRequestId(String requestId) {
+    public RequestResponse setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -117,7 +127,7 @@ public class GetRequestResponse {
         return senderId;
     }
 
-    public GetRequestResponse setSenderId(String senderId) {
+    public RequestResponse setSenderId(String senderId) {
         this.senderId = senderId;
         return this;
     }
@@ -126,7 +136,7 @@ public class GetRequestResponse {
         return senderName;
     }
 
-    public GetRequestResponse setSenderName(String senderName) {
+    public RequestResponse setSenderName(String senderName) {
         this.senderName = senderName;
         return this;
     }
@@ -135,7 +145,7 @@ public class GetRequestResponse {
         return recipientId;
     }
 
-    public GetRequestResponse setRecipientId(String recipientId) {
+    public RequestResponse setRecipientId(String recipientId) {
         this.recipientId = recipientId;
         return this;
     }
@@ -144,7 +154,7 @@ public class GetRequestResponse {
         return recipientName;
     }
 
-    public GetRequestResponse setRecipientName(String recipientName) {
+    public RequestResponse setRecipientName(String recipientName) {
         this.recipientName = recipientName;
         return this;
     }
@@ -153,7 +163,7 @@ public class GetRequestResponse {
         return dateModified;
     }
 
-    public GetRequestResponse setDateModified(String dateModified) {
+    public RequestResponse setDateModified(String dateModified) {
         this.dateModified = dateModified;
         return this;
     }
@@ -162,7 +172,7 @@ public class GetRequestResponse {
         return requestType;
     }
 
-    public GetRequestResponse setRequestType(String requestType) {
+    public RequestResponse setRequestType(String requestType) {
         this.requestType = requestType;
         return this;
     }
@@ -171,7 +181,7 @@ public class GetRequestResponse {
         return requestStatus;
     }
 
-    public GetRequestResponse setRequestStatus(String requestStatus) {
+    public RequestResponse setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
         return this;
     }
@@ -180,7 +190,7 @@ public class GetRequestResponse {
         return entityName;
     }
 
-    public GetRequestResponse setEntityName(String entityName) {
+    public RequestResponse setEntityName(String entityName) {
         this.entityName = entityName;
         return this;
     }
@@ -189,7 +199,7 @@ public class GetRequestResponse {
         return paymentRequestId;
     }
 
-    public GetRequestResponse setPaymentRequestId(String paymentRequestId) {
+    public RequestResponse setPaymentRequestId(String paymentRequestId) {
         this.paymentRequestId = paymentRequestId;
         return this;
     }
@@ -198,7 +208,7 @@ public class GetRequestResponse {
         return medicalRecord;
     }
 
-    public GetRequestResponse setMedicalRecord(String medicalRecord) {
+    public RequestResponse setMedicalRecord(String medicalRecord) {
         this.medicalRecord = medicalRecord;
         return this;
     }
@@ -207,7 +217,7 @@ public class GetRequestResponse {
         return insuranceContractId;
     }
 
-    public GetRequestResponse setInsuranceContractId(String insuranceContractId) {
+    public RequestResponse setInsuranceContractId(String insuranceContractId) {
         this.insuranceContractId = insuranceContractId;
         return this;
     }
@@ -216,7 +226,7 @@ public class GetRequestResponse {
         return medicalRecordId;
     }
 
-    public GetRequestResponse setMedicalRecordId(String medicalRecordId) {
+    public RequestResponse setMedicalRecordId(String medicalRecordId) {
         this.medicalRecordId = medicalRecordId;
         return this;
     }
@@ -225,7 +235,7 @@ public class GetRequestResponse {
         return insuranceProductId;
     }
 
-    public GetRequestResponse setInsuranceProductId(String insuranceProductId) {
+    public RequestResponse setInsuranceProductId(String insuranceProductId) {
         this.insuranceProductId = insuranceProductId;
         return this;
     }
@@ -234,7 +244,7 @@ public class GetRequestResponse {
         return startDate;
     }
 
-    public GetRequestResponse setStartDate(String startDate) {
+    public RequestResponse setStartDate(String startDate) {
         this.startDate = startDate;
         return this;
     }
@@ -243,7 +253,7 @@ public class GetRequestResponse {
         return endDate;
     }
 
-    public GetRequestResponse setEndDate(String endDate) {
+    public RequestResponse setEndDate(String endDate) {
         this.endDate = endDate;
         return this;
     }
@@ -252,7 +262,7 @@ public class GetRequestResponse {
         return hashFile;
     }
 
-    public GetRequestResponse setHashFile(String hashFile) {
+    public RequestResponse setHashFile(String hashFile) {
         this.hashFile = hashFile;
         return this;
     }
@@ -261,8 +271,35 @@ public class GetRequestResponse {
         return prescriptionId;
     }
 
-    public GetRequestResponse setPrescriptionId(String prescriptionId) {
+    public RequestResponse setPrescriptionId(String prescriptionId) {
         this.prescriptionId = prescriptionId;
+        return this;
+    }
+
+    public String getMedicalInstitutionId() {
+        return medicalInstitutionId;
+    }
+
+    public RequestResponse setMedicalInstitutionId(String medicalInstitutionId) {
+        this.medicalInstitutionId = medicalInstitutionId;
+        return this;
+    }
+
+    public String getMedicalInstitutionName() {
+        return medicalInstitutionName;
+    }
+
+    public RequestResponse setMedicalInstitutionName(String medicalInstitutionName) {
+        this.medicalInstitutionName = medicalInstitutionName;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public RequestResponse setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 }
