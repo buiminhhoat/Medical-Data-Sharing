@@ -80,6 +80,7 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
         if (response.status === 200) {
           setData(await response.json());
           console.log(data);
+          setLoading(false);
         }
       } catch (e) {
         console.log(e);
@@ -91,13 +92,6 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
     if (access_token) fetchAllMedicalRecord().then((r) => {});
   }, [access_token]);
 
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-      setLoading(false);
-    }
-  }, [data]);
-
   return (
     <MedicalRecordDialogStyle>
       <Modal
@@ -107,7 +101,7 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
         footer={null}
         centered
         width={"60%"}
-        // loading={loading}
+        loading={loading}
       >
         <StyledList
           bordered
