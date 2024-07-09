@@ -261,11 +261,12 @@ const RequestPage = () => {
             cursor: "pointer",
           }}
           onClick={() => {
+            console.log(record.requestId);
+            console.log(index);
+            console.log(dataSource);
             navigator.clipboard
-              .writeText(dataSource[index].requestId)
-              .then(() =>
-                message.success("Đã sao chép " + dataSource[index].requestId)
-              )
+              .writeText(record.requestId)
+              .then(() => message.success("Đã sao chép " + record.requestId))
               .catch((err) => message.error("Sao chép thất bại!"));
           }}
         >
