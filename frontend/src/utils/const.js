@@ -21,6 +21,7 @@ export const API = {
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
     ADD_MEDICAL_RECORD: "/api/doctor/add-medical-record",
+    GET_ALL_MEDICATION: "/api/doctor/get-all-medication",
   },
 };
 

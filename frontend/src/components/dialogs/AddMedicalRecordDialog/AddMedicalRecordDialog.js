@@ -52,7 +52,6 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
   let apiAddMedicalRecord = API.DOCTOR.ADD_MEDICAL_RECORD;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const handleCancel = () => {
@@ -66,13 +65,30 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
 
   const handleAddMedicalRecordFormSubmit = async (values) => {
     // values.requestId = request.requestId;
-
+    console.log("handleAddMedicalRecordFormSubmit");
     console.log(values);
-  };
-  const addMedicalRecord = async () => {
     if (access_token) {
       const formData = new FormData();
-
+      formData.append("requestId", values.requestId);
+      formData.append("patientId", values.patientId);
+      formData.append("patientName", values.patientName);
+      formData.append("doctorId", values.doctorId);
+      formData.append("doctorName", values.doctorName);
+      formData.append("medicalInstitutionId", values.medicalInstitutionId);
+      formData.append("medicalInstitutionName", values.medicalInstitutionName);
+      formData.append("testName", values.testName);
+      formData.append("details", values.details);
+      formData.append("hashFile", values.hashFile);
+      let addPrescription = [];
+      values.prescriptionDetailsList.map((p) => {
+        const medicationId = JSON.parse(p.medicationId).medicationId;
+        const quantity = String(p.quantity);
+        const details = p.details;
+        p = { medicationId, quantity, details };
+        addPrescription.push({ medicationId, quantity, details });
+      });
+      console.log(addPrescription);
+      formData.append("addPrescription", JSON.stringify(addPrescription));
       try {
         const response = await fetch(apiAddMedicalRecord, {
           method: "POST",
@@ -83,7 +99,8 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
         });
 
         if (response.status === 200) {
-          setData(await response.json());
+          console.log("data");
+          let data = await response.json();
           console.log(data);
           setLoading(false);
         }
@@ -93,42 +110,97 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
     }
   };
 
+  const [medicationList, setMedicationList] = useState(null);
+  const apiGetAllMedication = API.DOCTOR.GET_ALL_MEDICATION;
+  const fetchGetAllMedication = async () => {
+    if (access_token) {
+      try {
+        const response = await fetch(apiGetAllMedication, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        });
+
+        if (response.status === 200) {
+          // console.log("Hello");
+          setMedicationList(await response.json());
+          console.log(medicationList);
+          // setLoading(false);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  const [treeData, setTreeData] = useState(null);
+
+  useEffect(() => {
+    if (access_token) fetchGetAllMedication();
+  }, [access_token]);
+
+  useEffect(() => {
+    if (medicationList) {
+      const value = medicationList.map((manufacturer) => ({
+        title:
+          manufacturer.manufacturerName + " | " + manufacturer.manufacturerId,
+        value: JSON.stringify({
+          manufacturerId: manufacturer.manufacturerId,
+          manufacturerName: manufacturer.manufacturerName,
+        }),
+        selectable: false,
+        children: manufacturer.medicationList.map((medication) => ({
+          title: medication.medicationName,
+          value: JSON.stringify({
+            medicationId: medication.medicationId,
+            medicationName: medication.medicationName,
+          }),
+        })),
+      }));
+
+      console.log("value");
+      console.log(value);
+      setTreeData(value);
+    }
+  }, [medicationList]);
+
   // useEffect(() => {
   //   if (access_token) addMedicalRecord().then((r) => {});
   // }, [access_token]);
 
-  const treeData = [
-    {
-      value: "Công ty A | ID của công ty A",
-      title: "Công ty A | ID của công ty A",
-      selectable: false,
-      children: [
-        {
-          value: JSON.stringify({ id: "Thuốc ABC", name: "medicationId" }),
-          title: "Thuốc ABC",
-        },
-        {
-          value: "Thuốc C | ID của thuốc C",
-          title: "Thuốc C | ID của thuốc C",
-        },
-      ],
-    },
-    {
-      value: "Công ty D | ID của công ty D",
-      title: "Công ty D | ID của công ty D",
-      selectable: false,
-      children: [
-        {
-          value: "Thuốc E | ID của thuốc E",
-          title: "Thuốc E | ID của thuốc E",
-        },
-        {
-          value: "Thuốc F | ID của thuốc F",
-          title: "Thuốc F | ID của thuốc F",
-        },
-      ],
-    },
-  ];
+  // const treeData = [
+  //   {
+  //     value: "Công ty A | ID của công ty A",
+  //     title: "Công ty A | ID của công ty A",
+  //     selectable: false,
+  //     children: [
+  //       {
+  //         value: JSON.stringify({ id: "Thuốc ABC", name: "medicationId" }),
+  //         title: "Thuốc ABC",
+  //       },
+  //       {
+  //         value: "Thuốc C | ID của thuốc C",
+  //         title: "Thuốc C | ID của thuốc C",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     value: "Công ty D | ID của công ty D",
+  //     title: "Công ty D | ID của công ty D",
+  //     selectable: false,
+  //     children: [
+  //       {
+  //         value: "Thuốc E | ID của thuốc E",
+  //         title: "Thuốc E | ID của thuốc E",
+  //       },
+  //       {
+  //         value: "Thuốc F | ID của thuốc F",
+  //         title: "Thuốc F | ID của thuốc F",
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const [value, setValue] = useState();
   const onChange = (newValue) => {
@@ -229,7 +301,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
 
             <Form.Item
               label="File"
-              name="file"
+              name="hashFile"
               rules={[
                 {
                   required: true,
@@ -260,7 +332,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                         >
                           <Form.Item
                             {...restField}
-                            name={[name, "medicationName"]}
+                            name={[name, "medicationId"]}
                             style={{
                               width: "80%",
                             }}
@@ -339,7 +411,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                             rules={[
                               {
                                 required: true,
-                                message: "Chọn số lượng",
+                                message: "Vui lòng điền cách dùng",
                               },
                             ]}
                           >

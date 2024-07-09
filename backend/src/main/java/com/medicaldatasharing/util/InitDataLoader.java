@@ -403,7 +403,7 @@ public class InitDataLoader implements CommandLineRunner {
 
             String details = "relevant Parameters";
 
-            MedicalRecordDto medicalRecordDto = new MedicalRecordDto();
+            AddMedicalRecordForm medicalRecordDto = new AddMedicalRecordForm();
             medicalRecordDto.setRequestId(appointmentRequest.getRequestId());
             medicalRecordDto.setPatientId(patientId);
             medicalRecordDto.setDoctorId(doctor1Id);
@@ -415,7 +415,7 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecordDto.setHashFile("");
             medicalRecordDto.setAddPrescription(addPrescriptionForm.toJSONObject().toString());
 
-            MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto);
+            MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto.toJSONObject());
             System.out.println("chaincodeMedicalRecord: " + medicalRecord);
 
             MedicalRecord getMedicalRecordByPatient = hyperledgerService.getMedicalRecordByPatient(

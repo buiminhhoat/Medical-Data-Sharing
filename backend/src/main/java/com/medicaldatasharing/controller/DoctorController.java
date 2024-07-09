@@ -1,11 +1,18 @@
 package com.medicaldatasharing.controller;
 
+import com.medicaldatasharing.chaincode.dto.Medication;
+import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
+import com.medicaldatasharing.chaincode.dto.ViewRequest;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.form.MedicalRecordForm;
+import com.medicaldatasharing.form.AddMedicalRecordForm;
+import com.medicaldatasharing.form.AddPrescriptionForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.UserService;
+import com.medicaldatasharing.util.StringUtil;
+import com.owlike.genson.GenericType;
+import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/doctor")
@@ -45,15 +54,33 @@ public class DoctorController {
         }
     }
 
-    @PostMapping("/addMedicalRecord")
-    public MedicalRecordDto addMedicalRecord(@Valid @ModelAttribute MedicalRecordForm medicalRecordForm, BindingResult result) throws Exception {
-//        if (result.hasErrors()) {
-//            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
-//            throw new ValidationException(errorMsg);
-//        }
-//
-//        return doctorService.addMedicalRecord(medicalRecordForm);
-        return null;
+    @PostMapping("/get-all-medication")
+    public ResponseEntity<?> getAllMedication(HttpServletRequest httpServletRequest) {
+        try {
+            String getAllMedication = doctorService.getAllMedication();
+            return ResponseEntity.status(HttpStatus.OK).body(getAllMedication);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @PostMapping("/add-medical-record")
+    public ResponseEntity<?> addMedicalRecord(@Valid @ModelAttribute AddMedicalRecordForm addMedicalRecordForm, BindingResult result) throws Exception {
+        try {
+            addMedicalRecordForm.setDateCreated(StringUtil.parseDate(new Date()));
+            addMedicalRecordForm.setDateModified(StringUtil.parseDate(new Date()));
+            String addPrescription = addMedicalRecordForm.getAddPrescription();
+            List<PrescriptionDetails>  prescriptionDetailsList = new Genson().deserialize(addPrescription,
+                            new GenericType<List<PrescriptionDetails>>() {});
+            AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
+            addPrescriptionForm.setPrescriptionDetailsList(new Genson().serialize(prescriptionDetailsList));
+            addMedicalRecordForm.setAddPrescription(addPrescriptionForm.toJSONObject().toString());
+            String medicalRecord = doctorService.addMedicalRecord(addMedicalRecordForm);
+            return ResponseEntity.status(HttpStatus.OK).body(medicalRecord);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
 //    @PostMapping("/sendRequest")

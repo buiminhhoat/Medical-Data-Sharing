@@ -1,8 +1,9 @@
 package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
+import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.dto.MedicalRecordDto;
-import com.medicaldatasharing.form.MedicalRecordForm;
+import com.medicaldatasharing.form.AddMedicalRecordForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
@@ -10,10 +11,15 @@ import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.response.MedicalRecordResponse;
+import com.medicaldatasharing.response.MedicationResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +44,26 @@ public class DoctorService {
     @Autowired
     private HyperledgerService hyperledgerService;
 
+    public String getAllMedication() throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            List<Medication> medicationList = hyperledgerService.getAllMedication(user);
+            List<MedicationResponse> medicationResponseList = new ArrayList<>();
+            Map<String, List<Medication>> groupedByManufacturer = medicationList.stream()
+                    .collect(Collectors.groupingBy(Medication::getManufacturerId));
+            groupedByManufacturer.forEach((manufacturerId, medications) -> {
+                MedicationResponse medicationResponse = new MedicationResponse();
+                medicationResponse.setManufacturerId(manufacturerId);
+                medicationResponse.setManufacturerName(userDetailsService.getUserByUserId(manufacturerId).getFullName());
+                medicationResponse.setMedicationList(medications);
+                medicationResponseList.add(medicationResponse);
+            });
+            return new Genson().serialize(medicationResponseList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
     public String getListMedicalRecord(SearchMedicalRecordForm searchMedicalRecordForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
         try {
@@ -64,26 +90,12 @@ public class DoctorService {
         }
     }
 
-    public MedicalRecordDto addMedicalRecord(MedicalRecordForm medicalRecordForm) throws Exception {
+    public String addMedicalRecord(AddMedicalRecordForm addMedicalRecordForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
-        MedicalRecordDto medicalRecordDto = new MedicalRecordDto();
-        medicalRecordDto.setPatientId(medicalRecordForm.getPatientId());
-        medicalRecordDto.setDoctorId(medicalRecordForm.getDoctorId());
-        medicalRecordDto.setMedicalInstitutionId(medicalRecordForm.getMedicalInstitutionId());
-        medicalRecordDto.setDateModified(medicalRecordForm.getDateModified());
-        medicalRecordDto.setTestName(medicalRecordForm.getTestName());
-        medicalRecordDto.setDetails(medicalRecordForm.getDetails());
 
-        MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(user, medicalRecordDto);
+        MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(user, addMedicalRecordForm.toJSONObject());
 
-        MedicalRecordDto result = new MedicalRecordDto();
-        result.setPatientId(medicalRecord.getPatientId());
-        result.setDoctorId(medicalRecord.getDoctorId());
-        result.setMedicalInstitutionId(medicalRecord.getMedicalInstitutionId());
-        result.setDateModified(medicalRecord.getDateModified());
-        result.setTestName(medicalRecord.getTestName());
-        result.setDetails(medicalRecord.getDetails());
-        return result;
+        return new Genson().serialize(medicalRecord);
     }
 
 //    public SendRequestDto sendRequest(

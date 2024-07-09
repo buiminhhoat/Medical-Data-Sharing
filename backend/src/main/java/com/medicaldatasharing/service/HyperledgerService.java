@@ -134,23 +134,13 @@ public class HyperledgerService {
         return builder.connect();
     }
 
-    public MedicalRecord addMedicalRecord(User user, MedicalRecordDto medicalRecordDto) throws Exception {
+    public MedicalRecord addMedicalRecord(User user, JSONObject jsonDto) throws Exception {
         MedicalRecord medicalRecord = null;
         try {
             Contract contract = getContract(user);
             LOG.info("Submit Transaction: AddMedicalRecord");
 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("requestId", medicalRecordDto.getRequestId());
-            jsonObject.put("patientId", medicalRecordDto.getPatientId());
-            jsonObject.put("doctorId", medicalRecordDto.getDoctorId());
-            jsonObject.put("medicalInstitutionId", medicalRecordDto.getMedicalInstitutionId());
-            jsonObject.put("dateCreated", medicalRecordDto.getDateCreated());
-            jsonObject.put("dateModified", medicalRecordDto.getDateModified());
-            jsonObject.put("testName", medicalRecordDto.getTestName());
-            jsonObject.put("details", medicalRecordDto.getDetails());
-            jsonObject.put("hashFile", medicalRecordDto.getHashFile());
-            jsonObject.put("addPrescription", medicalRecordDto.getAddPrescription());
+            JSONObject jsonObject = jsonDto;
 
             byte[] result = contract.submitTransaction(
                     "addMedicalRecord",
@@ -649,6 +639,32 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return medication;
+    }
+
+    public List<Medication> getAllMedication(
+            User user
+    ) throws Exception {
+        List<Medication> medicationList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+
+            byte[] result = contract.evaluateTransaction(
+                    "getAllMedication"
+            );
+
+            String medicationListStr = new String(result);
+            medicationList = new Genson().deserialize(
+                    medicationListStr,
+                    new GenericType<List<Medication>>() {
+                    }
+            );
+
+            LOG.info("result: " + medicationList);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medicationList;
     }
 
     public List<Medication> getListMedication(

@@ -45,14 +45,14 @@ public class MedicationQuery {
     }
 
     public JSONObject createQuerySelector(JSONObject jsonDto) {
-        String medicationId = jsonDto.getString("medicationId");
-        String manufacturerId = jsonDto.getString("manufacturerId");
-        String medicationName = jsonDto.getString("medicationName");
-        String description = jsonDto.getString("description");
+        String medicationId = jsonDto.has("medicationId") ? jsonDto.getString("medicationId") : "";
+        String manufacturerId = jsonDto.has("manufacturerId") ? jsonDto.getString("manufacturerId") : "";
+        String medicationName = jsonDto.has("medicationName") ? jsonDto.getString("medicationName") : "";
+        String description = jsonDto.has("description") ? jsonDto.getString("description") : "";
 
-        String sortingOrder = jsonDto.getString("sortingOrder");
-        String from = jsonDto.getString("from");
-        String until = jsonDto.getString("until");
+        String sortingOrder = jsonDto.has("sortingOrder") ? jsonDto.getString("sortingOrder") : "";
+        String from = jsonDto.has("from") ? jsonDto.getString("from") : "";
+        String until = jsonDto.has("until") ? jsonDto.getString("until") : "";
 
 
         JSONObject jsonObjectTimeRange = new JSONObject();
@@ -66,12 +66,14 @@ public class MedicationQuery {
 
         JSONArray jsonArraySortAttributes = new JSONArray();
         JSONObject jsonObjectSortTimeAttr = new JSONObject();
-        jsonObjectSortTimeAttr.putOnce("dateModified", sortingOrder);
-        jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
-
+        if (!sortingOrder.isEmpty()) {
+            jsonObjectSortTimeAttr.putOnce("dateModified", sortingOrder);
+            jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
+        }
         JSONObject jsonObjectSelector = new JSONObject();
-        jsonObjectSelector.putOnce("dateModified", jsonObjectTimeRange);
-
+        if (!jsonObjectTimeRange.isEmpty()) {
+            jsonObjectSelector.putOnce("dateModified", jsonObjectTimeRange);
+        }
         if (!medicationId.isEmpty()) {
             jsonObjectSelector.putOnce("medicationId", medicationId);
         }
@@ -92,8 +94,9 @@ public class MedicationQuery {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.putOnce("selector", jsonObjectSelector);
-        jsonObject.putOnce("sort", jsonArraySortAttributes);
-
+        if (!jsonArraySortAttributes.isEmpty()) {
+            jsonObject.putOnce("sort", jsonArraySortAttributes);
+        }
         return jsonObject;
     }
 }
