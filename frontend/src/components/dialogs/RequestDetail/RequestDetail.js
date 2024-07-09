@@ -264,6 +264,18 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             </>
           )}
 
+          {data.recipientId === userId &&
+            data.requestType === "Đặt lịch khám" && (
+              <>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => openMedicalRecord(data.senderId)}
+                >
+                  Chỉnh sửa hồ sơ y tế
+                </Button>
+              </>
+            )}
+
           {data.requestType === "Xem đơn thuốc" && (
             <>
               <Button style={{ marginRight: "3%" }}>Xem đơn thuốc</Button>

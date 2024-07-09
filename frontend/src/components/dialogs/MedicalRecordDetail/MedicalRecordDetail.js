@@ -90,6 +90,8 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
     if (access_token) fetchGetMedicalRecordByMedicalRecordId().then((r) => {});
   }, [access_token]);
 
+  console.log(userId);
+
   return (
     <MedicalRecordDetailStyle>
       <Modal
@@ -186,8 +188,29 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
             display: "flex",
             justifyContent: "center",
             justifyItems: "center",
+            marginTop: "1%",
           }}
-        ></div>
+        >
+          {medicalRecord.patientId === userId && (
+            <>
+              <Button style={{ marginRight: "3%" }}>Xem đơn thuốc</Button>
+            </>
+          )}
+
+          {medicalRecord.patientId === userId &&
+            medicalRecord.medicalRecordStatus === "Chờ xử lý" && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Đồng ý</Button>
+              </>
+            )}
+
+          {medicalRecord.patientId === userId &&
+            medicalRecord.medicalRecordStatus === "Chờ xử lý" && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+              </>
+            )}
+        </div>
       </Modal>
     </MedicalRecordDetailStyle>
   );
