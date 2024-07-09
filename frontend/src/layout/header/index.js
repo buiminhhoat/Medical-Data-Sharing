@@ -1,7 +1,7 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import theme from "../../styles/pages/theme";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { DIALOGS } from "@Const";
 import ProfileMenu from "@Components/ProfileMenu/ProfileMenu";
 import LoginDialog from "@Components/dialogs/LoginDialog/LoginDialog";
@@ -63,20 +63,47 @@ const HeaderStyle = styled.div`
 `;
 
 const Header = () => {
-  const [menuItems, setMenuItems] = useState([
-    {
-      name: "Đặt lịch khám",
-      path: ROUTERS.PATIENT.APPOINTMENT,
-    },
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
+  const access_token = cookies.access_token;
+  const userId = cookies.userId;
+  const role = cookies.role;
+
+  const [userMenuItems, setUserMenuItems] = useState([
     {
       name: "Quản lý yêu cầu",
       path: ROUTERS.USER.REQUEST,
+    },
+  ]);
+
+  const [patientMenuItems, setPatientMenuItems] = useState([
+    {
+      name: "Đặt lịch khám",
+      path: ROUTERS.PATIENT.APPOINTMENT,
     },
     {
       name: "Quản lý hồ sơ y tế",
       path: ROUTERS.PATIENT.MEDICAL_RECORD_MANAGEMENT_PAGE,
     },
   ]);
+
+  const [menuItems, setMenuItems] = useState(null);
+
+  useEffect(() => {
+    if (!menuItems) {
+      let items = [];
+
+      if (role === "Bệnh nhân") {
+        patientMenuItems.map((item, key) => {
+          items.push(item);
+        });
+      }
+
+      userMenuItems.map((item, key) => {
+        items.push(item);
+      });
+      setMenuItems(items);
+    }
+  });
 
   const [openDialog, setOpenDialog] = useState(null);
 
@@ -95,8 +122,6 @@ const Header = () => {
   const closeModal = () => {
     setOpenDialog(null);
   };
-
-  const [cookies] = useCookies(["access_token"]);
 
   console.log(openDialog);
   return (

@@ -116,22 +116,26 @@ public class AuthRestAPIs {
 
     @GetMapping("/get-user-data")
     public ResponseEntity<?> getUserData(@RequestHeader("Authorization") String access_token) {
-        User user = null;
-        if (access_token != null && access_token.startsWith("Bearer ")) {
-            access_token = access_token.replace("Bearer ", "");
-            String username = jwtProvider.getUserNameFromJwtToken(access_token);
-            user = userDetailsService.getUser(username);
-        }
+        try {
+            User user = null;
+            if (access_token != null && access_token.startsWith("Bearer ")) {
+                access_token = access_token.replace("Bearer ", "");
+                String username = jwtProvider.getUserNameFromJwtToken(access_token);
+                user = userDetailsService.getUser(username);
+            }
 
-        if (user == null) {
+            if (user == null) {
+                return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            }
+
+            if (!user.isEnabled()) {
+                return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            }
+            return ResponseEntity.ok(new GetUserDataResponse(user.getFullName(), user.getRole()));
+        }
+        catch (Exception exception) {
             return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
         }
-
-        if (!user.isEnabled()) {
-            return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
-        }
-
-        return ResponseEntity.ok(new GetUserDataResponse(user.getFullName(), user.getRole()));
     }
 }
 

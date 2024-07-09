@@ -13,6 +13,7 @@ export const API = {
     GET_USER_DATA: "/api/public/get-user-data",
     GET_ALL_REQUEST: "/api/public/get-all-request",
     GET_REQUEST: "/api/public/get-request",
+    GET_ROLE: "/api/public/get-role",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:
