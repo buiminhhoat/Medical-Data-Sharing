@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Cookies, useCookies } from "react-cookie";
 import { UserOutlined, CloseOutlined } from "@ant-design/icons";
@@ -16,32 +16,17 @@ import {
   List,
   Typography,
 } from "antd";
+import { Alert, notification } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 const { Option } = Select;
 
+const Context = React.createContext({
+  name: "Default",
+});
+
 const AddMedicalRecordDialogStyle = styled.div`
   overflow: auto;
-`;
-
-const Info = styled.div`
-  display: flex;
-  /* justify-content: center; */
-  /* justify-items: center; */
-  margin-bottom: 15px;
-  .field {
-    width: 20%;
-    margin-right: 3%;
-  }
-`;
-
-const StyledList = styled(List)`
-  .ant-list-items > .ant-list-item:nth-child(odd) {
-    background-color: rgb(246, 255, 237);
-  }
-  .ant-list-items > .ant-list-item:nth-child(even) {
-    background-color: rgb(230, 230, 230);
-  }
 `;
 
 const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
@@ -80,15 +65,24 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
       formData.append("details", values.details);
       formData.append("hashFile", values.hashFile);
       let addPrescription = [];
-      values.prescriptionDetailsList.map((p) => {
-        const medicationId = JSON.parse(p.medicationId).medicationId;
-        const quantity = String(p.quantity);
-        const details = p.details;
-        p = { medicationId, quantity, details };
-        addPrescription.push({ medicationId, quantity, details });
-      });
+      if (values.prescriptionDetailsList) {
+        values.prescriptionDetailsList.map((p) => {
+          const medicationId = JSON.parse(p.medicationId).medicationId;
+          const quantity = String(p.quantity);
+          const details = p.details;
+          p = { medicationId, quantity, details };
+          addPrescription.push({ medicationId, quantity, details });
+        });
+      }
       console.log(addPrescription);
       formData.append("addPrescription", JSON.stringify(addPrescription));
+      openNotification(
+        "topRight",
+        "info",
+        "Đã gửi yêu cầu",
+        "Hệ thống đã tiếp nhận yêu cầu!"
+      );
+
       try {
         const response = await fetch(apiAddMedicalRecord, {
           method: "POST",
@@ -102,7 +96,22 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
           console.log("data");
           let data = await response.json();
           console.log(data);
+          openNotification(
+            "topRight",
+            "success",
+            "Thành công",
+            "Đã thêm hồ sơ y tế thành công!",
+            handleCancel
+          );
           setLoading(false);
+        } else {
+          openNotification(
+            "topRight",
+            "error",
+            "Thất bại",
+            "Đã có lỗi xảy ra khi thêm hồ sơ y tế!",
+            handleCancel
+          );
         }
       } catch (e) {
         console.log(e);
@@ -125,7 +134,6 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
         if (response.status === 200) {
           // console.log("Hello");
           setMedicationList(await response.json());
-          console.log(medicationList);
           // setLoading(false);
         }
       } catch (e) {
@@ -162,45 +170,9 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
       console.log("value");
       console.log(value);
       setTreeData(value);
+      setLoading(false);
     }
   }, [medicationList]);
-
-  // useEffect(() => {
-  //   if (access_token) addMedicalRecord().then((r) => {});
-  // }, [access_token]);
-
-  // const treeData = [
-  //   {
-  //     value: "Công ty A | ID của công ty A",
-  //     title: "Công ty A | ID của công ty A",
-  //     selectable: false,
-  //     children: [
-  //       {
-  //         value: JSON.stringify({ id: "Thuốc ABC", name: "medicationId" }),
-  //         title: "Thuốc ABC",
-  //       },
-  //       {
-  //         value: "Thuốc C | ID của thuốc C",
-  //         title: "Thuốc C | ID của thuốc C",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     value: "Công ty D | ID của công ty D",
-  //     title: "Công ty D | ID của công ty D",
-  //     selectable: false,
-  //     children: [
-  //       {
-  //         value: "Thuốc E | ID của thuốc E",
-  //         title: "Thuốc E | ID của thuốc E",
-  //       },
-  //       {
-  //         value: "Thuốc F | ID của thuốc F",
-  //         title: "Thuốc F | ID của thuốc F",
-  //       },
-  //     ],
-  //   },
-  // ];
 
   const [value, setValue] = useState();
   const onChange = (newValue) => {
@@ -213,247 +185,262 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
 
   console.log(request);
 
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (placement, type, message, description, onClose) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement,
+      showProgress: true,
+      pauseOnHover: true,
+      onClose: onClose,
+    });
+  };
+
   return (
-    <AddMedicalRecordDialogStyle>
-      <Modal
-        title="Tạo hồ sơ y tế"
-        open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-        centered
-        width={"60%"}
-        // loading={loading}
-      >
-        <Form
-          name="basic"
-          labelCol={{
-            span: 5,
-          }}
-          wrapperCol={{
-            span: 18,
-          }}
-          style={{
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          initialValues={{
-            requestId: request.requestId,
-            patientId: request.senderId,
-            patientName: request.senderName,
-            doctorId: request.recipientId,
-            doctorName: request.recipientName,
-            medicalInstitutionId: request.medicalInstitutionId,
-            medicalInstitutionName: request.medicalInstitutionName,
-            remember: true,
-          }}
-          onFinish={handleAddMedicalRecordFormSubmit}
-          onFinishFailed={onFinishFailed}
-          autoComplete="on"
+    <Context.Provider value={"Thêm hồ sơ y tế"}>
+      {contextHolder}
+      <AddMedicalRecordDialogStyle>
+        <Modal
+          title="Tạo hồ sơ y tế"
+          open={isModalOpen}
+          onCancel={handleCancel}
+          footer={null}
+          centered
+          width={"60%"}
+          loading={loading}
         >
-          <div style={{ width: "100%" }}>
-            <Form.Item label="ID yêu cầu" name="requestId">
-              <Input disabled />
-            </Form.Item>
-            <Form.Item label="ID bệnh nhân" name="patientId">
-              <Input disabled />
-            </Form.Item>
-            <Form.Item label="Tên bệnh nhân" name="patientName">
-              <Input disabled />
-            </Form.Item>
-            <Form.Item label="ID bác sĩ" name="doctorId">
-              <Input disabled />
-            </Form.Item>
-            <Form.Item label="Tên bác sĩ" name="doctorName">
-              <Input disabled />
-            </Form.Item>
-            <Form.Item label="ID cơ sở y tế" name="medicalInstitutionId">
-              <Input disabled />
-            </Form.Item>
-            <Form.Item label="Tên cơ sở y tế" name="medicalInstitutionName">
-              <Input disabled />
-            </Form.Item>
-            <Form.Item
-              label="Tên xét nghiệm"
-              name="testName"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng điền tên xét nghiệm!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 5,
+            }}
+            wrapperCol={{
+              span: 18,
+            }}
+            style={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            initialValues={{
+              requestId: request.requestId,
+              patientId: request.senderId,
+              patientName: request.senderName,
+              doctorId: request.recipientId,
+              doctorName: request.recipientName,
+              medicalInstitutionId: request.medicalInstitutionId,
+              medicalInstitutionName: request.medicalInstitutionName,
+              remember: true,
+            }}
+            onFinish={handleAddMedicalRecordFormSubmit}
+            onFinishFailed={onFinishFailed}
+            autoComplete="on"
+          >
+            <div style={{ width: "100%" }}>
+              <Form.Item label="ID yêu cầu" name="requestId">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item label="ID bệnh nhân" name="patientId">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item label="Tên bệnh nhân" name="patientName">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item label="ID bác sĩ" name="doctorId">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item label="Tên bác sĩ" name="doctorName">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item label="ID cơ sở y tế" name="medicalInstitutionId">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item label="Tên cơ sở y tế" name="medicalInstitutionName">
+                <Input disabled />
+              </Form.Item>
+              <Form.Item
+                label="Tên xét nghiệm"
+                name="testName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền tên xét nghiệm!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item
-              label="Chi tiết xét nghiệm"
-              name="details"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng điền chi tiết xét nghiệm!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              <Form.Item
+                label="Chi tiết xét nghiệm"
+                name="details"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền chi tiết xét nghiệm!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item
-              label="File"
-              name="hashFile"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng gửi file!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              <Form.Item
+                label="File"
+                name="hashFile"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng gửi file!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item label="Đơn thuốc" name="prescription">
-              <Form.List name="prescriptionDetailsList">
-                {(fields, { add, remove }) => (
-                  <div>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <>
-                        <div
-                          key={key}
-                          style={{
-                            display: "flex",
-                            width: "100%",
-                            // marginBottom: 8,
-                            justifyContent: "center",
-                            justifyItems: "center",
-                          }}
-                          align="baseline"
-                          direction="horizon"
-                        >
-                          <Form.Item
-                            {...restField}
-                            name={[name, "medicationId"]}
+              <Form.Item label="Đơn thuốc" name="prescription">
+                <Form.List name="prescriptionDetailsList">
+                  {(fields, { add, remove }) => (
+                    <div>
+                      {fields.map(({ key, name, ...restField }) => (
+                        <>
+                          <div
+                            key={key}
                             style={{
-                              width: "80%",
-                            }}
-                            rules={[
-                              {
-                                required: true,
-                                message: "Chọn loại thuốc",
-                              },
-                            ]}
-                          >
-                            <TreeSelect
-                              showSearch
-                              style={{
-                                width: "99%",
-                                height: "100%",
-                                // marginRight: "1%",
-                              }}
-                              value={value}
-                              dropdownStyle={{
-                                maxHeight: "100%",
-                                overflow: "auto",
-                              }}
-                              placeholder="Vui lòng chọn loại thuốc"
-                              allowClear
-                              treeDefaultExpandAll
-                              onChange={onChange}
-                              treeData={treeData}
-                              onPopupScroll={onPopupScroll}
-                            />
-                          </Form.Item>
-
-                          <Form.Item
-                            {...restField}
-                            name={[name, "quantity"]}
-                            style={{
-                              width: "17%",
-                              marginRight: "1%",
-                            }}
-                            rules={[
-                              {
-                                required: true,
-                                message: "Chọn số lượng",
-                              },
-                            ]}
-                          >
-                            <InputNumber
-                              style={{
-                                width: "100%",
-                                marginRight: "1%",
-                              }}
-                              min={1}
-                              placeholder="Số lượng"
-                              type="number"
-                            />
-                          </Form.Item>
-
-                          <MinusCircleOutlined
-                            style={{
-                              marginBottom: "24px",
                               display: "flex",
+                              width: "100%",
+                              // marginBottom: 8,
                               justifyContent: "center",
                               justifyItems: "center",
-                              alignItems: "center",
                             }}
-                            onClick={() => remove(name)}
-                          />
-                        </div>
-                        <div>
-                          <Form.Item
-                            {...restField}
-                            name={[name, "details"]}
-                            style={{
-                              width: "100%",
-                              marginRight: "1%",
-                            }}
-                            rules={[
-                              {
-                                required: true,
-                                message: "Vui lòng điền cách dùng",
-                              },
-                            ]}
+                            align="baseline"
+                            direction="horizon"
                           >
-                            <Input
+                            <Form.Item
+                              {...restField}
+                              name={[name, "medicationId"]}
+                              style={{
+                                width: "80%",
+                              }}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Chọn loại thuốc",
+                                },
+                              ]}
+                            >
+                              <TreeSelect
+                                showSearch
+                                style={{
+                                  width: "99%",
+                                  height: "100%",
+                                  // marginRight: "1%",
+                                }}
+                                value={value}
+                                dropdownStyle={{
+                                  maxHeight: "100%",
+                                  overflow: "auto",
+                                }}
+                                placeholder="Vui lòng chọn loại thuốc"
+                                allowClear
+                                treeDefaultExpandAll
+                                onChange={onChange}
+                                treeData={treeData}
+                                onPopupScroll={onPopupScroll}
+                              />
+                            </Form.Item>
+
+                            <Form.Item
+                              {...restField}
+                              name={[name, "quantity"]}
+                              style={{
+                                width: "17%",
+                                marginRight: "1%",
+                              }}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Chọn số lượng",
+                                },
+                              ]}
+                            >
+                              <InputNumber
+                                style={{
+                                  width: "100%",
+                                  marginRight: "1%",
+                                }}
+                                min={1}
+                                placeholder="Số lượng"
+                                type="number"
+                              />
+                            </Form.Item>
+
+                            <MinusCircleOutlined
+                              style={{
+                                marginBottom: "24px",
+                                display: "flex",
+                                justifyContent: "center",
+                                justifyItems: "center",
+                                alignItems: "center",
+                              }}
+                              onClick={() => remove(name)}
+                            />
+                          </div>
+                          <div>
+                            <Form.Item
+                              {...restField}
+                              name={[name, "details"]}
                               style={{
                                 width: "100%",
                                 marginRight: "1%",
                               }}
-                              placeholder="Cách dùng"
-                              value={value}
-                            />
-                          </Form.Item>
-                        </div>
-                      </>
-                    ))}
-                    <Form.Item>
-                      <Button
-                        type="dashed"
-                        onClick={() => add()}
-                        block
-                        icon={<PlusOutlined />}
-                      >
-                        Thêm loại thuốc
-                      </Button>
-                    </Form.Item>
-                  </div>
-                )}
-              </Form.List>
-            </Form.Item>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              justifyItems: "center",
-            }}
-          >
-            <Button htmlType="submit">Thêm hồ sơ y tế</Button>
-          </div>
-        </Form>
-      </Modal>
-    </AddMedicalRecordDialogStyle>
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Vui lòng điền cách dùng",
+                                },
+                              ]}
+                            >
+                              <Input
+                                style={{
+                                  width: "100%",
+                                  marginRight: "1%",
+                                }}
+                                placeholder="Cách dùng"
+                                value={value}
+                              />
+                            </Form.Item>
+                          </div>
+                        </>
+                      ))}
+                      <Form.Item>
+                        <Button
+                          type="dashed"
+                          onClick={() => add()}
+                          block
+                          icon={<PlusOutlined />}
+                        >
+                          Thêm loại thuốc
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  )}
+                </Form.List>
+              </Form.Item>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                justifyItems: "center",
+              }}
+            >
+              <Button htmlType="submit">Thêm hồ sơ y tế</Button>
+            </div>
+          </Form>
+        </Modal>
+      </AddMedicalRecordDialogStyle>
+    </Context.Provider>
   );
 };
 
