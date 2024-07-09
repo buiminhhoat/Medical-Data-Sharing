@@ -26,12 +26,12 @@ public class PatientController {
     private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/get-list-medical-record-by-patientId")
-    public ResponseEntity<?> getListMedicalRecord(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> getListMedicalRecordByPatientId(HttpServletRequest httpServletRequest) {
         try {
             String patientId = httpServletRequest.getParameter("patientId");
             SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
             searchMedicalRecordForm.setPatientId(userDetailsService.getLoggedUser().getId());
-            String getListMedicalRecord = patientService.getListMedicalRecord(searchMedicalRecordForm);
+            String getListMedicalRecord = patientService.getListMedicalRecordByPatientId(searchMedicalRecordForm);
             return ResponseEntity.status(HttpStatus.OK).body(getListMedicalRecord);
         }
         catch (Exception e) {

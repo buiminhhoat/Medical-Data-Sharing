@@ -36,10 +36,11 @@ public class PatientService {
     @Autowired
     private HyperledgerService hyperledgerService;
 
-    public String getListMedicalRecord(SearchMedicalRecordForm searchMedicalRecordForm) throws Exception {
+    public String getListMedicalRecordByPatientId(SearchMedicalRecordForm searchMedicalRecordForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
         try {
-            List<MedicalRecord> medicalRecordList = hyperledgerService.getListMedicalRecordByPatientQuery(user, searchMedicalRecordForm);
+            List<MedicalRecord> medicalRecordList = hyperledgerService.getListMedicalRecordByPatientQuery(user,
+                    searchMedicalRecordForm);
             List<MedicalRecordResponse> medicalRecordResponseList = new ArrayList<>();
             for (MedicalRecord medicalRecord: medicalRecordList) {
                 MedicalRecordResponse medicalRecordResponse = new MedicalRecordResponse(medicalRecord);
