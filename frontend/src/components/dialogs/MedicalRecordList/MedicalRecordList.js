@@ -43,7 +43,7 @@ const StyledList = styled(List)`
   }
 `;
 
-const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
+const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
@@ -193,4 +193,4 @@ const MedicalRecordDialog = ({ patientId, onClose, onSwitch }) => {
   );
 };
 
-export default MedicalRecordDialog;
+export default MedicalRecordList;

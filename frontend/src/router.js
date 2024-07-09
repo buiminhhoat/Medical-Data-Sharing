@@ -4,6 +4,7 @@ import Appointment from "./pages/users/AppointmentPage/AppointmentPage";
 import { ROUTERS } from "@Utils/router";
 import MasterLayout from "./layout/masterLayout";
 import RequestPage from "./pages/users/RequestPage";
+import MedicalRecordManagementPage from "./pages/users/MedicalRecordManagementPage";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -18,7 +19,11 @@ const renderUserRouter = () => {
     {
       path: ROUTERS.USER.REQUEST,
       component: <RequestPage></RequestPage>,
-    }
+    },
+    {
+      path: ROUTERS.PATIENT.MEDICAL_RECORD_MANAGEMENT_PAGE,
+      component: <MedicalRecordManagementPage></MedicalRecordManagementPage>,
+    },
   ];
 
   return (

@@ -17,6 +17,10 @@ export const API = {
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:
       "/api/patient/get-list-medical-record-by-patientId",
+    GET_LIST_MEDICAL_RECORD_BY_PATIENT_ID:
+      "/api/patient/get-list-medical-record-by-patientId",
+    GET_MEDICAL_RECORD_BY_MEDICAL_RECORD_ID:
+      "/api/patient/get-medical-record-by-medicalRecordId",
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",

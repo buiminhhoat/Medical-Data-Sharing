@@ -53,6 +53,12 @@ const HeaderStyle = styled.div`
 
   .link {
     color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
   }
 `;
 
@@ -65,6 +71,10 @@ const Header = () => {
     {
       name: "Quản lý yêu cầu",
       path: ROUTERS.USER.REQUEST,
+    },
+    {
+      name: "Quản lý hồ sơ y tế",
+      path: ROUTERS.PATIENT.MEDICAL_RECORD_MANAGEMENT_PAGE,
     },
   ]);
 

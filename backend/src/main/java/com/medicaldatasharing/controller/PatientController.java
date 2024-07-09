@@ -39,6 +39,22 @@ public class PatientController {
         }
     }
 
+    @PostMapping("/get-medical-record-by-medicalRecordId")
+    public ResponseEntity<?> getMedicalRecordByMedicalRecordId(HttpServletRequest httpServletRequest) {
+        try {
+            String medicalRecordId = httpServletRequest.getParameter("medicalRecordId");
+            SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
+            searchMedicalRecordForm.setPatientId(userDetailsService.getLoggedUser().getId());
+            searchMedicalRecordForm.setMedicalRecordId(medicalRecordId);
+            String getListMedicalRecord = patientService.getListMedicalRecordByPatientId(searchMedicalRecordForm);
+            return ResponseEntity.status(HttpStatus.OK).body(getListMedicalRecord);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+
 //    @PostMapping("/defineRequest")
 //    public DefineRequestDto defineRequest(
 //            @Valid @ModelAttribute DefineRequestForm defineRequestForm,

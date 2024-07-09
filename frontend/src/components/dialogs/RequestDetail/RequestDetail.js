@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
 import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
-import MedicalRecordDialog from "../MedicalRecordDialog/MedicalRecordDialog";
+import MedicalRecordList from "../MedicalRecordList/MedicalRecordList";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 const { Option } = Select;
 
@@ -308,7 +308,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
         {openDialog === DIALOGS.MEDICAL_RECORD && (
           <div>
-            <MedicalRecordDialog
+            <MedicalRecordList
               patientId={patientId}
               onClose={handleDialogClose}
               onSwitch={handleDialogSwitch}
