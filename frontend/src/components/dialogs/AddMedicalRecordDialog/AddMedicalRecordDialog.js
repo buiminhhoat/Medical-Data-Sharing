@@ -303,9 +303,9 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                   {(fields, { add, remove }) => (
                     <div>
                       {fields.map(({ key, name, ...restField }) => (
-                        <>
+                        <React.Fragment key={key}>
                           <div
-                            key={key}
+                            // key={key}
                             style={{
                               display: "flex",
                               width: "100%",
@@ -386,7 +386,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                               onClick={() => remove(name)}
                             />
                           </div>
-                          <div>
+                          <div key={"details" + key}>
                             <Form.Item
                               {...restField}
                               name={[name, "details"]}
@@ -411,7 +411,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                               />
                             </Form.Item>
                           </div>
-                        </>
+                        </React.Fragment>
                       ))}
                       <Form.Item>
                         <Button
