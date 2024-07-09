@@ -395,8 +395,7 @@ public class InitDataLoader implements CommandLineRunner {
             List<PrescriptionDetails> prescriptionDetailsList = new ArrayList<>();
             prescriptionDetailsList.add(new PrescriptionDetails("", "",
                     medication.getMedicationId(), "10", "Uống 2 viên vào mỗi trưa và tối"));
-            prescriptionDetailsList.add(new PrescriptionDetails("", "",
-                    medication.getMedicationId(), "20", "Uống 4 viên vào mỗi trưa và tối"));
+
             addPrescriptionForm.setPrescriptionDetailsList(new Genson().serialize(prescriptionDetailsList));
 
             String testName = "Cardiovascular Test";
@@ -534,7 +533,7 @@ public class InitDataLoader implements CommandLineRunner {
             GetPrescriptionForm getPrescriptionForm = new GetPrescriptionForm();
             getPrescriptionForm.setPrescriptionId(medicalRecord.getPrescriptionId());
             getPrescriptionForm.setDrugStoreId(drugStore.getId());
-            PrescriptionDto prescriptionDto = hyperledgerService.getPrescription(
+            PrescriptionDto prescriptionDto = hyperledgerService.getPrescriptionByDrugStore(
                     drugStore,
                     getPrescriptionForm
             );
@@ -556,7 +555,7 @@ public class InitDataLoader implements CommandLineRunner {
             drugIdList.add(drug.getDrugId());
             medicationPurchaseDto.setDrugIdList(drugIdList);
             medicationPurchaseDto.setPrescriptionDetailId(
-                    prescriptionDto.getPrescriptionDetailsList().get(0).getPrescriptionDetailId()
+                    prescriptionDto.getPrescriptionDetailsListDto().get(0).getPrescriptionDetailId()
             );
 
             PurchaseDto purchaseDto = new PurchaseDto();

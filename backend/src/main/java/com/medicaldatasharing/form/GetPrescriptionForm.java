@@ -9,7 +9,8 @@ public class GetPrescriptionForm {
     @NotBlank
     private String prescriptionId;
 
-    @NotBlank
+    private String patientId;
+
     private String drugStoreId;
 
     public @NotBlank String getPrescriptionId() {
@@ -21,11 +22,20 @@ public class GetPrescriptionForm {
         return this;
     }
 
-    public @NotBlank String getDrugStoreId() {
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public GetPrescriptionForm setPatientId(String patientId) {
+        this.patientId = patientId;
+        return this;
+    }
+
+    public String getDrugStoreId() {
         return drugStoreId;
     }
 
-    public GetPrescriptionForm setDrugStoreId(@NotBlank String drugStoreId) {
+    public GetPrescriptionForm setDrugStoreId(String drugStoreId) {
         this.drugStoreId = drugStoreId;
         return this;
     }

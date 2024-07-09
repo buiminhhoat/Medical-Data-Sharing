@@ -17,6 +17,7 @@ import {
   Typography,
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 const { Option } = Select;
 
 const MedicalRecordDetailStyle = styled.div`
@@ -51,6 +52,22 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
   let apiGetMedicalRecordByMedicalRecordId =
     API.PATIENT.GET_MEDICAL_RECORD_BY_MEDICAL_RECORD_ID;
 
+  const [openDialog, setOpenDialog] = useState(null);
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
+  };
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState([]);
@@ -91,6 +108,11 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
   }, [access_token]);
 
   console.log(userId);
+
+  const openPrescriptionDetail = (patientId) => {
+    console.log("openPrescriptionDetail");
+    openModal(DIALOGS.PRESCRIPTION_DETAIL);
+  };
 
   return (
     <MedicalRecordDetailStyle>
@@ -193,7 +215,12 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
         >
           {medicalRecord.patientId === userId && (
             <>
-              <Button style={{ marginRight: "3%" }}>Xem đơn thuốc</Button>
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={() => openPrescriptionDetail()}
+              >
+                Xem đơn thuốc
+              </Button>
             </>
           )}
 
@@ -210,6 +237,16 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
                 <Button style={{ marginRight: "3%" }}>Từ chối</Button>
               </>
             )}
+
+          {openDialog === DIALOGS.PRESCRIPTION_DETAIL && (
+            <div>
+              <PrescriptionDetail
+                medicalRecord={medicalRecord}
+                onClose={handleDialogClose}
+                onSwitch={handleDialogSwitch}
+              />
+            </div>
+          )}
         </div>
       </Modal>
     </MedicalRecordDetailStyle>

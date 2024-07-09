@@ -39,6 +39,10 @@ public class MedicationDAO {
         return medicationCRUD.addMedication(jsonDto);
     }
 
+    public Medication getMedication(String medicationId) {
+        return medicationCRUD.getMedication(medicationId);
+    }
+
     public Medication editMedication(JSONObject jsonDto) {
         return medicationCRUD.editMedication(jsonDto);
     }

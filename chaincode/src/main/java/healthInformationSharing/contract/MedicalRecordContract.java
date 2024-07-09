@@ -5,6 +5,7 @@ import com.owlike.genson.Genson;
 import healthInformationSharing.component.MedicalRecordContext;
 import healthInformationSharing.dao.*;
 import healthInformationSharing.dto.MedicationPurchaseDto;
+import healthInformationSharing.dto.PrescriptionDetailsDto;
 import healthInformationSharing.dto.PrescriptionDto;
 import healthInformationSharing.dto.PurchaseDto;
 import healthInformationSharing.entity.*;
@@ -930,6 +931,53 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPrescriptionByPatient(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String patientId = jsonObject.getString("patientId");
+        authorizeRequest(ctx, patientId, "getPrescriptionByPatient(validate patientId)");
+
+        String medicalRecordId = prescriptionId;
+        if (!ctx.getMedicalRecordDAO().medicalRecordExist(medicalRecordId)) {
+            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+                    ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
+        }
+
+        MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(prescriptionId);
+
+        if (!Objects.equals(medicalRecord.getPrescriptionId(), prescriptionId)) {
+            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+                    ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
+        }
+
+        if (!Objects.equals(medicalRecord.getPatientId(), patientId)) {
+            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+                    ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
+        }
+
+        Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
+
+        PrescriptionDto prescriptionDto = new PrescriptionDto();
+        prescriptionDto.setPrescriptionId(prescription.getPrescriptionId());
+        prescriptionDto.setDrugReaction(prescription.getDrugReaction());
+        prescriptionDto.setEntityName(prescription.getEntityName());
+
+        List<PrescriptionDetails> prescriptionDetailsList = ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(prescriptionId);
+        List<PrescriptionDetailsDto> prescriptionDetailsDtoList = new ArrayList<>();
+        for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
+            PrescriptionDetailsDto prescriptionDetailsDto = new PrescriptionDetailsDto(prescriptionDetails);
+            Medication medication = ctx.getMedicationDAO().getMedication(prescriptionDetailsDto.getMedicationId());
+            prescriptionDetailsDto.setMedicationName(medication.getMedicationName());
+            prescriptionDetailsDtoList.add(prescriptionDetailsDto);
+        }
+        prescriptionDto.setPrescriptionDetailsListDto(prescriptionDetailsDtoList);
+        return new Genson().serialize(prescriptionDto);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getPrescriptionByDrugStore(
             MedicalRecordContext ctx,
             String jsonString
@@ -959,7 +1007,15 @@ public class MedicalRecordContract implements ContractInterface {
         prescriptionDto.setPrescriptionId(prescription.getPrescriptionId());
         prescriptionDto.setDrugReaction(prescription.getDrugReaction());
         prescriptionDto.setEntityName(prescription.getEntityName());
-        prescriptionDto.setPrescriptionDetailsList(ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(prescriptionId));
+        List<PrescriptionDetails> prescriptionDetailsList = ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(prescriptionId);
+        List<PrescriptionDetailsDto> prescriptionDetailsDtoList = new ArrayList<>();
+        for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
+            PrescriptionDetailsDto prescriptionDetailsDto = new PrescriptionDetailsDto(prescriptionDetails);
+            Medication medication = ctx.getMedicationDAO().getMedication(prescriptionDetailsDto.getMedicationId());
+            prescriptionDetailsDto.setMedicationName(medication.getMedicationName());
+            prescriptionDetailsDtoList.add(prescriptionDetailsDto);
+        }
+        prescriptionDto.setPrescriptionDetailsListDto(prescriptionDetailsDtoList);
         return new Genson().serialize(prescriptionDto);
     }
 

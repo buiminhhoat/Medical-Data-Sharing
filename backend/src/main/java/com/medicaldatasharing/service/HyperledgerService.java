@@ -702,7 +702,24 @@ public class HyperledgerService {
         return medicationList;
     }
 
-    public PrescriptionDto getPrescription(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
+    public PrescriptionDto getPrescriptionByPatient(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
+        PrescriptionDto prescriptionDto = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = getPrescriptionForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "getPrescriptionByPatient",
+                    jsonDto.toString()
+            );
+            prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
+            LOG.info("result: " + prescriptionDto);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return prescriptionDto;
+    }
+
+    public PrescriptionDto getPrescriptionByDrugStore(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
         PrescriptionDto prescriptionDto = null;
         try {
             Contract contract = getContract(user);

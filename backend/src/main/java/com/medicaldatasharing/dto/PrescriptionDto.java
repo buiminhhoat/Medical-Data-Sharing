@@ -22,8 +22,8 @@ public class PrescriptionDto {
     @JsonProperty("entityName")
     private String entityName;
 
-    @JsonProperty("prescriptionDetailsList")
-    List<PrescriptionDetails> prescriptionDetailsList;
+    @JsonProperty("prescriptionDetailsListDto")
+    List<PrescriptionDetailsDto> prescriptionDetailsListDto;
 
     public String getPrescriptionId() {
         return prescriptionId;
@@ -52,17 +52,17 @@ public class PrescriptionDto {
         return this;
     }
 
-    public List<PrescriptionDetails> getPrescriptionDetailsList() {
-        return prescriptionDetailsList;
+    public List<PrescriptionDetailsDto> getPrescriptionDetailsListDto() {
+        return prescriptionDetailsListDto;
     }
 
-    public PrescriptionDto setPrescriptionDetailsList(List<PrescriptionDetails> prescriptionDetailsList) {
-        this.prescriptionDetailsList = prescriptionDetailsList;
+    public PrescriptionDto setPrescriptionDetailsListDto(List<PrescriptionDetailsDto> prescriptionDetailsListDto) {
+        this.prescriptionDetailsListDto = prescriptionDetailsListDto;
         return this;
     }
 
-    public PrescriptionDto addPrescriptionDetailsToPrescriptionDetailsList(PrescriptionDetails prescriptionDetails) {
-        prescriptionDetailsList.add(prescriptionDetails);
+    public PrescriptionDto addPrescriptionDetailsToPrescriptionDetailsListDto(PrescriptionDetailsDto prescriptionDetailsDto) {
+        prescriptionDetailsListDto.add(prescriptionDetailsDto);
         return this;
     }
 }
