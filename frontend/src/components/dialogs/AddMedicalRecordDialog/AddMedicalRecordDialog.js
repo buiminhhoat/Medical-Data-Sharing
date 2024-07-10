@@ -4,6 +4,7 @@ import { Cookies, useCookies } from "react-cookie";
 import { UserOutlined, CloseOutlined } from "@ant-design/icons";
 import { Avatar, Flex, InputNumber, Space, TreeSelect } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
+import FileUploader from "../../FileUploader/FileUploader";
 import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
 import {
@@ -52,6 +53,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
     // values.requestId = request.requestId;
     console.log("handleAddMedicalRecordFormSubmit");
     console.log(values);
+    console.log("Hashfile: ", hashFile);
     if (access_token) {
       const formData = new FormData();
       formData.append("requestId", values.requestId);
@@ -63,7 +65,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
       formData.append("medicalInstitutionName", values.medicalInstitutionName);
       formData.append("testName", values.testName);
       formData.append("details", values.details);
-      formData.append("hashFile", values.hashFile);
+      formData.append("hashFile", hashFile);
       let addPrescription = [];
       if (values.prescriptionDetailsList) {
         values.prescriptionDetailsList.map((p) => {
@@ -197,6 +199,8 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
     });
   };
 
+  const [hashFile, setHashFile] = useState("");
+
   return (
     <Context.Provider value={"Thêm hồ sơ y tế"}>
       {contextHolder}
@@ -288,14 +292,14 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
               <Form.Item
                 label="File"
                 name="hashFile"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng gửi file!",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Vui lòng gửi file!",
+                //   },
+                // ]}
               >
-                <Input />
+                <FileUploader hashFile={hashFile} setHashFile={setHashFile} />
               </Form.Item>
 
               <Form.Item label="Đơn thuốc" name="prescription">
