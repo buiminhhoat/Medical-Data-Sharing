@@ -86,6 +86,13 @@ const Header = () => {
     },
   ]);
 
+  const [doctorMenuItems, setDoctorMenuItems] = useState([
+    {
+      name: "Quản lý bệnh nhân được ủy quyền",
+      path: ROUTERS.DOCTOR.AUTHORIZED_PATIENT_MANAGEMENT_PAGE,
+    },
+  ]);
+
   const [menuItems, setMenuItems] = useState(null);
 
   useEffect(() => {
@@ -94,6 +101,12 @@ const Header = () => {
 
       if (role === "Bệnh nhân") {
         patientMenuItems.map((item, key) => {
+          items.push(item);
+        });
+      }
+
+      if (role === "Bác sĩ") {
+        doctorMenuItems.map((item, key) => {
           items.push(item);
         });
       }

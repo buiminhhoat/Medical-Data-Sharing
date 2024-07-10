@@ -29,6 +29,8 @@ export const API = {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
     ADD_MEDICAL_RECORD: "/api/doctor/add-medical-record",
     GET_ALL_MEDICATION: "/api/doctor/get-all-medication",
+    GET_ALL_AUTHORIZED_PATIENT_BY_DOCTORID:
+      "/api/doctor/get-all-authorized-patient-by-doctorId",
   },
 };
 

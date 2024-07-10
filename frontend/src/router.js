@@ -6,6 +6,8 @@ import { ROUTERS } from "@Utils/router";
 import MasterLayout from "./layout/masterLayout";
 import RequestPage from "./pages/users/RequestPage";
 import MedicalRecordManagementPage from "./pages/users/MedicalRecordManagementPage";
+import AuthorizedPatientManagementPage from "./pages/users/AuthorizedPatientManagementPage";
+
 import { API } from "@Const";
 import { useCookies } from "react-cookie";
 
@@ -31,7 +33,14 @@ const patientRouters = [
   },
 ];
 
-const doctorRouters = [];
+const doctorRouters = [
+  {
+    path: ROUTERS.DOCTOR.AUTHORIZED_PATIENT_MANAGEMENT_PAGE,
+    component: (
+      <AuthorizedPatientManagementPage></AuthorizedPatientManagementPage>
+    ),
+  },
+];
 
 const renderUserRouter = () => {
   return (
