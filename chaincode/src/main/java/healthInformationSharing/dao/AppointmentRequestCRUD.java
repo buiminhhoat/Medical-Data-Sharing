@@ -3,6 +3,7 @@ package healthInformationSharing.dao;
 import com.owlike.genson.Genson;
 import healthInformationSharing.entity.AppointmentRequest;
 import healthInformationSharing.enumeration.RequestStatus;
+import healthInformationSharing.enumeration.RequestType;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
@@ -72,7 +73,7 @@ public class AppointmentRequestCRUD {
         String medicalInstitutionId = jsonDto.getString("medicalInstitutionId");
         String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
-        String requestType = jsonDto.getString("requestType");
+        String requestType = RequestType.APPOINTMENT;
         String requestId = ctx.getStub().getTxId();
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
         String dbKey = compositeKey.toString();

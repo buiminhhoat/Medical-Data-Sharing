@@ -41,7 +41,7 @@ const AuthorizedPatientManagementPage = () => {
   const [searchPatientId, setSearchPatientId] = useState("");
   const [searchPatientName, setSearchPatientName] = useState("");
   const [searchEmail, setSearchEmail] = useState("");
-  const [searchBirthday, setSearchBirthday] = useState(null);
+  const [searchDateBirthday, setSearchDateBirthday] = useState(null);
   const [searchGender, setSearchGender] = useState(null);
   const [searchAddress, setSearchAddress] = useState("");
 
@@ -80,10 +80,10 @@ const AuthorizedPatientManagementPage = () => {
         ? entry.email.toLowerCase().includes(searchEmail.toLowerCase())
         : true;
 
-      const matchesBirthday = searchBirthday
+      const matchesDateBirthday = searchDateBirthday
         ? entry.dateBirthday
             .toLowerCase()
-            .includes(searchBirthday.toLowerCase())
+            .includes(searchDateBirthday.toLowerCase())
         : true;
 
       const matchesGender = searchGender
@@ -96,9 +96,8 @@ const AuthorizedPatientManagementPage = () => {
 
       return (
         matchesPatientId &
-        matchesPatientId &
-        matchesBirthday &
         matchesPatientName &
+        matchesDateBirthday &
         matchesEmail &
         matchesGender &
         matchesAddress
@@ -112,7 +111,7 @@ const AuthorizedPatientManagementPage = () => {
     setSearchPatientId("");
     setSearchPatientName("");
     setSearchEmail("");
-    setSearchBirthday("");
+    setSearchDateBirthday("");
     setSearchGender("");
     setSearchAddress("");
   };
@@ -121,13 +120,11 @@ const AuthorizedPatientManagementPage = () => {
     if (access_token) {
       try {
         const formData = new FormData();
-        formData.append("doctorId", userId);
         const response = await fetch(apiGetAllAuthorizedPatientByDoctorId, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
           },
-          body: formData,
         });
 
         if (response.status === 200) {
@@ -150,7 +147,7 @@ const AuthorizedPatientManagementPage = () => {
     searchPatientId,
     searchPatientName,
     searchEmail,
-    searchBirthday,
+    searchDateBirthday,
     searchGender,
     searchAddress,
   ]);
@@ -174,11 +171,11 @@ const AuthorizedPatientManagementPage = () => {
     setOpenDialog(null);
   };
 
-  const openMedicalRecordList = (medicalRecord) => {
+  const openMedicalRecordList = (patient) => {
     console.log("openMedicalRecordList");
-    console.log(medicalRecord);
+    console.log("patient: ", patient);
     openModal(DIALOGS.MEDICAL_RECORD);
-    setSelectedPatient(medicalRecord);
+    setSelectedPatient(patient.patientId);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
@@ -350,7 +347,7 @@ const AuthorizedPatientManagementPage = () => {
                         }}
                         placeholder="Ngày sinh"
                         onChange={(_, value) => {
-                          setSearchBirthday(value);
+                          setSearchDateBirthday(value);
                         }}
                         style={{ width: "30%", marginRight: "2%" }}
                       />
@@ -461,7 +458,7 @@ const AuthorizedPatientManagementPage = () => {
       {openDialog === DIALOGS.MEDICAL_RECORD && (
         <div className="modal-overlay">
           <MedicalRecordList
-            medicalRecord={selectedPatient}
+            patientId={selectedPatient}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />

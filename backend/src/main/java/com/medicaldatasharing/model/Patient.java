@@ -15,6 +15,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class Patient extends User {
     private String gender;
-    private Date birthday;
+    private Date dateBirthday;
     private String address;
 }

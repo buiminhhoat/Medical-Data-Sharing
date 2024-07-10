@@ -2,9 +2,15 @@ package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
+import com.medicaldatasharing.chaincode.dto.ViewRequest;
+import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
+import com.medicaldatasharing.enumeration.RequestStatus;
+import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.AddMedicalRecordForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
+import com.medicaldatasharing.form.SearchViewRequestForm;
+import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
@@ -12,17 +18,14 @@ import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.response.MedicalRecordResponse;
 import com.medicaldatasharing.response.MedicationResponse;
+import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class DoctorService {
@@ -64,10 +67,12 @@ public class DoctorService {
             throw e;
         }
     }
-    public String getListMedicalRecord(SearchMedicalRecordForm searchMedicalRecordForm) throws Exception {
+
+    public String getListMedicalRecord(GetListAuthorizedMedicalRecordByDoctorQueryDto getListAuthorizedMedicalRecordByDoctorQueryDto) throws Exception {
         User user = userDetailsService.getLoggedUser();
         try {
-            List<MedicalRecord> medicalRecordList = hyperledgerService.getListMedicalRecordByDoctorQuery(user, searchMedicalRecordForm);
+            List<MedicalRecord> medicalRecordList = hyperledgerService.getListAuthorizedMedicalRecordByDoctorQuery(user,
+                    getListAuthorizedMedicalRecordByDoctorQueryDto);
             List<MedicalRecordResponse> medicalRecordResponseList = new ArrayList<>();
             for (MedicalRecord medicalRecord: medicalRecordList) {
                 MedicalRecordResponse medicalRecordResponse = new MedicalRecordResponse(medicalRecord);
@@ -96,6 +101,32 @@ public class DoctorService {
         MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(user, addMedicalRecordForm.toJSONObject());
 
         return new Genson().serialize(medicalRecord);
+    }
+
+    public String getAllAuthorizedPatientByDoctorId() throws Exception {
+        List<PatientResponse> patientResponseList = new ArrayList<>();
+        User user = userDetailsService.getLoggedUser();
+        try {
+            SearchViewRequestForm searchViewRequestForm = new SearchViewRequestForm();
+            searchViewRequestForm.setSenderId(user.getId());
+            searchViewRequestForm.setRequestType(RequestType.VIEW_RECORD.toString());
+            searchViewRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            List<ViewRequest> viewRequestList = hyperledgerService.getListViewRequestByRecipientQuery(user, searchViewRequestForm);
+            Set<String> patientSet = new HashSet<>();
+            for (ViewRequest viewRequest: viewRequestList) {
+                patientSet.add(viewRequest.getRecipientId());
+            }
+
+            for (String patientId: patientSet) {
+                Patient patient = (Patient) userDetailsService.getUserByUserId(patientId);
+                PatientResponse patientResponse = new PatientResponse(patient);
+                patientResponseList.add(patientResponse);
+            }
+            return new Genson().serialize(patientResponseList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
     }
 
 //    public SendRequestDto sendRequest(

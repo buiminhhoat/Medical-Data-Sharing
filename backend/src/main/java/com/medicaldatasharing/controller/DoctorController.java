@@ -3,6 +3,7 @@ package com.medicaldatasharing.controller;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
 import com.medicaldatasharing.chaincode.dto.ViewRequest;
+import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
 import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.form.AddMedicalRecordForm;
 import com.medicaldatasharing.form.AddPrescriptionForm;
@@ -43,10 +44,10 @@ public class DoctorController {
     public ResponseEntity<?> getListMedicalRecord(HttpServletRequest httpServletRequest) {
         try {
             String patientId = httpServletRequest.getParameter("patientId");
-            SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
-            searchMedicalRecordForm.setDoctorId(userDetailsService.getLoggedUser().getId());
-            searchMedicalRecordForm.setPatientId(patientId);
-            String getListMedicalRecord = doctorService.getListMedicalRecord(searchMedicalRecordForm);
+            GetListAuthorizedMedicalRecordByDoctorQueryDto getListAuthorizedMedicalRecordByDoctorQueryDto = new GetListAuthorizedMedicalRecordByDoctorQueryDto();
+            getListAuthorizedMedicalRecordByDoctorQueryDto.setDoctorId(userDetailsService.getLoggedUser().getId());
+            getListAuthorizedMedicalRecordByDoctorQueryDto.setPatientId(patientId);
+            String getListMedicalRecord = doctorService.getListMedicalRecord(getListAuthorizedMedicalRecordByDoctorQueryDto);
             return ResponseEntity.status(HttpStatus.OK).body(getListMedicalRecord);
         }
         catch (Exception e) {
@@ -64,6 +65,7 @@ public class DoctorController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
     @PostMapping("/add-medical-record")
     public ResponseEntity<?> addMedicalRecord(@Valid @ModelAttribute AddMedicalRecordForm addMedicalRecordForm, BindingResult result) throws Exception {
         try {
@@ -77,6 +79,17 @@ public class DoctorController {
             addMedicalRecordForm.setAddPrescription(addPrescriptionForm.toJSONObject().toString());
             String medicalRecord = doctorService.addMedicalRecord(addMedicalRecordForm);
             return ResponseEntity.status(HttpStatus.OK).body(medicalRecord);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/get-all-authorized-patient-by-doctorId")
+    public ResponseEntity<?> getAllAuthorizedPatientByDoctorId() throws Exception {
+        try {
+            String getAllAuthorizedPatientByDoctorId = doctorService.getAllAuthorizedPatientByDoctorId();
+            return ResponseEntity.status(HttpStatus.OK).body(getAllAuthorizedPatientByDoctorId);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

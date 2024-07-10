@@ -453,11 +453,19 @@ public class MedicalRecordContract implements ContractInterface {
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
         String senderId = jsonObject.getString("senderId");
+        String recipientId = jsonObject.getString("recipientId");
+        String medicalInstitutionId = jsonObject.getString("medicalInstitutionId");
+        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
         authorizeRequest(ctx, senderId, "sendAppointmentRequest(validate senderId)");
 
         JSONObject jsonDto = jsonObject;
         jsonDto.put("requestType", RequestType.APPOINTMENT);
         AppointmentRequest appointmentRequest = ctx.getAppointmentRequestDAO().sendAppointmentRequest(jsonDto);
+        ctx.getViewRequestDAO().sendViewRequestAccepted(new JSONObject().put("senderId", recipientId)
+                .put("recipientId", senderId)
+                .put("dateCreated", dateCreated)
+                .put("dateModified", dateModified));
         return new Genson().serialize(appointmentRequest);
     }
 
@@ -594,17 +602,11 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
 
         String senderId = jsonObject.getString("senderId");
-        String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
-        String dateModified = jsonObject.getString("dateModified");
 
         authorizeRequest(ctx, senderId, "sendViewRequest(validate senderId)");
 
-        JSONObject jsonDto = new JSONObject();
-        jsonDto.put("senderId", senderId);
-        jsonDto.put("recipientId", recipientId);
-        jsonDto.put("dateCreated", dateCreated);
-        jsonDto.put("dateModified", dateModified);
+        JSONObject jsonDto = jsonObject;
+
         ViewRequest viewRequest = ctx.getViewRequestDAO().sendViewRequest(
                 jsonDto
         );
@@ -657,20 +659,44 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public String getListMedicalRecordByDoctorQuery(
+    public String getListAuthorizedMedicalRecordByDoctorQuery(
             MedicalRecordContext ctx,
             String jsonString
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
         String doctorId = jsonObject.getString("doctorId");
+        String patientId = jsonObject.has("patientId") ? jsonObject.getString("patientId") : "";
+        authorizeRequest(ctx, doctorId, "getListAuthorizedMedicalRecordByDoctorQuery(validate doctorId)");
 
-        authorizeRequest(ctx, doctorId, "getListMedicalRecordByDoctorQuery(validate doctorId)");
+        JSONObject jsonViewRequestDto = new JSONObject();
 
-        JSONObject jsonDto = jsonObject;
+        jsonViewRequestDto.put("senderId", doctorId);
+        if (!patientId.isEmpty()) {
+            jsonViewRequestDto.put("recipientId", patientId);
+        }
+        jsonViewRequestDto.put("requestType", RequestType.VIEW_RECORD);
+        jsonViewRequestDto.put("requestStatus", RequestStatus.ACCEPTED);
 
-        List<MedicalRecord> medicalRecordList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
-                jsonDto
+        System.out.println(jsonViewRequestDto.toString());
+
+        List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestBySenderQuery(
+                jsonViewRequestDto
         );
+
+        System.out.println("viewRequestList.size(): " + viewRequestList.size());
+        System.out.println("viewRequestList: " + viewRequestList.toString());
+
+        List<MedicalRecord> medicalRecordList = new ArrayList<>();
+        for (ViewRequest viewRequest: viewRequestList) {
+            JSONObject jsonDto = new JSONObject();
+            System.out.println("viewRequest.getRecipientId(): " + viewRequest.getRecipientId());
+            jsonDto.put("patientId", viewRequest.getRecipientId());
+            List<MedicalRecord> medicalRecords = ctx.getMedicalRecordDAO()
+                    .getListAuthorizedMedicalRecordByDoctorQuery(jsonDto);
+            for (MedicalRecord medicalRecord: medicalRecords) {
+                medicalRecordList.add(medicalRecord);
+            }
+        }
         return new Genson().serialize(medicalRecordList);
     }
 
@@ -746,6 +772,29 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonDto = jsonObject;
 
         List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestBySenderQuery(
+                jsonDto
+        );
+
+        System.out.println("viewRequestList.size(): " + viewRequestList.size());
+        for (ViewRequest viewRequest: viewRequestList) {
+            System.out.println("viewRequest: " + viewRequest);
+        }
+
+        return new Genson().serialize(viewRequestList);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListViewRequestByRecipientQuery(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String recipientId = jsonObject.getString("recipientId");
+        authorizeRequest(ctx, recipientId, "getListViewRequestByRecipientQuery(validate recipientId)");
+
+        JSONObject jsonDto = jsonObject;
+
+        List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestByRecipientQuery(
                 jsonDto
         );
 

@@ -46,26 +46,6 @@ public class MedicalRecordQuery {
         return medicalRecordList;
     }
 
-    public List<MedicalRecord> getListAuthorizedMedicalRecordByScientistQuery(JSONObject jsonDto) {
-        List<MedicalRecord> medicalRecordList = new ArrayList<>();
-        JSONObject queryJsonObject = createQuerySelector(jsonDto);
-
-        LOG.info("query: " + queryJsonObject.toString());
-
-        QueryResultsIterator<KeyValue> resultsIterator = this.ctx.getStub().getQueryResult(queryJsonObject.toString());
-        for (KeyValue keyValue : resultsIterator) {
-            String key = keyValue.getKey();
-            String value = keyValue.getStringValue();
-            JSONObject jsonObject = new JSONObject(value);
-            byte[] bytes = keyValue.getValue();
-            LOG.info("keyValue class: " + keyValue.getClass().toString() + ", type: " + keyValue.getClass().getTypeName());
-            MedicalRecord medicalRecord = new Genson().deserialize(jsonObject.toString(), MedicalRecord.class);
-
-            medicalRecordList.add(medicalRecord);
-        }
-        return medicalRecordList;
-    }
-
     public JSONObject createQuerySelector(JSONObject jsonDto) {
         String medicalRecordId = jsonDto.has("medicalRecordId") ? jsonDto.getString("medicalRecordId") : "";
         String patientId = jsonDto.has("patientId") ? jsonDto.getString("patientId") : "";

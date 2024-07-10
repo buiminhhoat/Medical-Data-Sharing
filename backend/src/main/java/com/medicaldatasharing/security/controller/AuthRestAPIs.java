@@ -63,7 +63,7 @@ public class AuthRestAPIs {
                 .builder()
                 .fullName(registerDto.getFullName())
                 .gender(registerDto.getGender())
-                .birthday(registerDto.getBirthday())
+                .dateBirthday(registerDto.getBirthday())
                 .username(registerDto.getEmail())
                 .email(registerDto.getEmail())
                 .password(userPasswordEncoder.encode(registerDto.getPassword()))

@@ -21,7 +21,7 @@ public class ViewRequestQuery {
         this.entityName = entityName;
     }
 
-    public List<ViewRequest> getListViewRequestBySenderQuery(JSONObject jsonDto) {
+    public List<ViewRequest> getListViewRequestQuery(JSONObject jsonDto) {
         String requestId = jsonDto.has("requestId") ? jsonDto.getString("requestId") : "";
         String senderId = jsonDto.has("senderId") ? jsonDto.getString("senderId") : "";
         String recipientId = jsonDto.has("recipientId") ? jsonDto.getString("recipientId") : "";
@@ -57,8 +57,21 @@ public class ViewRequestQuery {
         return viewRequestList;
     }
 
+    public List<String> getListAllAuthorizedPatientForDoctor(JSONObject jsonDto) {
+        List<ViewRequest> viewRequestList = getListViewRequestQuery(jsonDto);
+        Set<String> stringSet = new HashSet<>();
+        for (ViewRequest viewRequest: viewRequestList) {
+            stringSet.add(viewRequest.getRecipientId());
+        }
+        List<String> stringList = new ArrayList<>();
+        for (String s: stringSet) {
+            stringList.add(s);
+        }
+        return stringList;
+    }
+
     public List<String> getListAllAuthorizedPatientForScientist(JSONObject jsonDto) {
-        List<ViewRequest> viewRequestList = getListViewRequestBySenderQuery(jsonDto);
+        List<ViewRequest> viewRequestList = getListViewRequestQuery(jsonDto);
         Set<String> stringSet = new HashSet<>();
         for (ViewRequest viewRequest: viewRequestList) {
             stringSet.add(viewRequest.getRecipientId());
@@ -123,7 +136,9 @@ public class ViewRequestQuery {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.putOnce("selector", jsonObjectSelector);
-        jsonObject.putOnce("sort", jsonArraySortAttributes);
+        if (!jsonArraySortAttributes.isEmpty()) {
+            jsonObject.putOnce("sort", jsonArraySortAttributes);
+        }
 
         return jsonObject;
     }

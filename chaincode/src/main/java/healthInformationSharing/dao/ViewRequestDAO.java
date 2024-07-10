@@ -57,7 +57,16 @@ public class ViewRequestDAO {
     }
 
     public List<ViewRequest> getListViewRequestBySenderQuery(JSONObject jsonDto) {
-        return viewRequestQuery.getListViewRequestBySenderQuery(jsonDto);
+        return viewRequestQuery.getListViewRequestQuery(jsonDto);
+    }
+
+
+    public List<ViewRequest> getListViewRequestByRecipientQuery(JSONObject jsonDto) {
+        return viewRequestQuery.getListViewRequestQuery(jsonDto);
+    }
+
+    public List<String> getListAllAuthorizedPatientForDoctor(JSONObject jsonDto) {
+        return viewRequestQuery.getListAllAuthorizedPatientForDoctor(jsonDto);
     }
 
     public List<String> getListAllAuthorizedPatientForScientist(JSONObject jsonDto) {

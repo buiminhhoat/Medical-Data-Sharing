@@ -5,8 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Router">
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/GetListAuthorizedMedicalRecordByDoctorQueryDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/response/PatientResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/response/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/DoctorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/DoctorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/Patient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/controller/AuthRestAPIs.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/controller/AuthRestAPIs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/DoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/DoctorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/AppointmentRequestCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/AppointmentRequestCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/AuthorizedPatientManagementPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/users/AuthorizedPatientManagementPage/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,8 +132,8 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.2529297" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.2529297" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2529297" />
+      <window_info id="Commit" order="1" weight="0.2529297" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -127,7 +143,7 @@
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.3302696" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.60110295" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3302696" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.3302696" />
       <window_info anchor="bottom" id="Build" order="4" weight="0.2689951" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.2689951" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.2689951" />
@@ -256,6 +272,8 @@
       <workItem from="1720507763522" duration="6221000" />
       <workItem from="1720529221308" duration="6797000" />
       <workItem from="1720574076269" duration="1277000" />
+      <workItem from="1720589110989" duration="631000" />
+      <workItem from="1720594871832" duration="7875000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
@@ -405,7 +423,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java</url>
-          <line>1482</line>
+          <line>1531</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>

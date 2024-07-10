@@ -195,6 +195,30 @@ public class HyperledgerService {
         return medicalRecord;
     }
 
+    public List<MedicalRecord> getListAuthorizedMedicalRecordByDoctorQuery(User user,
+                                                                              GetListAuthorizedMedicalRecordByDoctorQueryDto getListAuthorizedMedicalRecordByDoctorQueryDto) throws Exception {
+        List<MedicalRecord> getListAuthorizedMedicalRecordByDoctorQueryList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = getListAuthorizedMedicalRecordByDoctorQueryDto.toJSONObject();
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListAuthorizedMedicalRecordByDoctorQuery",
+                    jsonObject.toString()
+            );
+
+            String getListAuthorizedMedicalRecordByDoctorQueryListStr = new String(result);
+            getListAuthorizedMedicalRecordByDoctorQueryList = new Genson().deserialize(
+                    getListAuthorizedMedicalRecordByDoctorQueryListStr,
+                    new GenericType<List<MedicalRecord>>() {}
+            );
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return getListAuthorizedMedicalRecordByDoctorQueryList;
+    }
+
     public EditRequest getEditRequest(User user, String requestId) throws Exception {
         EditRequest editRequest = null;
         try {
@@ -424,40 +448,6 @@ public class HyperledgerService {
         return medicalRecordList;
     }
 
-    public List<MedicalRecord> getListMedicalRecordByDoctorQuery(
-            User user,
-            SearchMedicalRecordForm searchMedicalRecordForm
-    ) throws Exception {
-        List<MedicalRecord> medicalRecordList = new ArrayList<>();
-        try {
-            Contract contract = getContract(user);
-
-            Map<String, String> searchParams = prepareSearchMedicalRecordParams(searchMedicalRecordForm);
-
-            JSONObject jsonObject = new JSONObject();
-
-            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
-                jsonObject.put(entry.getKey(), entry.getValue());
-            }
-
-            byte[] result = contract.evaluateTransaction(
-                    "getListMedicalRecordByDoctorQuery",
-                    jsonObject.toString()
-            );
-
-            String medicalRecordListStr = new String(result);
-            medicalRecordList = new Genson().deserialize(
-                    medicalRecordListStr,
-                    new GenericType<List<MedicalRecord>>() {}
-            );
-
-            LOG.info("result: " + medicalRecordList);
-
-        } catch (Exception e) {
-            formatExceptionMessage(e);
-        }
-        return medicalRecordList;
-    }
 
     private Map<String, String> prepareSearchMedicalRecordParams(SearchMedicalRecordForm searchMedicalRecordForm) {
         String medicalRecordId = searchMedicalRecordForm.getMedicalRecordId() == null ? "" : searchMedicalRecordForm.getMedicalRecordId();
@@ -551,15 +541,56 @@ public class HyperledgerService {
 
             String from;
             if (searchViewRequestForm.getFrom() == null) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.MONTH, -6);
-                from = StringUtil.parseDate(calendar.getTime());
+                from = "";
             } else {
                 from = StringUtil.parseDate(searchViewRequestForm.getFrom());
             }
             String until;
             if (searchViewRequestForm.getFrom() == null) {
-                until = StringUtil.parseDate(new Date());
+                until = "";
+            } else {
+                until = StringUtil.parseDate(searchViewRequestForm.getUntil());
+            }
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", searchViewRequestForm.getRequestId());
+            jsonObject.put("senderId", searchViewRequestForm.getSenderId());
+            jsonObject.put("recipientId", searchViewRequestForm.getRecipientId());
+            jsonObject.put("requestType", searchViewRequestForm.getRequestType());
+            jsonObject.put("requestStatus", searchViewRequestForm.getRequestStatus());
+            jsonObject.put("from", from);
+            jsonObject.put("until", until);
+            jsonObject.put("sortingOrder", searchViewRequestForm.getSortingOrder());
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListViewRequestBySenderQuery",
+                    jsonObject.toString()
+            );
+
+            String viewRequestListStr = new String(result);
+            viewRequestList = new Genson().deserialize(viewRequestListStr,
+                    new GenericType<List<ViewRequest>>() {});
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return viewRequestList;
+    }
+
+    public List<ViewRequest> getListViewRequestByRecipientQuery(User user,
+                                                             SearchViewRequestForm searchViewRequestForm) throws Exception {
+        List<ViewRequest> viewRequestList = null;
+        try {
+            Contract contract = getContract(user);
+
+            String from;
+            if (searchViewRequestForm.getFrom() == null) {
+                from = "";
+            } else {
+                from = StringUtil.parseDate(searchViewRequestForm.getFrom());
+            }
+            String until;
+            if (searchViewRequestForm.getFrom() == null) {
+                until = "";
             } else {
                 until = StringUtil.parseDate(searchViewRequestForm.getUntil());
             }
