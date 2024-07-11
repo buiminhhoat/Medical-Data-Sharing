@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Router">
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/GetListAuthorizedMedicalRecordByDoctorQueryDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/response/PatientResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/response/UserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/DoctorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/DoctorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/model/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/controller/AuthRestAPIs.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/controller/AuthRestAPIs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/DoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/DoctorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/AppointmentRequestCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/AppointmentRequestCRUD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/AuthorizedPatientManagementPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/users/AuthorizedPatientManagementPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/utils/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/router.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,6 +259,8 @@
       <workItem from="1720574076269" duration="1277000" />
       <workItem from="1720589110989" duration="631000" />
       <workItem from="1720594871832" duration="7875000" />
+      <workItem from="1720639252594" duration="629000" />
+      <workItem from="1720683716086" duration="3311000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

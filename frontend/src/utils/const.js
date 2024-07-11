@@ -5,6 +5,7 @@ export const DIALOGS = {
   REQUEST_DETAIL: "REQUEST_DETAIL",
   MEDICAL_RECORD: "MEDICAL_RECORD",
   ADD_MEDICAL_RECORD: "ADD_MEDICAL_RECORD",
+  ADD_REQUEST: "ADD_REQUEST",
 };
 
 export const API = {
@@ -14,6 +15,7 @@ export const API = {
     GET_ALL_REQUEST: "/api/public/get-all-request",
     GET_REQUEST: "/api/public/get-request",
     GET_ROLE: "/api/public/get-role",
+    ADD_REQUEST: "/api/public/add-request",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:

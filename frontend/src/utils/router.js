@@ -2,7 +2,7 @@ export const ROUTERS = {
   USER: {
     HOME: "",
     PROFILE: "/profile",
-    REQUEST: "/request",
+    REQUEST: "/request-management-page",
   },
 
   PATIENT: {

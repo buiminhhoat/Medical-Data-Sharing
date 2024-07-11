@@ -23,6 +23,7 @@ import { useCookies } from "react-cookie";
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import RequestDetail from "../../../components/dialogs/RequestDetail/RequestDetail";
+import AddRequestDialog from "../../../components/dialogs/AddRequest/AddRequest";
 
 const RequestPageStyle = styled.div`
   width: 100%;
@@ -232,6 +233,10 @@ const RequestPage = () => {
     console.log(request);
     openModal(DIALOGS.REQUEST_DETAIL);
     setSelectedRequest(request);
+  };
+
+  const openAddRequest = () => {
+    openModal(DIALOGS.ADD_REQUEST);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
@@ -565,7 +570,23 @@ const RequestPage = () => {
           </div>
 
           <div style={{ width: "100%", marginTop: "20px" }}>
-            <h1>Danh sách yêu cầu</h1>
+            <div style={{ display: "flex" }}>
+              <div>
+                <h1>Danh sách yêu cầu</h1>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  marginLeft: "auto",
+                  marginRight: "0",
+                }}
+              >
+                <Button onClick={() => openAddRequest()}>
+                  Tạo yêu cầu mới
+                </Button>
+              </div>
+            </div>
             <ConfigProvider
               theme={{
                 token: {
@@ -591,6 +612,15 @@ const RequestPage = () => {
         <div className="modal-overlay">
           <RequestDetail
             request={selectedRequest}
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
+
+      {openDialog === DIALOGS.ADD_REQUEST && (
+        <div className="modal-overlay">
+          <AddRequestDialog
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />

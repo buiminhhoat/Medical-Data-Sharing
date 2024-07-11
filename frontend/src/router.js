@@ -4,7 +4,7 @@ import HomePage from "@Pages/users/homePage";
 import Appointment from "./pages/users/AppointmentPage/AppointmentPage";
 import { ROUTERS } from "@Utils/router";
 import MasterLayout from "./layout/masterLayout";
-import RequestPage from "./pages/users/RequestPage";
+import RequestManagementPage from "./pages/users/RequestManagementPage";
 import MedicalRecordManagementPage from "./pages/users/MedicalRecordManagementPage";
 import AuthorizedPatientManagementPage from "./pages/users/AuthorizedPatientManagementPage";
 
@@ -18,7 +18,7 @@ const userRouters = [
   },
   {
     path: ROUTERS.USER.REQUEST,
-    component: <RequestPage></RequestPage>,
+    component: <RequestManagementPage></RequestManagementPage>,
   },
 ];
 
