@@ -5,9 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Router">
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/EditRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/DoctorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/DoctorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/SendEditRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/enumeration/RequestType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/enumeration/RequestType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/SendEditRequestForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/SendViewRequestForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/SendViewRequestForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/response/RequestResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/response/RequestResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/DoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/DoctorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/utils/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/component/MedicalRecordContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/component/MedicalRecordContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestCRUD.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestQuery.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/MedicalRecordDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/EditRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/MedicalRecordStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/MedicalRecordStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/RequestStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/RequestStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/RequestType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/RequestType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/AddRequest/AddRequest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/EditMedicalRecordDialog/EditMedicalRecordDialog.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,6 +284,7 @@
       <workItem from="1720594871832" duration="7875000" />
       <workItem from="1720639252594" duration="629000" />
       <workItem from="1720683716086" duration="3311000" />
+      <workItem from="1720711277045" duration="5638000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
@@ -399,18 +423,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestCRUD.java</url>
-          <line>73</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/EditRequestCRUD.java</url>
-          <line>74</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java</url>
-          <line>1531</line>
+          <line>1442</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>

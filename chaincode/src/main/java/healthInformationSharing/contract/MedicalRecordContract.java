@@ -9,6 +9,7 @@ import healthInformationSharing.dto.PrescriptionDetailsDto;
 import healthInformationSharing.dto.PrescriptionDto;
 import healthInformationSharing.dto.PurchaseDto;
 import healthInformationSharing.entity.*;
+import healthInformationSharing.enumeration.MedicalRecordStatus;
 import healthInformationSharing.enumeration.RequestStatus;
 import healthInformationSharing.enumeration.RequestType;
 import org.hyperledger.fabric.contract.Context;
@@ -196,9 +197,43 @@ public class MedicalRecordContract implements ContractInterface {
         jsonDto.put("medicalRecordId", medicalRecordId);
         jsonDto.put("medicalRecordStatus", medicalRecordStatus);
 
-        MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().defineMedicalRecord(jsonDto);
+        MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecordId);
 
         authorizeRequest(ctx, medicalRecord.getPatientId(), "defineMedicalRecord(validate patientId)");
+
+        medicalRecord = ctx.getMedicalRecordDAO().defineMedicalRecord(jsonDto);
+
+        return new Genson().serialize(medicalRecord);
+    }
+
+    @Transaction
+    public String revokeMedicalRecord(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String medicalRecordId = jsonObject.getString("medicalRecordId");
+        String medicalRecordStatus = MedicalRecordStatus.REVOKED;
+
+        JSONObject jsonDto = new JSONObject();
+
+        if (!ctx.getMedicalRecordDAO().medicalRecordExist(medicalRecordId)) {
+            String errorMessage = String.format("Medical Record %s does not exist", medicalRecordId);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, ContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
+        }
+
+        jsonDto = new JSONObject();
+
+        jsonDto.put("medicalRecordId", medicalRecordId);
+        jsonDto.put("medicalRecordStatus", medicalRecordStatus);
+
+        MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecordId);
+        authorizeRequest(ctx, medicalRecord.getDoctorId(), "revokeMedicalRecord(validate doctorId)");
+
+
+        medicalRecord = ctx.getMedicalRecordDAO().defineMedicalRecord(jsonDto);
+
 
         return new Genson().serialize(medicalRecord);
     }
@@ -261,32 +296,6 @@ public class MedicalRecordContract implements ContractInterface {
         catch (Exception exception) {
             System.out.println(exception.getMessage());
             throw new Exception(exception.getMessage());
-        }
-    }
-
-    @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public String getEditRequest(MedicalRecordContext ctx, String jsonString) {
-        JSONObject jsonObject = new JSONObject(jsonString);
-        String requestId = jsonObject.getString("requestId");
-        if (ctx.getEditRequestDAO().requestExist(requestId)) {
-            EditRequest editRequest = ctx.getEditRequestDAO().getEditRequest(requestId);
-            try {
-                authorizeRequest(ctx, editRequest.getSenderId(), "getEditRequest(validate senderId)");
-            }
-            catch (ChaincodeException chaincodeException) {
-                try {
-                    authorizeRequest(ctx, editRequest.getRecipientId(), "getEditRequest(validate recipientId)");
-                }
-                catch (ChaincodeException ce) {
-                    throw ce;
-                }
-            }
-            System.out.println("getEditRequest: " + editRequest);
-            return new Genson().serialize(editRequest);
-        } else {
-            String errorMessage = String.format("Edit Request %s does not exist", requestId);
-            System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, ContractErrors.REQUEST_NOT_FOUND.toString());
         }
     }
 
@@ -494,104 +503,6 @@ public class MedicalRecordContract implements ContractInterface {
                 jsonDto
         );
         return new Genson().serialize(appointmentRequest);
-    }
-
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public String sendEditRequest(
-            MedicalRecordContext ctx,
-            String jsonString
-    ) {
-        JSONObject jsonObject = new JSONObject(jsonString);
-        String senderId = jsonObject.getString("senderId");
-        String recipientId = jsonObject.getString("recipientId");
-        String dateCreated = jsonObject.getString("dateCreated");
-        String dateModified = jsonObject.getString("dateModified");
-        String medicalRecordJson = jsonObject.getString("medicalRecordJson");
-        Genson genson = new Genson();
-        MedicalRecord medicalRecord = genson.deserialize(medicalRecordJson, MedicalRecord.class);
-        authorizeRequest(ctx, medicalRecord.getDoctorId(), "sendEditRequest(validate doctorId)");
-        if (!Objects.equals(medicalRecord.getPatientId(), recipientId)) {
-            throw new ChaincodeException("medicalRecord.getPatientId() does not match recipientId",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
-        }
-        
-        JSONObject jsonDto = new JSONObject();
-        jsonDto.put("senderId", senderId);
-        jsonDto.put("recipientId", recipientId);
-        jsonDto.put("dateCreated", dateCreated);
-        jsonDto.put("dateModified", dateModified);
-        jsonDto.put("requestType", RequestType.EDIT_RECORD);
-        jsonDto.put("medicalRecordJson", medicalRecordJson);
-        EditRequest editRequest = ctx.getEditRequestDAO().sendEditRequest(
-                jsonDto
-        );
-        System.out.println("sendEditRequest - editRequest: " + editRequest);
-        return new Genson().serialize(editRequest);
-    }
-
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public String defineEditRequest(
-        MedicalRecordContext ctx,
-        String jsonString
-    ) {
-        System.out.println("jsonString: " + jsonString);
-        JSONObject jsonObject = new JSONObject(jsonString);
-
-        System.out.println("jsonObject: " + jsonObject);
-
-        String requestId = jsonObject.getString("requestId");
-        String requestStatus = jsonObject.getString("requestStatus");
-
-        System.out.println("requestId: " + requestId);
-        System.out.println("requestStatus: " + requestStatus);
-
-        EditRequestDAO editRequestDAO = ctx.getEditRequestDAO();
-        if (!editRequestDAO.requestExist(requestId)) {
-            throw new ChaincodeException("EditRequestDAO " + requestId + " does not exist",
-                    ContractErrors.REQUEST_NOT_FOUND.toString());
-        }
-
-        EditRequest editRequest = editRequestDAO.getEditRequest(requestId);
-        authorizeRequest(ctx, editRequest.getRecipientId(), "defineEditRequest(validate recipientId");
-
-        MedicalRecord medicalRecord = new Genson().deserialize(editRequest.getMedicalRecord(), MedicalRecord.class);
-
-        System.out.println("medicalRecord: " + medicalRecord.toString());
-
-        JSONObject jsonDto = new JSONObject();
-        jsonDto.put("medicalRecordId", medicalRecord.getMedicalRecordId());
-        MedicalRecord curMedicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecord.getMedicalRecordId());
-
-        if (!Objects.equals(medicalRecord.getPatientId(), curMedicalRecord.getPatientId())) {
-            throw new ChaincodeException("editMedicalRecord.medicalRecordJson.getPatientId() does not match curMedicalRecord.getPatientId()",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
-        }
-
-        if (!Objects.equals(medicalRecord.getDoctorId(), curMedicalRecord.getDoctorId())) {
-            throw new ChaincodeException("editMedicalRecord.medicalRecordJson.getDoctorId() does not match curMedicalRecord.getDoctorId()",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
-        }
-
-        jsonDto = new JSONObject();
-        jsonDto.put("requestId", requestId);
-        jsonDto.put("requestStatus", requestStatus);
-
-        System.out.println("jsonDto: " + jsonDto.toString());
-        editRequest = ctx.getEditRequestDAO().defineEditRequest(
-            jsonDto
-        );
-
-        medicalRecord = null;
-        if (Objects.equals(editRequest.getRequestStatus(), RequestStatus.ACCEPTED)) {
-            jsonDto = new JSONObject();
-            jsonDto.put("medicalRecordJson", editRequest.getMedicalRecord());
-            medicalRecord = ctx.getMedicalRecordDAO().editMedicalRecord(jsonDto);
-        }
-        else {
-            throw new ChaincodeException("editRequest.getRequestStatus() does not match RequestStatus.ACCEPTED",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
-        }
-        return new Genson().serialize(medicalRecord);
     }
 
     @Transaction(intent = Transaction.TYPE.SUBMIT)

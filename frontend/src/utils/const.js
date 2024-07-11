@@ -5,8 +5,7 @@ export const DIALOGS = {
   REQUEST_DETAIL: "REQUEST_DETAIL",
   MEDICAL_RECORD: "MEDICAL_RECORD",
   ADD_MEDICAL_RECORD: "ADD_MEDICAL_RECORD",
-  ADD_REQUEST: "ADD_REQUEST",
-  EDIT_MEDICAL_RECORD: "EDIT_MEDICAL_RECORD",
+  SEND_REQUEST: "SEND_REQUEST",
 };
 
 export const API = {
@@ -16,7 +15,7 @@ export const API = {
     GET_ALL_REQUEST: "/api/public/get-all-request",
     GET_REQUEST: "/api/public/get-request",
     GET_ROLE: "/api/public/get-role",
-    ADD_REQUEST: "/api/public/add-request",
+    SEND_REQUEST: "/api/public/send-request",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:
@@ -34,6 +33,7 @@ export const API = {
     GET_ALL_MEDICATION: "/api/doctor/get-all-medication",
     GET_ALL_AUTHORIZED_PATIENT_BY_DOCTORID:
       "/api/doctor/get-all-authorized-patient-by-doctorId",
+    SEND_VIEW_QUEST: "/api/doctor/send-view-request",
   },
 };
 

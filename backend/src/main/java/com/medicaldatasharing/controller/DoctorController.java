@@ -8,6 +8,7 @@ import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.form.AddMedicalRecordForm;
 import com.medicaldatasharing.form.AddPrescriptionForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
+import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.UserService;
@@ -79,6 +80,19 @@ public class DoctorController {
             addMedicalRecordForm.setAddPrescription(addPrescriptionForm.toJSONObject().toString());
             String medicalRecord = doctorService.addMedicalRecord(addMedicalRecordForm);
             return ResponseEntity.status(HttpStatus.OK).body(medicalRecord);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/send-view-request")
+    public ResponseEntity<?> sendViewRequest(@Valid @ModelAttribute SendViewRequestForm sendViewRequestForm, BindingResult result) throws Exception {
+        try {
+            sendViewRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
+            sendViewRequestForm.setDateModified(StringUtil.parseDate(new Date()));
+            String viewRequest = doctorService.sendViewRequest(sendViewRequestForm);
+            return ResponseEntity.status(HttpStatus.OK).body(viewRequest);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

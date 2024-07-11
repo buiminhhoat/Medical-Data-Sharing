@@ -64,9 +64,6 @@ public class UserService {
             if (Objects.equals(requestType, RequestType.APPOINTMENT.toString())) {
                 request = hyperledgerService.getAppointmentRequest(user, requestId);
             }
-            if (Objects.equals(requestType, RequestType.EDIT_RECORD.toString())) {
-                request = hyperledgerService.getEditRequest(user, requestId);
-            }
             if (Objects.equals(requestType, RequestType.VIEW_RECORD.toString())) {
                 request = hyperledgerService.getViewRequest(user, requestId);
             }

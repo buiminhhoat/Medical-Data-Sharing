@@ -10,6 +10,7 @@ import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.AddMedicalRecordForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
 import com.medicaldatasharing.form.SearchViewRequestForm;
+import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
@@ -123,6 +124,17 @@ public class DoctorService {
                 patientResponseList.add(patientResponse);
             }
             return new Genson().serialize(patientResponseList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String sendViewRequest(SendViewRequestForm sendViewRequestForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            ViewRequest viewRequest = hyperledgerService.sendViewRequest(user, sendViewRequestForm);
+            return new Genson().serialize(viewRequest);
         }
         catch (Exception e) {
             throw e;

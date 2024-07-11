@@ -89,11 +89,6 @@ public class RequestResponse {
             this.paymentRequestId = confirmPaymentRequest.getPaymentRequestId();
         }
 
-        if (request instanceof EditRequest && Objects.equals(requestType, RequestType.EDIT_RECORD.toString())) {
-            EditRequest editRequest = (EditRequest) request;
-            this.medicalRecord = editRequest.getMedicalRecord();
-        }
-
         if (request instanceof PaymentRequest && Objects.equals(requestType, RequestType.PAYMENT.toString())) {
             PaymentRequest paymentRequest = (PaymentRequest) request;
             this.insuranceContractId = paymentRequest.getInsuranceContractId();

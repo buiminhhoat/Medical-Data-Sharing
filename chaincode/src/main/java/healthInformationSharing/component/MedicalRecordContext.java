@@ -11,7 +11,6 @@ public class MedicalRecordContext extends Context {
 
     private MedicalRecordDAO medicalRecordDAO;
     private AppointmentRequestDAO appointmentRequestDAO;
-    private EditRequestDAO editRequestDAO;
     private ViewRequestDAO viewRequestDAO;
     private MedicationDAO medicationDAO;
     private DrugDAO drugDAO;
@@ -31,7 +30,6 @@ public class MedicalRecordContext extends Context {
         super(stub);
         medicalRecordDAO = new MedicalRecordDAO(this);
         appointmentRequestDAO = new AppointmentRequestDAO(this);
-        editRequestDAO = new EditRequestDAO(this);
         viewRequestDAO = new ViewRequestDAO(this);
         medicationDAO = new MedicationDAO(this);
         drugDAO = new DrugDAO(this);
@@ -63,15 +61,6 @@ public class MedicalRecordContext extends Context {
 
     public MedicalRecordContext setAppointmentRequestDAO(AppointmentRequestDAO appointmentRequestDAO) {
         this.appointmentRequestDAO = appointmentRequestDAO;
-        return this;
-    }
-
-    public EditRequestDAO getEditRequestDAO() {
-        return editRequestDAO;
-    }
-
-    public MedicalRecordContext setEditRequestDAO(EditRequestDAO editRequestDAO) {
-        this.editRequestDAO = editRequestDAO;
         return this;
     }
 

@@ -190,13 +190,6 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             </Info>
           )}
 
-          {data.requestType === "Chỉnh sửa hồ sơ y tế" && (
-            <Info>
-              <div className="field">Hồ sơ y tế mới</div>
-              <div>Xem</div>
-            </Info>
-          )}
-
           {data.requestType === "Thanh toán" && (
             <>
               <Info>
@@ -252,17 +245,18 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             justifyItems: "center",
           }}
         >
-          {(data.requestType === "Đặt lịch khám" ||
-            data.requestType === "Xem hồ sơ y tế") && (
-            <>
-              <Button
-                style={{ marginRight: "3%" }}
-                onClick={() => openMedicalRecord(data.senderId)}
-              >
-                Xem hồ sơ y tế
-              </Button>
-            </>
-          )}
+          {data.senderId === userId &&
+            (data.requestType === "Đặt lịch khám" ||
+              data.requestType === "Xem hồ sơ y tế") && (
+              <>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => openMedicalRecord(data.senderId)}
+                >
+                  Xem hồ sơ y tế
+                </Button>
+              </>
+            )}
 
           {data.recipientId === userId &&
             data.requestType === "Đặt lịch khám" && (
@@ -271,7 +265,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
                   style={{ marginRight: "3%" }}
                   onClick={() => openMedicalRecord(data.senderId)}
                 >
-                  Chỉnh sửa hồ sơ y tế
+                  Thu hồi hồ sơ y tế
                 </Button>
               </>
             )}

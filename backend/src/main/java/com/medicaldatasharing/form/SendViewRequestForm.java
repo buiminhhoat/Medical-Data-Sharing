@@ -16,9 +16,7 @@ public class SendViewRequestForm {
     @NotBlank
     private String recipientId;
 
-    @NotBlank
     private String dateCreated;
 
-    @NotBlank
     private String dateModified;
 }

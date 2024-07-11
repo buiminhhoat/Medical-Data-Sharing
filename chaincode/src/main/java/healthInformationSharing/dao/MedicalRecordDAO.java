@@ -38,10 +38,6 @@ public class MedicalRecordDAO {
         );
     }
 
-    public MedicalRecord editMedicalRecord(JSONObject jsonDto) {
-        return medicalRecordCRUD.editMedicalRecord(jsonDto);
-    }
-
     public List<MedicalRecord> getListAuthorizedMedicalRecordByDoctorQuery(JSONObject jsonDto) {
         return medicalRecordQuery.getListMedicalRecordByQuery(
                 jsonDto

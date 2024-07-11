@@ -56,15 +56,11 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
     console.log("Hashfile: ", hashFile);
     if (access_token) {
       const formData = new FormData();
-      formData.append("requestId", values.requestId);
-      formData.append("patientId", values.patientId);
-      formData.append("patientName", values.patientName);
-      formData.append("doctorId", values.doctorId);
-      formData.append("doctorName", values.doctorName);
-      formData.append("medicalInstitutionId", values.medicalInstitutionId);
-      formData.append("medicalInstitutionName", values.medicalInstitutionName);
-      formData.append("testName", values.testName);
-      formData.append("details", values.details);
+      console.log(values);
+      for (const key in values) {
+        if (key === "hashFile") continue;
+        formData.append(key, values[key]);
+      }
       formData.append("hashFile", hashFile);
       let addPrescription = [];
       if (values.prescriptionDetailsList) {

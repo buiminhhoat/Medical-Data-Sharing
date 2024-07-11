@@ -450,30 +450,6 @@ public class InitDataLoader implements CommandLineRunner {
 
             System.out.println("medicalRecordList: " + medicalRecordList);
 
-            SendEditRequestForm sendEditRequestForm = new SendEditRequestForm();
-            sendEditRequestForm.setSenderId(doctor1Id);
-            sendEditRequestForm.setRecipientId(patientId);
-            sendEditRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
-            sendEditRequestForm.setDateModified(StringUtil.parseDate(dateModified));
-            medicalRecord.setDetails("details -_-");
-            sendEditRequestForm.setMedicalRecordJson(JsonConverter.objectToJson(medicalRecord).toString());
-
-            EditRequest editRequest = hyperledgerService.sendEditRequest(doctor1, sendEditRequestForm);
-            System.out.println("editRequest: " + editRequest);
-
-            EditRequest getEditRequest = hyperledgerService.getEditRequest(doctor1, editRequest.getRequestId());
-            System.out.println("getEditRequest: " + getEditRequest);
-
-            DefineRequestForm defineRequestForm = new DefineRequestForm();
-            defineRequestForm.setRequestId(editRequest.getRequestId());
-            defineRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
-            MedicalRecord defineEditRequest = hyperledgerService.defineEditRequest(
-                    patient,
-                    defineRequestForm
-            );
-
-            System.out.println(defineEditRequest.toString());
-
             SendViewRequestForm sendViewRequestForm = new SendViewRequestForm();
             sendViewRequestForm.setSenderId(doctor2Id);
             sendViewRequestForm.setRecipientId(patientId);

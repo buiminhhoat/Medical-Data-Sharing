@@ -219,68 +219,6 @@ public class HyperledgerService {
         return getListAuthorizedMedicalRecordByDoctorQueryList;
     }
 
-    public EditRequest getEditRequest(User user, String requestId) throws Exception {
-        EditRequest editRequest = null;
-        try {
-            Contract contract = getContract(user);
-            LOG.info("Evaluate Transaction: getEditRequest");
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("requestId", requestId);
-            byte[] result = contract.evaluateTransaction(
-                    "getEditRequest",
-                    jsonObject.toString()
-            );
-            String editRequestStr = new String(result);
-            editRequest = new Genson().deserialize(editRequestStr, EditRequest.class);
-            LOG.info("result: " + editRequest);
-        } catch (Exception e) {
-            formatExceptionMessage(e);
-        }
-        return editRequest;
-    }
-
-    public MedicalRecord defineEditRequest(User user, DefineRequestForm defineRequestForm) throws Exception {
-        MedicalRecord medicalRecord = null;
-        try {
-            Contract contract = getContract(user);
-            LOG.info("Submit Transaction: defineEditRequest");
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("requestId", defineRequestForm.getRequestId());
-            jsonObject.put("requestStatus", defineRequestForm.getRequestStatus());
-            System.out.println(jsonObject.toString());
-            byte[] result = contract.submitTransaction(
-                    "defineEditRequest",
-                    jsonObject.toString()
-            );
-            String medicalRecordStr = new String(result);
-            medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
-            LOG.info("result: " + medicalRecord);
-        } catch (Exception e) {
-            formatExceptionMessage(e);
-        }
-        return medicalRecord;
-    }
-
-    public MedicalRecord editMedicalRecord(User user, String requestId) throws Exception {
-        MedicalRecord medicalRecord = null;
-        try {
-            Contract contract = getContract(user);
-            LOG.info("Submit Transaction: editMedicalRecord");
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("requestId", requestId);
-            byte[] result = contract.submitTransaction(
-                    "editMedicalRecord",
-                    jsonObject.toString()
-            );
-            String medicalRecordStr = new String(result);
-            medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
-            LOG.info("result: " + medicalRecord);
-        } catch (Exception e) {
-            formatExceptionMessage(e);
-        }
-        return medicalRecord;
-    }
-
     public AppointmentRequest sendAppointmentRequest(
             User user,
             SendAppointmentRequestForm sendAppointmentRequestForm
@@ -306,33 +244,6 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return appointmentRequest;
-    }
-
-    public EditRequest sendEditRequest(
-            User user,
-            SendEditRequestForm sendEditRequestForm
-    ) throws Exception {
-        EditRequest editRequest = null;
-        try {
-            Contract contract = getContract(user);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("senderId", sendEditRequestForm.getSenderId());
-            jsonObject.put("recipientId", sendEditRequestForm.getRecipientId());
-            jsonObject.put("dateCreated", sendEditRequestForm.getDateCreated());
-            jsonObject.put("dateModified", sendEditRequestForm.getDateModified());
-            jsonObject.put("medicalRecordJson", sendEditRequestForm.getMedicalRecordJson());
-            byte[] result = contract.submitTransaction(
-                    "sendEditRequest",
-                    jsonObject.toString()
-            );
-
-            String editRequestStr = new String(result);
-            editRequest = new Genson().deserialize(editRequestStr, EditRequest.class);
-            LOG.info("result: " + editRequest);
-        } catch (Exception e) {
-            formatExceptionMessage(e);
-        }
-        return editRequest;
     }
 
     public ViewRequest sendViewRequest(

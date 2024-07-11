@@ -21,23 +21,22 @@ import { Alert, notification } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
-import EditMedicalRecordDialog from "../EditMedicalRecordDialog/EditMedicalRecordDialog";
 const { Option } = Select;
 
 const Context = React.createContext({
   name: "Default",
 });
 
-const AddRequestDialogStyle = styled.div`
+const SendRequestDialogStyle = styled.div`
   overflow: auto;
 `;
 
-const AddRequestDialog = ({ request, onClose, onSwitch }) => {
+const SendRequestDialog = ({ request, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  let apiAddRequest = API.PUBLIC.ADD_REQUEST;
+  let apiSendRequest = API.PUBLIC.SEND_REQUEST;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [loading, setLoading] = useState(true);
@@ -89,10 +88,6 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
       value: "Xem hồ sơ y tế",
       label: "Xem hồ sơ y tế",
     },
-    {
-      value: "Chỉnh sửa hồ sơ y tế",
-      label: "Chỉnh sửa hồ sơ y tế",
-    },
   ];
 
   const [options, setOptions] = useState(null);
@@ -110,10 +105,53 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
   const handleFormSubmit = async (values) => {
     if (access_token) {
       console.log("requestType: ", values.requestType);
-      console.log("medicalRecordId: ", values.medicalRecordId);
-      if (requestType === "Chỉnh sửa hồ sơ y tế") {
-        setValuesForm(values);
-        openModal(DIALOGS.EDIT_MEDICAL_RECORD);
+      console.log(values);
+      console.log(apiSendRequest);
+      const formData = new FormData();
+      console.log(values);
+      for (const key in values) {
+        if (key === "hashFile") continue;
+        formData.append(key, values[key]);
+      }
+      openNotification(
+        "topRight",
+        "info",
+        "Đã gửi yêu cầu",
+        "Hệ thống đã tiếp nhận yêu cầu!"
+      );
+
+      try {
+        const response = await fetch(apiSendRequest, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+          body: formData,
+        });
+
+        if (response.status === 200) {
+          console.log("data");
+          let data = await response.json();
+          console.log(data);
+          openNotification(
+            "topRight",
+            "success",
+            "Thành công",
+            "Đã tạo yêu cầu thành công!",
+            handleCancel
+          );
+          setLoading(false);
+        } else {
+          openNotification(
+            "topRight",
+            "error",
+            "Thất bại",
+            "Đã có lỗi xảy ra khi tạo yêu cầu!",
+            handleCancel
+          );
+        }
+      } catch (e) {
+        console.log(e);
       }
     }
   };
@@ -149,33 +187,18 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
 
   const [requestType, setRequestType] = useState(null);
   const [additionalFields, setAdditionalFields] = useState(null);
-  const [buttonText, setButtionText] = useState("Tạo yêu cầu");
-
-  function renderEditRequest() {
-    return (
-      <React.Fragment>
-        <Form.Item label="ID hồ sơ y tế" name="medicalRecordId">
-          <Input></Input>
-        </Form.Item>
-      </React.Fragment>
-    );
-  }
 
   useEffect(() => {
     setAdditionalFields("");
     if (requestType === "Xem hồ sơ y tế") {
-      setButtionText("Tạo yêu cầu");
-    }
-    if (requestType === "Chỉnh sửa hồ sơ y tế") {
-      setAdditionalFields(renderEditRequest());
-      setButtionText("Bước tiếp theo");
+      apiSendRequest = API.DOCTOR.SEND_VIEW_QUEST;
     }
   }, [requestType]);
 
   return (
     <Context.Provider value={"Tạo yêu cầu"}>
       {contextHolder}
-      <AddRequestDialogStyle>
+      <SendRequestDialogStyle>
         <Modal
           title="Tạo yêu cầu"
           open={isModalOpen}
@@ -263,12 +286,12 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
                 justifyItems: "center",
               }}
             >
-              <Button htmlType="submit">{buttonText}</Button>
+              <Button htmlType="submit">Tạo yêu cầu</Button>
             </div>
           </Form>
         </Modal>
 
-        {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
+        {/* {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
           <div className="modal-overlay">
             <EditMedicalRecordDialog
               values={valuesForm}
@@ -276,10 +299,10 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
               onSwitch={handleDialogSwitch}
             />
           </div>
-        )}
-      </AddRequestDialogStyle>
+        )} */}
+      </SendRequestDialogStyle>
     </Context.Provider>
   );
 };
 
-export default AddRequestDialog;
+export default SendRequestDialog;

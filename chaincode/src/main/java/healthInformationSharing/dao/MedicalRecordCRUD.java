@@ -89,26 +89,4 @@ public class MedicalRecordCRUD {
 
         return medicalRecord;
     }
-
-    public MedicalRecord editMedicalRecord(JSONObject jsonDto) {
-        String medicalRecordJson = jsonDto.getString("medicalRecordJson");
-
-        Genson genson = new Genson();
-        MedicalRecord medicalRecord = genson.deserialize(medicalRecordJson, MedicalRecord.class);
-        String medicalRecordId = medicalRecord.getMedicalRecordId();
-
-        System.out.println("editMedicalRecord: medicalRecordId: " + medicalRecordId);
-
-        CompositeKey compositeKey = context.getStub().createCompositeKey(entityName, medicalRecordId);
-        String dbKey = compositeKey.toString();
-
-        System.out.println("dbKey: " + dbKey);
-
-        String entityJsonString = genson.serialize(medicalRecord);
-        context.getStub().putStringState(dbKey, entityJsonString);
-
-        System.out.println("editMedicalRecord: " + medicalRecord.toString());
-        System.out.println("entityJsonString: " + entityJsonString);
-        return medicalRecord;
-    }
 }
