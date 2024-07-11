@@ -20,6 +20,8 @@ import {
 import { Alert, notification } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
+import EditMedicalRecordDialog from "../EditMedicalRecordDialog/EditMedicalRecordDialog";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -47,6 +49,24 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+  };
+
+  const [openDialog, setOpenDialog] = useState(null);
+
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
   };
 
   const patientOptions = [
@@ -85,10 +105,16 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
     }
   });
 
+  const [valuesForm, setValuesForm] = useState();
+
   const handleFormSubmit = async (values) => {
     if (access_token) {
       console.log("requestType: ", values.requestType);
       console.log("medicalRecordId: ", values.medicalRecordId);
+      if (requestType === "Chỉnh sửa hồ sơ y tế") {
+        setValuesForm(values);
+        openModal(DIALOGS.EDIT_MEDICAL_RECORD);
+      }
     }
   };
 
@@ -160,7 +186,7 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
           // loading={loading}
         >
           <Form
-            name="basic"
+            name="addRequest"
             labelCol={{
               span: 5,
             }}
@@ -241,6 +267,16 @@ const AddRequestDialog = ({ request, onClose, onSwitch }) => {
             </div>
           </Form>
         </Modal>
+
+        {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
+          <div className="modal-overlay">
+            <EditMedicalRecordDialog
+              values={valuesForm}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            />
+          </div>
+        )}
       </AddRequestDialogStyle>
     </Context.Provider>
   );
