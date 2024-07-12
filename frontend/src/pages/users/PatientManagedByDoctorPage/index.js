@@ -24,19 +24,19 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
 
-const AuthorizedPatientManagementPageStyle = styled.div`
+const PatientManagedByDoctorPageStyle = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-const AuthorizedPatientManagementPage = () => {
+const PatientManagedByDoctorPage = () => {
   const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
 
-  const apiGetAllAuthorizedPatientByDoctorId =
-    API.DOCTOR.GET_ALL_AUTHORIZED_PATIENT_BY_DOCTORID;
+  const apiGetAllPatientByDoctorId =
+    API.DOCTOR.GET_ALL_PATIENT_MANAGED_BY_DOCTOR;
 
   const [searchPatientId, setSearchPatientId] = useState("");
   const [searchPatientName, setSearchPatientName] = useState("");
@@ -116,11 +116,11 @@ const AuthorizedPatientManagementPage = () => {
     setSearchAddress("");
   };
 
-  const fetchGetAllAuthorizedPatientByDoctorId = async () => {
+  const fetchGetAllPatientByDoctorId = async () => {
     if (access_token) {
       try {
         const formData = new FormData();
-        const response = await fetch(apiGetAllAuthorizedPatientByDoctorId, {
+        const response = await fetch(apiGetAllPatientByDoctorId, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -138,7 +138,7 @@ const AuthorizedPatientManagementPage = () => {
   };
 
   useEffect(() => {
-    if (access_token) fetchGetAllAuthorizedPatientByDoctorId().then((r) => {});
+    if (access_token) fetchGetAllPatientByDoctorId().then((r) => {});
   }, [access_token]);
 
   useEffect(() => {
@@ -283,7 +283,7 @@ const AuthorizedPatientManagementPage = () => {
   };
 
   return (
-    <AuthorizedPatientManagementPageStyle>
+    <PatientManagedByDoctorPageStyle>
       <div className="page">
         <div className="container">
           <div style={{ marginTop: "20px" }}>
@@ -464,8 +464,8 @@ const AuthorizedPatientManagementPage = () => {
           />
         </div>
       )}
-    </AuthorizedPatientManagementPageStyle>
+    </PatientManagedByDoctorPageStyle>
   );
 };
 
-export default memo(AuthorizedPatientManagementPage);
+export default memo(PatientManagedByDoctorPage);

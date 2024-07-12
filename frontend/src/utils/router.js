@@ -10,7 +10,10 @@ export const ROUTERS = {
     MEDICAL_RECORD_MANAGEMENT_PAGE: "/patient/medical-record-management-page",
   },
   DOCTOR: {
-    AUTHORIZED_PATIENT_MANAGEMENT_PAGE:
-      "/doctor/authorized-patient-management-page",
+    PATIENT_MANAGED_BY_DOCTOR_PAGE: "/doctor/patient-managed-by-doctor-page",
+  },
+  ADMIN: {
+    HOME: "",
+    USER_MANAGEMENT: "/admin/user-management",
   },
 };
