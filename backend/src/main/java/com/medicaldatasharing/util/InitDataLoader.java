@@ -202,7 +202,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .builder()
                 .fullName("Đào Quang Vinh")
                 .address("144 Xuân Thủy, Cầu Giấy, Hà Nội")
-                .gender("Male")
+                .gender("Nam")
                 .dateBirthday(new Date(1047722400000l))
                 .username("daoquangvinh@gmail.com")
                 .email("daoquangvinh@gmail.com")
@@ -216,7 +216,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .builder()
                 .fullName("Phạm Lê Huy")
                 .address("")
-                .gender("Male")
+                .gender("Nam")
                 .dateBirthday(new Date(1062928800000l)) //29.05.1996 10h
                 .username("lehuy5c2003@gmail.com")
                 .email("lehuy5c2003@gmail.com")

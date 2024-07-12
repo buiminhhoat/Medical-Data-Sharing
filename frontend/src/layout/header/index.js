@@ -88,8 +88,15 @@ const Header = () => {
 
   const [doctorMenuItems, setDoctorMenuItems] = useState([
     {
-      name: "Quản lý bệnh nhân được ủy quyền",
-      path: ROUTERS.DOCTOR.AUTHORIZED_PATIENT_MANAGEMENT_PAGE,
+      name: "Quản lý bệnh nhân",
+      path: ROUTERS.DOCTOR.PATIENT_MANAGED_BY_DOCTOR_PAGE,
+    },
+  ]);
+
+  const [adminMenuItems, setAdminMenuItems] = useState([
+    {
+      name: "Quản lý người dùng",
+      path: ROUTERS.ADMIN.USER_MANAGEMENT,
     },
   ]);
 
@@ -111,9 +118,17 @@ const Header = () => {
         });
       }
 
-      userMenuItems.map((item, key) => {
-        items.push(item);
-      });
+      if (role === "Quản trị viên") {
+        adminMenuItems.map((item, key) => {
+          items.push(item);
+        });
+      }
+
+      if (role !== "Quản trị viên") {
+        userMenuItems.map((item, key) => {
+          items.push(item);
+        });
+      }
       setMenuItems(items);
     }
   });
@@ -143,10 +158,18 @@ const Header = () => {
         <div className="header-container">
           <div className="row">
             <div className="col-3 header-top-left">
-              <div style={{ minWidth: "28px", minHeight: "28px" }}>
+              <div
+                style={{
+                  minWidth: "28px",
+                  minHeight: "28px",
+                  display: "flex",
+                  justifyItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <svg
-                  width="28"
-                  height="28"
+                  width="27.2"
+                  height="27.2"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -175,12 +198,12 @@ const Header = () => {
                 </Link>
               </div>
 
-              <div className="col-3" style={{ marginLeft: "5%" }}>
+              <div className="col-3" style={{ marginLeft: "3%" }}>
                 <ul style={{ display: "flex" }}>
                   {menuItems?.map((menu, index) => (
                     <div
                       key={index}
-                      style={{ minWidth: "100px", marginRight: "7%" }}
+                      style={{ minWidth: "160px", marginRight: "5%" }}
                     >
                       <li style={{ textAlign: "center" }}>
                         <Link to={menu?.path} className="link">

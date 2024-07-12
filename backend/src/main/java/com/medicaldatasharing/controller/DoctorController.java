@@ -1,13 +1,9 @@
 package com.medicaldatasharing.controller;
 
-import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
-import com.medicaldatasharing.chaincode.dto.ViewRequest;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
-import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.form.AddMedicalRecordForm;
 import com.medicaldatasharing.form.AddPrescriptionForm;
-import com.medicaldatasharing.form.SearchMedicalRecordForm;
 import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
@@ -99,11 +95,11 @@ public class DoctorController {
         }
     }
 
-    @PostMapping("/get-all-authorized-patient-by-doctorId")
-    public ResponseEntity<?> getAllAuthorizedPatientByDoctorId() throws Exception {
+    @PostMapping("/get-all-patient-managed-by-doctorId")
+    public ResponseEntity<?> getAllPatientManagedByDoctorId() throws Exception {
         try {
-            String getAllAuthorizedPatientByDoctorId = doctorService.getAllAuthorizedPatientByDoctorId();
-            return ResponseEntity.status(HttpStatus.OK).body(getAllAuthorizedPatientByDoctorId);
+            String getAllPatientManagedByDoctorId = doctorService.getAllPatientManagedByDoctorId();
+            return ResponseEntity.status(HttpStatus.OK).body(getAllPatientManagedByDoctorId);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

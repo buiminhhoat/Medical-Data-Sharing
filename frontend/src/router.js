@@ -6,10 +6,11 @@ import { ROUTERS } from "@Utils/router";
 import MasterLayout from "./layout/masterLayout";
 import RequestManagementPage from "./pages/users/RequestManagementPage";
 import MedicalRecordManagementPage from "./pages/users/MedicalRecordManagementPage";
-import AuthorizedPatientManagementPage from "./pages/users/AuthorizedPatientManagementPage";
+import AuthorizedPatientManagementPage from "./pages/users/PatientManagedByDoctorPage";
 
 import { API } from "@Const";
 import { useCookies } from "react-cookie";
+import PatientManagedByDoctorPage from "./pages/users/PatientManagedByDoctorPage";
 
 const userRouters = [
   {
@@ -35,14 +36,17 @@ const patientRouters = [
 
 const doctorRouters = [
   {
-    path: ROUTERS.DOCTOR.AUTHORIZED_PATIENT_MANAGEMENT_PAGE,
-    component: (
-      <AuthorizedPatientManagementPage></AuthorizedPatientManagementPage>
-    ),
+    path: ROUTERS.DOCTOR.PATIENT_MANAGED_BY_DOCTOR_PAGE,
+    component: <PatientManagedByDoctorPage></PatientManagedByDoctorPage>,
   },
 ];
 
-const adminRouters = [];
+const adminRouters = [
+  {
+    path: ROUTERS.USER.HOME,
+    component: <HomePage></HomePage>,
+  },
+];
 
 const renderUserRouter = () => {
   return (
@@ -92,9 +96,9 @@ const renderAdminRouter = () => {
   return (
     <MasterLayout>
       <Routes>
-        {userRouters.map((item, key) => (
+        {/* {userRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component} />
-        ))}
+        ))} */}
         {adminRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component} />
         ))}

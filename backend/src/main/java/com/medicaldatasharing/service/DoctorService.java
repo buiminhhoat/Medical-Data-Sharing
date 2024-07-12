@@ -4,11 +4,9 @@ import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.chaincode.dto.ViewRequest;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
-import com.medicaldatasharing.dto.MedicalRecordDto;
 import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.AddMedicalRecordForm;
-import com.medicaldatasharing.form.SearchMedicalRecordForm;
 import com.medicaldatasharing.form.SearchViewRequestForm;
 import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.model.Patient;
@@ -104,7 +102,7 @@ public class DoctorService {
         return new Genson().serialize(medicalRecord);
     }
 
-    public String getAllAuthorizedPatientByDoctorId() throws Exception {
+    public String getAllPatientManagedByDoctorId() throws Exception {
         List<PatientResponse> patientResponseList = new ArrayList<>();
         User user = userDetailsService.getLoggedUser();
         try {
