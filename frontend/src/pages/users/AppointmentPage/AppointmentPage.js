@@ -9,6 +9,7 @@ import theme from "../../../styles/pages/theme";
 import { Card, Input, Button, Image, ConfigProvider, Row, Col } from "antd";
 import { SearchOutlined, CalendarOutlined } from "@ant-design/icons";
 import { API } from "@Const";
+import SendRequestDialog from "../../../components/dialogs/SendRequest/SendRequest";
 
 const AppointmentPageStyle = styled.div`
   .fullName {
@@ -52,66 +53,7 @@ const AppointmentPage = () => {
   const access_token = cookies.access_token;
 
   const [doctorList, setDoctorList] = useState([]);
-  // const doctorList = [
-  //   {
-  //     fullName: "Bùi Minh Hoạt",
-  //     department: "Chuyên khoa tim mạch",
-  //     avatar:
-  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
-  //     medicalInstitutionName: "Bệnh viện ABC",
-  //   },
-  //   {
-  //     fullName: "Nguyễn Tiến Dũng",
-  //     department: "Chuyên khoa răng hàm mặt",
-  //     avatar:
-  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
-  //     medicalInstitutionName: "Bệnh viện XYZ",
-  //   },
-  //   {
-  //     fullName: "Bùi Minh Hoạt",
-  //     department: "Chuyên khoa tim mạch",
-  //     avatar:
-  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
-  //     medicalInstitutionName: "Bệnh viện ABC",
-  //   },
-  //   {
-  //     fullName: "Nguyễn Tiến Dũng",
-  //     department: "Chuyên khoa răng hàm mặt",
-  //     avatar:
-  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
-  //     medicalInstitutionName: "Bệnh viện XYZ",
-  //   },
-
-  //   {
-  //     fullName: "Bùi Minh Hoạt",
-  //     department: "Chuyên khoa tim mạch",
-  //     avatar:
-  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
-  //     medicalInstitutionName: "Bệnh viện ABC",
-  //   },
-  //   {
-  //     fullName: "Nguyễn Tiến Dũng",
-  //     department: "Chuyên khoa răng hàm mặt",
-  //     avatar:
-  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
-  //     medicalInstitutionName: "Bệnh viện XYZ",
-  //   },
-
-  //   {
-  //     fullName: "Bùi Minh Hoạt",
-  //     department: "Chuyên khoa tim mạch",
-  //     avatar:
-  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
-  //     medicalInstitutionName: "Bệnh viện ABC",
-  //   },
-  //   {
-  //     fullName: "Nguyễn Tiến Dũng",
-  //     department: "Chuyên khoa răng hàm mặt",
-  //     avatar:
-  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
-  //     medicalInstitutionName: "Bệnh viện XYZ",
-  //   },
-  // ];
+  const [selectedDoctor, setSelectedDoctor] = useState();
 
   console.log(doctorList);
 
@@ -134,11 +76,31 @@ const AppointmentPage = () => {
     }
   };
 
+  const [openDialog, setOpenDialog] = useState(null);
+
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
+  };
+
   useEffect(() => {
     if (access_token) {
       fetchGetAllDoctor();
     }
   }, [access_token]);
+
+  console.log(selectedDoctor);
 
   return (
     <AppointmentPageStyle
@@ -243,6 +205,13 @@ const AppointmentPage = () => {
                                   color: "white",
                                   fontWeight: 600,
                                 }}
+                                onClick={(e) => {
+                                  doctor.requestType = "Đặt lịch khám";
+                                  doctor.recipientId = doctor.doctorId;
+                                  doctor.recipientName = doctor.fullName;
+                                  setSelectedDoctor(doctor);
+                                  openModal(DIALOGS.SEND_REQUEST);
+                                }}
                               >
                                 Đặt lịch khám
                               </Button>
@@ -258,6 +227,16 @@ const AppointmentPage = () => {
           </div>
         </div>
       </div>
+
+      {openDialog === DIALOGS.SEND_REQUEST && (
+        <div className="modal-overlay">
+          <SendRequestDialog
+            values={selectedDoctor}
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
     </AppointmentPageStyle>
   );
 };

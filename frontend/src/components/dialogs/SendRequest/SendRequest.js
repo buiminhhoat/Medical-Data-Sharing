@@ -31,7 +31,7 @@ const SendRequestDialogStyle = styled.div`
   overflow: auto;
 `;
 
-const SendRequestDialog = ({ request, onClose, onSwitch }) => {
+const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
@@ -184,10 +184,11 @@ const SendRequestDialog = ({ request, onClose, onSwitch }) => {
 
   const [senderId, setSenderId] = useState(userId);
 
-  const [requestType, setRequestType] = useState(null);
+  const [requestType, setRequestType] = useState(values.requestType);
   const [additionalFields, setAdditionalFields] = useState(null);
 
   useEffect(() => {
+    console.log("hello");
     setAdditionalFields("");
     if (requestType === "Đặt lịch khám") {
       setApiSendRequest(API.PATIENT.SEND_APPOINTMENT_REQUEST);
@@ -227,9 +228,9 @@ const SendRequestDialog = ({ request, onClose, onSwitch }) => {
               // requestId: request.requestId,
               senderId: senderId,
               // senderName: request.senderName,
-              // recipientId: request.recipientId,
-              // recipientName: request.recipientName,
-              // requestType: request.requestType,
+              recipientId: values.recipientId,
+              recipientName: values.recipientName,
+              requestType: values.requestType,
               // medicalInstitutionName: request.medicalInstitutionName,
               remember: true,
             }}
@@ -272,7 +273,6 @@ const SendRequestDialog = ({ request, onClose, onSwitch }) => {
                 ]}
               >
                 <Select
-                  defaultValue=""
                   options={options}
                   onChange={(value) => {
                     setRequestType(value);
