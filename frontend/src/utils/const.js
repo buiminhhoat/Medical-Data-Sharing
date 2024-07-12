@@ -26,6 +26,7 @@ export const API = {
       "/api/patient/get-medical-record-by-medicalRecordId",
     GET_PRESCRIPTION_BY_PRESCRIPTION_ID:
       "/api/patient/get-prescription-by-prescriptionId",
+    SEND_APPOINTMENT_REQUEST: "/api/patient/send-appointment-request",
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
@@ -33,7 +34,7 @@ export const API = {
     GET_ALL_MEDICATION: "/api/doctor/get-all-medication",
     GET_ALL_AUTHORIZED_PATIENT_BY_DOCTORID:
       "/api/doctor/get-all-authorized-patient-by-doctorId",
-    SEND_VIEW_QUEST: "/api/doctor/send-view-request",
+    SEND_VIEW_REQUEST: "/api/doctor/send-view-request",
   },
 };
 

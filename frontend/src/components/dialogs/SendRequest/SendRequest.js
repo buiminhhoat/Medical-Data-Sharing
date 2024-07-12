@@ -36,7 +36,7 @@ const SendRequestDialog = ({ request, onClose, onSwitch }) => {
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  let apiSendRequest = API.PUBLIC.SEND_REQUEST;
+  const [apiSendRequest, setApiSendRequest] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [loading, setLoading] = useState(true);
@@ -128,7 +128,6 @@ const SendRequestDialog = ({ request, onClose, onSwitch }) => {
           },
           body: formData,
         });
-
         if (response.status === 200) {
           console.log("data");
           let data = await response.json();
@@ -190,8 +189,11 @@ const SendRequestDialog = ({ request, onClose, onSwitch }) => {
 
   useEffect(() => {
     setAdditionalFields("");
+    if (requestType === "Đặt lịch khám") {
+      setApiSendRequest(API.PATIENT.SEND_APPOINTMENT_REQUEST);
+    }
     if (requestType === "Xem hồ sơ y tế") {
-      apiSendRequest = API.DOCTOR.SEND_VIEW_QUEST;
+      setApiSendRequest(API.DOCTOR.SEND_VIEW_REQUEST);
     }
   }, [requestType]);
 

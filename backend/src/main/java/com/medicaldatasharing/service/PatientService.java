@@ -1,9 +1,11 @@
 package com.medicaldatasharing.service;
 
+import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
+import com.medicaldatasharing.form.SendAppointmentRequestForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
@@ -74,6 +76,17 @@ public class PatientService {
             return new Genson().serialize(prescriptionDto);
         }
         catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String sendAppointmentRequest(SendAppointmentRequestForm appointmentRequestForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            appointmentRequestForm.setSenderId(user.getId());
+            AppointmentRequest appointmentRequest = hyperledgerService.sendAppointmentRequest(user, appointmentRequestForm);
+            return new Genson().serialize(appointmentRequest);
+        } catch (Exception e) {
             throw e;
         }
     }

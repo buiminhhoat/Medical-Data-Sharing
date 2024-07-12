@@ -18,7 +18,6 @@ public class SendAppointmentRequestForm {
     @NotBlank
     private String recipientId;
 
-    @NotBlank
     private String medicalInstitutionId;
 
     @NotBlank
