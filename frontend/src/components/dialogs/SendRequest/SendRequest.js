@@ -93,7 +93,8 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const [options, setOptions] = useState(null);
 
   useEffect(() => {
-    console.log("options", options);
+    console.log("options: ", options);
+    console.log("role: ", role);
     if (options === null) {
       if (role === "Bệnh nhân") setOptions(patientOptions);
       if (role === "Bác sĩ") setOptions(doctorOptions);
@@ -106,7 +107,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     if (access_token) {
       console.log("requestType: ", values.requestType);
       console.log(values);
-      console.log(apiSendRequest);
+      console.log("apiSendRequest: ", apiSendRequest);
       const formData = new FormData();
       console.log(values);
       for (const key in values) {
@@ -157,11 +158,26 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
 
   const [treeData, setTreeData] = useState(null);
 
-  const [value, setValue] = useState();
-  const onChange = (newValue) => {
-    console.log(newValue);
-    setValue(newValue);
+  const changeRequestType = (value) => {
+    if (value === "Đặt lịch khám") {
+      setApiSendRequest(API.PATIENT.SEND_APPOINTMENT_REQUEST);
+    }
+    if (value === "Xem hồ sơ y tế") {
+      setApiSendRequest(API.DOCTOR.SEND_VIEW_REQUEST);
+    }
   };
+
+  useEffect(() => {
+    if (values != null) {
+      changeRequestType(values.requestType);
+    }
+  }, [values]);
+
+  const onChange = (value) => {
+    console.log("value: ", value);
+    changeRequestType(value);
+  };
+
   const onPopupScroll = (e) => {
     console.log("onPopupScroll", e);
   };
@@ -184,19 +200,9 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
 
   const [senderId, setSenderId] = useState(userId);
 
-  const [requestType, setRequestType] = useState(values.requestType);
   const [additionalFields, setAdditionalFields] = useState(null);
 
-  useEffect(() => {
-    console.log("hello");
-    setAdditionalFields("");
-    if (requestType === "Đặt lịch khám") {
-      setApiSendRequest(API.PATIENT.SEND_APPOINTMENT_REQUEST);
-    }
-    if (requestType === "Xem hồ sơ y tế") {
-      setApiSendRequest(API.DOCTOR.SEND_VIEW_REQUEST);
-    }
-  }, [requestType]);
+  // console.log(requestType);
 
   return (
     <Context.Provider value={"Tạo yêu cầu"}>
@@ -228,9 +234,9 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
               // requestId: request.requestId,
               senderId: senderId,
               // senderName: request.senderName,
-              recipientId: values.recipientId,
-              recipientName: values.recipientName,
-              requestType: values.requestType,
+              recipientId: values ? values.recipientId : "",
+              // recipientName: values.recipientName,
+              requestType: values ? values.requestType : "",
               // medicalInstitutionName: request.medicalInstitutionName,
               remember: true,
             }}
@@ -275,7 +281,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                 <Select
                   options={options}
                   onChange={(value) => {
-                    setRequestType(value);
+                    onChange(value);
                   }}
                 />
               </Form.Item>

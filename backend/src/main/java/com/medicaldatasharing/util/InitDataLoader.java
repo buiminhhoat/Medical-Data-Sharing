@@ -11,7 +11,6 @@ import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.owlike.genson.Genson;
-import org.bouncycastle.cert.ocsp.Req;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -297,7 +296,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .email("official.buiminhhoat@gmail.com")
                 .password(passwordEncoder.encode("official.buiminhhoat@gmail.com"))
                 .enabled(true)
-                .role(Constants.ROLE_SUPER_ADMIN)
+                .role(Constants.ROLE_ADMIN)
                 .build();
 
         adminRepository.save(admin);

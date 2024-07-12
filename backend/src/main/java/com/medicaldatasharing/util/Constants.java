@@ -9,11 +9,9 @@ public class Constants {
 
     public static final String ROLE_PATIENT = "Bệnh nhân";
 
-    public static final String ROLE_SUPER_ADMIN = "Quản trị viên";
+    public static final String ROLE_ADMIN = "Quản trị viên";
 
     public static final String ROLE_DOCTOR = "Bác sĩ";
-
-    public static final String ROLE_DOCTOR_ADMIN = "Quản trị viên tổ chức bệnh viện";
 
     public static final String ROLE_MANUFACTURER = "Nhà sản xuất thuốc";
 

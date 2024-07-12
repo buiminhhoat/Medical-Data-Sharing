@@ -13,23 +13,23 @@ import SendRequestDialog from "../../../components/dialogs/SendRequest/SendReque
 
 const AppointmentPageStyle = styled.div`
   .fullName {
-    font-size: 25px;
+    font-size: 21px;
     font-weight: 600;
     color: ${theme.colors.green_dark};
   }
   .department {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 300;
     color: ${theme.colors.east_bay};
   }
   .medicalInstitutionName {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 300;
     color: ${theme.colors.east_bay};
   }
 
   .avatar {
-    margin-right: 5%;
+    margin: 0 8% 0 4%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -170,7 +170,7 @@ const AppointmentPage = () => {
                       <div style={{ display: "flex" }}>
                         <div className="avatar">
                           <Image
-                            width={130}
+                            width={150}
                             src={doctor.avatar}
                             style={{
                               borderRadius: "50%",
@@ -194,7 +194,7 @@ const AppointmentPage = () => {
                             <ConfigProvider
                               theme={{
                                 token: {
-                                  controlHeight: 50,
+                                  controlHeight: 44,
                                 },
                               }}
                             >

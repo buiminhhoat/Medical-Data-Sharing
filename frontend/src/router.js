@@ -42,6 +42,8 @@ const doctorRouters = [
   },
 ];
 
+const adminRouters = [];
+
 const renderUserRouter = () => {
   return (
     <MasterLayout>
@@ -86,6 +88,21 @@ const renderDoctorRouter = () => {
   );
 };
 
+const renderAdminRouter = () => {
+  return (
+    <MasterLayout>
+      <Routes>
+        {userRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+        {adminRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+      </Routes>
+    </MasterLayout>
+  );
+};
+
 const RouterCustom = () => {
   const [cookies] = useCookies(["access_token"]);
   const accessToken = cookies.access_token;
@@ -122,7 +139,8 @@ const RouterCustom = () => {
   return (
     (role === "" && renderUserRouter()) ||
     (role === "Bệnh nhân" && renderPatientRouter()) ||
-    (role === "Bác sĩ" && renderDoctorRouter())
+    (role === "Bác sĩ" && renderDoctorRouter()) ||
+    (role === "Quản trị viên" && renderAdminRouter())
   );
 };
 

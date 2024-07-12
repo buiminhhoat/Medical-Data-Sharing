@@ -143,10 +143,10 @@ const Header = () => {
         <div className="header-container">
           <div className="row">
             <div className="col-3 header-top-left">
-              <div className="col">
+              <div style={{ minWidth: "28px", minHeight: "28px" }}>
                 <svg
-                  width="24"
-                  height="24"
+                  width="28"
+                  height="28"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -165,25 +165,38 @@ const Header = () => {
                   />
                 </svg>
               </div>
-              <div className="col">
-                <Link to={ROUTERS.USER.HOME} className="link">
+              <div style={{ width: "40%" }}>
+                <Link
+                  to={ROUTERS.USER.HOME}
+                  className="link"
+                  style={{ fontSize: "18px" }}
+                >
                   Medical Data Sharing
                 </Link>
               </div>
-              <div className="col">
+
+              <div className="col-3" style={{ marginLeft: "5%" }}>
                 <ul style={{ display: "flex" }}>
                   {menuItems?.map((menu, index) => (
-                    <li key={index}>
-                      <Link to={menu?.path} className="link">
-                        {menu?.name}
-                      </Link>
-                    </li>
+                    <div
+                      key={index}
+                      style={{ minWidth: "100px", marginRight: "7%" }}
+                    >
+                      <li style={{ textAlign: "center" }}>
+                        <Link to={menu?.path} className="link">
+                          {menu?.name}
+                        </Link>
+                      </li>
+                    </div>
                   ))}
                 </ul>
               </div>
             </div>
 
-            <div className="col-6 header-top-right">
+            <div
+              className="col-6 header-top-right"
+              style={{ display: "flex", alignItems: "center" }}
+            >
               <ProfileMenu openModal={openModal} />
             </div>
           </div>

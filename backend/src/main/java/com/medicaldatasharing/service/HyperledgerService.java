@@ -6,7 +6,6 @@ import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.chaincode.util.ConnectionParamsUtil;
 import com.medicaldatasharing.chaincode.util.WalletUtil;
 import com.medicaldatasharing.dto.*;
-import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
@@ -15,7 +14,6 @@ import com.medicaldatasharing.util.StringUtil;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import lombok.SneakyThrows;
-import org.bouncycastle.cert.ocsp.Req;
 import org.bouncycastle.util.encoders.Hex;
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
@@ -84,7 +82,7 @@ public class HyperledgerService {
     }
 
     private String determineOrg(User user) {
-        if (user.getRole().equals(Constants.ROLE_PATIENT) || user.getRole().equals(Constants.ROLE_SUPER_ADMIN)) {
+        if (user.getRole().equals(Constants.ROLE_PATIENT) || user.getRole().equals(Constants.ROLE_ADMIN)) {
             return Config.PATIENT_ORG;
         }
         if (user.getRole().equals(Constants.ROLE_DOCTOR)) {
