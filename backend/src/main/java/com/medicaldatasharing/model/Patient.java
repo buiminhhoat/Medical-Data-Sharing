@@ -16,5 +16,4 @@ import java.util.Date;
 public class Patient extends User {
     private String gender;
     private Date dateBirthday;
-    private String address;
 }

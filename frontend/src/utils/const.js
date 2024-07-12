@@ -37,6 +37,9 @@ export const API = {
       "/api/doctor/get-all-patient-managed-by-doctorId",
     SEND_VIEW_REQUEST: "/api/doctor/send-view-request",
   },
+  ADMIN: {
+    GET_ALL_USER_BY_ADMIN: "/api/admin/get-all-user-by-admin",
+  },
 };
 
 export const LOGIN = {

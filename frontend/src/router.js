@@ -6,11 +6,11 @@ import { ROUTERS } from "@Utils/router";
 import MasterLayout from "./layout/masterLayout";
 import RequestManagementPage from "./pages/users/RequestManagementPage";
 import MedicalRecordManagementPage from "./pages/users/MedicalRecordManagementPage";
-import AuthorizedPatientManagementPage from "./pages/users/PatientManagedByDoctorPage";
 
 import { API } from "@Const";
 import { useCookies } from "react-cookie";
 import PatientManagedByDoctorPage from "./pages/users/PatientManagedByDoctorPage";
+import UserManagement from "./pages/users/UserManagement";
 
 const userRouters = [
   {
@@ -45,6 +45,10 @@ const adminRouters = [
   {
     path: ROUTERS.USER.HOME,
     component: <HomePage></HomePage>,
+  },
+  {
+    path: ROUTERS.ADMIN.USER_MANAGEMENT,
+    component: <UserManagement></UserManagement>,
   },
 ];
 
@@ -126,7 +130,7 @@ const RouterCustom = () => {
       if (response.status === 200) {
         const data = await response.json();
         setRole(data.role);
-        console.log("hello " + role);
+        console.log("hello ", role);
       } else {
         setRole("");
       }

@@ -1,6 +1,7 @@
 package com.medicaldatasharing.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -11,13 +12,8 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ResearchCenter extends User {
-    private String name;
 
-    private String address;
-
-    private String membershipOrganizationId;
 }

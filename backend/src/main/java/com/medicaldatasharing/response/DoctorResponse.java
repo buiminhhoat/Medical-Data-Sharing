@@ -2,10 +2,8 @@ package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.model.Doctor;
 
-public class DoctorDataResponse {
+public class DoctorResponse extends UserResponse {
     private String doctorId;
-    private String email;
-    private String fullName;
 
     private String department;
 
@@ -13,7 +11,7 @@ public class DoctorDataResponse {
     private String medicalInstitutionId;
     private String medicalInstitutionName;
 
-    public DoctorDataResponse(Doctor doctor) {
+    public DoctorResponse(Doctor doctor) {
         this.doctorId = doctor.getId();
         this.email = doctor.getEmail();
         this.fullName = doctor.getFullName();
@@ -26,7 +24,7 @@ public class DoctorDataResponse {
         return doctorId;
     }
 
-    public DoctorDataResponse setDoctorId(String doctorId) {
+    public DoctorResponse setDoctorId(String doctorId) {
         this.doctorId = doctorId;
         return this;
     }
@@ -35,7 +33,7 @@ public class DoctorDataResponse {
         return email;
     }
 
-    public DoctorDataResponse setEmail(String email) {
+    public DoctorResponse setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -44,7 +42,7 @@ public class DoctorDataResponse {
         return fullName;
     }
 
-    public DoctorDataResponse setFullName(String fullName) {
+    public DoctorResponse setFullName(String fullName) {
         this.fullName = fullName;
         return this;
     }
@@ -53,7 +51,7 @@ public class DoctorDataResponse {
         return department;
     }
 
-    public DoctorDataResponse setDepartment(String department) {
+    public DoctorResponse setDepartment(String department) {
         this.department = department;
         return this;
     }
@@ -62,7 +60,7 @@ public class DoctorDataResponse {
         return medicalInstitutionId;
     }
 
-    public DoctorDataResponse setMedicalInstitutionId(String medicalInstitutionId) {
+    public DoctorResponse setMedicalInstitutionId(String medicalInstitutionId) {
         this.medicalInstitutionId = medicalInstitutionId;
         return this;
     }
@@ -71,7 +69,7 @@ public class DoctorDataResponse {
         return medicalInstitutionName;
     }
 
-    public DoctorDataResponse setMedicalInstitutionName(String medicalInstitutionName) {
+    public DoctorResponse setMedicalInstitutionName(String medicalInstitutionName) {
         this.medicalInstitutionName = medicalInstitutionName;
         return this;
     }
@@ -80,7 +78,7 @@ public class DoctorDataResponse {
         return avatar;
     }
 
-    public DoctorDataResponse setAvatar(String avatar) {
+    public DoctorResponse setAvatar(String avatar) {
         this.avatar = avatar;
         return this;
     }

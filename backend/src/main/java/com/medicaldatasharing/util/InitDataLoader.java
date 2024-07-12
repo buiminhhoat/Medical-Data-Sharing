@@ -179,16 +179,14 @@ public class InitDataLoader implements CommandLineRunner {
 
         ResearchCenter researchCenter1 = ResearchCenter
                 .builder()
-                .name("Viện nghiên cứu dược phẩm ABC")
+                .fullName("Viện nghiên cứu dược phẩm ABC")
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
-                .membershipOrganizationId(Config.ORG5)
                 .build();
 
         ResearchCenter researchCenter2 = ResearchCenter
                 .builder()
-                .name("Viện nghiên cứu thuốc XYZ")
+                .fullName("Viện nghiên cứu thuốc XYZ")
                 .address("40 P. Tràng Thi, Hàng Bông")
-                .membershipOrganizationId(Config.ORG5)
                 .build();
         researchCenterRepository.save(researchCenter1);
         researchCenterRepository.save(researchCenter2);
@@ -335,7 +333,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .password(passwordEncoder.encode("scientist1@gmail.com"))
                 .enabled(true)
                 .role(Constants.ROLE_SCIENTIST)
-                .researchCenter(researchCenter1)
+                .researchCenterId(researchCenter1.getId())
                 .build();
 
         scientistRepository.save(scientist1);

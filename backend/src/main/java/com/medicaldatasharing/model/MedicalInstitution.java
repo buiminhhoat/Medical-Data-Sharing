@@ -15,5 +15,4 @@ import javax.persistence.Id;
 @SuperBuilder
 @NoArgsConstructor
 public class MedicalInstitution extends User {
-    private String address;
 }

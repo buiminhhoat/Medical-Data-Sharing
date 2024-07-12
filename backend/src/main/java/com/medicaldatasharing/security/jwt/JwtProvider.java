@@ -19,7 +19,7 @@ public class JwtProvider {
     @Value("secret")
     private String jwtSecret;
 
-    @Value("7200")  // 2h
+    @Value("604800")  // 7 * 24h
     private int jwtExpiration;
 
     public String generateJwtToken(Authentication authentication) {

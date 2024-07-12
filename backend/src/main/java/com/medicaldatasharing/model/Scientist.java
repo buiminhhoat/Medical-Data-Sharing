@@ -15,6 +15,5 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 public class Scientist extends User {
 
-    @ManyToOne
-    private ResearchCenter researchCenter;
+    private String researchCenterId;
 }

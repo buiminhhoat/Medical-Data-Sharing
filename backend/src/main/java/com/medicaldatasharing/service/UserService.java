@@ -9,7 +9,7 @@ import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
-import com.medicaldatasharing.response.DoctorDataResponse;
+import com.medicaldatasharing.response.DoctorResponse;
 import com.medicaldatasharing.response.RequestResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
@@ -104,14 +104,14 @@ public class UserService {
     public String getAllDoctor() {
         try {
             List<Doctor> doctorList = doctorRepository.findAll();
-            List<DoctorDataResponse> doctorDataResponseList = new ArrayList<>();
+            List<DoctorResponse> doctorResponseList = new ArrayList<>();
             for (Doctor doctor: doctorList) {
-                DoctorDataResponse doctorDataResponse = new DoctorDataResponse(doctor);
+                DoctorResponse doctorResponse = new DoctorResponse(doctor);
                 MedicalInstitution medicalInstitution = (MedicalInstitution) userDetailsService.getUserByUserId(doctor.getMedicalInstitutionId());
-                doctorDataResponse.setMedicalInstitutionName(medicalInstitution.getFullName());
-                doctorDataResponseList.add(doctorDataResponse);
+                doctorResponse.setMedicalInstitutionName(medicalInstitution.getFullName());
+                doctorResponseList.add(doctorResponse);
             }
-            return new Genson().serialize(doctorDataResponseList);
+            return new Genson().serialize(doctorResponseList);
         }
         catch (Exception e) {
             throw e;

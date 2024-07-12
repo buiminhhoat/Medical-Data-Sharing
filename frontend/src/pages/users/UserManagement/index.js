@@ -24,38 +24,35 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
 
-const PatientManagedByDoctorPageStyle = styled.div`
+const UserManagementPageStyle = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-const PatientManagedByDoctorPage = () => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
+const UserManagementPage = () => {
+  const [cookies] = useCookies(["access_token", "id", "role"]);
   const access_token = cookies.access_token;
-  const userId = cookies.userId;
+  const id = cookies.id;
   const role = cookies.role;
 
-  const apiGetAllPatientByDoctorId =
-    API.DOCTOR.GET_ALL_PATIENT_MANAGED_BY_DOCTOR;
+  const apiGetAllUserByAdmin = API.ADMIN.GET_ALL_USER_BY_ADMIN;
 
-  const [searchPatientId, setSearchPatientId] = useState("");
-  const [searchPatientName, setSearchPatientName] = useState("");
+  const [searchUserId, setSearchUserId] = useState("");
+  const [searchUserName, setSearchUserName] = useState("");
   const [searchEmail, setSearchEmail] = useState("");
   const [searchDateBirthday, setSearchDateBirthday] = useState(null);
   const [searchGender, setSearchGender] = useState(null);
-  const [searchAddress, setSearchAddress] = useState("");
+  const [searchRole, setSearchAddress] = useState("");
 
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
   const handleData = (json) => {
-    json.map((patient, index) => {
-      patient.shortenedPatientId =
-        patient.patientId.substring(0, 4) +
-        "..." +
-        patient.patientId.substring(patient.patientId.length - 4);
-      patient.key = index;
+    json.map((user, index) => {
+      user.shortenedUserId =
+        user.id.substring(0, 4) + "..." + user.id.substring(user.id.length - 4);
+      user.key = user.id;
     });
 
     setDataSource(json);
@@ -64,16 +61,14 @@ const PatientManagedByDoctorPage = () => {
   };
 
   const handleSearch = () => {
-    console.log(searchPatientId);
+    console.log(searchUserId);
     // setLoading(true);
     const filteredData = data.filter((entry) => {
-      const matchesPatientId = searchPatientId
-        ? entry.patientId.toLowerCase().includes(searchPatientId.toLowerCase())
+      const matchesUserId = searchUserId
+        ? entry.id.toLowerCase().includes(searchUserId.toLowerCase())
         : true;
-      const matchesPatientName = searchPatientName
-        ? entry.patientName
-            .toLowerCase()
-            .includes(searchPatientName.toLowerCase())
+      const matchesUserName = searchUserName
+        ? entry.fullName.toLowerCase().includes(searchUserName.toLowerCase())
         : true;
 
       const matchesEmail = searchEmail
@@ -86,20 +81,15 @@ const PatientManagedByDoctorPage = () => {
             .includes(searchDateBirthday.toLowerCase())
         : true;
 
-      const matchesGender = searchGender
-        ? entry.gender.toLowerCase().includes(searchGender.toLowerCase())
-        : true;
-
-      const matchesAddress = searchAddress
-        ? entry.address.toLowerCase().includes(searchAddress.toLowerCase())
+      const matchesAddress = searchRole
+        ? entry.role.toLowerCase().includes(searchRole.toLowerCase())
         : true;
 
       return (
-        matchesPatientId &
-        matchesPatientName &
+        matchesUserId &
+        matchesUserName &
         matchesDateBirthday &
         matchesEmail &
-        matchesGender &
         matchesAddress
       );
     });
@@ -108,19 +98,19 @@ const PatientManagedByDoctorPage = () => {
   };
 
   const handleDelete = () => {
-    setSearchPatientId("");
-    setSearchPatientName("");
+    setSearchUserId("");
+    setSearchUserName("");
     setSearchEmail("");
     setSearchDateBirthday("");
     setSearchGender("");
     setSearchAddress("");
   };
 
-  const fetchGetAllPatientByDoctorId = async () => {
+  const fetchGetAllUserByAdmin = async () => {
     if (access_token) {
+      console.log("fetchGetAllUserByAdmin");
       try {
-        const formData = new FormData();
-        const response = await fetch(apiGetAllPatientByDoctorId, {
+        const response = await fetch(apiGetAllUserByAdmin, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -129,31 +119,32 @@ const PatientManagedByDoctorPage = () => {
 
         if (response.status === 200) {
           const json = await response.json();
+          console.log(json);
+
           setData(json);
           handleData(json);
-          console.log(json);
         }
       } catch (e) {}
     }
   };
 
   useEffect(() => {
-    if (access_token) fetchGetAllPatientByDoctorId().then((r) => {});
+    if (access_token) fetchGetAllUserByAdmin().then((r) => {});
   }, [access_token]);
 
   useEffect(() => {
     handleSearch();
   }, [
-    searchPatientId,
-    searchPatientName,
+    searchUserId,
+    searchUserName,
     searchEmail,
     searchDateBirthday,
     searchGender,
-    searchAddress,
+    searchRole,
   ]);
 
   const [openDialog, setOpenDialog] = useState(null);
-  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
@@ -171,26 +162,25 @@ const PatientManagedByDoctorPage = () => {
     setOpenDialog(null);
   };
 
-  const openMedicalRecordList = (patient) => {
+  const openMedicalRecordList = (user) => {
     console.log("openMedicalRecordList");
-    console.log("patient: ", patient);
+    console.log("user: ", user);
     openModal(DIALOGS.MEDICAL_RECORD);
-    setSelectedPatient(patient.patientId);
+    setSelectedUser(user.id);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
   const columns = [
     {
-      title: "Mã bệnh nhân",
-      dataIndex: "shortenedPatientId",
+      title: "Mã người dùng",
+      dataIndex: "shortenedUserId",
       showSorterTooltip: {
         target: "full-header",
       },
       width: "15%",
       align: "center",
-      onFilter: (value, patient) =>
-        patient.shortenedPatientId.indexOf(value) === 0,
-      render: (text, patient, index) => (
+      onFilter: (value, user) => user.shortenedUserId.indexOf(value) === 0,
+      render: (text, user, index) => (
         <span
           onMouseEnter={() => setHighlightedText(index)}
           onMouseLeave={() => setHighlightedText(null)}
@@ -205,12 +195,12 @@ const PatientManagedByDoctorPage = () => {
             cursor: "pointer",
           }}
           onClick={() => {
-            console.log(patient.patientId);
+            console.log(user.id);
             console.log(index);
             console.log(dataSource);
             navigator.clipboard
-              .writeText(patient.patientId)
-              .then(() => message.success("Đã sao chép " + patient.patientId))
+              .writeText(user.id)
+              .then(() => message.success("Đã sao chép " + user.id))
               .catch((err) => message.error("Sao chép thất bại!"));
           }}
         >
@@ -219,54 +209,36 @@ const PatientManagedByDoctorPage = () => {
       ),
     },
     {
-      title: "Tên bệnh nhân",
-      dataIndex: "patientName",
+      title: "Tên người dùng",
+      dataIndex: "fullName",
       width: "15%",
       align: "center",
-      onFilter: (value, patient) => patient.patientName.indexOf(value) === 0,
+      onFilter: (value, user) => user.fullName.indexOf(value) === 0,
     },
     {
       title: "Email",
       dataIndex: "email",
       width: "15%",
       align: "center",
-      onFilter: (value, patient) => patient.email.indexOf(value) === 0,
+      onFilter: (value, user) => user.email.indexOf(value) === 0,
     },
     {
-      title: "Ngày sinh",
-      dataIndex: "dateBirthday",
-      width: "13%",
-      align: "center",
-      sorter: (a, b) => new Date(a.dateBirthday) - new Date(b.dateBirthday),
-      sortDirections: ["descend", "ascend"],
-      defaultSortOrder: "descend",
-    },
-    {
-      title: "Giới tính",
-      dataIndex: "gender",
+      title: "Vai trò",
+      dataIndex: "role",
       width: "15%",
       align: "center",
-      sorter: (a, b) => new Date(a.gender) - new Date(b.gender),
-      sortDirections: ["descend", "ascend"],
-      defaultSortOrder: "descend",
-    },
-    {
-      title: "Địa chỉ",
-      dataIndex: "address",
-      width: "15%",
-      align: "center",
-      onFilter: (value, patient) => patient.address.indexOf(value) === 0,
+      onFilter: (value, user) => user.role.indexOf(value) === 0,
     },
     {
       title: "Hành động",
       width: "20%",
       align: "center",
-      render: (index, patient) => {
+      render: (index, user) => {
         return (
           <Space size="middle">
             <Button
               icon={<InfoCircleOutlined />}
-              onClick={() => openMedicalRecordList(patient)}
+              onClick={() => openMedicalRecordList(user)}
             >
               Chi tiết
             </Button>
@@ -283,7 +255,7 @@ const PatientManagedByDoctorPage = () => {
   };
 
   return (
-    <PatientManagedByDoctorPageStyle>
+    <UserManagementPageStyle>
       <div className="page">
         <div className="container">
           <div style={{ marginTop: "20px" }}>
@@ -324,19 +296,19 @@ const PatientManagedByDoctorPage = () => {
                       }}
                     >
                       <Input
-                        placeholder="Mã bệnh nhân"
-                        value={searchPatientId}
+                        placeholder="Mã người dùng"
+                        value={searchUserId}
                         onChange={(e) => {
-                          setSearchPatientId(e.target.value);
+                          setSearchUserId(e.target.value);
                         }}
                         style={{ width: "30%", marginRight: "2%" }}
                       />
 
                       <Input
-                        placeholder="Tên bệnh nhân"
-                        value={searchPatientName}
+                        placeholder="Tên người dùng"
+                        value={searchUserName}
                         onChange={(e) => {
-                          setSearchPatientName(e.target.value);
+                          setSearchUserName(e.target.value);
                         }}
                         style={{ width: "30%", marginRight: "2%" }}
                       />
@@ -371,17 +343,8 @@ const PatientManagedByDoctorPage = () => {
                       />
 
                       <Input
-                        placeholder="Giới tính"
-                        value={searchGender}
-                        onChange={(e) => {
-                          setSearchGender(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
-
-                      <Input
-                        placeholder="Địa chỉ"
-                        value={searchAddress}
+                        placeholder="Vai trò"
+                        value={searchRole}
                         onChange={(e) => {
                           setSearchAddress(e.target.value);
                         }}
@@ -433,7 +396,7 @@ const PatientManagedByDoctorPage = () => {
           </div>
 
           <div style={{ width: "100%", marginTop: "20px" }}>
-            <h1>Danh sách bệnh nhân</h1>
+            <h1>Danh sách người dùng</h1>
             <ConfigProvider
               theme={{
                 token: {
@@ -458,14 +421,14 @@ const PatientManagedByDoctorPage = () => {
       {openDialog === DIALOGS.MEDICAL_RECORD && (
         <div className="modal-overlay">
           <MedicalRecordList
-            patientId={selectedPatient}
+            id={selectedUser}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
         </div>
       )}
-    </PatientManagedByDoctorPageStyle>
+    </UserManagementPageStyle>
   );
 };
 
-export default memo(PatientManagedByDoctorPage);
+export default memo(UserManagementPage);

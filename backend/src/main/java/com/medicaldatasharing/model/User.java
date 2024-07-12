@@ -34,14 +34,14 @@ public abstract class User implements Serializable, UserDetails {
     private boolean credentialsExpired;
     private boolean enabled;
     private String role;
+    private String avatar;
+    private String address;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USERS_AUTHORITIES", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID"))
     @OrderBy
     @JsonIgnore
     private Collection<Authority> authorities;
-
-    private String avatar;
 
     @Override
     public String toString() {
