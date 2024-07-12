@@ -50,6 +50,16 @@ public class UserController {
         }
     }
 
+    @PostMapping("/get-all-doctor")
+    public ResponseEntity<?> getAllDoctor() throws Exception {
+        try {
+            String getAllDoctor = userService.getAllDoctor();
+            return ResponseEntity.status(HttpStatus.OK).body(getAllDoctor);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 //    @PostMapping("/sendRequest")
 //    public SendRequestDto sendRequest(
 //            @Valid @ModelAttribute SendRequestForm sendRequestForm,

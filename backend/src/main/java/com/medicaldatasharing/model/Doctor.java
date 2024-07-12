@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 public class Doctor extends User {
 
-    private String occupation;
+    private String department;
 
     private String medicalInstitutionId;
 }

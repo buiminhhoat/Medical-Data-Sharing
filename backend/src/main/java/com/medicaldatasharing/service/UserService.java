@@ -2,11 +2,14 @@ package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.enumeration.RequestType;
+import com.medicaldatasharing.model.Doctor;
+import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
+import com.medicaldatasharing.response.DoctorDataResponse;
 import com.medicaldatasharing.response.RequestResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
@@ -92,6 +95,23 @@ public class UserService {
             }
 
             return new Genson().serialize(requestResponse);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getAllDoctor() {
+        try {
+            List<Doctor> doctorList = doctorRepository.findAll();
+            List<DoctorDataResponse> doctorDataResponseList = new ArrayList<>();
+            for (Doctor doctor: doctorList) {
+                DoctorDataResponse doctorDataResponse = new DoctorDataResponse(doctor);
+                MedicalInstitution medicalInstitution = (MedicalInstitution) userDetailsService.getUserByUserId(doctor.getMedicalInstitutionId());
+                doctorDataResponse.setMedicalInstitutionName(medicalInstitution.getFullName());
+                doctorDataResponseList.add(doctorDataResponse);
+            }
+            return new Genson().serialize(doctorDataResponseList);
         }
         catch (Exception e) {
             throw e;

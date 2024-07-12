@@ -16,6 +16,7 @@ export const API = {
     GET_REQUEST: "/api/public/get-request",
     GET_ROLE: "/api/public/get-role",
     SEND_REQUEST: "/api/public/send-request",
+    GET_ALL_DOCTOR: "/api/public/get-all-doctor",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:

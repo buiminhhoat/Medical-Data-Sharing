@@ -8,6 +8,7 @@ import styled from "styled-components";
 import theme from "../../../styles/pages/theme";
 import { Card, Input, Button, Image, ConfigProvider, Row, Col } from "antd";
 import { SearchOutlined, CalendarOutlined } from "@ant-design/icons";
+import { API } from "@Const";
 
 const AppointmentPageStyle = styled.div`
   .fullName {
@@ -20,7 +21,7 @@ const AppointmentPageStyle = styled.div`
     font-weight: 300;
     color: ${theme.colors.east_bay};
   }
-  .hospital {
+  .medicalInstitutionName {
     font-size: 20px;
     font-weight: 300;
     color: ${theme.colors.east_bay};
@@ -50,68 +51,94 @@ const AppointmentPage = () => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
 
-  const doctorList = [
-    {
-      fullName: "Bùi Minh Hoạt",
-      department: "Chuyên khoa tim mạch",
-      avatar:
-        "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
-      hospital: "Bệnh viện ABC",
-    },
-    {
-      fullName: "Nguyễn Tiến Dũng",
-      department: "Chuyên khoa răng hàm mặt",
-      avatar:
-        "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
-      hospital: "Bệnh viện XYZ",
-    },
-    {
-      fullName: "Bùi Minh Hoạt",
-      department: "Chuyên khoa tim mạch",
-      avatar:
-        "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
-      hospital: "Bệnh viện ABC",
-    },
-    {
-      fullName: "Nguyễn Tiến Dũng",
-      department: "Chuyên khoa răng hàm mặt",
-      avatar:
-        "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
-      hospital: "Bệnh viện XYZ",
-    },
+  const [doctorList, setDoctorList] = useState([]);
+  // const doctorList = [
+  //   {
+  //     fullName: "Bùi Minh Hoạt",
+  //     department: "Chuyên khoa tim mạch",
+  //     avatar:
+  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
+  //     medicalInstitutionName: "Bệnh viện ABC",
+  //   },
+  //   {
+  //     fullName: "Nguyễn Tiến Dũng",
+  //     department: "Chuyên khoa răng hàm mặt",
+  //     avatar:
+  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
+  //     medicalInstitutionName: "Bệnh viện XYZ",
+  //   },
+  //   {
+  //     fullName: "Bùi Minh Hoạt",
+  //     department: "Chuyên khoa tim mạch",
+  //     avatar:
+  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
+  //     medicalInstitutionName: "Bệnh viện ABC",
+  //   },
+  //   {
+  //     fullName: "Nguyễn Tiến Dũng",
+  //     department: "Chuyên khoa răng hàm mặt",
+  //     avatar:
+  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
+  //     medicalInstitutionName: "Bệnh viện XYZ",
+  //   },
 
-    {
-      fullName: "Bùi Minh Hoạt",
-      department: "Chuyên khoa tim mạch",
-      avatar:
-        "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
-      hospital: "Bệnh viện ABC",
-    },
-    {
-      fullName: "Nguyễn Tiến Dũng",
-      department: "Chuyên khoa răng hàm mặt",
-      avatar:
-        "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
-      hospital: "Bệnh viện XYZ",
-    },
+  //   {
+  //     fullName: "Bùi Minh Hoạt",
+  //     department: "Chuyên khoa tim mạch",
+  //     avatar:
+  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
+  //     medicalInstitutionName: "Bệnh viện ABC",
+  //   },
+  //   {
+  //     fullName: "Nguyễn Tiến Dũng",
+  //     department: "Chuyên khoa răng hàm mặt",
+  //     avatar:
+  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
+  //     medicalInstitutionName: "Bệnh viện XYZ",
+  //   },
 
-    {
-      fullName: "Bùi Minh Hoạt",
-      department: "Chuyên khoa tim mạch",
-      avatar:
-        "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
-      hospital: "Bệnh viện ABC",
-    },
-    {
-      fullName: "Nguyễn Tiến Dũng",
-      department: "Chuyên khoa răng hàm mặt",
-      avatar:
-        "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
-      hospital: "Bệnh viện XYZ",
-    },
-  ];
+  //   {
+  //     fullName: "Bùi Minh Hoạt",
+  //     department: "Chuyên khoa tim mạch",
+  //     avatar:
+  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/240591426_104885425287974_4346565099285966094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=sBj0EUCXkCgQ7kNvgGrb-Ba&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAXuGz-sl5aHwkmYdd29ANU9aTrFRnT_I6Ac83L7ujOsg&oe=668DFD4F",
+  //     medicalInstitutionName: "Bệnh viện ABC",
+  //   },
+  //   {
+  //     fullName: "Nguyễn Tiến Dũng",
+  //     department: "Chuyên khoa răng hàm mặt",
+  //     avatar:
+  //       "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/273035638_1409762492808967_173337536557866628_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Q7rkwsdNcDAQ7kNvgHo4TWX&_nc_ht=scontent.fhan14-4.fna&cb_e2o_trans=q&oh=00_AYAQ5FjV5b7jvYMimt_knvFHauubornbUItQ-5ya6Phcqg&oe=668E1E04",
+  //     medicalInstitutionName: "Bệnh viện XYZ",
+  //   },
+  // ];
 
   console.log(doctorList);
+
+  const apiGetAllDoctor = API.PUBLIC.GET_ALL_DOCTOR;
+
+  console.log(apiGetAllDoctor);
+
+  const fetchGetAllDoctor = async () => {
+    const response = await fetch(apiGetAllDoctor, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      const json = await response.json();
+      setDoctorList(json);
+      console.log(json);
+    }
+  };
+
+  useEffect(() => {
+    if (access_token) {
+      fetchGetAllDoctor();
+    }
+  }, [access_token]);
 
   return (
     <AppointmentPageStyle
@@ -192,7 +219,9 @@ const AppointmentPage = () => {
                         <div style={{ width: "100%" }}>
                           <div className="fullName">{doctor.fullName}</div>
                           <div className="department">{doctor.department}</div>
-                          <div className="hospital">{doctor.hospital}</div>
+                          <div className="medicalInstitutionName">
+                            {doctor.medicalInstitutionName}
+                          </div>
                           <div
                             style={{
                               display: "flex",

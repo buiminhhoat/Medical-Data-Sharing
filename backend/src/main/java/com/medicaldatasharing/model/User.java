@@ -41,6 +41,8 @@ public abstract class User implements Serializable, UserDetails {
     @JsonIgnore
     private Collection<Authority> authorities;
 
+    private String avatar;
+
     @Override
     public String toString() {
         return "Users{" +

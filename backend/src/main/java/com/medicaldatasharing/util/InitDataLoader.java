@@ -239,8 +239,9 @@ public class InitDataLoader implements CommandLineRunner {
                 .password(passwordEncoder.encode("tranthanhtam"))
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR)
-                .occupation("oncologist")
+                .department("Chuyên khoa ung thư")
                 .medicalInstitutionId(medicalInstitution1.getId())
+                .avatar("https://cdn-icons-png.flaticon.com/512/6998/6998099.png")
                 .build();
         LOG.info(doctor1.toString());
 
@@ -252,25 +253,42 @@ public class InitDataLoader implements CommandLineRunner {
                 .password(passwordEncoder.encode("nguyenthanhhai"))
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR)
-                .occupation("cardiologist")
+                .department("Chuyên khoa tim mạch")
                 .medicalInstitutionId(medicalInstitution2.getId())
+                .avatar("https://cdn-icons-png.flaticon.com/512/6998/6998099.png")
                 .build();
         LOG.info(doctor2.toString());
 
-        Doctor doctorAdmin = Doctor
+        Doctor doctor3 = Doctor
                 .builder()
                 .fullName("Nguyễn Tiến Dũng")
                 .username("nguyentiendung@gmail.com")
                 .email("nguyentiendung@gmail.com")
                 .password(passwordEncoder.encode("nguyentiendung"))
                 .enabled(true)
-                .role(Constants.ROLE_DOCTOR_ADMIN)
+                .role(Constants.ROLE_DOCTOR)
+                .department("Chuyên khoa ung thư")
                 .medicalInstitutionId(medicalInstitution1.getId())
+                .avatar("https://cdn-icons-png.flaticon.com/512/6998/6998099.png")
+                .build();
+
+        Doctor doctor4 = Doctor
+                .builder()
+                .fullName("Nguyễn Tiến Cừu")
+                .username("nguyentiencuu@gmail.com")
+                .email("nguyentiencuu@gmail.com")
+                .password(passwordEncoder.encode("nguyentiencuu"))
+                .enabled(true)
+                .role(Constants.ROLE_DOCTOR)
+                .department("Chuyên khoa ung thư")
+                .medicalInstitutionId(medicalInstitution1.getId())
+                .avatar("https://cdn-icons-png.flaticon.com/512/6998/6998099.png")
                 .build();
 
         doctorRepository.save(doctor1);
         doctorRepository.save(doctor2);
-        doctorRepository.save(doctorAdmin);
+        doctorRepository.save(doctor3);
+        doctorRepository.save(doctor4);
 
         Admin admin = Admin
                 .builder()
@@ -287,6 +305,8 @@ public class InitDataLoader implements CommandLineRunner {
         try {
             RegisterUserHyperledger.enrollOrgAppUsers(doctor1.getEmail(), Config.DOCTOR_ORG, doctor1.getId());
             RegisterUserHyperledger.enrollOrgAppUsers(doctor2.getEmail(), Config.DOCTOR_ORG, doctor2.getId());
+            RegisterUserHyperledger.enrollOrgAppUsers(doctor3.getEmail(), Config.DOCTOR_ORG, doctor3.getId());
+            RegisterUserHyperledger.enrollOrgAppUsers(doctor4.getEmail(), Config.DOCTOR_ORG, doctor4.getId());
             RegisterUserHyperledger.enrollOrgAppUsers(patient1.getEmail(), Config.PATIENT_ORG, patient1.getId());
             RegisterUserHyperledger.enrollOrgAppUsers(patient2.getEmail(), Config.PATIENT_ORG, patient2.getId());
         } catch (Exception e) {
@@ -294,6 +314,8 @@ public class InitDataLoader implements CommandLineRunner {
             patientRepository.delete(patient2);
             doctorRepository.delete(doctor1);
             doctorRepository.delete(doctor2);
+            doctorRepository.delete(doctor3);
+            doctorRepository.delete(doctor4);
             adminRepository.delete(admin);
             e.printStackTrace();
         }
