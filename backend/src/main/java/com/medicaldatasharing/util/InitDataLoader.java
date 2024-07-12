@@ -71,8 +71,8 @@ public class InitDataLoader implements CommandLineRunner {
                 .fullName("Bệnh viện ĐHQGHN")
                 .email("benhviendhqghn@gmail.com")
                 .role(Constants.ROLE_HOSPITAL)
-                .username("benhviendhqghn")
-                .password("benhviendhqghn")
+                .username("benhviendhqghn@gmail.com")
+                .password(passwordEncoder.encode("benhviendhqghn@gmail.com"))
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
                 .build();
 
@@ -81,8 +81,8 @@ public class InitDataLoader implements CommandLineRunner {
                 .fullName("Bệnh viện Việt Đức")
                 .email("benhvienvietduc@gmail.com")
                 .role(Constants.ROLE_HOSPITAL)
-                .username("benhvienvietduc")
-                .password("benhvienvietduc")
+                .username("benhvienvietduc@gmail.com")
+                .password(passwordEncoder.encode("benhvienvietduc@gmail.com"))
                 .address("40 P. Tràng Thi, Hàng Bông")
                 .build();
 
@@ -96,12 +96,12 @@ public class InitDataLoader implements CommandLineRunner {
         }
         Manufacturer manufacturer1 = Manufacturer
                 .builder()
-                .fullName("Công ty dược phẩm ABC")
+                .fullName("Công ty dược phẩm A")
                 .email("congtyduocphama@gmail.com")
                 .businessLicenseNumber("01993884423")
                 .role(Constants.ROLE_MANUFACTURER)
-                .username("congtyduocphama")
-                .password("congtyduocphama")
+                .username("congtyduocphama@gmail.com")
+                .password(passwordEncoder.encode("congtyduocphama@gmail.com"))
                 .build();
         manufacturerRepository.save(manufacturer1);
 
@@ -123,8 +123,8 @@ public class InitDataLoader implements CommandLineRunner {
                 .email("nhathuoca@gmail.com")
                 .businessLicenseNumber("82933928848")
                 .role(Constants.ROLE_DRUG_STORE)
-                .username("nhathuoca")
-                .password("nhathuoca")
+                .username("nhathuoca@gmail.com")
+                .password(passwordEncoder.encode("nhathuoca@gmail.com"))
                 .build();
         drugStoreRepository.save(drugStoreA);
 
@@ -134,8 +134,8 @@ public class InitDataLoader implements CommandLineRunner {
                 .email("nhathuocb@gmail.com")
                 .businessLicenseNumber("00033928848")
                 .role(Constants.ROLE_DRUG_STORE)
-                .username("nhathuocb")
-                .password("nhathuocb")
+                .username("nhathuocb@gmail.com")
+                .password(passwordEncoder.encode("nhathuocb@gmail.com"))
                 .build();
         drugStoreRepository.save(drugStoreB);
 
@@ -156,11 +156,11 @@ public class InitDataLoader implements CommandLineRunner {
         InsuranceCompany insuranceCompany1 = InsuranceCompany
                 .builder()
                 .fullName("Công ty bảo hiểm C")
-                .email("congtybaohiemC@gmail.com")
+                .email("congtybaohiemc@gmail.com")
                 .businessLicenseNumber("596475233654")
                 .role(Constants.ROLE_DRUG_STORE)
-                .username("congtybaohiemc")
-                .password("congtybaohiemc")
+                .username("congtybaohiemc@gmail.com")
+                .password(passwordEncoder.encode("congtybaohiemc@gmail.com"))
                 .build();
         insuranceCompanyRepository.save(insuranceCompany1);
 
@@ -180,12 +180,18 @@ public class InitDataLoader implements CommandLineRunner {
         ResearchCenter researchCenter1 = ResearchCenter
                 .builder()
                 .fullName("Viện nghiên cứu dược phẩm ABC")
+                .email("viennghiencuuduocphamabc@gmail.com")
+                .username("viennghiencuuduocphamabc@gmail.com")
+                .password(passwordEncoder.encode("viennghiencuuduocphamabc@gmail.com"))
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
                 .build();
 
         ResearchCenter researchCenter2 = ResearchCenter
                 .builder()
                 .fullName("Viện nghiên cứu thuốc XYZ")
+                .email("viennghiencuuthuocxyz@gmail.com")
+                .username("viennghiencuuthuocxyz@gmail.com")
+                .password(passwordEncoder.encode("viennghiencuuthuocxyz@gmail.com"))
                 .address("40 P. Tràng Thi, Hàng Bông")
                 .build();
         researchCenterRepository.save(researchCenter1);
@@ -233,7 +239,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .fullName("Trần Thanh Tâm")
                 .username("tranthanhtam@gmail.com")
                 .email("tranthanhtam@gmail.com")
-                .password(passwordEncoder.encode("tranthanhtam"))
+                .password(passwordEncoder.encode("tranthanhtam@gmail.com"))
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR)
                 .department("Chuyên khoa ung thư")
@@ -247,7 +253,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .fullName("Nguyễn Thanh Hải")
                 .username("nguyenthanhhai@gmail.com")
                 .email("nguyenthanhhai@gmail.com")
-                .password(passwordEncoder.encode("nguyenthanhhai"))
+                .password(passwordEncoder.encode("nguyenthanhhai@gmail.com"))
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR)
                 .department("Chuyên khoa tim mạch")
@@ -261,7 +267,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .fullName("Nguyễn Tiến Dũng")
                 .username("nguyentiendung@gmail.com")
                 .email("nguyentiendung@gmail.com")
-                .password(passwordEncoder.encode("nguyentiendung"))
+                .password(passwordEncoder.encode("nguyentiendung@gmail.com"))
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR)
                 .department("Chuyên khoa ung thư")
@@ -274,7 +280,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .fullName("Nguyễn Tiến Cừu")
                 .username("nguyentiencuu@gmail.com")
                 .email("nguyentiencuu@gmail.com")
-                .password(passwordEncoder.encode("nguyentiencuu"))
+                .password(passwordEncoder.encode("nguyentiencuu@gmail.com"))
                 .enabled(true)
                 .role(Constants.ROLE_DOCTOR)
                 .department("Chuyên khoa ung thư")
@@ -327,7 +333,7 @@ public class InitDataLoader implements CommandLineRunner {
         ResearchCenter researchCenter2 = researchCenterList.get(1);
         Scientist scientist1 = Scientist
                 .builder()
-                .fullName("Hoạt")
+                .fullName("Nhà khoa học 1")
                 .username("scientist1@gmail.com")
                 .email("scientist1@gmail.com")
                 .password(passwordEncoder.encode("scientist1@gmail.com"))
@@ -396,8 +402,8 @@ public class InitDataLoader implements CommandLineRunner {
             EditMedicationForm editMedicationForm = new EditMedicationForm();
             editMedicationForm.setMedicationId(medication.getMedicationId());
             editMedicationForm.setManufacturerId(manufacturer.getId());
-            editMedicationForm.setMedicationName("Paracetamol :)");
-            editMedicationForm.setDescription("Điều trị đau đầu :)");
+            editMedicationForm.setMedicationName("Paracetamol");
+            editMedicationForm.setDescription("Điều trị đau đầu");
             editMedicationForm.setDateCreated(StringUtil.parseDate(dateCreated));
             editMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
 
@@ -639,14 +645,14 @@ public class InitDataLoader implements CommandLineRunner {
 
             EditInsuranceProductForm editInsuranceProductForm = new EditInsuranceProductForm();
             editInsuranceProductForm.setInsuranceProductId(insuranceProduct.getInsuranceProductId());
-            editInsuranceProductForm.setInsuranceProductName("Bảo hiểm ung thư :)");
+            editInsuranceProductForm.setInsuranceProductName("Bảo hiểm ung thư");
             editInsuranceProductForm.setInsuranceCompanyId(insuranceCompanyId);
             editInsuranceProductForm.setDateCreated(StringUtil.parseDate(dateCreated));
             editInsuranceProductForm.setDateModified(StringUtil.parseDate(dateModified));
-            editInsuranceProductForm.setDescription("Bảo hiểm ung thư :)");
+            editInsuranceProductForm.setDescription("Bảo hiểm ung thư");
             editInsuranceProductForm.setNumberOfDaysInsured("90");
             editInsuranceProductForm.setPrice("1000000");
-            editInsuranceProductForm.setHashFile("hashFile :)");
+            editInsuranceProductForm.setHashFile("hashFile");
 
             InsuranceProduct editInsuranceProduct = hyperledgerService.editInsuranceProduct(
                     insuranceCompany,

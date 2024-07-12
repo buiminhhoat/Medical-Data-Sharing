@@ -12,6 +12,9 @@ export const ROUTERS = {
   DOCTOR: {
     PATIENT_MANAGED_BY_DOCTOR_PAGE: "/doctor/patient-managed-by-doctor-page",
   },
+  MANUFACTURER: {
+    MEDICATION_MANAGEMENT_PAGE: "/manufacturer/medication-management-page",
+  },
   ADMIN: {
     HOME: "",
     USER_MANAGEMENT: "/admin/user-management",

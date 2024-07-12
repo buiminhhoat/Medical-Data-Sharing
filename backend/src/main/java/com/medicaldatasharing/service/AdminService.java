@@ -1,19 +1,7 @@
 package com.medicaldatasharing.service;
 
-import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.Medication;
-import com.medicaldatasharing.chaincode.dto.ViewRequest;
-import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
-import com.medicaldatasharing.enumeration.RequestStatus;
-import com.medicaldatasharing.enumeration.RequestType;
-import com.medicaldatasharing.form.AddMedicalRecordForm;
-import com.medicaldatasharing.form.SearchViewRequestForm;
-import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
-import com.medicaldatasharing.response.MedicalRecordResponse;
-import com.medicaldatasharing.response.MedicationResponse;
-import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.response.UserResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
@@ -21,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -108,7 +95,7 @@ public class AdminService {
             UserResponse userResponse = new UserResponse(scientist);
             userResponseList.add(userResponse);
         }
-        
+
         try {
             return new Genson().serialize(userResponseList);
         }

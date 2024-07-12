@@ -100,6 +100,13 @@ const Header = () => {
     },
   ]);
 
+  const [manufacturerMenuItems, setManufacturerMenuItems] = useState([
+    {
+      name: "Quản lý loại thuốc",
+      path: ROUTERS.MANUFACTURER.MEDICATION_MANAGEMENT_PAGE,
+    },
+  ]);
+
   const [menuItems, setMenuItems] = useState(null);
 
   useEffect(() => {
@@ -124,7 +131,12 @@ const Header = () => {
         });
       }
 
-      if (role !== "Quản trị viên") {
+      if (role === "Nhà sản xuất thuốc") {
+        manufacturerMenuItems.map((item, key) => {
+          items.push(item);
+        });
+      }
+      if (role !== "Quản trị viên" && role !== "Nhà sản xuất thuốc") {
         userMenuItems.map((item, key) => {
           items.push(item);
         });

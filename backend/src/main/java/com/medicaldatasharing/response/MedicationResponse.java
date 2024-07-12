@@ -6,14 +6,41 @@ import com.owlike.genson.annotation.JsonProperty;
 import java.util.List;
 
 public class MedicationResponse {
+    @JsonProperty("medicationId")
+    private String medicationId;
+
     @JsonProperty("manufacturerId")
     private String manufacturerId;
 
-    @JsonProperty("manufacturerName")
-    private String manufacturerName;
+    @JsonProperty("medicationName")
+    private String medicationName;
 
-    @JsonProperty("medicationList")
-    private List<Medication> medicationList;
+    @JsonProperty("description")
+    private String description;
+
+    @JsonProperty("dateCreated")
+    private String dateCreated;
+
+    @JsonProperty("dateModified")
+    private String dateModified;
+
+    public MedicationResponse(Medication medication) {
+        this.medicationId = medication.getMedicationId();
+        this.manufacturerId = medication.getManufacturerId();
+        this.medicationName = medication.getMedicationName();
+        this.description = medication.getDescription();
+        this.dateCreated = medication.getDateCreated();
+        this.dateModified = medication.getDateModified();
+    }
+
+    public String getMedicationId() {
+        return medicationId;
+    }
+
+    public MedicationResponse setMedicationId(String medicationId) {
+        this.medicationId = medicationId;
+        return this;
+    }
 
     public String getManufacturerId() {
         return manufacturerId;
@@ -24,21 +51,39 @@ public class MedicationResponse {
         return this;
     }
 
-    public String getManufacturerName() {
-        return manufacturerName;
+    public String getMedicationName() {
+        return medicationName;
     }
 
-    public MedicationResponse setManufacturerName(String manufacturerName) {
-        this.manufacturerName = manufacturerName;
+    public MedicationResponse setMedicationName(String medicationName) {
+        this.medicationName = medicationName;
         return this;
     }
 
-    public List<Medication> getMedicationList() {
-        return medicationList;
+    public String getDescription() {
+        return description;
     }
 
-    public MedicationResponse setMedicationList(List<Medication> medicationList) {
-        this.medicationList = medicationList;
+    public MedicationResponse setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public MedicationResponse setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
+    public String getDateModified() {
+        return dateModified;
+    }
+
+    public MedicationResponse setDateModified(String dateModified) {
+        this.dateModified = dateModified;
         return this;
     }
 }

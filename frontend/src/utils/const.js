@@ -40,6 +40,10 @@ export const API = {
   ADMIN: {
     GET_ALL_USER_BY_ADMIN: "/api/admin/get-all-user-by-admin",
   },
+  MANUFACTURER: {
+    GET_LIST_MEDICATION_BY_MANUFACTURERID:
+      "/api/manufacturer/get-list-medication-by-manufacturerId",
+  },
 };
 
 export const LOGIN = {

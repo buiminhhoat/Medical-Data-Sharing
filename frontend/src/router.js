@@ -11,6 +11,7 @@ import { API } from "@Const";
 import { useCookies } from "react-cookie";
 import PatientManagedByDoctorPage from "./pages/users/PatientManagedByDoctorPage";
 import UserManagement from "./pages/users/UserManagement";
+import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
 
 const userRouters = [
   {
@@ -49,6 +50,17 @@ const adminRouters = [
   {
     path: ROUTERS.ADMIN.USER_MANAGEMENT,
     component: <UserManagement></UserManagement>,
+  },
+];
+
+const manufacturerRouters = [
+  {
+    path: ROUTERS.USER.HOME,
+    component: <HomePage></HomePage>,
+  },
+  {
+    path: ROUTERS.MANUFACTURER.MEDICATION_MANAGEMENT_PAGE,
+    component: <MedicationManagementPage></MedicationManagementPage>,
   },
 ];
 
@@ -111,6 +123,21 @@ const renderAdminRouter = () => {
   );
 };
 
+const renderManufacturerRouter = () => {
+  return (
+    <MasterLayout>
+      <Routes>
+        {/* {userRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))} */}
+        {manufacturerRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+      </Routes>
+    </MasterLayout>
+  );
+};
+
 const RouterCustom = () => {
   const [cookies] = useCookies(["access_token"]);
   const accessToken = cookies.access_token;
@@ -148,7 +175,8 @@ const RouterCustom = () => {
     (role === "" && renderUserRouter()) ||
     (role === "Bệnh nhân" && renderPatientRouter()) ||
     (role === "Bác sĩ" && renderDoctorRouter()) ||
-    (role === "Quản trị viên" && renderAdminRouter())
+    (role === "Quản trị viên" && renderAdminRouter()) ||
+    (role === "Nhà sản xuất thuốc" && renderManufacturerRouter())
   );
 };
 

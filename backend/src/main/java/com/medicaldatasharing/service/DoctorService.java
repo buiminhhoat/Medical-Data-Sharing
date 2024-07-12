@@ -16,7 +16,7 @@ import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.response.MedicalRecordResponse;
-import com.medicaldatasharing.response.MedicationResponse;
+import com.medicaldatasharing.response.ManufacturerResponse;
 import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
@@ -50,17 +50,17 @@ public class DoctorService {
         User user = userDetailsService.getLoggedUser();
         try {
             List<Medication> medicationList = hyperledgerService.getAllMedication(user);
-            List<MedicationResponse> medicationResponseList = new ArrayList<>();
+            List<ManufacturerResponse> manufacturerResponseList = new ArrayList<>();
             Map<String, List<Medication>> groupedByManufacturer = medicationList.stream()
                     .collect(Collectors.groupingBy(Medication::getManufacturerId));
             groupedByManufacturer.forEach((manufacturerId, medications) -> {
-                MedicationResponse medicationResponse = new MedicationResponse();
-                medicationResponse.setManufacturerId(manufacturerId);
-                medicationResponse.setManufacturerName(userDetailsService.getUserByUserId(manufacturerId).getFullName());
-                medicationResponse.setMedicationList(medications);
-                medicationResponseList.add(medicationResponse);
+                ManufacturerResponse manufacturerResponse = new ManufacturerResponse();
+                manufacturerResponse.setManufacturerId(manufacturerId);
+                manufacturerResponse.setManufacturerName(userDetailsService.getUserByUserId(manufacturerId).getFullName());
+                manufacturerResponse.setMedicationList(medications);
+                manufacturerResponseList.add(manufacturerResponse);
             });
-            return new Genson().serialize(medicationResponseList);
+            return new Genson().serialize(manufacturerResponseList);
         }
         catch (Exception e) {
             throw e;

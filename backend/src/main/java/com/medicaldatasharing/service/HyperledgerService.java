@@ -411,15 +411,13 @@ public class HyperledgerService {
 
         String from;
         if (searchMedicationForm.getFrom() == null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, -6);
-            from = StringUtil.parseDate(calendar.getTime());
+            from = "";
         } else {
             from = StringUtil.parseDate(searchMedicationForm.getFrom());
         }
         String until;
         if (searchMedicationForm.getFrom() == null) {
-            until = StringUtil.parseDate(new Date());
+            until = "";
         } else {
             until = StringUtil.parseDate(searchMedicationForm.getUntil());
         }
