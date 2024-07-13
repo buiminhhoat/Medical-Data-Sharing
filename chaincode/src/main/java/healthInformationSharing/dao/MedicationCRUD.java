@@ -27,6 +27,7 @@ public class MedicationCRUD {
         String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String description = jsonDto.getString("description");
+        String hashFile = jsonDto.has("hashFile") ? jsonDto.getString("hashFile") : "";
 
         String medicationId = ctx.getStub().getTxId();
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, medicationId);
@@ -38,7 +39,8 @@ public class MedicationCRUD {
                 medicationName,
                 dateCreated,
                 dateModified,
-                description
+                description,
+                hashFile
         );
 
         String medicationStr = genson.serialize(medication);
@@ -59,6 +61,7 @@ public class MedicationCRUD {
         String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
         String description = jsonDto.getString("description");
+        String hashFile = jsonDto.has("hashFile") ? jsonDto.getString("hashFile") : "";
 
         CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, medicationId);
         String dbKey = compositeKey.toString();
@@ -69,7 +72,8 @@ public class MedicationCRUD {
                 medicationName,
                 dateCreated,
                 dateModified,
-                description
+                description,
+                hashFile
         );
 
         String medicationStr = genson.serialize(medication);

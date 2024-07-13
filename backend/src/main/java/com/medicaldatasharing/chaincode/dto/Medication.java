@@ -16,6 +16,9 @@ public class Medication {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("hashFile")
+    private String hashFile;
+
     @JsonProperty("dateCreated")
     private String dateCreated;
 
@@ -42,16 +45,19 @@ public class Medication {
     public static Medication createInstance(String medicationId,
                                             String manufacturerId,
                                             String medicationName,
-                                            String description,
                                             String dateCreated,
-                                            String dateModified) {
+                                            String dateModified,
+                                            String description,
+                                            String hashFile
+                                            ) {
         Medication medication = new Medication();
         medication.setMedicationId(medicationId);
         medication.setManufacturerId(manufacturerId);
         medication.setMedicationName(medicationName);
-        medication.setDescription(description);
         medication.setDateCreated(dateCreated);
         medication.setDateModified(dateModified);
+        medication.setDescription(description);
+        medication.setHashFile(hashFile);
         medication.setEntityName(Medication.class.getSimpleName());
         return medication;
     }
@@ -116,6 +122,15 @@ public class Medication {
 
     public Medication setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getHashFile() {
+        return hashFile;
+    }
+
+    public Medication setHashFile(String hashFile) {
+        this.hashFile = hashFile;
         return this;
     }
 }

@@ -6,6 +6,7 @@ export const DIALOGS = {
   MEDICAL_RECORD: "MEDICAL_RECORD",
   ADD_MEDICAL_RECORD: "ADD_MEDICAL_RECORD",
   SEND_REQUEST: "SEND_REQUEST",
+  ADD_MEDICATION: "ADD_MEDICATION",
 };
 
 export const API = {
@@ -43,6 +44,7 @@ export const API = {
   MANUFACTURER: {
     GET_LIST_MEDICATION_BY_MANUFACTURERID:
       "/api/manufacturer/get-list-medication-by-manufacturerId",
+    ADD_MEDICATION: "/api/manufacturer/add-medication",
   },
 };
 

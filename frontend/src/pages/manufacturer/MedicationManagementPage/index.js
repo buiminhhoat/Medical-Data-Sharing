@@ -23,7 +23,7 @@ import { useCookies } from "react-cookie";
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import RequestDetail from "../../../components/dialogs/RequestDetail/RequestDetail";
-import SendRequestDialog from "../../../components/dialogs/SendRequest/SendRequest";
+import AddMedicationDialog from "../../../components/dialogs/AddMedication/AddMedication";
 
 const MedicationManagementPageStyle = styled.div`
   width: 100%;
@@ -176,8 +176,8 @@ const MedicationManagementPage = () => {
     setSelectedRequest(request);
   };
 
-  const openSendRequest = () => {
-    openModal(DIALOGS.SEND_REQUEST);
+  const openAddMedication = () => {
+    openModal(DIALOGS.ADD_MEDICATION);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
@@ -428,7 +428,7 @@ const MedicationManagementPage = () => {
                   marginRight: "0",
                 }}
               >
-                <Button onClick={() => openSendRequest()}>
+                <Button onClick={() => openAddMedication()}>
                   Tạo loại thuốc mới
                 </Button>
               </div>
@@ -454,7 +454,7 @@ const MedicationManagementPage = () => {
         </div>
       </div>
 
-      {openDialog === DIALOGS.REQUEST_DETAIL && (
+      {/* {openDialog === DIALOGS.REQUEST_DETAIL && (
         <div className="modal-overlay">
           <RequestDetail
             request={selectedRequest}
@@ -462,11 +462,11 @@ const MedicationManagementPage = () => {
             onSwitch={handleDialogSwitch}
           />
         </div>
-      )}
+      )} */}
 
-      {openDialog === DIALOGS.SEND_REQUEST && (
+      {openDialog === DIALOGS.ADD_MEDICATION && (
         <div className="modal-overlay">
-          <SendRequestDialog
+          <AddMedicationDialog
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />

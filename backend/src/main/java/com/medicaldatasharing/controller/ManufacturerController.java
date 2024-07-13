@@ -1,16 +1,20 @@
 package com.medicaldatasharing.controller;
 
+import com.medicaldatasharing.form.AddMedicationForm;
 import com.medicaldatasharing.form.SearchMedicationForm;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.ManufacturerService;
 import com.medicaldatasharing.service.UserService;
+import com.medicaldatasharing.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/manufacturer")
@@ -38,4 +42,16 @@ public class ManufacturerController {
         }
     }
 
+    @PostMapping("/add-medication")
+    public ResponseEntity<?> addMedication(@Valid @ModelAttribute AddMedicationForm addMedicationForm, BindingResult result) throws Exception {
+        try {
+            addMedicationForm.setDateCreated(StringUtil.parseDate(new Date()));
+            addMedicationForm.setDateModified(StringUtil.parseDate(new Date()));
+            String addMedication = manufacturerService.addMedication(addMedicationForm);
+            return ResponseEntity.status(HttpStatus.OK).body(addMedication);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 }

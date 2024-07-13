@@ -31,6 +31,10 @@ public class Medication {
     @JsonProperty("description")
     private String description;
 
+    @Property
+    @JsonProperty("hashFile")
+    private String hashFile;
+
     @Property()
     @JsonProperty("dateCreated")
     private String dateCreated;
@@ -52,13 +56,15 @@ public class Medication {
                       String medicationName,
                       String dateCreated,
                       String dateModified,
-                      String description) {
+                      String description,
+                      String hashFile) {
         this.medicationId = medicationId;
         this.manufacturerId = manufacturerId;
         this.medicationName = medicationName;
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.description = description;
+        this.hashFile = hashFile;
     }
 
     public static Medication createInstance(String medicationId,
@@ -66,7 +72,8 @@ public class Medication {
                                             String medicationName,
                                             String dateCreated,
                                             String dateModified,
-                                            String description) {
+                                            String description,
+                                            String hashFile) {
         Medication medication = new Medication();
         medication.setMedicationId(medicationId);
         medication.setManufacturerId(manufacturerId);
@@ -74,6 +81,7 @@ public class Medication {
         medication.setDateCreated(dateCreated);
         medication.setDateModified(dateModified);
         medication.setDescription(description);
+        medication.setHashFile(hashFile);
         return medication;
     }
 
@@ -150,16 +158,25 @@ public class Medication {
         return this;
     }
 
+    public String getHashFile() {
+        return hashFile;
+    }
+
+    public Medication setHashFile(String hashFile) {
+        this.hashFile = hashFile;
+        return this;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Medication that = (Medication) object;
-        return Objects.equals(medicationId, that.medicationId) && Objects.equals(manufacturerId, that.manufacturerId) && Objects.equals(medicationName, that.medicationName) && Objects.equals(description, that.description) && Objects.equals(dateModified, that.dateModified) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(medicationId, that.medicationId) && Objects.equals(manufacturerId, that.manufacturerId) && Objects.equals(medicationName, that.medicationName) && Objects.equals(description, that.description) && Objects.equals(hashFile, that.hashFile) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(dateModified, that.dateModified) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(medicationId, manufacturerId, medicationName, description, dateModified, entityName);
+        return Objects.hash(medicationId, manufacturerId, medicationName, description, hashFile, dateCreated, dateModified, entityName);
     }
 }

@@ -27,6 +27,8 @@ public class AddMedicationForm {
     @NotBlank
     String dateModified;
 
+    String hashFile;
+
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
         Field[] fields = this.getClass().getDeclaredFields();

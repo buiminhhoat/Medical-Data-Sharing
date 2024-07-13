@@ -74,6 +74,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .username("benhviendhqghn@gmail.com")
                 .password(passwordEncoder.encode("benhviendhqghn@gmail.com"))
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
+                .enabled(true)
                 .build();
 
         MedicalInstitution medicalInstitution2 = MedicalInstitution
@@ -84,6 +85,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .username("benhvienvietduc@gmail.com")
                 .password(passwordEncoder.encode("benhvienvietduc@gmail.com"))
                 .address("40 P. Tràng Thi, Hàng Bông")
+                .enabled(true)
                 .build();
 
         medicalInstitutionRepository.save(medicalInstitution1);
@@ -102,6 +104,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .role(Constants.ROLE_MANUFACTURER)
                 .username("congtyduocphama@gmail.com")
                 .password(passwordEncoder.encode("congtyduocphama@gmail.com"))
+                .enabled(true)
                 .build();
         manufacturerRepository.save(manufacturer1);
 
@@ -125,6 +128,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .role(Constants.ROLE_DRUG_STORE)
                 .username("nhathuoca@gmail.com")
                 .password(passwordEncoder.encode("nhathuoca@gmail.com"))
+                .enabled(true)
                 .build();
         drugStoreRepository.save(drugStoreA);
 
@@ -136,6 +140,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .role(Constants.ROLE_DRUG_STORE)
                 .username("nhathuocb@gmail.com")
                 .password(passwordEncoder.encode("nhathuocb@gmail.com"))
+                .enabled(true)
                 .build();
         drugStoreRepository.save(drugStoreB);
 
@@ -161,6 +166,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .role(Constants.ROLE_DRUG_STORE)
                 .username("congtybaohiemc@gmail.com")
                 .password(passwordEncoder.encode("congtybaohiemc@gmail.com"))
+                .enabled(true)
                 .build();
         insuranceCompanyRepository.save(insuranceCompany1);
 
@@ -184,6 +190,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .username("viennghiencuuduocphamabc@gmail.com")
                 .password(passwordEncoder.encode("viennghiencuuduocphamabc@gmail.com"))
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
+                .enabled(true)
                 .build();
 
         ResearchCenter researchCenter2 = ResearchCenter
@@ -193,6 +200,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .username("viennghiencuuthuocxyz@gmail.com")
                 .password(passwordEncoder.encode("viennghiencuuthuocxyz@gmail.com"))
                 .address("40 P. Tràng Thi, Hàng Bông")
+                .enabled(true)
                 .build();
         researchCenterRepository.save(researchCenter1);
         researchCenterRepository.save(researchCenter2);
