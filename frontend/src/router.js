@@ -12,6 +12,7 @@ import { useCookies } from "react-cookie";
 import PatientManagedByDoctorPage from "./pages/users/PatientManagedByDoctorPage";
 import UserManagement from "./pages/users/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
+import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 
 const userRouters = [
   {
@@ -61,6 +62,10 @@ const manufacturerRouters = [
   {
     path: ROUTERS.MANUFACTURER.MEDICATION_MANAGEMENT_PAGE,
     component: <MedicationManagementPage></MedicationManagementPage>,
+  },
+  {
+    path: ROUTERS.MANUFACTURER.DRUG_MANAGEMENT_PAGE,
+    component: <DrugManagementPage></DrugManagementPage>,
   },
 ];
 

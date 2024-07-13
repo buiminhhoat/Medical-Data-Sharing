@@ -3,8 +3,11 @@ package healthInformationSharing.dao;
 import com.owlike.genson.Genson;
 
 import healthInformationSharing.entity.Drug;
+import healthInformationSharing.entity.Medication;
 import org.hyperledger.fabric.contract.Context;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class DrugDAO {
     private DrugCRUD drugCRUD;
@@ -43,5 +46,9 @@ public class DrugDAO {
 
     public Drug transferDrug(JSONObject jsonDto) {
         return drugCRUD.transferDrug(jsonDto);
+    }
+
+    public List<Drug> getListDrugByOwnerId(JSONObject jsonDto) {
+        return drugQuery.getListDrugByQuery(jsonDto);
     }
 }

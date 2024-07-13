@@ -7,6 +7,8 @@ export const DIALOGS = {
   ADD_MEDICAL_RECORD: "ADD_MEDICAL_RECORD",
   SEND_REQUEST: "SEND_REQUEST",
   ADD_MEDICATION: "ADD_MEDICATION",
+  DRUG_DETAIL: "DRUG_DETAIL",
+  ADD_DRUG: "ADD_DRUG",
 };
 
 export const API = {
@@ -18,6 +20,7 @@ export const API = {
     GET_ROLE: "/api/public/get-role",
     SEND_REQUEST: "/api/public/send-request",
     GET_ALL_DOCTOR: "/api/public/get-all-doctor",
+    GET_LIST_DRUG_BY_OWNER_ID: "/api/public/get-list-drug-by-ownerId",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:
@@ -45,6 +48,7 @@ export const API = {
     GET_LIST_MEDICATION_BY_MANUFACTURERID:
       "/api/manufacturer/get-list-medication-by-manufacturerId",
     ADD_MEDICATION: "/api/manufacturer/add-medication",
+    ADD_DRUG: "/api/manufacturer/add-drug",
   },
 };
 

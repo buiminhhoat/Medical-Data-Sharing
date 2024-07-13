@@ -434,6 +434,22 @@ public class HyperledgerService {
         }};
     }
 
+    private Map<String, String> prepareSearchDrugParams(SearchDrugForm searchDrugForm) {
+        String drugId = searchDrugForm.getDrugId() == null ? "" : searchDrugForm.getDrugId();
+        String medicationId = searchDrugForm.getMedicationId() == null ? "" : searchDrugForm.getMedicationId();
+        String manufactureDate = searchDrugForm.getManufactureDate() == null ? "" : searchDrugForm.getManufactureDate();
+        String expirationDate = searchDrugForm.getExpirationDate() == null ? "" : searchDrugForm.getExpirationDate();
+        String ownerId = searchDrugForm.getOwnerId() == null ? "" : searchDrugForm.getOwnerId();
+
+        return new HashMap<String, String>() {{
+            put("drugId", drugId);
+            put("medicationId", medicationId);
+            put("manufactureDate", manufactureDate);
+            put("expirationDate", expirationDate);
+            put("ownerId", ownerId);
+        }};
+    }
+
     private void formatExceptionMessage(Exception e) throws Exception {
         String msg = e.getMessage();
         String errorMsg = msg.substring(msg.lastIndexOf(":") + 1);
@@ -638,6 +654,41 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return medicationList;
+    }
+
+    public List<Drug> getListDrugByOwnerId(
+            User user,
+            SearchDrugForm searchDrugForm
+    ) throws Exception {
+        List<Drug> drugList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchDrugParams(searchDrugForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListDrugByOwnerId",
+                    jsonObject.toString()
+            );
+
+            String drugListStr = new String(result);
+            drugList = new Genson().deserialize(
+                    drugListStr,
+                    new GenericType<List<Drug>>() {
+                    }
+            );
+
+            LOG.info("result: " + drugListStr);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return drugList;
     }
 
     public PrescriptionDto getPrescriptionByPatient(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {

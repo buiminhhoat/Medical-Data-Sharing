@@ -105,6 +105,10 @@ const Header = () => {
       name: "Quản lý loại thuốc",
       path: ROUTERS.MANUFACTURER.MEDICATION_MANAGEMENT_PAGE,
     },
+    {
+      name: "Quản lý viên thuốc",
+      path: ROUTERS.MANUFACTURER.DRUG_MANAGEMENT_PAGE,
+    },
   ]);
 
   const [menuItems, setMenuItems] = useState(null);

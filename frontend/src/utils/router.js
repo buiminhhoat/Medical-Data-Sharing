@@ -14,6 +14,7 @@ export const ROUTERS = {
   },
   MANUFACTURER: {
     MEDICATION_MANAGEMENT_PAGE: "/manufacturer/medication-management-page",
+    DRUG_MANAGEMENT_PAGE: "/manufacturer/drug-management-page",
   },
   ADMIN: {
     HOME: "",

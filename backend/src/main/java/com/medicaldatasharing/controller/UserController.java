@@ -1,6 +1,5 @@
 package com.medicaldatasharing.controller;
 
-import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.UserService;
@@ -55,6 +54,17 @@ public class UserController {
         try {
             String getAllDoctor = userService.getAllDoctor();
             return ResponseEntity.status(HttpStatus.OK).body(getAllDoctor);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/get-list-drug-by-ownerId")
+    public ResponseEntity<?> getListDrugByOwnerId() throws Exception {
+        try {
+            String getListDrugByOwnerId = userService.getListDrugByOwnerId();
+            return ResponseEntity.status(HttpStatus.OK).body(getListDrugByOwnerId);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

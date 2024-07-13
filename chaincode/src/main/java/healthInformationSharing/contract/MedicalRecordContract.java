@@ -830,6 +830,25 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(drug);
     }
 
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListDrugByOwnerId(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        if (!jsonObject.has("ownerId")) {
+            throw new ChaincodeException("ownerId not found",
+                    ContractErrors.UNAUTHORIZED_VIEW_ACCESS.toString());
+        }
+
+        JSONObject jsonDto = jsonObject;
+
+        List<Drug> drugList = ctx.getDrugDAO().getListDrugByOwnerId(
+                jsonDto
+        );
+        return new Genson().serialize(drugList);
+    }
+
     public Prescription addPrescription(
             MedicalRecordContext ctx,
             String jsonString
