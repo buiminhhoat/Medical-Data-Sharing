@@ -421,13 +421,11 @@ public class InitDataLoader implements CommandLineRunner {
             addDrugForm.setMedicationId(medication.getMedicationId());
             addDrugForm.setManufactureDate(StringUtil.parseDate(StringUtil.createDate("2024-01-01")));
             addDrugForm.setExpirationDate(StringUtil.parseDate(StringUtil.createDate("2024-12-31")));
+            addDrugForm.setQuantity("10");
 
-            Drug drug = hyperledgerService.addDrug(manufacturer, addDrugForm);
-            drug = hyperledgerService.addDrug(manufacturer, addDrugForm);
-            drug = hyperledgerService.addDrug(manufacturer, addDrugForm);
-            drug = hyperledgerService.addDrug(manufacturer, addDrugForm);
-            drug = hyperledgerService.addDrug(manufacturer, addDrugForm);
-            drug = hyperledgerService.addDrug(manufacturer, addDrugForm);
+            List<Drug> drugList = hyperledgerService.addDrug(manufacturer, addDrugForm);
+            drugList = hyperledgerService.addDrug(manufacturer, addDrugForm);
+            Drug drug = drugList.get(0);
             System.out.println(drug);
             AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
             List<PrescriptionDetails> prescriptionDetailsList = new ArrayList<>();

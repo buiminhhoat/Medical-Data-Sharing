@@ -21,6 +21,9 @@ public class AddDrugForm {
     @NotBlank
     String expirationDate;
 
+    @NotBlank
+    String quantity;
+
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
         Field[] fields = this.getClass().getDeclaredFields();

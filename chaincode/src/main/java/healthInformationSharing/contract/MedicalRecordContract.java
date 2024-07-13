@@ -791,25 +791,31 @@ public class MedicalRecordContract implements ContractInterface {
             MedicalRecordContext ctx,
             String jsonString
     ) {
-        JSONObject jsonObject = new JSONObject(jsonString);
-        String medicationId = jsonObject.getString("medicationId");
-        String manufactureDate = jsonObject.getString("manufactureDate");
-        String expirationDate = jsonObject.getString("expirationDate");
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            String medicationId = jsonObject.getString("medicationId");
+            String manufactureDate = jsonObject.getString("manufactureDate");
+            String expirationDate = jsonObject.getString("expirationDate");
+            String quantity = jsonObject.getString("quantity");
 
-        if (!ctx.getMedicationDAO().medicationExist(medicationId)) {
-            throw new ChaincodeException("Medication " + medicationId + " does not exist",
-                    ContractErrors.MEDICATION_NOT_FOUND.toString());
+            if (!ctx.getMedicationDAO().medicationExist(medicationId)) {
+                throw new ChaincodeException("Medication " + medicationId + " does not exist",
+                        ContractErrors.MEDICATION_NOT_FOUND.toString());
+            }
+
+            String manufacturerId = ctx.getMedicationDAO().getManufacturerId(medicationId);
+
+            authorizeRequest(ctx, manufacturerId, "addDrug(validate jsonString)");
+
+            JSONObject jsonDto = jsonObject;
+            jsonDto.put("ownerId", manufacturerId);
+
+            List<Drug> drugList = ctx.getDrugDAO().addDrug(jsonDto);
+            return new Genson().serialize(drugList);
         }
-
-        String manufacturerId = ctx.getMedicationDAO().getManufacturerId(medicationId);
-
-        authorizeRequest(ctx, manufacturerId, "addDrug(validate jsonString)");
-
-        JSONObject jsonDto = jsonObject;
-        jsonDto.put("ownerId", manufacturerId);
-
-        Drug drug = ctx.getDrugDAO().addDrug(jsonDto);
-        return new Genson().serialize(drug);
+        catch (Exception exception) {
+            throw exception;
+        }
     }
 
     @Transaction(intent = Transaction.TYPE.SUBMIT)

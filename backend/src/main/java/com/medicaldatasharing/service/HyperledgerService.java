@@ -799,8 +799,8 @@ public class HyperledgerService {
         return drug;
     }
 
-    public Drug addDrug(User user, AddDrugForm addDrugForm) throws Exception {
-        Drug drug = null;
+    public List<Drug> addDrug(User user, AddDrugForm addDrugForm) throws Exception {
+        List<Drug> drugList = null;
         try {
             Contract contract = getContract(user);
             JSONObject jsonDto = addDrugForm.toJSONObject();
@@ -808,12 +808,12 @@ public class HyperledgerService {
                     "addDrug",
                     jsonDto.toString()
             );
-            drug = new Genson().deserialize(new String(result), Drug.class);
-            LOG.info("result: " + drug);
+            drugList = new Genson().deserialize(new String(result), new GenericType<List<Drug>>() {});
+            LOG.info("result: " + drugList);
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
-        return drug;
+        return drugList;
     }
 
     public Purchase addPurchase(User user, PurchaseDto addPurchaseDto) throws Exception {

@@ -255,6 +255,18 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
                   style={{ width: "100%" }}
                 />
               </Form.Item>
+              <Form.Item
+                label="Số lượng"
+                name="quantity"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền số lượng!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
             </div>
             <div
               style={{

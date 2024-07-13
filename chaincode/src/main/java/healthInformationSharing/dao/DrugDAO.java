@@ -36,7 +36,7 @@ public class DrugDAO {
         return this;
     }
 
-    public Drug addDrug(JSONObject jsonDto) {
+    public List<Drug> addDrug(JSONObject jsonDto) {
         return drugCRUD.addDrug(jsonDto);
     }
 

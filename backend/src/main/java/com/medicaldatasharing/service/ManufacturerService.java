@@ -71,8 +71,8 @@ public class ManufacturerService {
     public String addDrug(AddDrugForm addDrugForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
         try {
-            Drug drug = hyperledgerService.addDrug(user, addDrugForm);
-            return new Genson().serialize(drug);
+            List<Drug> drugList = hyperledgerService.addDrug(user, addDrugForm);
+            return new Genson().serialize(drugList);
         }
         catch (Exception e) {
             throw e;

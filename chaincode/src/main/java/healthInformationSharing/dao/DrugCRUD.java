@@ -8,6 +8,8 @@ import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class DrugCRUD {
@@ -22,27 +24,36 @@ public class DrugCRUD {
         this.genson = genson;
     }
 
-    public Drug addDrug(JSONObject jsonDto) {
+    public List<Drug> addDrug(JSONObject jsonDto) {
         String medicationId = jsonDto.getString("medicationId");
         String manufactureDate = jsonDto.getString("manufactureDate");
         String expirationDate = jsonDto.getString("expirationDate");
         String ownerId = jsonDto.getString("ownerId");
+        Long quantity = Long.valueOf(jsonDto.getString("quantity"));
 
-        String drugId = ctx.getStub().getTxId();
-        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, drugId);
-        String dbKey = compositeKey.toString();
+//        LOG.info("quantity: " + quantity);
+        List<Drug> drugList = new ArrayList<>();
+        String txId = ctx.getStub().getTxId();
+        for (int i = 1; i <= quantity; ++i) {
+            String drugId = txId + i;
+//            LOG.info("i: " + i + ", drugId: " + drugId);
+            CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, drugId);
+            String dbKey = compositeKey.toString();
 
-        Drug drug = Drug.createInstance(
-                drugId,
-                medicationId,
-                manufactureDate,
-                expirationDate,
-                ownerId
-        );
+            Drug drug = Drug.createInstance(
+                    drugId,
+                    medicationId,
+                    manufactureDate,
+                    expirationDate,
+                    ownerId
+            );
 
-        String drugStr = genson.serialize(drug);
-        ctx.getStub().putStringState(dbKey, drugStr);
-        return drug;
+            String drugStr = genson.serialize(drug);
+            ctx.getStub().putStringState(dbKey, drugStr);
+            drugList.add(drug);
+        }
+        LOG.info("drugList.size(): " + drugList.size());
+        return drugList;
     }
 
     public boolean drugExist(String drugId) {
