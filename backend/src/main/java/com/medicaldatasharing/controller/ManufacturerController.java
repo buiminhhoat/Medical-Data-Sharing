@@ -1,5 +1,6 @@
 package com.medicaldatasharing.controller;
 
+import com.medicaldatasharing.form.AddDrugForm;
 import com.medicaldatasharing.form.AddMedicationForm;
 import com.medicaldatasharing.form.SearchMedicationForm;
 import com.medicaldatasharing.service.DoctorService;
@@ -49,6 +50,17 @@ public class ManufacturerController {
             addMedicationForm.setDateModified(StringUtil.parseDate(new Date()));
             String addMedication = manufacturerService.addMedication(addMedicationForm);
             return ResponseEntity.status(HttpStatus.OK).body(addMedication);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/add-drug")
+    public ResponseEntity<?> addDrug(@Valid @ModelAttribute AddDrugForm addDrugForm, BindingResult result) throws Exception {
+        try {
+            String addDrug = manufacturerService.addDrug(addDrugForm);
+            return ResponseEntity.status(HttpStatus.OK).body(addDrug);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

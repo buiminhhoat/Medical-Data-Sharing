@@ -22,6 +22,7 @@ import { Calendar, theme } from "antd";
 import { useCookies } from "react-cookie";
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
+import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 // import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 
 const DrugManagementPageStyle = styled.div`
@@ -140,7 +141,7 @@ const DrugManagementPage = () => {
   ]);
 
   const [openDialog, setOpenDialog] = useState(null);
-  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [selectedMedication, setSelectedRequest] = useState(null);
 
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
@@ -174,7 +175,7 @@ const DrugManagementPage = () => {
     useState(null);
   const columns = [
     {
-      title: "Mã viên thuốc",
+      title: "Mã thuốc",
       dataIndex: "shortenedDrugId",
       showSorterTooltip: {
         target: "full-header",
@@ -343,7 +344,7 @@ const DrugManagementPage = () => {
                       }}
                     >
                       <Input
-                        placeholder="Mã viên thuốc"
+                        placeholder="Mã thuốc"
                         value={searchDrugId}
                         onChange={(e) => {
                           setSearchDrugId(e.target.value);
@@ -430,7 +431,7 @@ const DrugManagementPage = () => {
           <div style={{ width: "100%", marginTop: "20px" }}>
             <div style={{ display: "flex" }}>
               <div>
-                <h1>Danh sách viên thuốc</h1>
+                <h1>Danh sách thuốc</h1>
               </div>
               <div
                 style={{
@@ -440,9 +441,7 @@ const DrugManagementPage = () => {
                   marginRight: "0",
                 }}
               >
-                <Button onClick={() => openAddDrug()}>
-                  Tạo viên thuốc mới
-                </Button>
+                <Button onClick={() => openAddDrug()}>Tạo thuốc mới</Button>
               </div>
             </div>
             <ConfigProvider
@@ -469,21 +468,22 @@ const DrugManagementPage = () => {
       {/* {openDialog === DIALOGS.DRUG_DETAIL && (
         <div className="modal-overlay">
           <DrugDetail
-            request={selectedRequest}
+            request={selectedMedication}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
         </div>
       )} */}
 
-      {/* {openDialog === DIALOGS.ADD_DRUG && (
+      {openDialog === DIALOGS.ADD_DRUG && (
         <div className="modal-overlay">
           <AddDrugDialog
+            values={selectedMedication}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
         </div>
-      )} */}
+      )}
     </DrugManagementPageStyle>
   );
 };

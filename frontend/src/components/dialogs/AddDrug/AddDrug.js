@@ -1,0 +1,285 @@
+import React, { useEffect, useState, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { Cookies, useCookies } from "react-cookie";
+import { UserOutlined, CloseOutlined } from "@ant-design/icons";
+import { Avatar, Flex, InputNumber, Space, TreeSelect } from "antd";
+import { API, LOGIN, DIALOGS } from "@Const";
+import FileUploader from "../../FileUploader/FileUploader";
+import styled from "styled-components";
+import { CgEnter } from "react-icons/cg";
+import {
+  Button,
+  Modal,
+  Checkbox,
+  Form,
+  Input,
+  Select,
+  List,
+  Typography,
+  DatePicker,
+} from "antd";
+import { Alert, notification } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { VscCommentUnresolved } from "react-icons/vsc";
+import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
+const { Option } = Select;
+
+const Context = React.createContext({
+  name: "AddDrugContext",
+});
+
+const AddDrugDialogStyle = styled.div`
+  overflow: auto;
+`;
+
+const AddDrugDialog = ({ values, onClose, onSwitch }) => {
+  const [cookies] = useCookies(["access_token", "userId"]);
+  const access_token = cookies.access_token;
+  const userId = cookies.userId;
+  const role = cookies.role;
+  const apiAddDrug = API.MANUFACTURER.ADD_DRUG;
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const [loading, setLoading] = useState(true);
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    onClose();
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  const [openDialog, setOpenDialog] = useState(null);
+
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
+  };
+
+  const handleFormSubmit = async (values) => {
+    if (access_token) {
+      console.log("apiAddDrug: ", apiAddDrug);
+      const formData = new FormData();
+      console.log(values);
+      for (const key in values) {
+        if (key === "manufactureDate" || key === "expirationDate") continue;
+        formData.append(key, values[key]);
+      }
+
+      formData.append(
+        "manufactureDate",
+        values.manufactureDate.format("YYYY-MM-DD")
+      );
+      formData.append(
+        "expirationDate",
+        values.expirationDate.format("YYYY-MM-DD")
+      );
+
+      openNotification(
+        "topRight",
+        "info",
+        "Đã gửi thuốc",
+        "Hệ thống đã tiếp nhận thuốc!"
+      );
+
+      console.log("formData: ", formData);
+
+      console.log("access_token: ", access_token);
+
+      try {
+        const response = await fetch(apiAddDrug, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+          body: formData,
+        });
+        if (response.status === 200) {
+          console.log("data");
+          let data = await response.json();
+          console.log(data);
+          openNotification(
+            "topRight",
+            "success",
+            "Thành công",
+            "Đã tạo thuốc thành công!",
+            handleCancel
+          );
+          setLoading(false);
+        } else {
+          openNotification(
+            "topRight",
+            "error",
+            "Thất bại",
+            "Đã có lỗi xảy ra khi tạo thuốc!",
+            handleCancel
+          );
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (
+    placement,
+    type,
+    message,
+    manufactureDate,
+    onClose
+  ) => {
+    api[type]({
+      message: message,
+      manufactureDate: manufactureDate,
+      placement,
+      showProgress: true,
+      pauseOnHover: true,
+      onClose: onClose,
+    });
+  };
+
+  const [hashFile, setHashFile] = useState("");
+
+  const [medicationId, setMedicationId] = useState(
+    values != null && values.medicationId != null ? values.medicationId : ""
+  );
+
+  return (
+    <Context.Provider value={"Tạo thuốc"}>
+      {contextHolder}
+      <AddDrugDialogStyle>
+        <Modal
+          title="Tạo thuốc"
+          open={isModalOpen}
+          onCancel={handleCancel}
+          footer={null}
+          centered
+          width={"60%"}
+          // loading={loading}
+        >
+          <Form
+            name="addDrugForm"
+            labelCol={{
+              span: 5,
+            }}
+            wrapperCol={{
+              span: 18,
+            }}
+            style={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            initialValues={{
+              medicationId: medicationId,
+              remember: true,
+            }}
+            onFinish={handleFormSubmit}
+            onFinishFailed={onFinishFailed}
+            autoComplete="on"
+          >
+            <div style={{ width: "100%" }}>
+              <Form.Item
+                label="ID thuốc"
+                name="medicationId"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền ID thuốc!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+
+              {/* <Form.Item
+                label="Tên thuốc"
+                name="medicationName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền tên thuốc!",
+                  },
+                ]}
+              >
+                <Input disabled />
+              </Form.Item> */}
+              <Form.Item
+                label="Ngày sản xuất"
+                name="manufactureDate"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền ngày sản xuất!",
+                  },
+                ]}
+              >
+                <DatePicker
+                  format={{
+                    format: "YYYY-MM-DD",
+                  }}
+                  placeholder="Ngày sản xuất"
+                  style={{ width: "100%" }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Ngày hết hạn"
+                name="expirationDate"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền ngày hết hạn!",
+                  },
+                ]}
+              >
+                <DatePicker
+                  format={{
+                    format: "YYYY-MM-DD",
+                  }}
+                  placeholder="Ngày hết hạn"
+                  style={{ width: "100%" }}
+                />
+              </Form.Item>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                justifyItems: "center",
+              }}
+            >
+              <Button htmlType="submit">Tạo thuốc</Button>
+            </div>
+          </Form>
+        </Modal>
+
+        {/* {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
+          <div className="modal-overlay">
+            <EditMedicalRecordDialog
+              values={valuesForm}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            />
+          </div>
+        )} */}
+      </AddDrugDialogStyle>
+    </Context.Provider>
+  );
+};
+
+export default AddDrugDialog;

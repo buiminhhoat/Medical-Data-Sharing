@@ -1,6 +1,8 @@
 package com.medicaldatasharing.service;
 
+import com.medicaldatasharing.chaincode.dto.Drug;
 import com.medicaldatasharing.chaincode.dto.Medication;
+import com.medicaldatasharing.form.AddDrugForm;
 import com.medicaldatasharing.form.AddMedicationForm;
 import com.medicaldatasharing.form.SearchMedicationForm;
 import com.medicaldatasharing.model.User;
@@ -60,6 +62,17 @@ public class ManufacturerService {
             addMedicationForm.setManufacturerId(user.getId());
             Medication medication = hyperledgerService.addMedication(user, addMedicationForm);
             return new Genson().serialize(medication);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String addDrug(AddDrugForm addDrugForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            Drug drug = hyperledgerService.addDrug(user, addDrugForm);
+            return new Genson().serialize(drug);
         }
         catch (Exception e) {
             throw e;

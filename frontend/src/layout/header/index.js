@@ -106,7 +106,7 @@ const Header = () => {
       path: ROUTERS.MANUFACTURER.MEDICATION_MANAGEMENT_PAGE,
     },
     {
-      name: "Quản lý viên thuốc",
+      name: "Quản lý thuốc",
       path: ROUTERS.MANUFACTURER.DRUG_MANAGEMENT_PAGE,
     },
   ]);
