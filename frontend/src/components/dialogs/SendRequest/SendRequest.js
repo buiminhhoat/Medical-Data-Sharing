@@ -90,6 +90,13 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     },
   ];
 
+  const drugStoreOptions = [
+    {
+      value: "Xem đơn thuốc",
+      label: "Xem đơn thuốc",
+    },
+  ];
+
   const [options, setOptions] = useState(null);
 
   useEffect(() => {
@@ -98,6 +105,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     if (options === null) {
       if (role === "Bệnh nhân") setOptions(patientOptions);
       if (role === "Bác sĩ") setOptions(doctorOptions);
+      if (role === "Cửa hàng thuốc") setOptions(drugStoreOptions);
     }
   });
 
@@ -158,12 +166,33 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
 
   const [treeData, setTreeData] = useState(null);
 
+  const renderViewPrescriptionRequest = () => {
+    return (
+      <Form.Item
+        label="ID đơn thuốc"
+        name="prescriptionId"
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng điền ID đơn thuốc",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+    );
+  };
+
   const changeRequestType = (value) => {
     if (value === "Đặt lịch khám") {
       setApiSendRequest(API.PATIENT.SEND_APPOINTMENT_REQUEST);
     }
     if (value === "Xem hồ sơ y tế") {
       setApiSendRequest(API.DOCTOR.SEND_VIEW_REQUEST);
+    }
+    if (value === "Xem đơn thuốc") {
+      setAdditionalFields(renderViewPrescriptionRequest());
+      setApiSendRequest(API.DRUGSTORE.SEND_VIEW_PRESCRIPTION_REQUEST);
     }
   };
 

@@ -54,7 +54,7 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
 
   if (role === "Cửa hàng thuốc") {
     apiGetPrescriptionByPrescriptionId =
-      API.DRUG_STORE.GET_PRESCRIPTION_BY_DRUG_STORE;
+      API.DRUGSTORE.GET_PRESCRIPTION_BY_DRUG_STORE;
   }
 
   const [isModalOpen, setIsModalOpen] = useState(true);

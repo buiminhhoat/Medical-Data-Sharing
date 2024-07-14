@@ -52,9 +52,11 @@ export const API = {
     ADD_MEDICATION: "/api/manufacturer/add-medication",
     ADD_DRUG: "/api/manufacturer/add-drug",
   },
-  DRUG_STORE: {
+  DRUGSTORE: {
     GET_PRESCRIPTION_BY_DRUG_STORE:
       "/api/drugstore/get-prescription-by-drugstore",
+    SEND_VIEW_PRESCRIPTION_REQUEST:
+      "/api/drugstore/send-view-prescription-request",
   },
 };
 
