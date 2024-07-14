@@ -9,6 +9,7 @@ export const DIALOGS = {
   ADD_MEDICATION: "ADD_MEDICATION",
   DRUG_DETAIL: "DRUG_DETAIL",
   ADD_DRUG: "ADD_DRUG",
+  DRUG_LIST: "DRUG_LIST",
 };
 
 export const API = {

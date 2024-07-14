@@ -18,6 +18,10 @@ public class Drug {
     private String medicationId;
 
     @Property
+    @JsonProperty("unit")
+    private String unit;
+
+    @Property
     @JsonProperty("manufactureDate")
     private String manufactureDate;
 
@@ -40,12 +44,14 @@ public class Drug {
     public static Drug createInstance(
             String drugId,
             String medicationId,
+            String unit,
             String manufactureDate,
             String expirationDate,
             String ownerId) {
         Drug drug = new Drug();
         drug.setDrugId(drugId);
         drug.setMedicationId(medicationId);
+        drug.setUnit(unit);
         drug.setManufactureDate(manufactureDate);
         drug.setExpirationDate(expirationDate);
         drug.setOwnerId(ownerId);
@@ -106,6 +112,15 @@ public class Drug {
         return this;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public Drug setUnit(String unit) {
+        this.unit = unit;
+        return this;
+    }
+
     public static byte[] serialize(Object object) {
         Genson genson = new Genson();
         return genson.serializeBytes(object);
@@ -116,17 +131,18 @@ public class Drug {
         return genson.deserialize(data, Drug.class);
     }
 
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Drug drug = (Drug) object;
-        return Objects.equals(drugId, drug.drugId) && Objects.equals(medicationId, drug.medicationId) && Objects.equals(manufactureDate, drug.manufactureDate) && Objects.equals(expirationDate, drug.expirationDate) && Objects.equals(ownerId, drug.ownerId) && Objects.equals(entityName, drug.entityName);
+        return Objects.equals(drugId, drug.drugId) && Objects.equals(medicationId, drug.medicationId) && Objects.equals(unit, drug.unit) && Objects.equals(manufactureDate, drug.manufactureDate) && Objects.equals(expirationDate, drug.expirationDate) && Objects.equals(ownerId, drug.ownerId) && Objects.equals(entityName, drug.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(drugId, medicationId, manufactureDate, expirationDate, ownerId, entityName);
+        return Objects.hash(drugId, medicationId, unit, manufactureDate, expirationDate, ownerId, entityName);
     }
 
     @Override
@@ -134,6 +150,7 @@ public class Drug {
         return "Drug{" +
                 "drugId='" + drugId + '\'' +
                 ", medicationId='" + medicationId + '\'' +
+                ", unit='" + unit + '\'' +
                 ", manufactureDate='" + manufactureDate + '\'' +
                 ", expirationDate='" + expirationDate + '\'' +
                 ", ownerId='" + ownerId + '\'' +

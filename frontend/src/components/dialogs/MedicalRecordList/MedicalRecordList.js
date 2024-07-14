@@ -129,7 +129,7 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
 
                 <Info>
                   <div className="field">Tên bác sĩ</div>
-                  <div>{item.patientName}</div>
+                  <div>{item.doctorName}</div>
                 </Info>
 
                 <Info>

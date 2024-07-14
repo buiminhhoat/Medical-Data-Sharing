@@ -9,6 +9,9 @@ public class Drug {
     @JsonProperty("medicationId")
     private String medicationId;
 
+    @JsonProperty("unit")
+    private String unit;
+
     @JsonProperty("manufactureDate")
     private String manufactureDate;
 

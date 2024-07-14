@@ -22,6 +22,7 @@ import { Alert, notification } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
+import DrugList from "../DrugList/DrugList";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -40,7 +41,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
   const apiAddDrug = API.MANUFACTURER.ADD_DRUG;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -67,7 +68,10 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
 
   const closeModal = () => {
     setOpenDialog(null);
+    onClose();
   };
+
+  const [data, setData] = useState([]);
 
   const handleFormSubmit = async (values) => {
     if (access_token) {
@@ -88,11 +92,12 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
         values.expirationDate.format("YYYY-MM-DD")
       );
 
+      setLoading(true);
       openNotification(
         "topRight",
         "info",
         "Đã gửi thuốc",
-        "Hệ thống đã tiếp nhận thuốc!"
+        "Hệ thống đã tiếp nhận yêu cầu tạo thuốc!"
       );
 
       console.log("formData: ", formData);
@@ -110,13 +115,15 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
         if (response.status === 200) {
           console.log("data");
           let data = await response.json();
+          setData(data);
+          openModal(DIALOGS.DRUG_LIST);
           console.log(data);
           openNotification(
             "topRight",
             "success",
             "Thành công",
-            "Đã tạo thuốc thành công!",
-            handleCancel
+            "Đã tạo thuốc thành công!"
+            // handleCancel
           );
           setLoading(false);
         } else {
@@ -169,7 +176,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
           footer={null}
           centered
           width={"60%"}
-          // loading={loading}
+          loading={loading}
         >
           <Form
             name="addDrugForm"
@@ -194,7 +201,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
           >
             <div style={{ width: "100%" }}>
               <Form.Item
-                label="ID thuốc"
+                label="ID loại thuốc"
                 name="medicationId"
                 rules={[
                   {
@@ -218,6 +225,48 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
               >
                 <Input disabled />
               </Form.Item> */}
+
+              <Form.Item
+                label="Đơn vị"
+                name="unit"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền đơn vị!",
+                  },
+                ]}
+              >
+                <Select
+                  options={[
+                    {
+                      value: "Viên",
+                      label: "Viên",
+                    },
+                    {
+                      value: "Lọ",
+                      label: "Lọ",
+                    },
+                    {
+                      value: "Hộp",
+                      label: "Hộp",
+                    },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Số lượng"
+                name="quantity"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền số lượng!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+
               <Form.Item
                 label="Ngày sản xuất"
                 name="manufactureDate"
@@ -255,18 +304,6 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
                   style={{ width: "100%" }}
                 />
               </Form.Item>
-              <Form.Item
-                label="Số lượng"
-                name="quantity"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng điền số lượng!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
             </div>
             <div
               style={{
@@ -280,15 +317,15 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
           </Form>
         </Modal>
 
-        {/* {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
-          <div className="modal-overlay">
-            <EditMedicalRecordDialog
-              values={valuesForm}
+        {openDialog === DIALOGS.DRUG_LIST && (
+          <div>
+            <DrugList
+              data={data}
               onClose={handleDialogClose}
               onSwitch={handleDialogSwitch}
-            />
+            ></DrugList>
           </div>
-        )} */}
+        )}
       </AddDrugDialogStyle>
     </Context.Provider>
   );

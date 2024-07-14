@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Update Router">
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/Drug.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/Drug.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/AddDrugForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/AddDrugForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/ManufacturerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/ManufacturerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/DrugCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/DrugCRUD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/DrugDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/DrugDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/DrugQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/DrugQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/Drug.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/Drug.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/AddDrug/AddDrug.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/AddDrug/AddDrug.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/MedicalRecordList/MedicalRecordList.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/MedicalRecordList/MedicalRecordList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/utils/const.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/const.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +78,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.owlike/genson/1.6/596b9c1b0085843c5486ee9b68a4c15b46d0f99c/genson-1.6.jar!/com/owlike/genson/Genson.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20240303/ebb88e8fb5122b7506d5cf1d69f1ccdb790d22a/json-20240303.jar!/org/json/JSONObject.class" root0="SKIP_INSPECTION" />
+    <setting file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/lang/Long.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -135,7 +137,7 @@
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.3302696" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.60110295" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.19178921" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3302696" />
       <window_info anchor="bottom" id="Build" order="4" weight="0.2689951" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.2689951" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.2689951" />
@@ -274,7 +276,8 @@
       <workItem from="1720859514129" duration="1657000" />
       <workItem from="1720864733775" duration="5767000" />
       <workItem from="1720888077296" duration="620000" />
-      <workItem from="1720890160763" duration="6143000" />
+      <workItem from="1720890160763" duration="6346000" />
+      <workItem from="1720939136558" duration="2080000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

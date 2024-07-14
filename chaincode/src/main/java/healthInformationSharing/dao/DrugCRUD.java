@@ -26,6 +26,7 @@ public class DrugCRUD {
 
     public List<Drug> addDrug(JSONObject jsonDto) {
         String medicationId = jsonDto.getString("medicationId");
+        String unit = jsonDto.getString("unit");
         String manufactureDate = jsonDto.getString("manufactureDate");
         String expirationDate = jsonDto.getString("expirationDate");
         String ownerId = jsonDto.getString("ownerId");
@@ -43,6 +44,7 @@ public class DrugCRUD {
             Drug drug = Drug.createInstance(
                     drugId,
                     medicationId,
+                    unit,
                     manufactureDate,
                     expirationDate,
                     ownerId
@@ -52,7 +54,7 @@ public class DrugCRUD {
             ctx.getStub().putStringState(dbKey, drugStr);
             drugList.add(drug);
         }
-        LOG.info("drugList.size(): " + drugList.size());
+//        LOG.info("drugList.size(): " + drugList.size());
         return drugList;
     }
 

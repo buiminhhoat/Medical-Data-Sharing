@@ -24,6 +24,9 @@ public class AddDrugForm {
     @NotBlank
     String quantity;
 
+    @NotBlank
+    String unit;
+
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
         Field[] fields = this.getClass().getDeclaredFields();

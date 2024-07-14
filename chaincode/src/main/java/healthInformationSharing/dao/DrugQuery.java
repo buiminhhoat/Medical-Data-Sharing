@@ -47,6 +47,7 @@ public class DrugQuery {
     public JSONObject createQuerySelector(JSONObject jsonDto) {
         String drugId = jsonDto.has("drugId") ? jsonDto.getString("drugId") : "";
         String medicationId = jsonDto.has("medicationId") ? jsonDto.getString("medicationId") : "";
+        String unit = jsonDto.has("unit") ? jsonDto.getString("unit") : "";
         String manufactureDate = jsonDto.has("manufactureDate") ? jsonDto.getString("manufactureDate") : "";
         String expirationDate = jsonDto.has("expirationDate") ? jsonDto.getString("expirationDate") : "";
         String ownerId = jsonDto.has("ownerId") ? jsonDto.getString("ownerId") : "";
@@ -60,6 +61,10 @@ public class DrugQuery {
 
         if (!medicationId.isEmpty()) {
             jsonObjectSelector.putOnce("medicationId", medicationId);
+        }
+
+        if (!unit.isEmpty()) {
+            jsonObjectSelector.putOnce("unit", unit);
         }
 
         if (!manufactureDate.isEmpty()) {
