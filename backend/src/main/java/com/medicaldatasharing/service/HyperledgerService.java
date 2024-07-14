@@ -725,16 +725,16 @@ public class HyperledgerService {
         return prescriptionDto;
     }
 
-    public ViewPrescriptionRequest sendViewPrescriptionRequest(User user, SendViewPrescriptionRequestDto sendViewPrescriptionRequestDto) throws Exception {
+    public ViewPrescriptionRequest sendViewPrescriptionRequest(User user, SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm) throws Exception {
         ViewPrescriptionRequest viewPrescriptionRequest = null;
         try {
             Contract contract = getContract(user);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("senderId", sendViewPrescriptionRequestDto.getSenderId());
-            jsonObject.put("recipientId", sendViewPrescriptionRequestDto.getRecipientId());
-            jsonObject.put("dateCreated", sendViewPrescriptionRequestDto.getDateCreated());
-            jsonObject.put("dateModified", sendViewPrescriptionRequestDto.getDateModified());
-            jsonObject.put("prescriptionId", sendViewPrescriptionRequestDto.getPrescriptionId());
+            jsonObject.put("senderId", sendViewPrescriptionRequestForm.getSenderId());
+            jsonObject.put("recipientId", sendViewPrescriptionRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendViewPrescriptionRequestForm.getDateCreated());
+            jsonObject.put("dateModified", sendViewPrescriptionRequestForm.getDateModified());
+            jsonObject.put("prescriptionId", sendViewPrescriptionRequestForm.getPrescriptionId());
             byte[] result = contract.submitTransaction(
                     "sendViewPrescriptionRequest",
                     jsonObject.toString()

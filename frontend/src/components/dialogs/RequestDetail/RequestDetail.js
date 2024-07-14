@@ -316,12 +316,21 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               </>
             )}
 
-          {(data.requestStatus === "Chờ xử lý" ||
-            data.requestStatus === "Chấp thuận") && (
-            <>
-              <Button style={{ marginRight: "3%" }}>Từ chối</Button>
-            </>
-          )}
+          {data.recipientId === userId &&
+            (data.requestStatus === "Chờ xử lý" ||
+              data.requestStatus === "Chấp thuận") && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+              </>
+            )}
+
+          {data.senderId === userId &&
+            (data.requestStatus === "Chờ xử lý" ||
+              data.requestStatus === "Chấp thuận") && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Thu hồi</Button>
+              </>
+            )}
 
           {data.recipientId === userId &&
             data.requestType === "Đặt lịch khám" &&

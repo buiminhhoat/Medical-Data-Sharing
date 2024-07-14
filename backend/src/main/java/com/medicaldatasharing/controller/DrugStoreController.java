@@ -1,8 +1,11 @@
 package com.medicaldatasharing.controller;
 
+import com.medicaldatasharing.dto.SendViewPrescriptionRequestDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
 import com.medicaldatasharing.form.SendAppointmentRequestForm;
+import com.medicaldatasharing.form.SendViewPrescriptionRequestForm;
 import com.medicaldatasharing.model.Doctor;
+import com.medicaldatasharing.model.DrugStore;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.DrugStoreService;
@@ -47,15 +50,15 @@ public class DrugStoreController {
         }
     }
 
-    @PostMapping("/send-appointment-request")
-    public ResponseEntity<?> sendAppointmentRequest(@Valid @ModelAttribute SendAppointmentRequestForm sendAppointmentRequestForm, BindingResult result) throws Exception {
+    @PostMapping("/send-view-prescription-request")
+    public ResponseEntity<?> sendViewPrescriptionRequest(@Valid @ModelAttribute SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm,
+                                                         BindingResult result) throws Exception {
         try {
-            sendAppointmentRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
-            sendAppointmentRequestForm.setDateModified(StringUtil.parseDate(new Date()));
-            Doctor doctor = (Doctor) userDetailsService.getUserByUserId(sendAppointmentRequestForm.getRecipientId());
-            sendAppointmentRequestForm.setMedicalInstitutionId(doctor.getMedicalInstitutionId());
-            String appointmentRequestStr = patientService.sendAppointmentRequest(sendAppointmentRequestForm);
-            return ResponseEntity.status(HttpStatus.OK).body(appointmentRequestStr);
+            sendViewPrescriptionRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
+            sendViewPrescriptionRequestForm.setDateModified(StringUtil.parseDate(new Date()));
+            sendViewPrescriptionRequestForm.setSenderId(userDetailsService.getLoggedUser().getId());
+            String viewPrescriptionRequestStr = drugStoreService.sendViewPrescriptionRequest(sendViewPrescriptionRequestForm);
+            return ResponseEntity.status(HttpStatus.OK).body(viewPrescriptionRequestStr);
         }
         catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

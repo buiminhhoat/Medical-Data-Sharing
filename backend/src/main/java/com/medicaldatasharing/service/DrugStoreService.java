@@ -1,7 +1,9 @@
 package com.medicaldatasharing.service;
 
+import com.medicaldatasharing.chaincode.dto.ViewPrescriptionRequest;
 import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
+import com.medicaldatasharing.form.SendViewPrescriptionRequestForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
@@ -39,6 +41,19 @@ public class DrugStoreService {
             PrescriptionDto prescriptionDto = hyperledgerService.getPrescriptionByDrugStore(user,
                     getPrescriptionForm);
             return new Genson().serialize(prescriptionDto);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String sendViewPrescriptionRequest(SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            sendViewPrescriptionRequestForm.setSenderId(user.getId());
+            ViewPrescriptionRequest viewPrescriptionRequest = hyperledgerService.sendViewPrescriptionRequest(user,
+                    sendViewPrescriptionRequestForm);
+            return new Genson().serialize(viewPrescriptionRequest);
         }
         catch (Exception e) {
             throw e;

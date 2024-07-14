@@ -520,16 +520,16 @@ public class InitDataLoader implements CommandLineRunner {
 
             DrugStore drugStore = drugStoreRepository.findDrugStoreByEmail("nhathuoca@gmail.com");
 
-            SendViewPrescriptionRequestDto sendViewPrescriptionRequestDto = new SendViewPrescriptionRequestDto();
-            sendViewPrescriptionRequestDto.setSenderId(drugStore.getId());
-            sendViewPrescriptionRequestDto.setRecipientId(patientId);
-            sendViewPrescriptionRequestDto.setPrescriptionId(medicalRecord.getPrescriptionId());
-            sendViewPrescriptionRequestDto.setDateCreated(StringUtil.parseDate(dateCreated));
-            sendViewPrescriptionRequestDto.setDateModified(StringUtil.parseDate(dateModified));
+            SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm = new SendViewPrescriptionRequestForm();
+            sendViewPrescriptionRequestForm.setSenderId(drugStore.getId());
+            sendViewPrescriptionRequestForm.setRecipientId(patientId);
+            sendViewPrescriptionRequestForm.setPrescriptionId(medicalRecord.getPrescriptionId());
+            sendViewPrescriptionRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
+            sendViewPrescriptionRequestForm.setDateModified(StringUtil.parseDate(dateModified));
 
             ViewPrescriptionRequest sendViewPrescriptionRequest = hyperledgerService.sendViewPrescriptionRequest(
                     drugStore,
-                    sendViewPrescriptionRequestDto
+                    sendViewPrescriptionRequestForm
             );
 
             System.out.println(sendViewPrescriptionRequest);
