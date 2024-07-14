@@ -8,6 +8,7 @@ public class Constants {
     public static final String DOCTOR_API = "/doctor/**";
 
     public static final String MANUFACTURER_API = "/manufacturer/**";
+    public static final String DRUGSTORE_API = "/drugstore/**";
 
     public static final String ROLE_PATIENT = "Bệnh nhân";
 

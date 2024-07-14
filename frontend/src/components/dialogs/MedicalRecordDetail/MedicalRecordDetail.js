@@ -241,7 +241,7 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
           {openDialog === DIALOGS.PRESCRIPTION_DETAIL && (
             <div>
               <PrescriptionDetail
-                medicalRecord={medicalRecord}
+                prescriptionId={medicalRecord.prescriptionId}
                 onClose={handleDialogClose}
                 onSwitch={handleDialogSwitch}
               />

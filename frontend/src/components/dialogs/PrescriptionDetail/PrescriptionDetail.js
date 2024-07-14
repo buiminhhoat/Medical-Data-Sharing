@@ -43,15 +43,19 @@ const StyledList = styled(List)`
   }
 `;
 
-const PrescriptionDetail = ({ medicalRecord, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "userId"]);
+const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
+
   let apiGetPrescriptionByPrescriptionId =
     API.PATIENT.GET_PRESCRIPTION_BY_PRESCRIPTION_ID;
 
-  const prescriptionId = medicalRecord.prescriptionId;
+  if (role === "Cửa hàng thuốc") {
+    apiGetPrescriptionByPrescriptionId =
+      API.DRUG_STORE.GET_PRESCRIPTION_BY_DRUG_STORE;
+  }
 
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -127,8 +131,6 @@ const PrescriptionDetail = ({ medicalRecord, onClose, onSwitch }) => {
     }
   }, [data]);
 
-  console.log(userId);
-
   const [dataSource, setDataSource] = useState("");
 
   const columns = [
@@ -191,10 +193,10 @@ const PrescriptionDetail = ({ medicalRecord, onClose, onSwitch }) => {
             <div style={{ width: "100%" }}>
               <Info>
                 <div className="field">ID đơn thuốc</div>
-                <div>{medicalRecord.prescriptionId}</div>
+                <div>{prescriptionId}</div>
               </Info>
 
-              <Info>
+              {/* <Info>
                 <div className="field">ID bác sĩ</div>
                 <div>{medicalRecord.doctorId}</div>
               </Info>
@@ -202,11 +204,15 @@ const PrescriptionDetail = ({ medicalRecord, onClose, onSwitch }) => {
               <Info>
                 <div className="field">Tên bác sĩ</div>
                 <div>{medicalRecord.doctorName}</div>
-              </Info>
+              </Info> */}
 
               <Info>
                 <div className="field">Phản ứng thuốc của bệnh nhân</div>
-                <div>{dataSource.drugReaction}</div>
+                <div>
+                  {data != null && data.drugReaction != null
+                    ? data.drugReaction
+                    : ""}
+                </div>
               </Info>
             </div>
           </List.Item>

@@ -10,6 +10,7 @@ export const DIALOGS = {
   DRUG_DETAIL: "DRUG_DETAIL",
   ADD_DRUG: "ADD_DRUG",
   DRUG_LIST: "DRUG_LIST",
+  PRESCRIPTION_DETAIL: "PRESCRIPTION_DETAIL",
 };
 
 export const API = {
@@ -50,6 +51,10 @@ export const API = {
       "/api/manufacturer/get-list-medication-by-manufacturerId",
     ADD_MEDICATION: "/api/manufacturer/add-medication",
     ADD_DRUG: "/api/manufacturer/add-drug",
+  },
+  DRUG_STORE: {
+    GET_PRESCRIPTION_BY_DRUG_STORE:
+      "/api/drugstore/get-prescription-by-drugstore",
   },
 };
 

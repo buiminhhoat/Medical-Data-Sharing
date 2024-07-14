@@ -927,19 +927,19 @@ public class MedicalRecordContract implements ContractInterface {
 
         String medicalRecordId = prescriptionId;
         if (!ctx.getMedicalRecordDAO().medicalRecordExist(medicalRecordId)) {
-            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+            throw new ChaincodeException("Medical Record not found",
                     ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
         }
 
         MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(prescriptionId);
 
         if (!Objects.equals(medicalRecord.getPrescriptionId(), prescriptionId)) {
-            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+            throw new ChaincodeException("medicalRecord.getPrescriptionId() != prescriptionId",
                     ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
         }
 
         if (!Objects.equals(medicalRecord.getPatientId(), patientId)) {
-            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+            throw new ChaincodeException("medicalRecord.getPatientId() != patientId",
                     ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
         }
 

@@ -10,6 +10,7 @@ import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import MedicalRecordList from "../MedicalRecordList/MedicalRecordList";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
+import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 const { Option } = Select;
 
 const RequestDetailStyle = styled.div``;
@@ -83,6 +84,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
     }
   }, [data]);
 
+  const [prescriptionId, setPrescriptionId] = useState();
   const [openDialog, setOpenDialog] = useState(null);
   const [patientId, setPatientId] = useState(null);
 
@@ -102,6 +104,11 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
     setOpenDialog(null);
   };
 
+  const openPrescriptionDetail = (prescriptionId) => {
+    console.log("openPrescriptionDetail: " + prescriptionId);
+    setPrescriptionId(prescriptionId);
+    openModal(DIALOGS.PRESCRIPTION_DETAIL);
+  };
   const openMedicalRecord = (patientId) => {
     console.log("openMedicalRecord");
     console.log(patientId);
@@ -282,7 +289,12 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
           {data.requestType === "Xem đơn thuốc" && (
             <>
-              <Button style={{ marginRight: "3%" }}>Xem đơn thuốc</Button>
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={() => openPrescriptionDetail(data.prescriptionId)}
+              >
+                Xem đơn thuốc
+              </Button>
             </>
           )}
 
@@ -339,6 +351,16 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               onClose={handleDialogClose}
               onSwitch={handleDialogSwitch}
             />
+          </div>
+        )}
+
+        {openDialog === DIALOGS.PRESCRIPTION_DETAIL && (
+          <div>
+            <PrescriptionDetail
+              prescriptionId={prescriptionId}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            ></PrescriptionDetail>
           </div>
         )}
       </Modal>
