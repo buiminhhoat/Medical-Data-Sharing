@@ -245,13 +245,23 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             justifyItems: "center",
           }}
         >
+          {data.senderId === userId && data.requestType === "Đặt lịch khám" && (
+            <>
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={() => openMedicalRecord(data.senderId)}
+              >
+                Xem hồ sơ y tế
+              </Button>
+            </>
+          )}
+
           {data.senderId === userId &&
-            (data.requestType === "Đặt lịch khám" ||
-              data.requestType === "Xem hồ sơ y tế") && (
+            data.requestType === "Xem hồ sơ y tế" && (
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => openMedicalRecord(data.senderId)}
+                  onClick={() => openMedicalRecord(data.recipientId)}
                 >
                   Xem hồ sơ y tế
                 </Button>

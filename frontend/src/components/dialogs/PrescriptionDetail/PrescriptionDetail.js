@@ -230,11 +230,11 @@ const PrescriptionDetail = ({ medicalRecord, onClose, onSwitch }) => {
             marginTop: "1%",
           }}
         >
-          {medicalRecord.patientId === userId && (
+          {/* {medicalRecord.patientId === userId && (
             <>
               <Button style={{ marginRight: "3%" }}>Chia sẻ đơn thuốc</Button>
             </>
-          )}
+          )} */}
         </div>
       </Modal>
     </PrescriptionDetailStyle>
