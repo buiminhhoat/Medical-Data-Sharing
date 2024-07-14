@@ -271,24 +271,24 @@ const DrugManagementPage = () => {
       sortDirections: ["descend", "ascend"],
       defaultSortOrder: "descend",
     },
-    // {
-    //   title: "Hành động",
-    //   dataIndex: "action",
-    //   width: "20%",
-    //   align: "center",
-    //   render: (index, record) => {
-    //     return (
-    //       <Space size="middle">
-    //         <Button
-    //           icon={<InfoCircleOutlined />}
-    //           onClick={() => openDrugDetail(record)}
-    //         >
-    //           Chi tiết
-    //         </Button>
-    //       </Space>
-    //     );
-    //   },
-    // },
+    {
+      title: "Hành động",
+      dataIndex: "action",
+      width: "20%",
+      align: "center",
+      render: (index, record) => {
+        return (
+          <Space size="middle">
+            <Button
+              icon={<InfoCircleOutlined />}
+              onClick={() => openDrugDetail(record)}
+            >
+              Chi tiết
+            </Button>
+          </Space>
+        );
+      },
+    },
   ];
 
   const [dataSource, setDataSource] = useState([]);

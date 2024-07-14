@@ -69,6 +69,17 @@ const manufacturerRouters = [
   },
 ];
 
+const drugStoreRouters = [
+  {
+    path: ROUTERS.USER.HOME,
+    component: <HomePage></HomePage>,
+  },
+  {
+    path: ROUTERS.USER.REQUEST,
+    component: <RequestManagementPage></RequestManagementPage>,
+  },
+];
+
 const renderUserRouter = () => {
   return (
     <MasterLayout>
@@ -143,6 +154,21 @@ const renderManufacturerRouter = () => {
   );
 };
 
+const renderDrugStoreRouter = () => {
+  return (
+    <MasterLayout>
+      <Routes>
+        {/* {userRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))} */}
+        {drugStoreRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+      </Routes>
+    </MasterLayout>
+  );
+};
+
 const RouterCustom = () => {
   const [cookies] = useCookies(["access_token"]);
   const accessToken = cookies.access_token;
@@ -181,7 +207,8 @@ const RouterCustom = () => {
     (role === "Bệnh nhân" && renderPatientRouter()) ||
     (role === "Bác sĩ" && renderDoctorRouter()) ||
     (role === "Quản trị viên" && renderAdminRouter()) ||
-    (role === "Nhà sản xuất thuốc" && renderManufacturerRouter())
+    (role === "Nhà sản xuất thuốc" && renderManufacturerRouter()) ||
+    (role === "Cửa hàng thuốc" && renderDrugStoreRouter())
   );
 };
 

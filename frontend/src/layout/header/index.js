@@ -111,6 +111,8 @@ const Header = () => {
     },
   ]);
 
+  const [drugStoreMenuItems, setDrugStoreItems] = useState([]);
+
   const [menuItems, setMenuItems] = useState(null);
 
   useEffect(() => {
@@ -137,6 +139,11 @@ const Header = () => {
 
       if (role === "Nhà sản xuất thuốc") {
         manufacturerMenuItems.map((item, key) => {
+          items.push(item);
+        });
+      }
+      if (role === "Cửa hàng thuốc") {
+        drugStoreMenuItems.map((item, key) => {
           items.push(item);
         });
       }
