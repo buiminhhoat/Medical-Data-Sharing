@@ -1105,6 +1105,17 @@ public class MedicalRecordContract implements ContractInterface {
         List<PurchaseDetails> createPurchaseDetailsList = new ArrayList<>();
         List<Drug> transferDrug = new ArrayList<>();
 
+        PurchaseDto purchaseDto = new PurchaseDto();
+        purchaseDto.setPrescriptionId(prescriptionId);
+        purchaseDto.setPatientId(patientId);
+        purchaseDto.setDrugStoreId(drugStoreId);
+        purchaseDto.setDateCreated(dateCreated);
+        purchaseDto.setDateModified(dateModified);
+
+        Purchase purchase = ctx.getPurchaseDAO().addPurchase(
+                purchaseDto.toJSONObject()
+        );
+
         for (MedicationPurchaseDto medicationPurchaseDto: medicationPurchaseList) {
             String medicationId = medicationPurchaseDto.getMedicationId();
             String prescriptionDetailId = medicationPurchaseDto.getPrescriptionDetailId();
@@ -1124,6 +1135,7 @@ public class MedicalRecordContract implements ContractInterface {
                 transferDrug.add(drug);
 
                 PurchaseDetails purchaseDetails = new PurchaseDetails();
+                purchaseDetails.setPurchaseDetailId(purchase.getPurchaseId() + String.valueOf(count));
                 purchaseDetails.setPrescriptionDetailId(prescriptionDetailId);
                 purchaseDetails.setMedicationId(medicationId);
                 purchaseDetails.setDrugId(drugId);
@@ -1142,16 +1154,6 @@ public class MedicalRecordContract implements ContractInterface {
             }
         }
 
-        PurchaseDto purchaseDto = new PurchaseDto();
-        purchaseDto.setPrescriptionId(prescriptionId);
-        purchaseDto.setPatientId(patientId);
-        purchaseDto.setDrugStoreId(drugStoreId);
-        purchaseDto.setDateCreated(dateCreated);
-        purchaseDto.setDateModified(dateModified);
-
-        Purchase purchase = ctx.getPurchaseDAO().addPurchase(
-                purchaseDto.toJSONObject()
-        );
 
         for (PrescriptionDetails prescriptionDetails: updatePrescriptionDetailsList) {
             prescriptionDetails = ctx.getPrescriptionDetailsDAO().updatePrescriptionDetails(prescriptionDetails);

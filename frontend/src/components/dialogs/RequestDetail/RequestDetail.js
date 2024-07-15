@@ -11,6 +11,7 @@ import { VscCommentUnresolved } from "react-icons/vsc";
 import MedicalRecordList from "../MedicalRecordList/MedicalRecordList";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
+import SellingPrescriptionDrug from "../SellingPrescriptionDrug/SellingPrescriptionDrug";
 const { Option } = Select;
 
 const RequestDetailStyle = styled.div``;
@@ -27,9 +28,10 @@ const Info = styled.div`
 `;
 
 const RequestDetail = ({ request, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "userId"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
+  const role = cookies.role;
   const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -109,6 +111,13 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
     setPrescriptionId(prescriptionId);
     openModal(DIALOGS.PRESCRIPTION_DETAIL);
   };
+
+  const openSellingPrescriptionDrug = (prescriptionId) => {
+    console.log("openSellingPrescriptionDrug: " + prescriptionId);
+    setPrescriptionId(prescriptionId);
+    openModal(DIALOGS.SELLING_PRESCRIPTION_DRUG);
+  };
+
   const openMedicalRecord = (patientId) => {
     console.log("openMedicalRecord");
     console.log(patientId);
@@ -295,6 +304,17 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               >
                 Xem đơn thuốc
               </Button>
+
+              {role === "Cửa hàng thuốc" && (
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() =>
+                    openSellingPrescriptionDrug(data.prescriptionId)
+                  }
+                >
+                  Bán thuốc
+                </Button>
+              )}
             </>
           )}
 
@@ -370,6 +390,17 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               onClose={handleDialogClose}
               onSwitch={handleDialogSwitch}
             ></PrescriptionDetail>
+          </div>
+        )}
+
+        {openDialog === DIALOGS.SELLING_PRESCRIPTION_DRUG && (
+          <div>
+            <SellingPrescriptionDrug
+              patientId={data.recipientId}
+              prescriptionId={prescriptionId}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            ></SellingPrescriptionDrug>
           </div>
         )}
       </Modal>

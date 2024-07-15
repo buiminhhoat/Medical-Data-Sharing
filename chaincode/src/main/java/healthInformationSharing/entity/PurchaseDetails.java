@@ -33,19 +33,14 @@ public class PurchaseDetails {
         this.entityName = PurchaseDetails.class.getSimpleName();
     }
 
-    public PurchaseDetails(String purchaseDetailId, String prescriptionDetailId, String drugId) {
-        super();
-        this.purchaseDetailId = purchaseDetailId;
-        this.prescriptionDetailId = prescriptionDetailId;
-        this.drugId = drugId;
-    }
-
     public static PurchaseDetails createInstance(
+            String purchaseDetailId,
             String prescriptionDetailId,
             String medicationId,
             String drugId
     ) {
         PurchaseDetails purchaseDetails = new PurchaseDetails();
+        purchaseDetails.setPurchaseDetailId(purchaseDetailId);
         purchaseDetails.setPrescriptionDetailId(prescriptionDetailId);
         purchaseDetails.setMedicationId(medicationId);
         purchaseDetails.setDrugId(drugId);

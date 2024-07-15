@@ -23,15 +23,16 @@ public class PurchaseDetailsCRUD {
     }
 
     public PurchaseDetails addPurchaseDetails(JSONObject jsonDto) {
+        String purchaseDetailId = jsonDto.getString("purchaseDetailId");
         String prescriptionDetailId = jsonDto.getString("prescriptionDetailId");
         String medicationId = jsonDto.getString("medicationId");
         String drugId = jsonDto.getString("drugId");
 
-        String purchaseDetailsId = ctx.getStub().getTxId();
-        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, purchaseDetailsId);
+        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, purchaseDetailId);
         String dbKey = compositeKey.toString();
 
         PurchaseDetails purchaseDetails = PurchaseDetails.createInstance(
+                purchaseDetailId,
                 prescriptionDetailId,
                 medicationId,
                 drugId

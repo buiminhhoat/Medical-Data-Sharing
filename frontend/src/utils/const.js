@@ -11,6 +11,7 @@ export const DIALOGS = {
   ADD_DRUG: "ADD_DRUG",
   DRUG_LIST: "DRUG_LIST",
   PRESCRIPTION_DETAIL: "PRESCRIPTION_DETAIL",
+  SELLING_PRESCRIPTION_DRUG: "SELLING_PRESCRIPTION_DRUG",
 };
 
 export const API = {
@@ -57,6 +58,9 @@ export const API = {
       "/api/drugstore/get-prescription-by-drugstore",
     SEND_VIEW_PRESCRIPTION_REQUEST:
       "/api/drugstore/send-view-prescription-request",
+    GET_LIST_DRUG_BY_MEDICATIONID_AND_OWNERID:
+      "/api/drugstore/get-list-drug-by-medicationId-and-ownerId",
+    ADD_PURCHASE: "/api/drugstore/add-purchase",
   },
 };
 

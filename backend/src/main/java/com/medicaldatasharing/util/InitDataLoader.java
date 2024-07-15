@@ -561,7 +561,19 @@ public class InitDataLoader implements CommandLineRunner {
             );
 
             System.out.println(drug);
-            
+
+            List<Drug> drugList2 = hyperledgerService.addDrug(manufacturer, addDrugForm);
+            drugList2 = hyperledgerService.addDrug(manufacturer, addDrugForm);
+            for (Drug drug2: drugList2) {
+                TransferDrugDto transferDrugDto2 = new TransferDrugDto();
+                transferDrugDto2.setDrugId(drug2.getDrugId());
+                transferDrugDto2.setNewOwnerId(drugStore.getId());
+                drug2 = hyperledgerService.transferDrug(
+                        manufacturer,
+                        transferDrugDto2
+                );
+            }
+
             MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
             medicationPurchaseDto.setMedicationId(medication.getMedicationId());
             List<String> drugIdList = new ArrayList<>();
@@ -639,6 +651,7 @@ public class InitDataLoader implements CommandLineRunner {
 
             System.out.println(getListAuthorizedMedicalRecordByScientistQuery);
 
+            /*
             AddInsuranceProductForm addInsuranceProductForm = new AddInsuranceProductForm();
             addInsuranceProductForm.setInsuranceProductName("Bảo hiểm ung thư");
             addInsuranceProductForm.setInsuranceCompanyId(insuranceCompanyId);
@@ -781,6 +794,9 @@ public class InitDataLoader implements CommandLineRunner {
             );
 
             System.out.println(requestList);
+
+             */
+
         } catch (Exception exception) {
             System.out.println(exception);
         }

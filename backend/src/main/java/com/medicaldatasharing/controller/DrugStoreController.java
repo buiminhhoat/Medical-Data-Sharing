@@ -1,27 +1,29 @@
 package com.medicaldatasharing.controller;
 
-import com.medicaldatasharing.dto.SendViewPrescriptionRequestDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.medicaldatasharing.chaincode.dto.Purchase;
+import com.medicaldatasharing.dto.MedicationPurchaseDto;
+import com.medicaldatasharing.dto.PurchaseDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
-import com.medicaldatasharing.form.SendAppointmentRequestForm;
+import com.medicaldatasharing.form.SearchDrugForm;
 import com.medicaldatasharing.form.SendViewPrescriptionRequestForm;
-import com.medicaldatasharing.model.Doctor;
-import com.medicaldatasharing.model.DrugStore;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.DrugStoreService;
 import com.medicaldatasharing.service.PatientService;
 import com.medicaldatasharing.util.StringUtil;
+import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/drugstore")
@@ -65,6 +67,41 @@ public class DrugStoreController {
         }
     }
 
+    @PostMapping("/get-list-drug-by-medicationId-and-ownerId")
+    public ResponseEntity<?> getListDrugByMedicationIdAndOwnerId(@Valid @ModelAttribute SearchDrugForm searchDrugForm,
+                                                       BindingResult result) throws Exception {
+        try {
+            String getListDrugByMedicationIdAndOwnerId = drugStoreService.getListDrugByMedicationIdAndOwnerId(searchDrugForm);
+            return ResponseEntity.status(HttpStatus.OK).body(getListDrugByMedicationIdAndOwnerId);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/add-purchase")
+    public ResponseEntity<?> addPurchase(@RequestParam("sellingPrescriptionDrug") String sellingDrugJson,
+                                                     @RequestParam("prescriptionId") String prescriptionId,
+                                                     @RequestParam("patientId") String patientId) throws Exception {
+        try {
+            List<MedicationPurchaseDto> medicationPurchaseDtoList = new ObjectMapper().readValue(sellingDrugJson,
+                    new TypeReference<List<MedicationPurchaseDto>>() {});
+
+            PurchaseDto purchaseDto = new PurchaseDto();
+            purchaseDto.setPrescriptionId(prescriptionId);
+            purchaseDto.setMedicationPurchaseList(new Genson().serialize(medicationPurchaseDtoList));
+            purchaseDto.setPatientId(patientId);
+            purchaseDto.setDrugStoreId(userDetailsService.getLoggedUser().getId());
+            purchaseDto.setDateCreated(StringUtil.parseDate(new Date()));
+            purchaseDto.setDateModified(StringUtil.parseDate(new Date()));
+
+            String addPurchase = drugStoreService.addPurchase(purchaseDto);
+            return ResponseEntity.status(HttpStatus.OK).body(addPurchase);
+        }
+        catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 
 //    @PostMapping("/defineRequest")
 //    public DefineRequestDto defineRequest(

@@ -1,8 +1,12 @@
 package com.medicaldatasharing.service;
 
+import com.medicaldatasharing.chaincode.dto.Drug;
+import com.medicaldatasharing.chaincode.dto.Purchase;
 import com.medicaldatasharing.chaincode.dto.ViewPrescriptionRequest;
 import com.medicaldatasharing.dto.PrescriptionDto;
+import com.medicaldatasharing.dto.PurchaseDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
+import com.medicaldatasharing.form.SearchDrugForm;
 import com.medicaldatasharing.form.SendViewPrescriptionRequestForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
@@ -13,6 +17,8 @@ import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DrugStoreService {
@@ -56,6 +62,29 @@ public class DrugStoreService {
             return new Genson().serialize(viewPrescriptionRequest);
         }
         catch (Exception e) {
+            throw e;
+        }
+    }
+
+
+    public String getListDrugByMedicationIdAndOwnerId(SearchDrugForm searchDrugForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            searchDrugForm.setOwnerId(user.getId());
+            List<Drug> drugList = hyperledgerService.getListDrugByOwnerId(user, searchDrugForm);
+            return new Genson().serialize(drugList);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String addPurchase(PurchaseDto purchaseDto) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            purchaseDto.setDrugStoreId(user.getId());
+            Purchase purchase = hyperledgerService.addPurchase(user, purchaseDto);
+            return new Genson().serialize(purchase);
+        } catch (Exception e) {
             throw e;
         }
     }
