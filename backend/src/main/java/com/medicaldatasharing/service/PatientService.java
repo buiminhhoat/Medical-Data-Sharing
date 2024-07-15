@@ -2,9 +2,11 @@ package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
+import com.medicaldatasharing.chaincode.dto.Purchase;
 import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
+import com.medicaldatasharing.form.SearchPurchaseForm;
 import com.medicaldatasharing.form.SendAppointmentRequestForm;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
@@ -86,6 +88,17 @@ public class PatientService {
             appointmentRequestForm.setSenderId(user.getId());
             AppointmentRequest appointmentRequest = hyperledgerService.sendAppointmentRequest(user, appointmentRequestForm);
             return new Genson().serialize(appointmentRequest);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getListPurchaseByPatientId(SearchPurchaseForm searchPurchaseForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            searchPurchaseForm.setPatientId(user.getId());
+            List<Purchase> purchaseList = hyperledgerService.getListPurchaseByPatientId(user, searchPurchaseForm);
+            return new Genson().serialize(purchaseList);
         } catch (Exception e) {
             throw e;
         }

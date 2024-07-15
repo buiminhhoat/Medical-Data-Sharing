@@ -691,6 +691,91 @@ public class HyperledgerService {
         return drugList;
     }
 
+    public List<Purchase> getListPurchaseByPatientId(
+            User user,
+            SearchPurchaseForm searchPurchaseForm
+    ) throws Exception {
+        List<Purchase> purchaseList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchPurchaseParams(searchPurchaseForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListPurchaseByPatientId",
+                    jsonObject.toString()
+            );
+
+            String purchaseListStr = new String(result);
+            purchaseList = new Genson().deserialize(
+                    purchaseListStr,
+                    new GenericType<List<Purchase>>() {
+                    }
+            );
+
+            LOG.info("result: " + purchaseList);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return purchaseList;
+    }
+
+    public List<Purchase> getListPurchaseByDrugId(
+            User user,
+            SearchPurchaseForm searchPurchaseForm
+    ) throws Exception {
+        List<Purchase> purchaseList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            Map<String, String> searchParams = prepareSearchPurchaseParams(searchPurchaseForm);
+
+            JSONObject jsonObject = new JSONObject();
+
+            for (Map.Entry<String, String> entry : searchParams.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            }
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListPurchaseByDrugId",
+                    jsonObject.toString()
+            );
+
+            String purchaseListStr = new String(result);
+            purchaseList = new Genson().deserialize(
+                    purchaseListStr,
+                    new GenericType<List<Purchase>>() {
+                    }
+            );
+
+            LOG.info("result: " + purchaseList);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return purchaseList;
+    }
+
+    private Map<String, String> prepareSearchPurchaseParams(SearchPurchaseForm searchPurchaseForm) {
+        String purchaseId = searchPurchaseForm.getPurchaseId() == null ? "" : searchPurchaseForm.getPurchaseId();
+        String prescriptionId = searchPurchaseForm.getPrescriptionId() == null ? "" : searchPurchaseForm.getPrescriptionId();
+        String patientId = searchPurchaseForm.getPatientId() == null ? "" : searchPurchaseForm.getPatientId();
+        String drugStoreId = searchPurchaseForm.getDrugStoreId() == null ? "" : searchPurchaseForm.getDrugStoreId();
+
+        return new HashMap<String, String>() {{
+            put("purchaseId", purchaseId);
+            put("prescriptionId", prescriptionId);
+            put("patientId", patientId);
+            put("drugStoreId", drugStoreId);
+        }};
+    }
+
+
     public PrescriptionDto getPrescriptionByPatient(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
         PrescriptionDto prescriptionDto = null;
         try {

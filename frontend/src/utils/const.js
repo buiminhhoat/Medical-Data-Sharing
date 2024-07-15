@@ -12,6 +12,7 @@ export const DIALOGS = {
   DRUG_LIST: "DRUG_LIST",
   PRESCRIPTION_DETAIL: "PRESCRIPTION_DETAIL",
   SELLING_PRESCRIPTION_DRUG: "SELLING_PRESCRIPTION_DRUG",
+  PURCHASE_DETAIL: "PURCHASE_DETAIL",
 };
 
 export const API = {
@@ -35,6 +36,8 @@ export const API = {
     GET_PRESCRIPTION_BY_PRESCRIPTION_ID:
       "/api/patient/get-prescription-by-prescriptionId",
     SEND_APPOINTMENT_REQUEST: "/api/patient/send-appointment-request",
+    GET_LIST_PURCHASE_BY_PATIENT_ID:
+      "/api/patient/get-list-purchase-by-patientId",
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
@@ -61,6 +64,8 @@ export const API = {
     GET_LIST_DRUG_BY_MEDICATIONID_AND_OWNERID:
       "/api/drugstore/get-list-drug-by-medicationId-and-ownerId",
     ADD_PURCHASE: "/api/drugstore/add-purchase",
+    GET_LIST_PURCHASE_BY_DRUGSTORE_ID:
+      "/api/patient/get-list-purchase-by-drugStoreId",
   },
 };
 

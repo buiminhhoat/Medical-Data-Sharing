@@ -70,17 +70,6 @@ public class PurchaseQuery {
         String prescriptionId = jsonDto.has("prescriptionId") ? jsonDto.getString("prescriptionId") : "";
         String patientId = jsonDto.has("patientId") ? jsonDto.getString("patientId") : "";
         String drugStoreId = jsonDto.has("drugStoreId") ? jsonDto.getString("drugStoreId") : "";
-        String from = jsonDto.has("from") ? jsonDto.getString("from") : "";
-        String until = jsonDto.has("until") ? jsonDto.getString("until") : "";
-        String sortingOrder = jsonDto.has("sortingOrder") ? jsonDto.getString("sortingOrder") : "desc";
-
-        JSONObject jsonObjectTimeRange = new JSONObject();
-        if (!Objects.equals(from, "")) {
-            jsonObjectTimeRange.putOnce("$gt", from);
-        }
-        if (!Objects.equals(until, "")) {
-            jsonObjectTimeRange.putOnce("$lt", until);
-        }
 
         JSONObject jsonObjectSelector = new JSONObject();
 
@@ -104,13 +93,6 @@ public class PurchaseQuery {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.putOnce("selector", jsonObjectSelector);
-        if (!sortingOrder.isEmpty()) {
-            JSONArray jsonArraySortAttributes = new JSONArray();
-            JSONObject jsonObjectSortTimeAttr = new JSONObject();
-            jsonObjectSortTimeAttr.putOnce("dateModified", sortingOrder);
-            jsonArraySortAttributes.put(jsonObjectSortTimeAttr);
-            jsonObject.putOnce("sort", jsonArraySortAttributes);
-        }
 
         return jsonObject;
     }

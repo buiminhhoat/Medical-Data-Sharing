@@ -91,6 +91,17 @@ public class PatientController {
         }
     }
 
+    @PostMapping("/get-list-purchase-by-patientId")
+    public ResponseEntity<?> getListPurchaseByPatientId(@Valid @ModelAttribute SearchPurchaseForm searchPurchaseForm,
+                                                        BindingResult result) {
+        try {
+            String getListPurchaseByPatientId = patientService.getListPurchaseByPatientId(searchPurchaseForm);
+            return ResponseEntity.status(HttpStatus.OK).body(getListPurchaseByPatientId);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 
 //    @PostMapping("/defineRequest")
 //    public DefineRequestDto defineRequest(

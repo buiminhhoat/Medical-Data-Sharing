@@ -13,6 +13,7 @@ import PatientManagedByDoctorPage from "./pages/users/PatientManagedByDoctorPage
 import UserManagement from "./pages/users/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
 import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
+import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
 
 const userRouters = [
   {
@@ -33,6 +34,10 @@ const patientRouters = [
   {
     path: ROUTERS.PATIENT.MEDICAL_RECORD_MANAGEMENT_PAGE,
     component: <MedicalRecordManagementPage></MedicalRecordManagementPage>,
+  },
+  {
+    path: ROUTERS.PATIENT.HISTORY_PURCHASE,
+    component: <HistoryPurchasePage></HistoryPurchasePage>,
   },
 ];
 

@@ -6,7 +6,11 @@ import { DIALOGS } from "@Const";
 import ProfileMenu from "@Components/ProfileMenu/ProfileMenu";
 import LoginDialog from "@Components/dialogs/LoginDialog/LoginDialog";
 import { ROUTERS } from "@Utils/router";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { ConfigProvider, Layout, Menu } from "antd";
+
+const { Header } = Layout;
 
 const HeaderStyle = styled.div`
   font-weight: 600;
@@ -62,8 +66,11 @@ const HeaderStyle = styled.div`
   }
 `;
 
-const Header = () => {
+const HeaderLayout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [cookies] = useCookies(["access_token", "userId", "role"]);
+  const [current, setCurrent] = useState(null);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
@@ -83,6 +90,10 @@ const Header = () => {
     {
       name: "Quản lý hồ sơ y tế",
       path: ROUTERS.PATIENT.MEDICAL_RECORD_MANAGEMENT_PAGE,
+    },
+    {
+      name: "Lịch sử mua hàng",
+      path: ROUTERS.PATIENT.HISTORY_PURCHASE,
     },
   ]);
 
@@ -116,40 +127,60 @@ const Header = () => {
   const [menuItems, setMenuItems] = useState(null);
 
   useEffect(() => {
+    setCurrent(location.pathname);
+
     if (!menuItems) {
       let items = [];
 
       if (role === "Bệnh nhân") {
         patientMenuItems.map((item, key) => {
-          items.push(item);
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
         });
       }
 
       if (role === "Bác sĩ") {
         doctorMenuItems.map((item, key) => {
-          items.push(item);
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
         });
       }
 
       if (role === "Quản trị viên") {
         adminMenuItems.map((item, key) => {
-          items.push(item);
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
         });
       }
 
       if (role === "Nhà sản xuất thuốc") {
         manufacturerMenuItems.map((item, key) => {
-          items.push(item);
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
         });
       }
       if (role === "Cửa hàng thuốc") {
         drugStoreMenuItems.map((item, key) => {
-          items.push(item);
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
         });
       }
       if (role !== "Quản trị viên" && role !== "Nhà sản xuất thuốc") {
         userMenuItems.map((item, key) => {
-          items.push(item);
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
         });
       }
       setMenuItems(items);
@@ -174,18 +205,52 @@ const Header = () => {
     setOpenDialog(null);
   };
 
+  const onClick = (e) => {
+    navigate(e.key);
+    setCurrent(e.key);
+  };
+
   console.log(openDialog);
   return (
     <HeaderStyle>
-      <div className="header-top">
-        <div className="header-container">
-          <div className="row">
-            <div className="col-3 header-top-left">
+      <ConfigProvider
+        theme={{
+          components: {
+            Layout: {
+              headerBg: "#285430",
+            },
+            Menu: {
+              darkItemBg: "#285430",
+              itemBg: "#285430",
+              darkPopupBg: "#285430",
+              darkItemSelectedBg: "#224728",
+            },
+          },
+        }}
+      >
+        <Layout>
+          <Header
+            style={{
+              display: "flex",
+              alignItems: "center",
+              paddingLeft: "9%",
+              paddingRight: "9%",
+            }}
+          >
+            <div
+              style={{
+                marginRight: "40px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <div
                 style={{
                   minWidth: "28px",
                   minHeight: "28px",
                   display: "flex",
+                  marginRight: "15px",
                   justifyItems: "center",
                   justifyContent: "center",
                 }}
@@ -211,7 +276,7 @@ const Header = () => {
                   />
                 </svg>
               </div>
-              <div style={{ width: "40%" }}>
+              <div>
                 <Link
                   to={ROUTERS.USER.HOME}
                   className="link"
@@ -220,34 +285,25 @@ const Header = () => {
                   Medical Data Sharing
                 </Link>
               </div>
-
-              <div className="col-3" style={{ marginLeft: "3%" }}>
-                <ul style={{ display: "flex" }}>
-                  {menuItems?.map((menu, index) => (
-                    <div
-                      key={index}
-                      style={{ minWidth: "160px", marginRight: "5%" }}
-                    >
-                      <li style={{ textAlign: "center" }}>
-                        <Link to={menu?.path} className="link">
-                          {menu?.name}
-                        </Link>
-                      </li>
-                    </div>
-                  ))}
-                </ul>
-              </div>
             </div>
 
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              onClick={onClick}
+              selectedKeys={[current]}
+              items={menuItems}
+              style={{ flex: 1, minWidth: 0 }}
+            />
+
             <div
-              className="col-6 header-top-right"
-              style={{ display: "flex", alignItems: "center" }}
+              style={{ marginLeft: "30px", color: "white", lineHeight: "25px" }}
             >
               <ProfileMenu openModal={openModal} />
             </div>
-          </div>
-        </div>
-      </div>
+          </Header>
+        </Layout>
+      </ConfigProvider>
 
       {openDialog === DIALOGS.LOGIN && (
         <div className="modal-overlay">
@@ -261,4 +317,4 @@ const Header = () => {
   );
 };
 
-export default memo(Header);
+export default memo(HeaderLayout);

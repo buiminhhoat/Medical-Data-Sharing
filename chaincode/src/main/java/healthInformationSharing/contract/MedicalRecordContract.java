@@ -1173,6 +1173,47 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(purchase);
     }
 
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListPurchaseByPatientId(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        JSONObject jsonDto = jsonObject;
+        String patientId = jsonDto.has("patientId") ? jsonDto.getString("patientId") : "";
+        if (patientId.isEmpty()) {
+            throw new ChaincodeException("patientId is Empty",
+                    ContractErrors.UNAUTHORIZED_VIEW_ACCESS.toString());
+        }
+        authorizeRequest(ctx, patientId, "getListPurchaseByPatientId(validate patientId)");
+        List<Purchase> purchaseList = ctx.getPurchaseDAO().getListPurchaseByQuery(
+                jsonDto
+        );
+        return new Genson().serialize(purchaseList);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListPurchaseByDrugStoreId(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        JSONObject jsonDto = jsonObject;
+        String drugStoreId = jsonDto.has("drugStoreId") ? jsonDto.getString("drugStoreId") : "";
+        if (drugStoreId.isEmpty()) {
+            throw new ChaincodeException("drugStoreId is Empty",
+                    ContractErrors.UNAUTHORIZED_VIEW_ACCESS.toString());
+        }
+        authorizeRequest(ctx, drugStoreId, "getListPurchaseByDrugStoreId(validate drugStoreId)");
+
+        List<Purchase> purchaseList = ctx.getPurchaseDAO().getListPurchaseByQuery(
+                jsonDto
+        );
+        return new Genson().serialize(purchaseList);
+    }
+
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String addInsuranceProduct(
             MedicalRecordContext ctx,

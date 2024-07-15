@@ -8,6 +8,7 @@ export const ROUTERS = {
   PATIENT: {
     APPOINTMENT: "/patient/appointment",
     MEDICAL_RECORD_MANAGEMENT_PAGE: "/patient/medical-record-management-page",
+    HISTORY_PURCHASE: "/patient/history-purchase",
   },
   DOCTOR: {
     PATIENT_MANAGED_BY_DOCTOR_PAGE: "/doctor/patient-managed-by-doctor-page",
