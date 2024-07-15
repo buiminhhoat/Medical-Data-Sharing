@@ -157,7 +157,14 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
         }),
         selectable: false,
         children: manufacturer.medicationList.map((medication) => ({
-          title: medication.medicationName,
+          title:
+            medication.medicationName +
+            " | " +
+            medication.medicationId.substring(0, 8) +
+            "..." +
+            medication.medicationId.substring(
+              medication.medicationId.length - 8
+            ),
           value: JSON.stringify({
             medicationId: medication.medicationId,
             medicationName: medication.medicationName,
