@@ -17,6 +17,8 @@ import {
   Typography,
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import { Alert, notification } from "antd";
+
 const { Option } = Select;
 
 const SellingPrescriptionDrugStyle = styled.div`
@@ -43,6 +45,10 @@ const StyledList = styled(List)`
   }
 `;
 
+const Context = React.createContext({
+  name: "SellingPrescriptionDrug",
+});
+
 const SellingPrescriptionDrug = ({
   prescriptionId,
   patientId,
@@ -61,6 +67,7 @@ const SellingPrescriptionDrug = ({
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadingTable, setLoadingTable] = useState(true);
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -128,9 +135,9 @@ const SellingPrescriptionDrug = ({
         data.map((drug) => {
           options.push({
             label:
-              drug.drugId.substring(0, 8) +
+              drug.drugId.substring(0, 12) +
               "..." +
-              drug.drugId.substring(drug.drugId.length - 8),
+              drug.drugId.substring(drug.drugId.length - 12),
             value: drug.drugId,
           });
         });
@@ -141,6 +148,18 @@ const SellingPrescriptionDrug = ({
     }
   };
 
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (placement, type, message, description, onClose) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement,
+      showProgress: true,
+      pauseOnHover: true,
+      onClose: onClose,
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (data && Array.isArray(data.prescriptionDetailsListDto)) {
@@ -149,7 +168,7 @@ const SellingPrescriptionDrug = ({
             data.prescriptionDetailsListDto.map(async (item) => {
               const options = await getListDrug(item.medicationId);
               return {
-                key: item.medicationId, // It might be better to use a unique ID here
+                key: item.medicationId,
                 shortenMedicationId:
                   item.medicationId.substring(0, 8) +
                   "..." +
@@ -165,6 +184,7 @@ const SellingPrescriptionDrug = ({
             })
           );
           setDataSource(mappedData);
+          setLoadingTable(false);
         } catch (error) {
           console.error("Failed to fetch drug options", error);
         }
@@ -195,7 +215,7 @@ const SellingPrescriptionDrug = ({
   const SellingDrug = async () => {
     console.log("form: ", form);
     console.log("dataSource: ", dataSource);
-    if (access_token) {
+    if (access_token && !loading && !loadingTable) {
       let sellingPrescriptionDrug = [];
       if (form != null) {
         form.map((item) => {
@@ -220,6 +240,14 @@ const SellingPrescriptionDrug = ({
       console.log("sellingPrescriptionDrug: ", sellingPrescriptionDrug);
 
       console.log(access_token);
+      setLoading(true);
+      setLoadingTable(true);
+      openNotification(
+        "topRight",
+        "info",
+        "Đã gửi yêu cầu",
+        "Hệ thống đã tiếp nhận yêu cầu!"
+      );
 
       let apiAddPurchase = API.DRUGSTORE.ADD_PURCHASE;
 
@@ -235,6 +263,22 @@ const SellingPrescriptionDrug = ({
 
         if (response.status === 200) {
           setData(await response.json());
+          console.log("data: ", data);
+          openNotification(
+            "topRight",
+            "success",
+            "Thành công",
+            "Bán thuốc thành công!",
+            handleCancel
+          );
+        } else {
+          openNotification(
+            "topRight",
+            "error",
+            "Thất bại",
+            "Đã có lỗi xảy ra!",
+            handleCancel
+          );
         }
       } catch (e) {
         console.log(e);
@@ -296,25 +340,27 @@ const SellingPrescriptionDrug = ({
   console.log(dataSource);
 
   return (
-    <SellingPrescriptionDrugStyle>
-      <Modal
-        title="Bán thuốc"
-        open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-        centered
-        width={"70%"}
-        // loading={loading}
-      >
-        <List>
-          <List.Item>
-            <div style={{ width: "100%" }}>
-              <Info>
-                <div className="field">ID đơn thuốc</div>
-                <div>{prescriptionId}</div>
-              </Info>
+    <Context.Provider value={"Bán thuốc"}>
+      {contextHolder}
+      <SellingPrescriptionDrugStyle>
+        <Modal
+          title="Bán thuốc"
+          open={isModalOpen}
+          onCancel={handleCancel}
+          footer={null}
+          centered
+          width={"70%"}
+          // loading={loading}
+        >
+          <List>
+            <List.Item>
+              <div style={{ width: "100%" }}>
+                <Info>
+                  <div className="field">ID đơn thuốc</div>
+                  <div>{prescriptionId}</div>
+                </Info>
 
-              {/* <Info>
+                {/* <Info>
                 <div className="field">ID bác sĩ</div>
                 <div>{medicalRecord.doctorId}</div>
               </Info>
@@ -324,41 +370,42 @@ const SellingPrescriptionDrug = ({
                 <div>{medicalRecord.doctorName}</div>
               </Info> */}
 
-              <Info>
-                <div className="field">Phản ứng thuốc của bệnh nhân</div>
-                <div>
-                  {data != null && data.drugReaction != null
-                    ? data.drugReaction
-                    : ""}
-                </div>
-              </Info>
-            </div>
-          </List.Item>
-        </List>
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          title={() => (
-            <p style={{ fontWeight: "600", paddingLeft: "0" }}>
-              Chi tiết đơn thuốc
-            </p>
-          )}
-          loading={loading}
-        />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-            marginTop: "1%",
-          }}
-        >
-          <Button style={{ marginRight: "3%" }} onClick={SellingDrug}>
-            Bán thuốc
-          </Button>
-        </div>
-      </Modal>
-    </SellingPrescriptionDrugStyle>
+                <Info>
+                  <div className="field">Phản ứng thuốc của bệnh nhân</div>
+                  <div>
+                    {data != null && data.drugReaction != null
+                      ? data.drugReaction
+                      : ""}
+                  </div>
+                </Info>
+              </div>
+            </List.Item>
+          </List>
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            title={() => (
+              <p style={{ fontWeight: "600", paddingLeft: "0" }}>
+                Chi tiết đơn thuốc
+              </p>
+            )}
+            loading={loadingTable}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              justifyItems: "center",
+              marginTop: "1%",
+            }}
+          >
+            <Button style={{ marginRight: "3%" }} onClick={SellingDrug}>
+              Bán thuốc
+            </Button>
+          </div>
+        </Modal>
+      </SellingPrescriptionDrugStyle>
+    </Context.Provider>
   );
 };
 

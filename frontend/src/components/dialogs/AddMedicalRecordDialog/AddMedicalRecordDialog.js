@@ -23,7 +23,7 @@ import { VscCommentUnresolved } from "react-icons/vsc";
 const { Option } = Select;
 
 const Context = React.createContext({
-  name: "Default",
+  name: "AddMedicalRecordDialog",
 });
 
 const AddMedicalRecordDialogStyle = styled.div`
