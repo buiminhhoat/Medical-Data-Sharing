@@ -71,6 +71,17 @@ const HistoryPurchasePage = () => {
         record.prescriptionId.substring(0, 4) +
         "..." +
         record.prescriptionId.substring(record.prescriptionId.length - 4);
+
+      record.shortenedPatientId =
+        record.patientId.substring(0, 4) +
+        "..." +
+        record.patientId.substring(record.patientId.length - 4);
+
+      record.shortenedDrugStoreId =
+        record.drugStoreId.substring(0, 4) +
+        "..." +
+        record.drugStoreId.substring(record.drugStoreId.length - 4);
+
       record.key = index;
       prescriptionIdSet.add(record.prescriptionId);
     });
@@ -229,6 +240,14 @@ const HistoryPurchasePage = () => {
     highlightedTextShortenedPrescriptionId,
     setHighlightedTextShortenedPrescriptionId,
   ] = useState(null);
+  const [
+    highlightedTextShortenedPatientId,
+    setHighlightedShortenedTextPatientId,
+  ] = useState(null);
+  const [
+    highlightedTextShortenedDrugStoreId,
+    setHighlightedTextShortenedDrugStoreId,
+  ] = useState(null);
   const columns = [
     {
       title: "ID giao dịch",
@@ -270,10 +289,38 @@ const HistoryPurchasePage = () => {
     },
     {
       title: "ID bệnh nhân",
-      dataIndex: "patientId",
+      dataIndex: "shortenedPatientId",
       width: "15%",
       align: "center",
       onFilter: (value, record) => record.patientId.indexOf(value) === 0,
+      render: (text, record, index) => (
+        <span
+          onMouseEnter={() => setHighlightedShortenedTextPatientId(index)}
+          onMouseLeave={() => setHighlightedShortenedTextPatientId(null)}
+          style={{
+            backgroundColor:
+              highlightedTextShortenedPatientId === index ? "#ffe898" : "",
+            border:
+              highlightedTextShortenedPatientId === index
+                ? "2px dashed rgb(234, 179, 8)"
+                : "none",
+            borderRadius: "4px",
+            padding: "2px",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            console.log(record.patientId);
+            console.log(index);
+            console.log(dataSource);
+            navigator.clipboard
+              .writeText(record.patientId)
+              .then(() => message.success("Đã sao chép " + record.patientId))
+              .catch((err) => message.error("Sao chép thất bại!"));
+          }}
+        >
+          {text}
+        </span>
+      ),
       hidden: role === "Bệnh nhân",
     },
     {
@@ -286,10 +333,38 @@ const HistoryPurchasePage = () => {
     },
     {
       title: "ID cửa hàng thuốc",
-      dataIndex: "drugStoreId",
+      dataIndex: "shortenedDrugStoreId",
       width: "15%",
       align: "center",
       onFilter: (value, record) => record.drugStoreId.indexOf(value) === 0,
+      render: (text, record, index) => (
+        <span
+          onMouseEnter={() => setHighlightedTextShortenedDrugStoreId(index)}
+          onMouseLeave={() => setHighlightedTextShortenedDrugStoreId(null)}
+          style={{
+            backgroundColor:
+              highlightedTextShortenedDrugStoreId === index ? "#ffe898" : "", // sử dụng màu để làm nổi bật văn bản
+            border:
+              highlightedTextShortenedDrugStoreId === index
+                ? "2px dashed rgb(234, 179, 8)"
+                : "none",
+            borderRadius: "4px",
+            padding: "2px", // Thêm padding để đường viền không dính sát vào chữ
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            console.log(record.drugStoreId);
+            console.log(index);
+            console.log(dataSource);
+            navigator.clipboard
+              .writeText(record.drugStoreId)
+              .then(() => message.success("Đã sao chép " + record.drugStoreId))
+              .catch((err) => message.error("Sao chép thất bại!"));
+          }}
+        >
+          {text}
+        </span>
+      ),
     },
     {
       title: "Tên cửa hàng thuốc",
@@ -582,7 +657,7 @@ const HistoryPurchasePage = () => {
           <div style={{ width: "100%", marginTop: "20px" }}>
             <div style={{ display: "flex" }}>
               <div>
-                <h1>Lịch sử mua hàng</h1>
+                <h1>Lịch sử giao dịch</h1>
               </div>
             </div>
             <ConfigProvider

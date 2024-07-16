@@ -14,6 +14,7 @@ import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.response.MedicalRecordResponse;
+import com.medicaldatasharing.response.PurchaseResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +99,14 @@ public class PatientService {
         try {
             searchPurchaseForm.setPatientId(user.getId());
             List<Purchase> purchaseList = hyperledgerService.getListPurchaseByPatientId(user, searchPurchaseForm);
-            return new Genson().serialize(purchaseList);
+            List<PurchaseResponse> purchaseResponseList = new ArrayList<>();
+            for (Purchase purchase: purchaseList) {
+                PurchaseResponse purchaseResponse = new PurchaseResponse(purchase);
+                purchaseResponse.setPatientName(userDetailsService.getUserByUserId(purchaseResponse.getPatientId()).getFullName());
+                purchaseResponse.setDrugStoreName(userDetailsService.getUserByUserId(purchaseResponse.getDrugStoreId()).getFullName());
+                purchaseResponseList.add(purchaseResponse);
+            }
+            return new Genson().serialize(purchaseResponseList);
         } catch (Exception e) {
             throw e;
         }

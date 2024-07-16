@@ -92,7 +92,7 @@ const HeaderLayout = () => {
       path: ROUTERS.PATIENT.MEDICAL_RECORD_MANAGEMENT_PAGE,
     },
     {
-      name: "Lịch sử mua hàng",
+      name: "Lịch sử giao dịch",
       path: ROUTERS.PATIENT.HISTORY_PURCHASE,
     },
   ]);
