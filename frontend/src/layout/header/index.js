@@ -164,7 +164,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (role === "Nhà sản xuất thuốc") {
+      if (role === "Công ty sản xuất thuốc") {
         manufacturerMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -180,7 +180,7 @@ const HeaderLayout = () => {
           });
         });
       }
-      if (role !== "Quản trị viên" && role !== "Nhà sản xuất thuốc") {
+      if (role !== "Quản trị viên" && role !== "Công ty sản xuất thuốc") {
         userMenuItems.map((item, key) => {
           items.push({
             key: item.path,

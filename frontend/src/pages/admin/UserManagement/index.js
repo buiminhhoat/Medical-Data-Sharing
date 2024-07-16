@@ -23,6 +23,7 @@ import { useCookies } from "react-cookie";
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
+import RegisterUserDialog from "../../../components/dialogs/RegisterUser/RegisterUser";
 
 const UserManagementPageStyle = styled.div`
   width: 100%;
@@ -162,14 +163,45 @@ const UserManagementPage = () => {
     setOpenDialog(null);
   };
 
-  const openMedicalRecordList = (user) => {
-    console.log("openMedicalRecordList");
+  const openAddUser = () => {
+    openModal(DIALOGS.ADD_USER);
+  };
+
+  const openUserInfo = (user) => {
+    console.log("openUserInfo");
     console.log("user: ", user);
     openModal(DIALOGS.MEDICAL_RECORD);
     setSelectedUser(user.id);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
+
+  const [filtersRole, setFiltersRole] = useState([
+    {
+      text: "Bệnh nhân",
+      value: "Bệnh nhân",
+    },
+    {
+      text: "Bác sĩ",
+      value: "Bác sĩ",
+    },
+    {
+      text: "Cơ sở y tế",
+      value: "Cơ sở y tế",
+    },
+    {
+      text: "Nhà khoa học",
+      value: "Nhà khoa học",
+    },
+    {
+      text: "Trung tâm nghiên cứu",
+      value: "Trung tâm nghiên cứu",
+    },
+    {
+      text: "Công ty sản xuất thuốc",
+      value: "Công ty sản xuất thuốc",
+    },
+  ]);
   const columns = [
     {
       title: "Mã người dùng",
@@ -227,6 +259,7 @@ const UserManagementPage = () => {
       dataIndex: "role",
       width: "15%",
       align: "center",
+      filters: filtersRole,
       onFilter: (value, user) => user.role.indexOf(value) === 0,
     },
     {
@@ -238,7 +271,7 @@ const UserManagementPage = () => {
           <Space size="middle">
             <Button
               icon={<InfoCircleOutlined />}
-              onClick={() => openMedicalRecordList(user)}
+              onClick={() => openUserInfo(user)}
             >
               Chi tiết
             </Button>
@@ -396,7 +429,21 @@ const UserManagementPage = () => {
           </div>
 
           <div style={{ width: "100%", marginTop: "20px" }}>
-            <h1>Danh sách người dùng</h1>
+            <div style={{ display: "flex" }}>
+              <div>
+                <h1>Danh sách người dùng</h1>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  marginLeft: "auto",
+                  marginRight: "0",
+                }}
+              >
+                <Button onClick={() => openAddUser()}>Tạo người dùng</Button>
+              </div>
+            </div>
             <ConfigProvider
               theme={{
                 token: {
@@ -417,6 +464,16 @@ const UserManagementPage = () => {
           </div>
         </div>
       </div>
+
+      {openDialog === DIALOGS.ADD_USER && (
+        <div className="modal-overlay">
+          <RegisterUserDialog
+            values={selectedUser}
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
 
       {openDialog === DIALOGS.MEDICAL_RECORD && (
         <div className="modal-overlay">

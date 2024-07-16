@@ -1,7 +1,12 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Cookies, useCookies } from "react-cookie";
-import { UserOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  CloseOutlined,
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+} from "@ant-design/icons";
 import { Avatar, Flex, InputNumber, Space, TreeSelect } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
 import FileUploader from "../../FileUploader/FileUploader";
@@ -16,32 +21,52 @@ import {
   Select,
   List,
   Typography,
-  DatePicker,
 } from "antd";
 import { Alert, notification } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
-import DrugList from "../DrugList/DrugList";
 const { Option } = Select;
 
 const Context = React.createContext({
-  name: "AddDrugContext",
+  name: "RegisterUserContext",
 });
 
-const AddDrugDialogStyle = styled.div`
+const RegisterUserDialogStyle = styled.div`
   overflow: auto;
 `;
 
-const AddDrugDialog = ({ values, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "userId"]);
+const RegisterUserDialog = ({ values, onClose, onSwitch }) => {
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  const apiAddDrug = API.MANUFACTURER.ADD_DRUG;
+  const apiRegisterUser = API.ADMIN.REGISTER_USER;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState();
+
+  useEffect(() => {
+    if (role === "") return;
+    if (role === "Quản trị viên") {
+      setOptions([
+        {
+          label: "Công ty sản xuất thuốc",
+          value: "Công ty sản xuất thuốc",
+        },
+        {
+          label: "Cơ sở y tế",
+          value: "Cơ sở y tế",
+        },
+        {
+          label: "Trung tâm nghiên cứu",
+          value: "Trung tâm nghiên cứu",
+        },
+      ]);
+    }
+  }, [role]);
+
+  const [loading, setLoading] = useState(true);
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -68,36 +93,55 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
 
   const closeModal = () => {
     setOpenDialog(null);
-    onClose();
   };
 
-  const [data, setData] = useState([]);
+  const [additionalFields, setAdditionalFields] = useState(null);
+
+  const changeRole = (value) => {
+    if (
+      value === "Công ty sản xuất thuốc" ||
+      value === "Trung tâm nghiên cứu"
+    ) {
+      return (
+        <Form.Item
+          label="Mã số giấy phép kinh doanh"
+          name="businessLicenseNumber"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng điền mã số giấy phép kinh doanh",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+      );
+    }
+    return "";
+  };
+
+  const onChange = (value) => {
+    console.log("value: ", value);
+    setAdditionalFields("");
+    if (value != null) {
+      setAdditionalFields(changeRole(value));
+    }
+  };
 
   const handleFormSubmit = async (values) => {
     if (access_token) {
-      console.log("apiAddDrug: ", apiAddDrug);
+      console.log(values);
+      console.log("apiRegisterUser: ", apiRegisterUser);
       const formData = new FormData();
       console.log(values);
       for (const key in values) {
-        if (key === "manufactureDate" || key === "expirationDate") continue;
         formData.append(key, values[key]);
       }
-
-      formData.append(
-        "manufactureDate",
-        values.manufactureDate.format("YYYY-MM-DD")
-      );
-      formData.append(
-        "expirationDate",
-        values.expirationDate.format("YYYY-MM-DD")
-      );
-
-      setLoading(true);
       openNotification(
         "topRight",
         "info",
-        "Đã gửi yêu cầu tạo thuốc",
-        "Hệ thống đã tiếp nhận yêu cầu tạo thuốc!"
+        "Đã gửi yêu cầu tạo tài khoản",
+        "Hệ thống đã tiếp nhận yêu cầu tạo tài khoản!"
       );
 
       console.log("formData: ", formData);
@@ -105,7 +149,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
       console.log("access_token: ", access_token);
 
       try {
-        const response = await fetch(apiAddDrug, {
+        const response = await fetch(apiRegisterUser, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -115,15 +159,13 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
         if (response.status === 200) {
           console.log("data");
           let data = await response.json();
-          setData(data);
-          openModal(DIALOGS.DRUG_LIST);
           console.log(data);
           openNotification(
             "topRight",
             "success",
             "Thành công",
-            "Đã tạo thuốc thành công!"
-            // handleCancel
+            "Đã tạo tài khoản thành công!",
+            handleCancel
           );
           setLoading(false);
         } else {
@@ -131,7 +173,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
             "topRight",
             "error",
             "Thất bại",
-            "Đã có lỗi xảy ra khi tạo thuốc!",
+            "Đã có lỗi xảy ra trong quá trình tạo tài khoản!",
             handleCancel
           );
         }
@@ -142,16 +184,10 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
   };
 
   const [api, contextHolder] = notification.useNotification();
-  const openNotification = (
-    placement,
-    type,
-    message,
-    manufactureDate,
-    onClose
-  ) => {
+  const openNotification = (placement, type, message, password, onClose) => {
     api[type]({
       message: message,
-      manufactureDate: manufactureDate,
+      password: password,
       placement,
       showProgress: true,
       pauseOnHover: true,
@@ -159,32 +195,26 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
     });
   };
 
-  const [hashFile, setHashFile] = useState("");
-
-  const [medicationId, setMedicationId] = useState(
-    values != null && values.medicationId != null ? values.medicationId : ""
-  );
-
   return (
-    <Context.Provider value={"Tạo thuốc"}>
+    <Context.Provider value={"Tạo người dùng"}>
       {contextHolder}
-      <AddDrugDialogStyle>
+      <RegisterUserDialogStyle>
         <Modal
-          title="Tạo thuốc"
+          title="Tạo người dùng"
           open={isModalOpen}
           onCancel={handleCancel}
           footer={null}
           centered
           width={"60%"}
-          loading={loading}
+          // loading={loading}
         >
           <Form
-            name="addDrugForm"
+            name="addMedicationForm"
             labelCol={{
-              span: 5,
+              span: 4,
             }}
             wrapperCol={{
-              span: 18,
+              span: 19,
             }}
             style={{
               width: "100%",
@@ -192,118 +222,96 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
               alignItems: "center",
             }}
             initialValues={{
-              medicationId: medicationId,
               remember: true,
             }}
             onFinish={handleFormSubmit}
             onFinishFailed={onFinishFailed}
             autoComplete="on"
+            labelWrap
           >
             <div style={{ width: "100%" }}>
               <Form.Item
-                label="ID loại thuốc"
-                name="medicationId"
+                label="Họ và tên"
+                name="fullName"
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng điền ID thuốc!",
+                    message: "Vui lòng điền họ và tên!",
                   },
                 ]}
               >
                 <Input />
               </Form.Item>
 
-              {/* <Form.Item
-                label="Tên thuốc"
-                name="medicationName"
+              <Form.Item
+                label="Email"
+                name="email"
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng điền tên thuốc!",
+                    message: "Vui lòng điền email!",
                   },
                 ]}
               >
-                <Input disabled />
-              </Form.Item> */}
-
+                <Input />
+              </Form.Item>
               <Form.Item
-                label="Đơn vị"
-                name="unit"
+                label="Mật khẩu"
+                name="password"
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng điền đơn vị!",
+                    message: "Vui lòng điền mật khẩu!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  placeholder="Nhập mật khẩu"
+                  iconRender={(visible) =>
+                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                  }
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Địa chỉ"
+                name="address"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền địa chỉ!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Vai trò"
+                name="role"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng điền vai trò!",
                   },
                 ]}
               >
                 <Select
-                  options={[
-                    {
-                      value: "Viên",
-                      label: "Viên",
-                    },
-                    {
-                      value: "Lọ",
-                      label: "Lọ",
-                    },
-                    {
-                      value: "Hộp",
-                      label: "Hộp",
-                    },
-                  ]}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Số lượng"
-                name="quantity"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng điền số lượng!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Ngày sản xuất"
-                name="manufactureDate"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng điền ngày sản xuất!",
-                  },
-                ]}
-              >
-                <DatePicker
-                  format={{
-                    format: "YYYY-MM-DD",
+                  // showSearch
+                  placeholder="Chọn vai trò"
+                  filterOption={(input, option) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={options}
+                  onChange={(value) => {
+                    onChange(value);
                   }}
-                  placeholder="Ngày sản xuất"
-                  style={{ width: "100%" }}
                 />
               </Form.Item>
 
-              <Form.Item
-                label="Ngày hết hạn"
-                name="expirationDate"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng điền ngày hết hạn!",
-                  },
-                ]}
-              >
-                <DatePicker
-                  format={{
-                    format: "YYYY-MM-DD",
-                  }}
-                  placeholder="Ngày hết hạn"
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
+              {additionalFields}
             </div>
             <div
               style={{
@@ -312,23 +320,23 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
                 justifyItems: "center",
               }}
             >
-              <Button htmlType="submit">Tạo thuốc</Button>
+              <Button htmlType="submit">Tạo người dùng</Button>
             </div>
           </Form>
         </Modal>
 
-        {openDialog === DIALOGS.DRUG_LIST && (
-          <div>
-            <DrugList
-              data={data}
+        {/* {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
+          <div className="modal-overlay">
+            <EditMedicalRecordDialog
+              values={valuesForm}
               onClose={handleDialogClose}
               onSwitch={handleDialogSwitch}
-            ></DrugList>
+            />
           </div>
-        )}
-      </AddDrugDialogStyle>
+        )} */}
+      </RegisterUserDialogStyle>
     </Context.Provider>
   );
 };
 
-export default AddDrugDialog;
+export default RegisterUserDialog;

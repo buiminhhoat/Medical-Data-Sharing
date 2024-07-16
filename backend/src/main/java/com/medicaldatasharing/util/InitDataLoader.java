@@ -70,7 +70,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .builder()
                 .fullName("Bệnh viện ĐHQGHN")
                 .email("benhviendhqghn@gmail.com")
-                .role(Constants.ROLE_HOSPITAL)
+                .role(Constants.ROLE_MEDICAL_INSTITUTION)
                 .username("benhviendhqghn@gmail.com")
                 .password(passwordEncoder.encode("benhviendhqghn@gmail.com"))
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
@@ -81,7 +81,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .builder()
                 .fullName("Bệnh viện Việt Đức")
                 .email("benhvienvietduc@gmail.com")
-                .role(Constants.ROLE_HOSPITAL)
+                .role(Constants.ROLE_MEDICAL_INSTITUTION)
                 .username("benhvienvietduc@gmail.com")
                 .password(passwordEncoder.encode("benhvienvietduc@gmail.com"))
                 .address("40 P. Tràng Thi, Hàng Bông")
@@ -185,21 +185,23 @@ public class InitDataLoader implements CommandLineRunner {
 
         ResearchCenter researchCenter1 = ResearchCenter
                 .builder()
-                .fullName("Viện nghiên cứu dược phẩm ABC")
-                .email("viennghiencuuduocphamabc@gmail.com")
-                .username("viennghiencuuduocphamabc@gmail.com")
-                .password(passwordEncoder.encode("viennghiencuuduocphamabc@gmail.com"))
+                .fullName("Trung tâm nghiên cứu dược phẩm ABC")
+                .email("trungtamnghiencuuabc@gmail.com")
+                .username("trungtamnghiencuuabc@gmail.com")
+                .password(passwordEncoder.encode("trungtamnghiencuuabc@gmail.com"))
                 .address("182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội")
+                .role(Constants.ROLE_RESEARCH_CENTER)
                 .enabled(true)
                 .build();
 
         ResearchCenter researchCenter2 = ResearchCenter
                 .builder()
-                .fullName("Viện nghiên cứu thuốc XYZ")
-                .email("viennghiencuuthuocxyz@gmail.com")
-                .username("viennghiencuuthuocxyz@gmail.com")
-                .password(passwordEncoder.encode("viennghiencuuthuocxyz@gmail.com"))
+                .fullName("Trung tâm nghiên cứu nghiên cứu thuốc XYZ")
+                .email("trungtamnghiencuuthuocxyz@gmail.com")
+                .username("trungtamnghiencuuthuocxyz@gmail.com")
+                .password(passwordEncoder.encode("trungtamnghiencuuthuocxyz@gmail.com"))
                 .address("40 P. Tràng Thi, Hàng Bông")
+                .role(Constants.ROLE_RESEARCH_CENTER)
                 .enabled(true)
                 .build();
         researchCenterRepository.save(researchCenter1);

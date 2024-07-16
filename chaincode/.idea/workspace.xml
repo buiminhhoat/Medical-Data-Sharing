@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Purchase Detail" />
+    <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Purchase Detail">
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/RegisterForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/layout/header/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/layout/header/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/UserManagement/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/utils/const.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/const.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -275,7 +287,8 @@
       <workItem from="1721062908058" duration="905000" />
       <workItem from="1721065250376" duration="3885000" />
       <workItem from="1721092318058" duration="9894000" />
-      <workItem from="1721118522123" duration="2945000" />
+      <workItem from="1721118522123" duration="3206000" />
+      <workItem from="1721133319099" duration="2038000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

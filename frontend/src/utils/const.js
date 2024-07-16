@@ -13,6 +13,7 @@ export const DIALOGS = {
   PRESCRIPTION_DETAIL: "PRESCRIPTION_DETAIL",
   SELLING_PRESCRIPTION_DRUG: "SELLING_PRESCRIPTION_DRUG",
   PURCHASE_DETAIL: "PURCHASE_DETAIL",
+  ADD_USER: "ADD_USER",
 };
 
 export const API = {
@@ -50,6 +51,7 @@ export const API = {
   },
   ADMIN: {
     GET_ALL_USER_BY_ADMIN: "/api/admin/get-all-user-by-admin",
+    REGISTER_USER: "/api/admin/register-user",
   },
   MANUFACTURER: {
     GET_LIST_MEDICATION_BY_MANUFACTURERID:

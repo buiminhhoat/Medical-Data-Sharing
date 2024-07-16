@@ -65,7 +65,7 @@ const DrugList = ({ data, onClose, onSwitch }) => {
         onCancel={handleCancel}
         footer={null}
         centered
-        width={"60%"}
+        width={"65%"}
         // loading={loading}
       >
         <StyledList

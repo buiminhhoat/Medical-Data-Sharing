@@ -10,7 +10,7 @@ import MedicalRecordManagementPage from "./pages/users/MedicalRecordManagementPa
 import { API } from "@Const";
 import { useCookies } from "react-cookie";
 import PatientManagedByDoctorPage from "./pages/users/PatientManagedByDoctorPage";
-import UserManagement from "./pages/users/UserManagement";
+import UserManagement from "./pages/admin/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
 import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
@@ -216,7 +216,7 @@ const RouterCustom = () => {
     (role === "Bệnh nhân" && renderPatientRouter()) ||
     (role === "Bác sĩ" && renderDoctorRouter()) ||
     (role === "Quản trị viên" && renderAdminRouter()) ||
-    (role === "Nhà sản xuất thuốc" && renderManufacturerRouter()) ||
+    (role === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
     (role === "Cửa hàng thuốc" && renderDrugStoreRouter())
   );
 };
