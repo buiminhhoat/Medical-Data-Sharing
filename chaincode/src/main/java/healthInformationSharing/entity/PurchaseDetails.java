@@ -14,6 +14,10 @@ public class PurchaseDetails {
     private String purchaseDetailId;
 
     @Property
+    @JsonProperty("purchaseId")
+    private String purchaseId;
+
+    @Property
     @JsonProperty("prescriptionDetailId")
     private String prescriptionDetailId;
 
@@ -35,12 +39,14 @@ public class PurchaseDetails {
 
     public static PurchaseDetails createInstance(
             String purchaseDetailId,
+            String purchaseId,
             String prescriptionDetailId,
             String medicationId,
             String drugId
     ) {
         PurchaseDetails purchaseDetails = new PurchaseDetails();
         purchaseDetails.setPurchaseDetailId(purchaseDetailId);
+        purchaseDetails.setPurchaseId(purchaseId);
         purchaseDetails.setPrescriptionDetailId(prescriptionDetailId);
         purchaseDetails.setMedicationId(medicationId);
         purchaseDetails.setDrugId(drugId);
@@ -92,6 +98,15 @@ public class PurchaseDetails {
         return this;
     }
 
+    public String getPurchaseId() {
+        return purchaseId;
+    }
+
+    public PurchaseDetails setPurchaseId(String purchaseId) {
+        this.purchaseId = purchaseId;
+        return this;
+    }
+
     public static byte[] serialize(Object object) {
         Genson genson = new Genson();
         return genson.serializeBytes(object);
@@ -107,12 +122,12 @@ public class PurchaseDetails {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         PurchaseDetails that = (PurchaseDetails) object;
-        return Objects.equals(purchaseDetailId, that.purchaseDetailId) && Objects.equals(prescriptionDetailId, that.prescriptionDetailId) && Objects.equals(medicationId, that.medicationId) && Objects.equals(drugId, that.drugId) && Objects.equals(entityName, that.entityName);
+        return Objects.equals(purchaseDetailId, that.purchaseDetailId) && Objects.equals(purchaseId, that.purchaseId) && Objects.equals(prescriptionDetailId, that.prescriptionDetailId) && Objects.equals(medicationId, that.medicationId) && Objects.equals(drugId, that.drugId) && Objects.equals(entityName, that.entityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(purchaseDetailId, prescriptionDetailId, medicationId, drugId, entityName);
+        return Objects.hash(purchaseDetailId, purchaseId, prescriptionDetailId, medicationId, drugId, entityName);
     }
 
     public JSONObject toJSONObject() {

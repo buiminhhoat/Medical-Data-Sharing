@@ -19,6 +19,9 @@ public class PurchaseDetailsDto {
     @JsonProperty("purchaseDetailId")
     private String purchaseDetailId;
 
+    @JsonProperty("purchaseId")
+    private String purchaseId;
+
     @JsonProperty("prescriptionDetailId")
     private String prescriptionDetailId;
 
@@ -33,6 +36,7 @@ public class PurchaseDetailsDto {
 
     public PurchaseDetailsDto(PurchaseDetails purchaseDetails) {
         this.purchaseDetailId = purchaseDetails.getPurchaseDetailId();
+        this.purchaseId = purchaseDetails.getPurchaseId();
         this.prescriptionDetailId = purchaseDetails.getPrescriptionDetailId();
         this.medicationId = purchaseDetails.getMedicationId();
         this.drugId = purchaseDetails.getDrugId();

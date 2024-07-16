@@ -7,6 +7,7 @@ import com.medicaldatasharing.dto.MedicationPurchaseDto;
 import com.medicaldatasharing.dto.PurchaseDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
 import com.medicaldatasharing.form.SearchDrugForm;
+import com.medicaldatasharing.form.SearchPurchaseForm;
 import com.medicaldatasharing.form.SendViewPrescriptionRequestForm;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
@@ -103,6 +105,29 @@ public class DrugStoreController {
         }
     }
 
+    @PostMapping("/get-list-purchase-by-drugStoreId")
+    public ResponseEntity<?> getListPurchaseByDrugStoreId(@Valid @ModelAttribute SearchPurchaseForm searchPurchaseForm,
+                                                        BindingResult result) {
+        try {
+            String getListPurchaseByDrugStoreId = drugStoreService.getListPurchaseByDrugStoreId(searchPurchaseForm);
+            return ResponseEntity.status(HttpStatus.OK).body(getListPurchaseByDrugStoreId);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/get-purchase-by-purchaseId")
+    public ResponseEntity<?> getPurchaseByPurchaseId(HttpServletRequest httpServletRequest) {
+        try {
+            String purchaseId = httpServletRequest.getParameter("purchaseId");
+            String getPurchaseByPurchaseId = drugStoreService.getPurchaseByPurchaseId(purchaseId);
+            return ResponseEntity.status(HttpStatus.OK).body(getPurchaseByPurchaseId);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 //    @PostMapping("/defineRequest")
 //    public DefineRequestDto defineRequest(
 //            @Valid @ModelAttribute DefineRequestForm defineRequestForm,

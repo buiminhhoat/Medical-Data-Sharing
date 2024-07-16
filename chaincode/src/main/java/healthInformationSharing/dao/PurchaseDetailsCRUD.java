@@ -24,6 +24,7 @@ public class PurchaseDetailsCRUD {
 
     public PurchaseDetails addPurchaseDetails(JSONObject jsonDto) {
         String purchaseDetailId = jsonDto.getString("purchaseDetailId");
+        String purchaseId = jsonDto.getString("purchaseId");
         String prescriptionDetailId = jsonDto.getString("prescriptionDetailId");
         String medicationId = jsonDto.getString("medicationId");
         String drugId = jsonDto.getString("drugId");
@@ -33,6 +34,7 @@ public class PurchaseDetailsCRUD {
 
         PurchaseDetails purchaseDetails = PurchaseDetails.createInstance(
                 purchaseDetailId,
+                purchaseId,
                 prescriptionDetailId,
                 medicationId,
                 drugId

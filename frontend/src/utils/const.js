@@ -66,7 +66,7 @@ export const API = {
       "/api/drugstore/get-list-drug-by-medicationId-and-ownerId",
     ADD_PURCHASE: "/api/drugstore/add-purchase",
     GET_LIST_PURCHASE_BY_DRUGSTORE_ID:
-      "/api/patient/get-list-purchase-by-drugStoreId",
+      "/api/drugstore/get-list-purchase-by-drugStoreId",
     GET_PURCHASE_BY_PURCHASE_ID: "/api/drugstore/get-purchase-by-purchaseId",
   },
 };

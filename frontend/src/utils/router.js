@@ -21,4 +21,7 @@ export const ROUTERS = {
     HOME: "",
     USER_MANAGEMENT: "/admin/user-management",
   },
+  DRUGSTORE: {
+    HISTORY_PURCHASE: "/drugstore/history-purchase",
+  },
 };

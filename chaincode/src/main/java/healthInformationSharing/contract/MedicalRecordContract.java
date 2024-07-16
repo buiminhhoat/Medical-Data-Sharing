@@ -1132,6 +1132,7 @@ public class MedicalRecordContract implements ContractInterface {
                 transferDrug.add(drug);
 
                 PurchaseDetails purchaseDetails = new PurchaseDetails();
+                purchaseDetails.setPurchaseId(purchase.getPurchaseId());
                 purchaseDetails.setPurchaseDetailId(purchase.getPurchaseId() + String.valueOf(count));
                 purchaseDetails.setPrescriptionDetailId(prescriptionDetailId);
                 purchaseDetails.setMedicationId(medicationId);

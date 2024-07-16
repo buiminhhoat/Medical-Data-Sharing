@@ -83,6 +83,10 @@ const drugStoreRouters = [
     path: ROUTERS.USER.REQUEST,
     component: <RequestManagementPage></RequestManagementPage>,
   },
+  {
+    path: ROUTERS.DRUGSTORE.HISTORY_PURCHASE,
+    component: <HistoryPurchasePage></HistoryPurchasePage>,
+  },
 ];
 
 const renderUserRouter = () => {

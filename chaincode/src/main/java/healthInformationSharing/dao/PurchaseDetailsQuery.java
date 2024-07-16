@@ -27,6 +27,7 @@ public class PurchaseDetailsQuery {
 
     public List<PurchaseDetails> getListPurchaseDetailsQuery(JSONObject jsonDto) {
         String purchaseDetailId = jsonDto.has("purchaseDetailId") ? jsonDto.getString("purchaseDetailId") : "";
+        String purchaseId = jsonDto.has("purchaseId") ? jsonDto.getString("purchaseId") : "";
         String prescriptionDetailId = jsonDto.has("prescriptionDetailId") ? jsonDto.getString("prescriptionDetailId") : "";
         String medicationId = jsonDto.has("medicationId") ? jsonDto.getString("medicationId") : "";
         String drugId = jsonDto.has("drugId") ? jsonDto.getString("drugId") : "";
@@ -34,6 +35,7 @@ public class PurchaseDetailsQuery {
         List<PurchaseDetails> purchaseDetailsList = new ArrayList<>();
         JSONObject queryJsonObject = createQuerySelector(
                 purchaseDetailId,
+                purchaseId,
                 prescriptionDetailId,
                 medicationId,
                 drugId
@@ -56,6 +58,7 @@ public class PurchaseDetailsQuery {
 
     public JSONObject createQuerySelector(
             String purchaseDetailId,
+            String purchaseId,
             String prescriptionDetailId,
             String medicationId,
             String drugId
@@ -64,6 +67,10 @@ public class PurchaseDetailsQuery {
 
         if (!purchaseDetailId.isEmpty()) {
             jsonObjectSelector.putOnce("purchaseDetailId", purchaseDetailId);
+        }
+
+        if (!purchaseId.isEmpty()) {
+            jsonObjectSelector.putOnce("purchaseId", purchaseId);
         }
 
         if (!prescriptionDetailId.isEmpty()) {

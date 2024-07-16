@@ -122,7 +122,12 @@ const HeaderLayout = () => {
     },
   ]);
 
-  const [drugStoreMenuItems, setDrugStoreItems] = useState([]);
+  const [drugStoreMenuItems, setDrugStoreItems] = useState([
+    {
+      name: "Lịch sử giao dịch",
+      path: ROUTERS.DRUGSTORE.HISTORY_PURCHASE,
+    },
+  ]);
 
   const [menuItems, setMenuItems] = useState(null);
 

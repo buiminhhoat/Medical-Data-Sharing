@@ -6,6 +6,9 @@ public class PurchaseDetails {
     @JsonProperty("purchaseDetailId")
     private String purchaseDetailId;
 
+    @JsonProperty("purchaseId")
+    private String purchaseId;
+
     @JsonProperty("prescriptionDetailId")
     private String prescriptionDetailId;
 
@@ -60,6 +63,15 @@ public class PurchaseDetails {
 
     public PurchaseDetails setEntityName(String entityName) {
         this.entityName = entityName;
+        return this;
+    }
+
+    public String getPurchaseId() {
+        return purchaseId;
+    }
+
+    public PurchaseDetails setPurchaseId(String purchaseId) {
+        this.purchaseId = purchaseId;
         return this;
     }
 }
