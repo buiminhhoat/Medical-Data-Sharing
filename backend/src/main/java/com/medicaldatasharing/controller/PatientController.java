@@ -103,6 +103,17 @@ public class PatientController {
         }
     }
 
+    @PostMapping("/get-purchase-by-purchaseId")
+    public ResponseEntity<?> getPurchaseByPurchaseId(HttpServletRequest httpServletRequest) {
+        try {
+            String purchaseId = httpServletRequest.getParameter("purchaseId");
+            String getPurchaseByPurchaseId = patientService.getPurchaseByPurchaseId(purchaseId);
+            return ResponseEntity.status(HttpStatus.OK).body(getPurchaseByPurchaseId);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 //    @PostMapping("/defineRequest")
 //    public DefineRequestDto defineRequest(
 //            @Valid @ModelAttribute DefineRequestForm defineRequestForm,

@@ -726,6 +726,32 @@ public class HyperledgerService {
         return purchaseList;
     }
 
+    public PurchaseDto getPurchaseByPurchaseId(
+            User user,
+            String purchaseId
+    ) throws Exception {
+        PurchaseDto purchaseDto = null;
+        try {
+            Contract contract = getContract(user);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getPurchaseByPurchaseId",
+                    purchaseId
+            );
+
+            String purchaseDtoStr = new String(result);
+            purchaseDto = new Genson().deserialize(
+                    purchaseDtoStr,
+                    PurchaseDto.class
+            );
+
+            LOG.info("result: " + purchaseDto);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return purchaseDto;
+    }
+
     public List<Purchase> getListPurchaseByDrugId(
             User user,
             SearchPurchaseForm searchPurchaseForm

@@ -1,9 +1,11 @@
 package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.chaincode.dto.Purchase;
-import com.medicaldatasharing.model.Patient;
-import com.medicaldatasharing.util.StringUtil;
+import com.medicaldatasharing.dto.PurchaseDetailsDto;
+import com.medicaldatasharing.dto.PurchaseDto;
 import com.owlike.genson.annotation.JsonProperty;
+
+import java.util.List;
 
 public class PurchaseResponse {
     @JsonProperty("purchaseId")
@@ -30,6 +32,9 @@ public class PurchaseResponse {
     @JsonProperty("dateModified")
     private String dateModified;
 
+    @JsonProperty("purchaseDetailsList")
+    private List<PurchaseDetailsDto> purchaseDetailsList;
+
     public PurchaseResponse(Purchase purchase) {
         this.purchaseId = purchase.getPurchaseId();
         this.prescriptionId = purchase.getPrescriptionId();
@@ -37,6 +42,16 @@ public class PurchaseResponse {
         this.drugStoreId = purchase.getDrugStoreId();
         this.dateCreated = purchase.getDateCreated();
         this.dateModified = purchase.getDateModified();
+    }
+
+    public PurchaseResponse(PurchaseDto purchaseDto) {
+        this.purchaseId = purchaseDto.getPurchaseId();
+        this.prescriptionId = purchaseDto.getPrescriptionId();
+        this.patientId = purchaseDto.getPatientId();
+        this.drugStoreId = purchaseDto.getDrugStoreId();
+        this.dateCreated = purchaseDto.getDateCreated();
+        this.dateModified = purchaseDto.getDateModified();
+        this.purchaseDetailsList = purchaseDto.getPurchaseDetailsDtoList();
     }
 
     public String getPurchaseId() {
@@ -108,6 +123,15 @@ public class PurchaseResponse {
 
     public PurchaseResponse setDateModified(String dateModified) {
         this.dateModified = dateModified;
+        return this;
+    }
+
+    public List<PurchaseDetailsDto> getPurchaseDetailsList() {
+        return purchaseDetailsList;
+    }
+
+    public PurchaseResponse setPurchaseDetailsList(List<PurchaseDetailsDto> purchaseDetailsList) {
+        this.purchaseDetailsList = purchaseDetailsList;
         return this;
     }
 }

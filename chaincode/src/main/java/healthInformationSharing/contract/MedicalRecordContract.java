@@ -4,10 +4,7 @@ import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import healthInformationSharing.component.MedicalRecordContext;
 import healthInformationSharing.dao.*;
-import healthInformationSharing.dto.MedicationPurchaseDto;
-import healthInformationSharing.dto.PrescriptionDetailsDto;
-import healthInformationSharing.dto.PrescriptionDto;
-import healthInformationSharing.dto.PurchaseDto;
+import healthInformationSharing.dto.*;
 import healthInformationSharing.entity.*;
 import healthInformationSharing.enumeration.MedicalRecordStatus;
 import healthInformationSharing.enumeration.RequestStatus;
@@ -1171,6 +1168,39 @@ public class MedicalRecordContract implements ContractInterface {
         }
 
         return new Genson().serialize(purchase);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPurchaseByPurchaseId(
+            MedicalRecordContext ctx,
+            String purchaseId
+    ) {
+        if (purchaseId.isEmpty()) {
+            throw new ChaincodeException("purchaseId is Empty",
+                    ContractErrors.UNAUTHORIZED_VIEW_ACCESS.toString());
+        }
+
+        Purchase purchase = ctx.getPurchaseDAO().getPurchase(purchaseId);
+
+        try {
+            authorizeRequest(ctx, purchase.getPatientId(), "getPurchaseByPurchaseId(validate patientId)");
+        }
+        catch (Exception e) {
+            authorizeRequest(ctx, purchase.getDrugStoreId(), "getPurchaseByPurchaseId(validate drugStoreID)");
+        }
+
+        List<PurchaseDetails> purchaseDetailsList = ctx.getPurchaseDetailsDAO().getListPurchaseDetailsQuery(
+                new JSONObject().put("purchaseId", purchase.getPurchaseId())
+        );
+
+        PurchaseDto purchaseDto = new PurchaseDto(purchase);
+        List<PurchaseDetailsDto> purchaseDetailsDtoList = new ArrayList<>();
+        for (PurchaseDetails purchaseDetails: purchaseDetailsList) {
+            PurchaseDetailsDto purchaseDetailsDto = new PurchaseDetailsDto(purchaseDetails);
+            purchaseDetailsDtoList.add(purchaseDetailsDto);
+        }
+        purchaseDto.setPurchaseDetailsDtoList(purchaseDetailsDtoList);
+        return new Genson().serialize(purchaseDto);
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)

@@ -22,7 +22,7 @@ import { Calendar, theme } from "antd";
 import { useCookies } from "react-cookie";
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
-// import PurchaseDetail from "../../../components/dialogs/PurchaseDetail/PurchaseDetail";
+import PurchaseDetail from "../../../components/dialogs/PurchaseDetail/PurchaseDetail";
 import SendRequestDialog from "../../../components/dialogs/SendRequest/SendRequest";
 
 const HistoryPurchasePageStyle = styled.div`
@@ -206,7 +206,7 @@ const HistoryPurchasePage = () => {
   ]);
 
   const [openDialog, setOpenDialog] = useState(null);
-  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [selectedPurchase, setSelectedPurchase] = useState(null);
 
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
@@ -224,11 +224,11 @@ const HistoryPurchasePage = () => {
     setOpenDialog(null);
   };
 
-  const openPurchaseDetail = (request) => {
+  const openPurchaseDetail = (purchase) => {
     console.log("openPurchaseDetail");
-    console.log(request);
+    console.log("purchase: ", purchase);
     openModal(DIALOGS.PURCHASE_DETAIL);
-    setSelectedRequest(request);
+    setSelectedPurchase(purchase);
   };
 
   const openSendRequest = () => {
@@ -264,13 +264,13 @@ const HistoryPurchasePage = () => {
           onMouseEnter={() => setHighlightedText(index)}
           onMouseLeave={() => setHighlightedText(null)}
           style={{
-            backgroundColor: highlightedText === index ? "#ffe898" : "", // sử dụng màu để làm nổi bật văn bản
+            backgroundColor: highlightedText === index ? "#ffe898" : "",
             border:
               highlightedText === index
                 ? "2px dashed rgb(234, 179, 8)"
                 : "none",
             borderRadius: "4px",
-            padding: "2px", // Thêm padding để đường viền không dính sát vào chữ
+            padding: "2px",
             cursor: "pointer",
           }}
           onClick={() => {
@@ -343,13 +343,13 @@ const HistoryPurchasePage = () => {
           onMouseLeave={() => setHighlightedTextShortenedDrugStoreId(null)}
           style={{
             backgroundColor:
-              highlightedTextShortenedDrugStoreId === index ? "#ffe898" : "", // sử dụng màu để làm nổi bật văn bản
+              highlightedTextShortenedDrugStoreId === index ? "#ffe898" : "",
             border:
               highlightedTextShortenedDrugStoreId === index
                 ? "2px dashed rgb(234, 179, 8)"
                 : "none",
             borderRadius: "4px",
-            padding: "2px", // Thêm padding để đường viền không dính sát vào chữ
+            padding: "2px",
             cursor: "pointer",
           }}
           onClick={() => {
@@ -431,7 +431,7 @@ const HistoryPurchasePage = () => {
     },
     {
       title: "Hành động",
-      dataIndex: "requestStatus",
+      dataIndex: "purchaseStatus",
       width: "20%",
       align: "center",
       render: (index, record) => {
@@ -681,15 +681,15 @@ const HistoryPurchasePage = () => {
         </div>
       </div>
 
-      {/* {openDialog === DIALOGS.PURCHASE_DETAIL && (
+      {openDialog === DIALOGS.PURCHASE_DETAIL && (
         <div className="modal-overlay">
           <PurchaseDetail
-            request={selectedRequest}
+            purchase={selectedPurchase}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
         </div>
-      )} */}
+      )}
 
       {openDialog === DIALOGS.SEND_REQUEST && (
         <div className="modal-overlay">

@@ -14,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseDto {
+    @JsonProperty("purchaseId")
+    private String purchaseId;
     @JsonProperty("prescriptionId")
     private String prescriptionId;
 
@@ -31,6 +33,9 @@ public class PurchaseDto {
 
     @JsonProperty("dateModified")
     private String dateModified;
+
+    @JsonProperty("purchaseDetailsDtoList")
+    private List<PurchaseDetailsDto> purchaseDetailsDtoList;
 
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();

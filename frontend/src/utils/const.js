@@ -38,6 +38,7 @@ export const API = {
     SEND_APPOINTMENT_REQUEST: "/api/patient/send-appointment-request",
     GET_LIST_PURCHASE_BY_PATIENT_ID:
       "/api/patient/get-list-purchase-by-patientId",
+    GET_PURCHASE_BY_PURCHASE_ID: "/api/patient/get-purchase-by-purchaseId",
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
@@ -66,6 +67,7 @@ export const API = {
     ADD_PURCHASE: "/api/drugstore/add-purchase",
     GET_LIST_PURCHASE_BY_DRUGSTORE_ID:
       "/api/patient/get-list-purchase-by-drugStoreId",
+    GET_PURCHASE_BY_PURCHASE_ID: "/api/drugstore/get-purchase-by-purchaseId",
   },
 };
 

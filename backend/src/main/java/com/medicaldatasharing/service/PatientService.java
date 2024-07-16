@@ -4,6 +4,7 @@ import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Purchase;
 import com.medicaldatasharing.dto.PrescriptionDto;
+import com.medicaldatasharing.dto.PurchaseDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
 import com.medicaldatasharing.form.SearchMedicalRecordForm;
 import com.medicaldatasharing.form.SearchPurchaseForm;
@@ -107,6 +108,19 @@ public class PatientService {
                 purchaseResponseList.add(purchaseResponse);
             }
             return new Genson().serialize(purchaseResponseList);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getPurchaseByPurchaseId(String purchaseId) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            PurchaseDto purchaseDto = hyperledgerService.getPurchaseByPurchaseId(user, purchaseId);
+            PurchaseResponse purchaseResponse = new PurchaseResponse(purchaseDto);
+            purchaseResponse.setPatientName(userDetailsService.getUserByUserId(purchaseResponse.getPatientId()).getFullName());
+            purchaseResponse.setDrugStoreName(userDetailsService.getUserByUserId(purchaseResponse.getDrugStoreId()).getFullName());
+            return new Genson().serialize(purchaseResponse);
         } catch (Exception e) {
             throw e;
         }

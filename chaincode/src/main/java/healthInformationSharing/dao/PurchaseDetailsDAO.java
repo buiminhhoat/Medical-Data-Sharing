@@ -6,6 +6,8 @@ import healthInformationSharing.entity.PurchaseDetails;
 import org.hyperledger.fabric.contract.Context;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class PurchaseDetailsDAO {
     private PurchaseDetailsCRUD purchaseDetailsCRUD;
     private PurchaseDetailsQuery purchaseDetailsQuery;
@@ -39,5 +41,9 @@ public class PurchaseDetailsDAO {
 
     public PurchaseDetails getPurchaseDetails(String purchaseId) {
         return purchaseDetailsCRUD.getPurchaseDetails(purchaseId);
+    }
+
+    public List<PurchaseDetails> getListPurchaseDetailsQuery(JSONObject jsonDto) {
+        return purchaseDetailsQuery.getListPurchaseDetailsQuery(jsonDto);
     }
 }

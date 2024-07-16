@@ -1,6 +1,7 @@
 package healthInformationSharing.dto;
 
 import com.owlike.genson.annotation.JsonProperty;
+import healthInformationSharing.entity.Purchase;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import org.json.JSONObject;
@@ -17,7 +18,6 @@ public class PurchaseDto {
     @JsonProperty("prescriptionId")
     private String prescriptionId;
 
-
     @JsonProperty("patientId")
     private String patientId;
 
@@ -32,6 +32,21 @@ public class PurchaseDto {
 
     @JsonProperty("medicationPurchaseList")
     private List<MedicationPurchaseDto> medicationPurchaseList;
+
+    @JsonProperty("purchaseDetailsDtoList")
+    private List<PurchaseDetailsDto> purchaseDetailsDtoList;
+
+    public PurchaseDto() {
+    }
+
+    public PurchaseDto(Purchase purchase) {
+        this.purchaseId = purchase.getPurchaseId();
+        this.prescriptionId = purchase.getPrescriptionId();
+        this.patientId = purchase.getPatientId();
+        this.drugStoreId = purchase.getDrugStoreId();
+        this.dateCreated = purchase.getDateCreated();
+        this.dateModified = purchase.getDateModified();
+    }
 
     public String getPrescriptionId() {
         return prescriptionId;
@@ -93,6 +108,15 @@ public class PurchaseDto {
 
     public PurchaseDto setDateModified(String dateModified) {
         this.dateModified = dateModified;
+        return this;
+    }
+
+    public List<PurchaseDetailsDto> getPurchaseDetailsDtoList() {
+        return purchaseDetailsDtoList;
+    }
+
+    public PurchaseDto setPurchaseDetailsDtoList(List<PurchaseDetailsDto> purchaseDetailsDtoList) {
+        this.purchaseDetailsDtoList = purchaseDetailsDtoList;
         return this;
     }
 
