@@ -37,6 +37,7 @@ const HistoryPurchasePage = () => {
   const role = cookies.role;
   let apiGetListPurchase = API.PATIENT.GET_LIST_PURCHASE_BY_PATIENT_ID;
 
+  console.log("role: ", role);
   if (role === "Bệnh nhân") {
     apiGetListPurchase = API.PATIENT.GET_LIST_PURCHASE_BY_PATIENT_ID;
   }
@@ -365,6 +366,7 @@ const HistoryPurchasePage = () => {
           {text}
         </span>
       ),
+      hidden: role === "Cửa hàng thuốc",
     },
     {
       title: "Tên cửa hàng thuốc",
@@ -372,6 +374,7 @@ const HistoryPurchasePage = () => {
       width: "15%",
       align: "center",
       onFilter: (value, record) => record.drugStoreName.indexOf(value) === 0,
+      hidden: role === "Cửa hàng thuốc",
     },
     {
       title: "Ngày tạo",
