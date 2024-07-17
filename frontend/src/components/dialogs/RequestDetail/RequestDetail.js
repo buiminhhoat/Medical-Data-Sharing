@@ -4,6 +4,7 @@ import { Cookies, useCookies } from "react-cookie";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
+import { Alert, notification } from "antd";
 import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
 import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
@@ -83,6 +84,22 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
   const [additionalFields, setAdditionalFields] = useState(null);
 
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (placement, type, message, description, onClose) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement,
+      showProgress: true,
+      pauseOnHover: true,
+      onClose: onClose,
+    });
+  };
+
+  const Context = React.createContext({
+    name: "RequestDetail",
+  });
+
   const defineRequest = async (requestStatus) => {
     if (access_token) {
       const formData = new FormData();
@@ -92,6 +109,12 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
       console.log(access_token);
 
+      openNotification(
+        "topRight",
+        "info",
+        "Đã gửi yêu cầu",
+        "Hệ thống đã tiếp nhận yêu cầu!"
+      );
       try {
         console.log("***");
         const response = await fetch(apiDefineRequest, {
@@ -105,9 +128,23 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
         if (response.status === 200) {
           let json = await response.json();
           console.log("json: ", json);
+          openNotification(
+            "topRight",
+            "success",
+            "Thành công",
+            "Đã tạo yêu cầu thành công!",
+            handleCancel
+          );
         }
       } catch (e) {
         console.log(e);
+        openNotification(
+          "topRight",
+          "error",
+          "Thất bại",
+          "Đã có lỗi xảy ra khi tạo yêu cầu!",
+          handleCancel
+        );
       }
     }
   };
@@ -126,7 +163,12 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             {(data.requestStatus === "Chờ xử lý" ||
               data.requestStatus === "Chấp thuận") && (
               <>
-                <Button style={{ marginRight: "3%" }}>Thu hồi</Button>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => defineRequest("Thu hồi")}
+                >
+                  Thu hồi
+                </Button>
               </>
             )}
           </>
@@ -136,13 +178,23 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
         return (
           <>
             {data.requestStatus === "Chờ xử lý" && (
-              <Button style={{ marginRight: "3%" }}>Chấp thuận</Button>
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={() => defineRequest("Chấp nhận")}
+              >
+                Chấp thuận
+              </Button>
             )}
 
             {(data.requestStatus === "Chờ xử lý" ||
               data.requestStatus === "Chấp thuận") && (
               <>
-                <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => defineRequest("Từ chối")}
+                >
+                  Từ chối
+                </Button>
               </>
             )}
 
@@ -243,7 +295,12 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             {(data.requestStatus === "Chờ xử lý" ||
               data.requestStatus === "Chấp thuận") && (
               <>
-                <Button style={{ marginRight: "3%" }}>Thu hồi</Button>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => defineRequest("Thu hồi")}
+                >
+                  Thu hồi
+                </Button>
               </>
             )}
           </>
@@ -261,19 +318,23 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
             {data.requestStatus === "Chờ xử lý" && (
               <>
-                <Button style={{ marginRight: "3%" }}>Chấp thuận</Button>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => defineRequest("Đồng ý")}
+                >
+                  Đồng ý
+                </Button>
               </>
             )}
 
             {data.requestStatus === "Chờ xử lý" && (
               <>
-                <Button style={{ marginRight: "3%" }}>Đồng ý</Button>
-              </>
-            )}
-
-            {data.requestStatus === "Chờ xử lý" && (
-              <>
-                <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => defineRequest("Từ chối")}
+                >
+                  Từ chối
+                </Button>
               </>
             )}
           </>
@@ -335,180 +396,183 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
   };
 
   return (
-    <RequestDetailStyle>
-      <Modal
-        title="Chi tiết yêu cầu"
-        open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-        centered
-        width={"55%"}
-        loading={loading}
-      >
-        <div style={{ marginTop: "20px", marginLeft: "20px" }}>
-          <Info>
-            <div className="field">RequestID</div>
-            <div>{data.requestId}</div>
-          </Info>
-          <Info>
-            <div className="field">ID người gửi</div>
-            <div>{data.senderId}</div>
-          </Info>
-          <Info>
-            <div className="field">Tên người gửi</div>
-            <div>{data.senderName}</div>
-          </Info>
-
-          <Info>
-            <div className="field">ID người nhận</div>
-            <div>{data.recipientId}</div>
-          </Info>
-          <Info>
-            <div className="field">Tên người nhận</div>
-            <div>{data.recipientName}</div>
-          </Info>
-
-          {data.requestType === "Đặt lịch khám" && (
-            <>
-              <Info>
-                <div className="field">ID cơ sở y tế</div>
-                <div>{data.medicalInstitutionId}</div>
-              </Info>
-
-              <Info>
-                <div className="field">Tên cơ sở y tế</div>
-                <div>{data.medicalInstitutionName}</div>
-              </Info>
-            </>
-          )}
-
-          <Info>
-            <div className="field">Ngày tạo</div>
-            <div>{data.dateCreated}</div>
-          </Info>
-
-          <Info>
-            <div className="field">Ngày chỉnh sửa</div>
-            <div>{data.dateModified}</div>
-          </Info>
-
-          <Info>
-            <div className="field">Loại yêu cầu</div>
-            <div>{data.requestType}</div>
-          </Info>
-
-          <Info>
-            <div className="field">Trạng thái</div>
-            <div>{data.requestStatus}</div>
-          </Info>
-
-          {data.requestType === "Xác nhận thanh toán" && (
-            <Info>
-              <div className="field">ID yêu cầu thanh toán</div>
-              <div>{data.paymentRequestId}</div>
-            </Info>
-          )}
-
-          {data.requestType === "Thanh toán" && (
-            <>
-              <Info>
-                <div className="field">ID hợp đồng bảo hiểm</div>
-                <div>{data.insuranceContractId}</div>
-              </Info>
-
-              <Info>
-                <div className="field">ID hồ sơ y tế</div>
-                <div>{data.medicalRecordId}</div>
-              </Info>
-            </>
-          )}
-
-          {data.requestType === "Mua bảo hiểm" && (
-            <>
-              <Info>
-                <div className="field">ID sản phẩm bảo hiểm</div>
-                <div>{data.insuranceProductId}</div>
-              </Info>
-
-              <Info>
-                <div className="field">Ngày bắt đầu</div>
-                <div>{data.startDate}</div>
-              </Info>
-
-              <Info>
-                <div className="field">Ngày kết thúc</div>
-                <div>{data.endDate}</div>
-              </Info>
-
-              <Info>
-                <div className="field">File hợp đồng bảo hiểm</div>
-                <div>{data.hashFile}</div>
-              </Info>
-            </>
-          )}
-
-          {data.requestType === "Xem đơn thuốc" && (
-            <>
-              <Info>
-                <div className="field">ID đơn thuốc</div>
-                <div>{data.prescriptionId}</div>
-              </Info>
-            </>
-          )}
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            justifyItems: "center",
-          }}
+    <Context.Provider value={"Chi tiết y cầu"}>
+      {contextHolder}
+      <RequestDetailStyle>
+        <Modal
+          title="Chi tiết yêu cầu"
+          open={isModalOpen}
+          onCancel={handleCancel}
+          footer={null}
+          centered
+          width={"55%"}
+          loading={loading}
         >
-          {additionalFields}
-        </div>
+          <div style={{ marginTop: "20px", marginLeft: "20px" }}>
+            <Info>
+              <div className="field">RequestID</div>
+              <div>{data.requestId}</div>
+            </Info>
+            <Info>
+              <div className="field">ID người gửi</div>
+              <div>{data.senderId}</div>
+            </Info>
+            <Info>
+              <div className="field">Tên người gửi</div>
+              <div>{data.senderName}</div>
+            </Info>
 
-        {openDialog === DIALOGS.MEDICAL_RECORD && (
-          <div>
-            <MedicalRecordList
-              patientId={patientId}
-              onClose={handleDialogClose}
-              onSwitch={handleDialogSwitch}
-            />
-          </div>
-        )}
+            <Info>
+              <div className="field">ID người nhận</div>
+              <div>{data.recipientId}</div>
+            </Info>
+            <Info>
+              <div className="field">Tên người nhận</div>
+              <div>{data.recipientName}</div>
+            </Info>
 
-        {openDialog === DIALOGS.ADD_MEDICAL_RECORD && (
-          <div>
-            <AddMedicalRecordDialog
-              request={data}
-              onClose={handleDialogClose}
-              onSwitch={handleDialogSwitch}
-            />
-          </div>
-        )}
+            {data.requestType === "Đặt lịch khám" && (
+              <>
+                <Info>
+                  <div className="field">ID cơ sở y tế</div>
+                  <div>{data.medicalInstitutionId}</div>
+                </Info>
 
-        {openDialog === DIALOGS.PRESCRIPTION_DETAIL && (
-          <div>
-            <PrescriptionDetail
-              prescriptionId={prescriptionId}
-              onClose={handleDialogClose}
-              onSwitch={handleDialogSwitch}
-            ></PrescriptionDetail>
-          </div>
-        )}
+                <Info>
+                  <div className="field">Tên cơ sở y tế</div>
+                  <div>{data.medicalInstitutionName}</div>
+                </Info>
+              </>
+            )}
 
-        {openDialog === DIALOGS.SELLING_PRESCRIPTION_DRUG && (
-          <div>
-            <SellingPrescriptionDrug
-              patientId={data.recipientId}
-              prescriptionId={prescriptionId}
-              onClose={handleDialogClose}
-              onSwitch={handleDialogSwitch}
-            ></SellingPrescriptionDrug>
+            <Info>
+              <div className="field">Ngày tạo</div>
+              <div>{data.dateCreated}</div>
+            </Info>
+
+            <Info>
+              <div className="field">Ngày chỉnh sửa</div>
+              <div>{data.dateModified}</div>
+            </Info>
+
+            <Info>
+              <div className="field">Loại yêu cầu</div>
+              <div>{data.requestType}</div>
+            </Info>
+
+            <Info>
+              <div className="field">Trạng thái</div>
+              <div>{data.requestStatus}</div>
+            </Info>
+
+            {data.requestType === "Xác nhận thanh toán" && (
+              <Info>
+                <div className="field">ID yêu cầu thanh toán</div>
+                <div>{data.paymentRequestId}</div>
+              </Info>
+            )}
+
+            {data.requestType === "Thanh toán" && (
+              <>
+                <Info>
+                  <div className="field">ID hợp đồng bảo hiểm</div>
+                  <div>{data.insuranceContractId}</div>
+                </Info>
+
+                <Info>
+                  <div className="field">ID hồ sơ y tế</div>
+                  <div>{data.medicalRecordId}</div>
+                </Info>
+              </>
+            )}
+
+            {data.requestType === "Mua bảo hiểm" && (
+              <>
+                <Info>
+                  <div className="field">ID sản phẩm bảo hiểm</div>
+                  <div>{data.insuranceProductId}</div>
+                </Info>
+
+                <Info>
+                  <div className="field">Ngày bắt đầu</div>
+                  <div>{data.startDate}</div>
+                </Info>
+
+                <Info>
+                  <div className="field">Ngày kết thúc</div>
+                  <div>{data.endDate}</div>
+                </Info>
+
+                <Info>
+                  <div className="field">File hợp đồng bảo hiểm</div>
+                  <div>{data.hashFile}</div>
+                </Info>
+              </>
+            )}
+
+            {data.requestType === "Xem đơn thuốc" && (
+              <>
+                <Info>
+                  <div className="field">ID đơn thuốc</div>
+                  <div>{data.prescriptionId}</div>
+                </Info>
+              </>
+            )}
           </div>
-        )}
-      </Modal>
-    </RequestDetailStyle>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              justifyItems: "center",
+            }}
+          >
+            {additionalFields}
+          </div>
+
+          {openDialog === DIALOGS.MEDICAL_RECORD && (
+            <div>
+              <MedicalRecordList
+                patientId={patientId}
+                onClose={handleDialogClose}
+                onSwitch={handleDialogSwitch}
+              />
+            </div>
+          )}
+
+          {openDialog === DIALOGS.ADD_MEDICAL_RECORD && (
+            <div>
+              <AddMedicalRecordDialog
+                request={data}
+                onClose={handleDialogClose}
+                onSwitch={handleDialogSwitch}
+              />
+            </div>
+          )}
+
+          {openDialog === DIALOGS.PRESCRIPTION_DETAIL && (
+            <div>
+              <PrescriptionDetail
+                prescriptionId={prescriptionId}
+                onClose={handleDialogClose}
+                onSwitch={handleDialogSwitch}
+              ></PrescriptionDetail>
+            </div>
+          )}
+
+          {openDialog === DIALOGS.SELLING_PRESCRIPTION_DRUG && (
+            <div>
+              <SellingPrescriptionDrug
+                patientId={data.recipientId}
+                prescriptionId={prescriptionId}
+                onClose={handleDialogClose}
+                onSwitch={handleDialogSwitch}
+              ></SellingPrescriptionDrug>
+            </div>
+          )}
+        </Modal>
+      </RequestDetailStyle>
+    </Context.Provider>
   );
 };
 

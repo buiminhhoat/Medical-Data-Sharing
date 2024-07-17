@@ -491,8 +491,17 @@ public class MedicalRecordContract implements ContractInterface {
         }
 
         AppointmentRequest appointmentRequest = appointmentRequestDAO.getAppointmentRequest(requestId);
-        authorizeRequest(ctx, appointmentRequest.getRecipientId(), "defineAppointmentRequest(validate recipientId");
-
+        if (!Objects.equals(requestStatus, RequestStatus.REVOKED)) {
+            authorizeRequest(ctx, appointmentRequest.getRecipientId(), "defineAppointmentRequest(validate recipientId");
+        }
+        else {
+            try {
+                authorizeRequest(ctx, appointmentRequest.getRecipientId(), "defineAppointmentRequest(validate recipientId");
+            }
+            catch (Exception exception) {
+                authorizeRequest(ctx, appointmentRequest.getSenderId(), "defineAppointmentRequest(validate senderId");
+            }
+        }
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("requestId", requestId);
         jsonDto.put("requestStatus", requestStatus);
@@ -537,8 +546,17 @@ public class MedicalRecordContract implements ContractInterface {
         }
 
         ViewRequest viewRequest = viewRequestDAO.getViewRequest(requestId);
-        authorizeRequest(ctx, viewRequest.getRecipientId(), "defineViewRequest(validate recipientId");
-
+        if (!Objects.equals(requestStatus, RequestStatus.REVOKED)) {
+            authorizeRequest(ctx, viewRequest.getRecipientId(), "defineViewRequest(validate recipientId");
+        }
+        else {
+            try {
+                authorizeRequest(ctx, viewRequest.getRecipientId(), "defineViewRequest(validate recipientId");
+            }
+            catch (Exception exception) {
+                authorizeRequest(ctx, viewRequest.getSenderId(), "defineViewRequest(validate senderId");
+            }
+        }
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("requestId", requestId);
         jsonDto.put("requestStatus", requestStatus);
@@ -1046,8 +1064,17 @@ public class MedicalRecordContract implements ContractInterface {
 
         ViewPrescriptionRequest viewPrescriptionRequest = viewPrescriptionRequestDAO.getViewPrescriptionRequest(requestId);
 
-        authorizeRequest(ctx, viewPrescriptionRequest.getRecipientId(), "defineViewPrescriptionRequest(validate recipientId");
-
+        if (!Objects.equals(requestStatus, RequestStatus.REVOKED)) {
+            authorizeRequest(ctx, viewPrescriptionRequest.getRecipientId(), "defineViewPrescriptionRequest(validate recipientId");
+        }
+        else {
+            try {
+                authorizeRequest(ctx, viewPrescriptionRequest.getRecipientId(), "defineViewPrescriptionRequest(validate recipientId");
+            }
+            catch (Exception exception) {
+                authorizeRequest(ctx, viewPrescriptionRequest.getSenderId(), "defineViewPrescriptionRequest(validate senderId");
+            }
+        }
         JSONObject jsonDto = new JSONObject();
         jsonDto.put("requestId", requestId);
         jsonDto.put("requestStatus", requestStatus);
