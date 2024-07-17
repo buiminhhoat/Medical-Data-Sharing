@@ -24,6 +24,11 @@ public class DefineConfirmPaymentRequestForm {
     @NotBlank
     private String dateModified;
 
+    public DefineConfirmPaymentRequestForm(DefineRequestForm defineRequestForm) {
+        this.requestId = defineRequestForm.getRequestId();
+        this.requestStatus = defineRequestForm.getRequestStatus();
+    }
+
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
         Field[] fields = this.getClass().getDeclaredFields();

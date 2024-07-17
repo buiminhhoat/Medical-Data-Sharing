@@ -9,12 +9,15 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DefineRequestForm {
+public class DefineAppointmentRequestForm {
     @NotBlank
     private String requestId;
     @NotBlank
     private String requestStatus;
-    @NotBlank
-    private String requestType;
+
+    public DefineAppointmentRequestForm(DefineRequestForm defineRequestForm) {
+        this.requestId = defineRequestForm.getRequestId();
+        this.requestStatus = defineRequestForm.getRequestStatus();
+    }
 }
 

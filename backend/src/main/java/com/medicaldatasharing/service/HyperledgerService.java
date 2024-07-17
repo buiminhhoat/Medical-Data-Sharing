@@ -244,6 +244,34 @@ public class HyperledgerService {
         return appointmentRequest;
     }
 
+    public AppointmentRequest defineAppointmentRequest(User user,
+                                         DefineAppointmentRequestForm defineAppointmentRequestForm) throws Exception {
+        AppointmentRequest appointmentRequest = null;
+        try {
+            Contract contract = getContract(user);
+            LOG.info("Submit Transaction: defineAppointmentRequest");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("requestId", defineAppointmentRequestForm.getRequestId());
+            jsonObject.put("requestStatus", defineAppointmentRequestForm.getRequestStatus());
+            System.out.println(jsonObject.toString());
+
+            byte[] result = contract.submitTransaction(
+                    "defineAppointmentRequest",
+                    jsonObject.toString()
+            );
+
+            String appointmentRequestStr = new String(result);
+            appointmentRequest = new Genson().deserialize(
+                    appointmentRequestStr,
+                    AppointmentRequest.class
+            );
+            LOG.info("result: " + appointmentRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return appointmentRequest;
+    }
+
     public ViewRequest sendViewRequest(
             User user,
             SendViewRequestForm sendViewRequestForm
@@ -271,14 +299,14 @@ public class HyperledgerService {
     }
 
     public ViewRequest defineViewRequest(User user,
-                                         DefineViewRequestDto defineViewRequestDto) throws Exception {
+                                         DefineViewRequestForm defineViewRequestForm) throws Exception {
         ViewRequest viewRequest = null;
         try {
             Contract contract = getContract(user);
             LOG.info("Submit Transaction: defineViewRequest");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("requestId", defineViewRequestDto.getRequestId());
-            jsonObject.put("requestStatus", defineViewRequestDto.getRequestStatus());
+            jsonObject.put("requestId", defineViewRequestForm.getRequestId());
+            jsonObject.put("requestStatus", defineViewRequestForm.getRequestStatus());
             System.out.println(jsonObject.toString());
 
             byte[] result = contract.submitTransaction(
@@ -895,14 +923,14 @@ public class HyperledgerService {
         return viewPrescriptionRequest;
     }
 
-    public ViewPrescriptionRequest defineViewPrescriptionRequest(User user, DefineViewPrescriptionRequestDto defineViewPrescriptionRequestDto) throws Exception {
+    public ViewPrescriptionRequest defineViewPrescriptionRequest(User user, DefineViewPrescriptionRequestForm defineViewPrescriptionRequestForm) throws Exception {
         ViewPrescriptionRequest viewPrescriptionRequest = null;
         try {
             Contract contract = getContract(user);
             LOG.info("Submit Transaction: definePrescriptionRequest");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("requestId", defineViewPrescriptionRequestDto.getRequestId());
-            jsonObject.put("requestStatus", defineViewPrescriptionRequestDto.getRequestStatus());
+            jsonObject.put("requestId", defineViewPrescriptionRequestForm.getRequestId());
+            jsonObject.put("requestStatus", defineViewPrescriptionRequestForm.getRequestStatus());
             System.out.println(jsonObject.toString());
             byte[] result = contract.submitTransaction(
                     "defineViewPrescriptionRequest",

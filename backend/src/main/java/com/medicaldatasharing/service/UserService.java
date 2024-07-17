@@ -3,7 +3,7 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.chaincode.dto.Drug;
 import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.enumeration.RequestType;
-import com.medicaldatasharing.form.SearchDrugForm;
+import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
@@ -83,6 +83,53 @@ public class UserService {
             }
             if (Objects.equals(requestType, RequestType.CONFIRM_PAYMENT.toString())) {
                 request = hyperledgerService.getConfirmPaymentRequest(user, requestId);
+            }
+
+            RequestResponse requestResponse = new RequestResponse(request);
+            User sender = userDetailsService.getUserByUserId(request.getSenderId());
+            requestResponse.setSenderName(sender.getFullName());
+            User recipient = userDetailsService.getUserByUserId(request.getRecipientId());
+            requestResponse.setRecipientName(recipient.getFullName());
+
+            if (Objects.equals(requestResponse.getRequestType(), RequestType.APPOINTMENT.toString())) {
+                User medicalInstitution = userDetailsService.getUserByUserId(requestResponse.getMedicalInstitutionId());
+                requestResponse.setMedicalInstitutionName(medicalInstitution.getFullName());
+            }
+
+            return new Genson().serialize(requestResponse);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String defineRequest(DefineRequestForm defineRequestForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        Request request = new Request();
+        try {
+            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.APPOINTMENT.toString())) {
+                DefineAppointmentRequestForm defineAppointmentRequestForm = new DefineAppointmentRequestForm(defineRequestForm);
+                request = hyperledgerService.defineAppointmentRequest(user, defineAppointmentRequestForm);
+            }
+            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.VIEW_RECORD.toString())) {
+                DefineViewRequestForm defineViewRequestForm = new DefineViewRequestForm(defineRequestForm);
+                request = hyperledgerService.defineViewRequest(user, defineViewRequestForm);
+            }
+            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.VIEW_PRESCRIPTION.toString())) {
+                DefineViewPrescriptionRequestForm viewPrescriptionRequestForm = new DefineViewPrescriptionRequestForm(defineRequestForm);
+                request = hyperledgerService.defineViewPrescriptionRequest(user, viewPrescriptionRequestForm);
+            }
+            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.PURCHASE.toString())) {
+                DefinePurchaseRequestForm definePurchaseRequestForm = new DefinePurchaseRequestForm(defineRequestForm);
+                request = hyperledgerService.definePurchaseRequest(user, definePurchaseRequestForm);
+            }
+            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.PAYMENT.toString())) {
+                DefinePaymentRequestForm definePaymentRequestForm = new DefinePaymentRequestForm(defineRequestForm);
+                request = hyperledgerService.definePaymentRequest(user, definePaymentRequestForm);
+            }
+            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.CONFIRM_PAYMENT.toString())) {
+                DefineConfirmPaymentRequestForm defineConfirmPaymentRequestForm = new DefineConfirmPaymentRequestForm(defineRequestForm);
+                request = hyperledgerService.defineConfirmPaymentRequest(user, defineConfirmPaymentRequestForm);
             }
 
             RequestResponse requestResponse = new RequestResponse(request);

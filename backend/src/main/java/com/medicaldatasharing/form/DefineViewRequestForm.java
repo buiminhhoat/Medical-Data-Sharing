@@ -7,14 +7,17 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class DefineRequestForm {
+public class DefineViewRequestForm {
     @NotBlank
     private String requestId;
     @NotBlank
     private String requestStatus;
-    @NotBlank
-    private String requestType;
-}
 
+    public DefineViewRequestForm(DefineRequestForm defineRequestForm) {
+        this.requestId = defineRequestForm.getRequestId();
+        this.requestStatus = defineRequestForm.getRequestStatus();
+    }
+}

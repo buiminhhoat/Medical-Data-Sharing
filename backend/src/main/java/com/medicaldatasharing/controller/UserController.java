@@ -1,14 +1,19 @@
 package com.medicaldatasharing.controller;
 
+import com.medicaldatasharing.form.DefineRequestForm;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.UserService;
+import com.medicaldatasharing.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 @RestController
 @RequestMapping("/public")
@@ -45,6 +50,24 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(request);
         }
         catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/define-request")
+    public ResponseEntity<?> defineRequest(
+            @Valid @ModelAttribute DefineRequestForm defineRequestForm,
+            BindingResult result) throws Exception {
+        if (result.hasErrors()) {
+            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+            throw new ValidationException(errorMsg);
+        }
+
+        try {
+            String defineRequest = userService.defineRequest(defineRequestForm);
+            return ResponseEntity.status(HttpStatus.OK).body(defineRequest);
+        }
+        catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

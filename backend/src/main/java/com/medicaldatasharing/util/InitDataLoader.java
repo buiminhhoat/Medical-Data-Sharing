@@ -536,12 +536,12 @@ public class InitDataLoader implements CommandLineRunner {
 
             System.out.println(sendViewPrescriptionRequest);
 
-            DefineViewPrescriptionRequestDto defineViewPrescriptionRequestDto = new DefineViewPrescriptionRequestDto();
-            defineViewPrescriptionRequestDto.setRequestId(sendViewPrescriptionRequest.getRequestId());
-            defineViewPrescriptionRequestDto.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            DefineViewPrescriptionRequestForm defineViewPrescriptionRequestFormDto = new DefineViewPrescriptionRequestForm();
+            defineViewPrescriptionRequestFormDto.setRequestId(sendViewPrescriptionRequest.getRequestId());
+            defineViewPrescriptionRequestFormDto.setRequestStatus(RequestStatus.ACCEPTED.toString());
             ViewPrescriptionRequest defineViewPrescriptionRequest = hyperledgerService.defineViewPrescriptionRequest(
                     patient,
-                    defineViewPrescriptionRequestDto
+                    defineViewPrescriptionRequestFormDto
             );
             System.out.println(defineViewPrescriptionRequest);
 
@@ -621,13 +621,13 @@ public class InitDataLoader implements CommandLineRunner {
             System.out.println(viewRequestByScientist);
 
 
-            DefineViewRequestDto defineViewRequestDto = new DefineViewRequestDto();
-            defineViewRequestDto.setRequestId(viewRequestByScientist.getRequestId());
-            defineViewRequestDto.setRequestStatus(RequestStatus.ACCEPTED.toString());
+            DefineViewRequestForm defineViewRequestForm = new DefineViewRequestForm();
+            defineViewRequestForm.setRequestId(viewRequestByScientist.getRequestId());
+            defineViewRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
 
             ViewRequest defineViewRequestByScientist = hyperledgerService.defineViewRequest(
                     patient,
-                    defineViewRequestDto
+                    defineViewRequestForm
             );
             System.out.println(defineViewRequestByScientist);
 

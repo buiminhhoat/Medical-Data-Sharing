@@ -39,6 +39,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
   const [loading, setLoading] = useState(true);
 
   const apiGetRequest = API.PUBLIC.GET_REQUEST;
+  const apiDefineRequest = API.PUBLIC.DEFINE_REQUEST;
+
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
@@ -79,10 +81,211 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
     if (access_token) fetchGetRequest().then((r) => {});
   }, [access_token]);
 
+  const [additionalFields, setAdditionalFields] = useState(null);
+
+  const defineRequest = async (requestStatus) => {
+    if (access_token) {
+      const formData = new FormData();
+      formData.append("requestId", request.requestId);
+      formData.append("requestType", request.requestType);
+      formData.append("requestStatus", requestStatus);
+
+      console.log(access_token);
+
+      try {
+        console.log("***");
+        const response = await fetch(apiDefineRequest, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+          body: formData,
+        });
+
+        if (response.status === 200) {
+          let json = await response.json();
+          console.log("json: ", json);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+  const renderButton = () => {
+    if (data.requestType === "Đặt lịch khám") {
+      if (data.senderId === userId) {
+        return (
+          <>
+            <Button
+              style={{ marginRight: "3%" }}
+              onClick={() => openMedicalRecord(data.senderId)}
+            >
+              Xem hồ sơ y tế
+            </Button>
+
+            {(data.requestStatus === "Chờ xử lý" ||
+              data.requestStatus === "Chấp thuận") && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Thu hồi</Button>
+              </>
+            )}
+          </>
+        );
+      }
+      if (data.recipientId === userId) {
+        return (
+          <>
+            {data.requestStatus === "Chờ xử lý" && (
+              <Button style={{ marginRight: "3%" }}>Chấp thuận</Button>
+            )}
+
+            {(data.requestStatus === "Chờ xử lý" ||
+              data.requestStatus === "Chấp thuận") && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+              </>
+            )}
+
+            {data.requestStatus !== "Đồng ý" && (
+              <>
+                <Button onClick={() => createMedicalRecord(data.requestId)}>
+                  Tạo hồ sơ y tế
+                </Button>
+              </>
+            )}
+          </>
+        );
+      }
+    }
+
+    if (data.requestType === "Xem hồ sơ y tế") {
+      if (data.senderId === userId) {
+        return (
+          <>
+            {data.requestStatus === "Đồng ý" && (
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={() => openMedicalRecord(data.recipientId)}
+              >
+                Xem hồ sơ y tế
+              </Button>
+            )}
+
+            {(data.requestStatus === "Chờ xử lý" ||
+              data.requestStatus === "Chấp thuận") && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Thu hồi</Button>
+              </>
+            )}
+          </>
+        );
+      }
+      if (data.recipientId === userId) {
+        return (
+          <>
+            <Button
+              style={{ marginRight: "3%" }}
+              onClick={() => openMedicalRecord(data.recipientId)}
+            >
+              Xem hồ sơ y tế
+            </Button>
+
+            {data.requestStatus === "Chờ xử lý" && (
+              <>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => defineRequest("Đồng ý")}
+                >
+                  Đồng ý
+                </Button>
+              </>
+            )}
+
+            {data.requestStatus === "Chờ xử lý" && (
+              <>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => defineRequest("Từ chối")}
+                >
+                  Từ chối
+                </Button>
+              </>
+            )}
+
+            {data.requestStatus === "Đồng ý" && (
+              <>
+                <Button
+                  style={{ marginRight: "3%" }}
+                  onClick={() => defineRequest("Thu hồi")}
+                >
+                  Thu hồi
+                </Button>
+              </>
+            )}
+          </>
+        );
+      }
+    }
+
+    if (data.requestType === "Xem đơn thuốc") {
+      if (data.senderId === userId) {
+        return (
+          <>
+            {data.requestStatus === "Đồng ý" && (
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={() => openPrescriptionDetail(data.prescriptionId)}
+              >
+                Xem đơn thuốc
+              </Button>
+            )}
+
+            {(data.requestStatus === "Chờ xử lý" ||
+              data.requestStatus === "Chấp thuận") && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Thu hồi</Button>
+              </>
+            )}
+          </>
+        );
+      }
+      if (data.recipientId === userId) {
+        return (
+          <>
+            <Button
+              style={{ marginRight: "3%" }}
+              onClick={() => openPrescriptionDetail(data.prescriptionId)}
+            >
+              Xem đơn thuốc
+            </Button>
+
+            {data.requestStatus === "Chờ xử lý" && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Chấp thuận</Button>
+              </>
+            )}
+
+            {data.requestStatus === "Chờ xử lý" && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Đồng ý</Button>
+              </>
+            )}
+
+            {data.requestStatus === "Chờ xử lý" && (
+              <>
+                <Button style={{ marginRight: "3%" }}>Từ chối</Button>
+              </>
+            )}
+          </>
+        );
+      }
+    }
+  };
   useEffect(() => {
     if (data) {
       console.log(data);
       setLoading(false);
+      setAdditionalFields(renderButton);
     }
   }, [data]);
 
@@ -261,106 +464,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             justifyItems: "center",
           }}
         >
-          {data.senderId === userId && data.requestType === "Đặt lịch khám" && (
-            <>
-              <Button
-                style={{ marginRight: "3%" }}
-                onClick={() => openMedicalRecord(data.senderId)}
-              >
-                Xem hồ sơ y tế
-              </Button>
-            </>
-          )}
-
-          {data.senderId === userId &&
-            data.requestType === "Xem hồ sơ y tế" && (
-              <>
-                <Button
-                  style={{ marginRight: "3%" }}
-                  onClick={() => openMedicalRecord(data.recipientId)}
-                >
-                  Xem hồ sơ y tế
-                </Button>
-              </>
-            )}
-
-          {data.recipientId === userId &&
-            data.requestType === "Đặt lịch khám" && (
-              <>
-                <Button
-                  style={{ marginRight: "3%" }}
-                  onClick={() => openMedicalRecord(data.senderId)}
-                >
-                  Thu hồi hồ sơ y tế
-                </Button>
-              </>
-            )}
-
-          {data.requestType === "Xem đơn thuốc" && (
-            <>
-              <Button
-                style={{ marginRight: "3%" }}
-                onClick={() => openPrescriptionDetail(data.prescriptionId)}
-              >
-                Xem đơn thuốc
-              </Button>
-
-              {role === "Cửa hàng thuốc" && (
-                <Button
-                  style={{ marginRight: "3%" }}
-                  onClick={() =>
-                    openSellingPrescriptionDrug(data.prescriptionId)
-                  }
-                >
-                  Bán thuốc
-                </Button>
-              )}
-            </>
-          )}
-
-          {data.recipientId === userId &&
-            data.requestStatus === "Chờ xử lý" &&
-            (data.requestType === "Đặt lịch khám" ||
-              data.requestType === "Thanh toán" ||
-              data.requestType === "Mua bảo hiểm") && (
-              <>
-                <Button style={{ marginRight: "3%" }}>Chấp thuận</Button>
-              </>
-            )}
-
-          {data.recipientId === userId &&
-            data.requestStatus === "Chờ xử lý" &&
-            data.requestType !== "Đặt lịch khám" && (
-              <>
-                <Button style={{ marginRight: "3%" }}>Đồng ý</Button>
-              </>
-            )}
-
-          {data.recipientId === userId &&
-            (data.requestStatus === "Chờ xử lý" ||
-              data.requestStatus === "Chấp thuận") && (
-              <>
-                <Button style={{ marginRight: "3%" }}>Từ chối</Button>
-              </>
-            )}
-
-          {data.senderId === userId &&
-            (data.requestStatus === "Chờ xử lý" ||
-              data.requestStatus === "Chấp thuận") && (
-              <>
-                <Button style={{ marginRight: "3%" }}>Thu hồi</Button>
-              </>
-            )}
-
-          {data.recipientId === userId &&
-            data.requestType === "Đặt lịch khám" &&
-            data.requestStatus !== "Đồng ý" && (
-              <>
-                <Button onClick={() => createMedicalRecord(data.requestId)}>
-                  Tạo hồ sơ y tế
-                </Button>
-              </>
-            )}
+          {additionalFields}
         </div>
 
         {openDialog === DIALOGS.MEDICAL_RECORD && (

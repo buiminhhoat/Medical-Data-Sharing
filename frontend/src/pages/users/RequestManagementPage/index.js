@@ -336,6 +336,8 @@ const RequestPage = () => {
           color = "geekblue";
         } else if (requestStatus === "Đồng ý") {
           color = "green";
+        } else if (requestStatus === "Thu hồi") {
+          color = "purple";
         }
         return (
           <Tag color={color} key={requestStatus}>
