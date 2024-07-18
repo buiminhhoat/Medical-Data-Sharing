@@ -332,6 +332,8 @@ const MedicalRecordManagementPage = () => {
           color = "red";
         } else if (medicalRecordStatus === "Đồng ý") {
           color = "green";
+        } else if (medicalRecordStatus === "Thu hồi") {
+          color = "purple";
         }
         return (
           <Tag color={color} key={medicalRecordStatus}>

@@ -304,6 +304,15 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
                 </Button>
               </>
             )}
+
+            {data.senderId === userId && role === "Cửa hàng thuốc" && (
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={() => openSellingPrescriptionDrug(data.prescriptionId)}
+              >
+                Bán thuốc
+              </Button>
+            )}
           </>
         );
       }

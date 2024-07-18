@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Purchase Detail">
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/DoctorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/DoctorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/PatientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/PatientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/DoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/DoctorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/PatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/PatientService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/MedicalRecordStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/MedicalRecordStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/RequestDetail/RequestDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/RequestDetail/RequestDetail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,7 +281,7 @@
       <workItem from="1721133319099" duration="2643000" />
       <workItem from="1721203635318" duration="2418000" />
       <workItem from="1721223756339" duration="791000" />
-      <workItem from="1721226602032" duration="5008000" />
+      <workItem from="1721226602032" duration="5666000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
