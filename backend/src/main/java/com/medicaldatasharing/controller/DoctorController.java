@@ -4,11 +4,13 @@ import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
 import com.medicaldatasharing.form.AddMedicalRecordForm;
 import com.medicaldatasharing.form.AddPrescriptionForm;
+import com.medicaldatasharing.form.DefineMedicalRecordForm;
 import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.UserService;
 import com.medicaldatasharing.util.StringUtil;
+import com.medicaldatasharing.util.ValidationUtil;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.Date;
 import java.util.List;
 
@@ -106,6 +109,22 @@ public class DoctorController {
         }
     }
 
+    @PostMapping("/define-medical-record")
+    public ResponseEntity<?> defineMedicalRecord(@Valid @ModelAttribute DefineMedicalRecordForm defineMedicalRecordForm,
+                                                 BindingResult result) {
+        if (result.hasErrors()) {
+            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+            throw new ValidationException(errorMsg);
+        }
+
+        try {
+            String defineMedicalRecord = doctorService.defineMedicalRecord(defineMedicalRecordForm);
+            return ResponseEntity.status(HttpStatus.OK).body(defineMedicalRecord);
+        }
+        catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 //    @PostMapping("/sendRequest")
 //    public SendRequestDto sendRequest(
 //            @Valid @ModelAttribute SendRequestForm sendRequestForm,

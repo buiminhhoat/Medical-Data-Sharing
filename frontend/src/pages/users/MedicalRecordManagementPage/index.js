@@ -325,7 +325,7 @@ const MedicalRecordManagementPage = () => {
       onFilter: (value, record) =>
         record.medicalRecordStatus.indexOf(value) === 0,
       render: (medicalRecordStatus) => {
-        let color = "white";
+        let color = "blue";
         if (medicalRecordStatus === "Chờ xử lý") {
           color = "yellow";
         } else if (medicalRecordStatus === "Từ chối") {

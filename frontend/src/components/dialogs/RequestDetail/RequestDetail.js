@@ -148,6 +148,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
       }
     }
   };
+
   const renderButton = () => {
     if (data.requestType === "Đặt lịch khám") {
       if (data.senderId === userId) {
@@ -180,7 +181,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             {data.requestStatus === "Chờ xử lý" && (
               <Button
                 style={{ marginRight: "3%" }}
-                onClick={() => defineRequest("Chấp nhận")}
+                onClick={() => defineRequest("Chấp thuận")}
               >
                 Chấp thuận
               </Button>

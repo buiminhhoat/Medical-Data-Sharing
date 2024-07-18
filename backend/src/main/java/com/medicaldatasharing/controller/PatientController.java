@@ -1,5 +1,6 @@
 package com.medicaldatasharing.controller;
 
+import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
@@ -7,6 +8,7 @@ import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.PatientService;
 import com.medicaldatasharing.util.StringUtil;
+import com.medicaldatasharing.util.ValidationUtil;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.print.Doc;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.Date;
 import java.util.List;
 
@@ -111,6 +114,23 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.OK).body(getPurchaseByPurchaseId);
         }
         catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/define-medical-record")
+    public ResponseEntity<?> defineMedicalRecord(@Valid @ModelAttribute DefineMedicalRecordForm defineMedicalRecordForm,
+                                                 BindingResult result) {
+        if (result.hasErrors()) {
+            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+            throw new ValidationException(errorMsg);
+        }
+
+        try {
+            String defineMedicalRecord = patientService.defineMedicalRecord(defineMedicalRecordForm);
+            return ResponseEntity.status(HttpStatus.OK).body(defineMedicalRecord);
+        }
+        catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

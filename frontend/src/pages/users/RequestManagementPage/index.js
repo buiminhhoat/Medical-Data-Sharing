@@ -327,7 +327,7 @@ const RequestPage = () => {
       filters: filtersRequestStatus,
       onFilter: (value, record) => record.requestStatus.indexOf(value) === 0,
       render: (requestStatus) => {
-        let color = "white";
+        let color = "blue";
         if (requestStatus === "Chờ xử lý") {
           color = "yellow";
         } else if (requestStatus === "Từ chối") {

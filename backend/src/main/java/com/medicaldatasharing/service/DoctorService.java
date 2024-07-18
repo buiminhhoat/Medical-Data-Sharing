@@ -7,6 +7,7 @@ import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto
 import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.AddMedicalRecordForm;
+import com.medicaldatasharing.form.DefineMedicalRecordForm;
 import com.medicaldatasharing.form.SearchViewRequestForm;
 import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.model.Patient;
@@ -137,6 +138,12 @@ public class DoctorService {
         catch (Exception e) {
             throw e;
         }
+    }
+
+    public String defineMedicalRecord(DefineMedicalRecordForm defineMedicalRecordForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        MedicalRecord defineMedicalRecord = hyperledgerService.defineMedicalRecord(user, defineMedicalRecordForm);
+        return new Genson().serialize(defineMedicalRecord);
     }
 
 //    public SendRequestDto sendRequest(

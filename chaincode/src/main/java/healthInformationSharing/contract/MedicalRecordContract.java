@@ -142,7 +142,9 @@ public class MedicalRecordContract implements ContractInterface {
             throw new ChaincodeException("request.getRequestType() does not match RequestType.APPOINTMENT",
                     ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
-        if (!Objects.equals(appointmentRequest.getRequestStatus(), RequestStatus.PENDING)) {
+        if (!Objects.equals(appointmentRequest.getRequestStatus(), RequestStatus.PENDING)
+                && !Objects.equals(appointmentRequest.getRequestStatus(), RequestStatus.APPROVED)
+        ) {
             throw new ChaincodeException("request.getRequestStatus() does not match RequestStatus.PENDING",
                     ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
@@ -196,41 +198,21 @@ public class MedicalRecordContract implements ContractInterface {
 
         MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecordId);
 
-        authorizeRequest(ctx, medicalRecord.getPatientId(), "defineMedicalRecord(validate patientId)");
+        if (!Objects.equals(medicalRecordStatus, MedicalRecordStatus.REVOKED)) {
+            authorizeRequest(ctx, medicalRecord.getPatientId(), "defineMedicalRecord(validate patientId)");
 
-        medicalRecord = ctx.getMedicalRecordDAO().defineMedicalRecord(jsonDto);
-
-        return new Genson().serialize(medicalRecord);
-    }
-
-    @Transaction
-    public String revokeMedicalRecord(
-            MedicalRecordContext ctx,
-            String jsonString
-    ) {
-        JSONObject jsonObject = new JSONObject(jsonString);
-        String medicalRecordId = jsonObject.getString("medicalRecordId");
-        String medicalRecordStatus = MedicalRecordStatus.REVOKED;
-
-        JSONObject jsonDto = new JSONObject();
-
-        if (!ctx.getMedicalRecordDAO().medicalRecordExist(medicalRecordId)) {
-            String errorMessage = String.format("Medical Record %s does not exist", medicalRecordId);
-            System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, ContractErrors.MEDICAL_RECORD_NOT_FOUND.toString());
+            if (Objects.equals(medicalRecord.getMedicalRecordStatus(), MedicalRecordStatus.PENDING)) {
+                medicalRecord = ctx.getMedicalRecordDAO().defineMedicalRecord(jsonDto);
+            }
+            else {
+                throw new ChaincodeException("medicalRecord.getMedicalRecordStatus() does not match RequestType.PENDING",
+                        ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+            }
         }
-
-        jsonDto = new JSONObject();
-
-        jsonDto.put("medicalRecordId", medicalRecordId);
-        jsonDto.put("medicalRecordStatus", medicalRecordStatus);
-
-        MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecordId);
-        authorizeRequest(ctx, medicalRecord.getDoctorId(), "revokeMedicalRecord(validate doctorId)");
-
-
-        medicalRecord = ctx.getMedicalRecordDAO().defineMedicalRecord(jsonDto);
-
+        else {
+            authorizeRequest(ctx, medicalRecord.getDoctorId(), "defineMedicalRecord(validate doctorId)");
+            medicalRecord = ctx.getMedicalRecordDAO().defineMedicalRecord(jsonDto);
+        }
 
         return new Genson().serialize(medicalRecord);
     }

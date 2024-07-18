@@ -41,6 +41,7 @@ export const API = {
     GET_LIST_PURCHASE_BY_PATIENT_ID:
       "/api/patient/get-list-purchase-by-patientId",
     GET_PURCHASE_BY_PURCHASE_ID: "/api/patient/get-purchase-by-purchaseId",
+    DEFINE_MEDICAL_RECORD: "/api/patient/define-medical-record",
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
@@ -49,6 +50,7 @@ export const API = {
     GET_ALL_PATIENT_MANAGED_BY_DOCTOR:
       "/api/doctor/get-all-patient-managed-by-doctorId",
     SEND_VIEW_REQUEST: "/api/doctor/send-view-request",
+    DEFINE_MEDICAL_RECORD: "/api/doctor/define-medical-record",
   },
   ADMIN: {
     GET_ALL_USER_BY_ADMIN: "/api/admin/get-all-user-by-admin",
