@@ -58,9 +58,55 @@ const ScanInput = ({ value, setValue, placeholder }) => {
     console.log("value - ScanInput: ", value);
   }, [value]);
 
+  const [isHovering, setIsHovering] = useState(false);
+
+  const defaultColor = "#bfbfbf";
+  const hoverColor = "green";
+
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ width: "100%", marginRight: "2%" }}>
+    <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+      <Space.Compact
+        style={{
+          width: "100%",
+        }}
+      >
+        <Input
+          style={{ width: "100%" }}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          placeholder={placeholder}
+          value={value}
+          allowClear
+        />
+
+        <div>
+          <Button
+            onClick={onClickScan}
+            icon={
+              <ScanOutlined
+                style={{ color: isHovering ? hoverColor : defaultColor }}
+              />
+            }
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          ></Button>
+        </div>
+
+        {openDialog === DIALOGS.QRCODE_SCANNER && (
+          <div>
+            <QRCodeScanner
+              value={value}
+              setValue={setValue}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            />
+          </div>
+        )}
+      </Space.Compact>
+    </Space>
+    /* <div style={{ display: "flex" }}>
+      <div style={{ width: "100%" }}>
         <Input
           style={{ width: "100%" }}
           onChange={(e) => {
@@ -85,7 +131,7 @@ const ScanInput = ({ value, setValue, placeholder }) => {
           />
         </div>
       )}
-    </div>
+    </div> */
   );
 };
 

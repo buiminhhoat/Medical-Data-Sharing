@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button } from "antd";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
@@ -39,8 +39,15 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
 
   const onClick = () => {
     setValue(data);
+    console.log("value: ", value);
     handleCancel();
   };
+
+  useEffect(() => {
+    if (data) {
+      onClick();
+    }
+  }, [data]);
 
   return (
     <>
@@ -68,10 +75,14 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
           >
             <div>
               {scanning && (
-                <Scanner onScan={(result) => setData(result[0].rawValue)} />
+                <Scanner
+                  onScan={(result) => {
+                    setData(result[0].rawValue);
+                  }}
+                />
               )}
             </div>
-            {data && (
+            {/* {data && (
               <div>
                 <div
                   style={{
@@ -103,7 +114,7 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
                   <Button onClick={onClick}>Xác nhận</Button>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </Modal>
