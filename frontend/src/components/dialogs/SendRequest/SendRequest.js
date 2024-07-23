@@ -16,11 +16,15 @@ import {
   Select,
   List,
   Typography,
+  Row,
+  Col
 } from "antd";
 import { Alert, notification } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { MinusCircleOutlined, PlusOutlined, QrcodeOutlined, ScanOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
+import QRCodeScanner from "../../QRCodeScanner/QRCodeScanner";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -38,9 +42,11 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const role = cookies.role;
   const [apiSendRequest, setApiSendRequest] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
-
+  const [recipientId, setRecipientId] = useState(values ? values.recipientId : "");
+  
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
@@ -109,19 +115,23 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     }
   });
 
+  const [form] = Form.useForm();
+  
   const [valuesForm, setValuesForm] = useState();
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit = async () => {
     if (access_token) {
-      console.log("requestType: ", values.requestType);
-      console.log(values);
+      setIsConfirmModalOpen(false);
+      setDisabledButton(true);
       console.log("apiSendRequest: ", apiSendRequest);
       const formData = new FormData();
-      console.log(values);
-      for (const key in values) {
+
+      console.log(valuesForm);
+      for (const key in valuesForm) {
         if (key === "hashFile") continue;
-        formData.append(key, values[key]);
+        formData.append(key, valuesForm[key]);
       }
+
       openNotification(
         "topRight",
         "info",
@@ -211,6 +221,10 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     console.log("onPopupScroll", e);
   };
 
+  const onClickScan = () => {
+    setOpenDialog(DIALOGS.QRCODE_SCANNER);
+  };
+
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (placement, type, message, description, onClose) => {
     api[type]({
@@ -232,6 +246,24 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const [additionalFields, setAdditionalFields] = useState(null);
 
   // console.log(requestType);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      recipientId: recipientId
+    });
+  }, [recipientId])
+  console.log(recipientId);
+
+  const handleConfirm = (valuesForm) => {
+    setIsConfirmModalOpen(true);
+    setValuesForm(valuesForm);
+  };
+
+  const handleConfirmModalCancel = () => {
+    setIsConfirmModalOpen(false);
+  }
+
+  const [disabledButton, setDisabledButton] = useState(false);
 
   return (
     <Context.Provider value={"Tạo yêu cầu"}>
@@ -263,15 +295,16 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
               // requestId: request.requestId,
               senderId: senderId,
               // senderName: request.senderName,
-              recipientId: values ? values.recipientId : "",
+              recipientId: recipientId,
               // recipientName: values.recipientName,
               requestType: values ? values.requestType : "",
               // medicalInstitutionName: request.medicalInstitutionName,
               remember: true,
             }}
-            onFinish={handleFormSubmit}
+            onFinish={handleConfirm}
             onFinishFailed={onFinishFailed}
             autoComplete="on"
+            form={form}
           >
             <div style={{ width: "100%" }}>
               <Form.Item label="ID người gửi" name="senderId">
@@ -285,15 +318,29 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
               <Form.Item
                 label="ID người nhận"
                 name="recipientId"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng điền ID người nhận!",
-                  },
-                ]}
               >
-                <Input />
+                <Row gutter={10}>
+                  <Col span={22}>
+                    <Form.Item
+                      name="recipientId"
+                      noStyle
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Vui lòng điền ID người nhận!',
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={2} style={{display: "flex", alignItems: "right", justifyContent: "right"}}>
+                    <Button onClick={onClickScan} icon={<ScanOutlined />}></Button>
+                  </Col>
+                </Row>
               </Form.Item>
+
               <Form.Item label="Tên người nhận" name="recipientName">
                 <Input disabled />
               </Form.Item>
@@ -323,10 +370,29 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                 justifyItems: "center",
               }}
             >
-              <Button htmlType="submit">Tạo yêu cầu</Button>
+              <Button htmlType="submit" disabled={disabledButton}>Tạo yêu cầu</Button>
             </div>
           </Form>
         </Modal>
+
+        {openDialog === DIALOGS.QRCODE_SCANNER && (
+          <div>
+            <QRCodeScanner
+              value={recipientId}
+              setValue={setRecipientId}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            />
+          </div>
+        )}
+
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        handleOk={handleFormSubmit}
+        handleCancel={handleConfirmModalCancel}
+        title="Xác nhận"
+        content="Bạn có chắc chắn không?"
+      />
 
         {/* {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
           <div className="modal-overlay">
