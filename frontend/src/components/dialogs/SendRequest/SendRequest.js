@@ -333,17 +333,36 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                     },
                   ]}
                 >
-                  <div style={{ display: "flex" }}>
-                    <div style={{ width: "100%", marginRight: "2%" }}>
-                      <Input style={{ width: "100%" }} />
-                    </div>
-                    <div style={{}}>
+                  <Row gutter={10}>
+                    <Col span={22}>
+                      <Form.Item
+                        name="recipientId"
+                        noStyle
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng điền ID người nhận!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+
+                    <Col
+                      span={2}
+                      style={{
+                        display: "flex",
+                        alignItems: "right",
+                        justifyContent: "right",
+                      }}
+                    >
                       <Button
                         onClick={onClickScan}
                         icon={<ScanOutlined />}
                       ></Button>
-                    </div>
-                  </div>
+                    </Col>
+                  </Row>
                 </Form.Item>
               </Form.Item>
 
