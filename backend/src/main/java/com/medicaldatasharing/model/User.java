@@ -24,6 +24,7 @@ public abstract class User implements Serializable, UserDetails {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @Column(columnDefinition = "CHAR(32)")
     private String id;
+
     @Column(name = "USER_NAME", length = 100, unique = true)
     private String username;
     private String password;
