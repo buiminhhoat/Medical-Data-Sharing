@@ -23,6 +23,7 @@ import { useCookies } from "react-cookie";
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordDetail from "../../../components/dialogs/MedicalRecordDetail/MedicalRecordDetail";
+import ScanInput from "../../../components/ScanInput/ScanInput";
 
 const MedicalRecordManagementPageStyle = styled.div`
   width: 100%;
@@ -410,30 +411,29 @@ const MedicalRecordManagementPage = () => {
                         marginBottom: "20px",
                       }}
                     >
-                      <Input
-                        placeholder="Mã hồ sơ y tế"
-                        value={searchMedicalRecordId}
-                        onChange={(e) => {
-                          setSearchMedicalRecordId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
-                      <Input
-                        placeholder="Mã bệnh nhân"
-                        value={searchPatientId}
-                        onChange={(e) => {
-                          setSearchPatientId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
-                      <Input
-                        placeholder="Mã bác sĩ"
-                        value={searchDoctorId}
-                        onChange={(e) => {
-                          setSearchDoctorId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchMedicalRecordId}
+                          setValue={setSearchMedicalRecordId}
+                          placeholder="Mã hồ sơ y tế"
+                        />
+                      </div>
+
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchPatientId}
+                          setValue={setSearchPatientId}
+                          placeholder="Mã bệnh nhân"
+                        />
+                      </div>
+
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchDoctorId}
+                          setValue={setSearchDoctorId}
+                          placeholder="Mã bác sĩ"
+                        />
+                      </div>
                     </div>
 
                     <div

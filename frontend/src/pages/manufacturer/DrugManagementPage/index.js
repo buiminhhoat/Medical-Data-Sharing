@@ -23,6 +23,7 @@ import { useCookies } from "react-cookie";
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
+import ScanInput from "../../../components/ScanInput/ScanInput";
 // import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 
 const DrugManagementPageStyle = styled.div`
@@ -349,23 +350,21 @@ const DrugManagementPage = () => {
                         marginBottom: "20px",
                       }}
                     >
-                      <Input
-                        placeholder="Mã thuốc"
-                        value={searchDrugId}
-                        onChange={(e) => {
-                          setSearchDrugId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchDrugId}
+                          setValue={setSearchDrugId}
+                          placeholder="Mã thuốc"
+                        />
+                      </div>
 
-                      <Input
-                        placeholder="ID loại thuốc"
-                        value={searchMedicationId}
-                        onChange={(e) => {
-                          setSearchMedicationId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchMedicationId}
+                          setValue={setSearchMedicationId}
+                          placeholder="ID loại thuốc"
+                        />
+                      </div>
 
                       <DatePicker
                         format={{

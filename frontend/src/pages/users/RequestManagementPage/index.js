@@ -427,14 +427,6 @@ const RequestPage = () => {
                         marginBottom: "20px",
                       }}
                     >
-                      {/* <Input
-                        placeholder="Mã yêu cầu"
-                        value={searchRequestId}
-                        onChange={(e) => {
-                          setSearchRequestId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      /> */}
                       <div style={{ width: "30%", marginRight: "2%" }}>
                         <ScanInput
                           value={searchRequestId}
@@ -443,22 +435,21 @@ const RequestPage = () => {
                         />
                       </div>
 
-                      <Input
-                        placeholder="Mã người gửi"
-                        value={searchSenderId}
-                        onChange={(e) => {
-                          setSearchSenderId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
-                      <Input
-                        placeholder="Mã người nhận"
-                        value={searchRecipientId}
-                        onChange={(e) => {
-                          setSearchRecipientId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchSenderId}
+                          setValue={setSearchSenderId}
+                          placeholder="Mã người gửi"
+                        />
+                      </div>
+
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchRecipientId}
+                          setValue={setSearchRecipientId}
+                          placeholder="Mã người nhận"
+                        />
+                      </div>
                     </div>
 
                     <div

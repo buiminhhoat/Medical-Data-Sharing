@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Purchase Detail">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/SendRequest/SendRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/SendRequest/SendRequest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/manufacturer/DrugManagementPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/manufacturer/DrugManagementPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/manufacturer/MedicationManagementPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/manufacturer/MedicationManagementPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/HistoryPurchasePage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/users/HistoryPurchasePage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/MedicalRecordManagementPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/users/MedicalRecordManagementPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/RequestManagementPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/users/RequestManagementPage/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

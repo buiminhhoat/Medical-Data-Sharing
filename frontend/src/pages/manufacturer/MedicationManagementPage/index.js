@@ -24,6 +24,7 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import RequestDetail from "../../../components/dialogs/RequestDetail/RequestDetail";
 import AddMedicationDialog from "../../../components/dialogs/AddMedication/AddMedication";
+import ScanInput from "../../../components/ScanInput/ScanInput";
 
 const MedicationManagementPageStyle = styled.div`
   width: 100%;
@@ -330,14 +331,13 @@ const MedicationManagementPage = () => {
                         marginBottom: "20px",
                       }}
                     >
-                      <Input
-                        placeholder="Mã loại thuốc"
-                        value={searchMedicationId}
-                        onChange={(e) => {
-                          setSearchMedicationId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchMedicationId}
+                          setValue={setSearchMedicationId}
+                          placeholder="Mã loại thuốc"
+                        />
+                      </div>
 
                       <Input
                         placeholder="Tên loại thuốc"

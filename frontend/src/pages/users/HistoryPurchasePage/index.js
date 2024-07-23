@@ -24,6 +24,7 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import PurchaseDetail from "../../../components/dialogs/PurchaseDetail/PurchaseDetail";
 import SendRequestDialog from "../../../components/dialogs/SendRequest/SendRequest";
+import ScanInput from "../../../components/ScanInput/ScanInput";
 
 const HistoryPurchasePageStyle = styled.div`
   width: 100%;
@@ -512,30 +513,29 @@ const HistoryPurchasePage = () => {
                         marginBottom: "20px",
                       }}
                     >
-                      <Input
-                        placeholder="ID giao dịch"
-                        value={searchPurchaseId}
-                        onChange={(e) => {
-                          setSearchPurchaseId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
-                      <Input
-                        placeholder="Mã bệnh nhân"
-                        value={searchPatientId}
-                        onChange={(e) => {
-                          setSearchPatientId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
-                      <Input
-                        placeholder="Mã cửa hàng thuốc"
-                        value={searchDrugStoreId}
-                        onChange={(e) => {
-                          setSearchDrugStoreId(e.target.value);
-                        }}
-                        style={{ width: "30%", marginRight: "2%" }}
-                      />
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchPurchaseId}
+                          setValue={setSearchPurchaseId}
+                          placeholder="ID giao dịch"
+                        />
+                      </div>
+
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchPatientId}
+                          setValue={setSearchPatientId}
+                          placeholder="Mã bệnh nhân"
+                        />
+                      </div>
+
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchDrugStoreId}
+                          setValue={setSearchDrugStoreId}
+                          placeholder="Mã cửa hàng thuốc"
+                        />
+                      </div>
                     </div>
 
                     <div
@@ -595,14 +595,13 @@ const HistoryPurchasePage = () => {
                         style={{ width: "30%", marginRight: "2%" }}
                       />
 
-                      <Input
-                        placeholder="ID đơn thuốc"
-                        value={searchPrescriptionId}
-                        onChange={(e) => {
-                          setSearchPrescriptionId(e.target.value);
-                        }}
-                        style={{ width: "62%", marginRight: "2%" }}
-                      />
+                      <div style={{ width: "62%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchPrescriptionId}
+                          setValue={setSearchPrescriptionId}
+                          placeholder="ID đơn thuốc"
+                        />
+                      </div>
 
                       {/* <Input
                         placeholder="Trạng thái"
