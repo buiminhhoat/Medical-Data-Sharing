@@ -32,16 +32,43 @@ import QRCodeScanner from "../QRCodeScanner/QRCodeScanner";
 import ConfirmModal from "../dialogs/ConfirmModal/ConfirmModal";
 const { Option } = Select;
 
-const ScanInput = ({ value, setValue, onClose, onSwitch }) => {
+const ScanInput = ({ value, setValue, placeholder }) => {
   const [openDialog, setOpenDialog] = useState(null);
   const onClickScan = () => {
     setOpenDialog(DIALOGS.QRCODE_SCANNER);
   };
 
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
+  };
+
+  useEffect(() => {
+    console.log("value - ScanInput: ", value);
+  }, [value]);
+
   return (
     <div style={{ display: "flex" }}>
       <div style={{ width: "100%", marginRight: "2%" }}>
-        <Input style={{ width: "100%" }} />
+        <Input
+          style={{ width: "100%" }}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          placeholder={placeholder}
+          value={value}
+        />
       </div>
       <div>
         <Button onClick={onClickScan} icon={<ScanOutlined />}></Button>
@@ -52,8 +79,8 @@ const ScanInput = ({ value, setValue, onClose, onSwitch }) => {
           <QRCodeScanner
             value={value}
             setValue={setValue}
-            onClose={onClose}
-            onSwitch={onSwitch}
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
           />
         </div>
       )}

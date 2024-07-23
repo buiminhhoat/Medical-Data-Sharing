@@ -6,7 +6,6 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
   const [data, setData] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [openDialog, setOpenDialog] = useState(null);
-  const [facingMode, setFacingMode] = useState("user");
   const [scanning, setScanning] = useState(true);
 
   const handleError = (err) => {
@@ -28,22 +27,21 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
   const closeModal = () => {
     setOpenDialog(null);
     setScanning(false);
-    setFacingMode("");
     onClose();
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     setScanning(false);
-    setFacingMode("");
+    handleDialogClose();
     onClose();
   };
 
   const onClick = () => {
     setValue(data);
-    console.log(value);
     handleCancel();
   };
+
   return (
     <>
       <Modal
@@ -74,7 +72,7 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
               )}
             </div>
             {data && (
-              <>
+              <div>
                 <div
                   style={{
                     display: "flex",
@@ -85,10 +83,10 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
                 >
                   <p
                     style={{
-                      display: "flex",
                       justifyContent: "center",
                       alignContent: "center",
                       alignItems: "center",
+                      maxWidth: "100%",
                     }}
                   >
                     Nội dung QR Code: {data}
@@ -104,7 +102,7 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
                 >
                   <Button onClick={onClick}>Xác nhận</Button>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>

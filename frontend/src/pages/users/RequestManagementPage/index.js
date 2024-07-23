@@ -24,6 +24,7 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import RequestDetail from "../../../components/dialogs/RequestDetail/RequestDetail";
 import SendRequestDialog from "../../../components/dialogs/SendRequest/SendRequest";
+import ScanInput from "../../../components/ScanInput/ScanInput";
 
 const RequestPageStyle = styled.div`
   width: 100%;
@@ -426,14 +427,22 @@ const RequestPage = () => {
                         marginBottom: "20px",
                       }}
                     >
-                      <Input
+                      {/* <Input
                         placeholder="Mã yêu cầu"
                         value={searchRequestId}
                         onChange={(e) => {
                           setSearchRequestId(e.target.value);
                         }}
                         style={{ width: "30%", marginRight: "2%" }}
-                      />
+                      /> */}
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchRequestId}
+                          setValue={setSearchRequestId}
+                          placeholder="Mã yêu cầu"
+                        />
+                      </div>
+
                       <Input
                         placeholder="Mã người gửi"
                         value={searchSenderId}
