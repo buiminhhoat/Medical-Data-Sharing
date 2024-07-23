@@ -24,6 +24,7 @@ import { MinusCircleOutlined, PlusOutlined, QrcodeOutlined, ScanOutlined } from 
 import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 import QRCodeScanner from "../../QRCodeScanner/QRCodeScanner";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -41,6 +42,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const role = cookies.role;
   const [apiSendRequest, setApiSendRequest] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [recipientId, setRecipientId] = useState(values ? values.recipientId : "");
@@ -113,17 +115,23 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     }
   });
 
-  const handleFormSubmit = async (values) => {
+  const [form] = Form.useForm();
+  
+  const [valuesForm, setValuesForm] = useState();
+
+  const handleFormSubmit = async () => {
     if (access_token) {
-      console.log("requestType: ", values.requestType);
-      console.log(values);
+      setIsConfirmModalOpen(false);
+      setDisabledButton(true);
       console.log("apiSendRequest: ", apiSendRequest);
       const formData = new FormData();
-      console.log(values);
-      for (const key in values) {
+
+      console.log(valuesForm);
+      for (const key in valuesForm) {
         if (key === "hashFile") continue;
-        formData.append(key, values[key]);
+        formData.append(key, valuesForm[key]);
       }
+
       openNotification(
         "topRight",
         "info",
@@ -239,14 +247,23 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
 
   // console.log(requestType);
 
-  const [form] = Form.useForm();
-
   useEffect(() => {
     form.setFieldsValue({
       recipientId: recipientId
     });
   }, [recipientId])
   console.log(recipientId);
+
+  const handleConfirm = (valuesForm) => {
+    setIsConfirmModalOpen(true);
+    setValuesForm(valuesForm);
+  };
+
+  const handleConfirmModalCancel = () => {
+    setIsConfirmModalOpen(false);
+  }
+
+  const [disabledButton, setDisabledButton] = useState(false);
 
   return (
     <Context.Provider value={"Tạo yêu cầu"}>
@@ -284,7 +301,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
               // medicalInstitutionName: request.medicalInstitutionName,
               remember: true,
             }}
-            onFinish={handleFormSubmit}
+            onFinish={handleConfirm}
             onFinishFailed={onFinishFailed}
             autoComplete="on"
             form={form}
@@ -353,7 +370,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                 justifyItems: "center",
               }}
             >
-              <Button htmlType="submit">Tạo yêu cầu</Button>
+              <Button htmlType="submit" disabled={disabledButton}>Tạo yêu cầu</Button>
             </div>
           </Form>
         </Modal>
@@ -368,6 +385,14 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
             />
           </div>
         )}
+
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        handleOk={handleFormSubmit}
+        handleCancel={handleConfirmModalCancel}
+        title="Xác nhận"
+        content="Bạn có chắc chắn không?"
+      />
 
         {/* {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
           <div className="modal-overlay">
