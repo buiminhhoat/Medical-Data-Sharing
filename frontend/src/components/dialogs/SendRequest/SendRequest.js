@@ -17,10 +17,15 @@ import {
   List,
   Typography,
   Row,
-  Col
+  Col,
 } from "antd";
 import { Alert, notification } from "antd";
-import { MinusCircleOutlined, PlusOutlined, QrcodeOutlined, ScanOutlined } from "@ant-design/icons";
+import {
+  MinusCircleOutlined,
+  PlusOutlined,
+  QrcodeOutlined,
+  ScanOutlined,
+} from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 import QRCodeScanner from "../../QRCodeScanner/QRCodeScanner";
@@ -45,8 +50,10 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [recipientId, setRecipientId] = useState(values ? values.recipientId : "");
-  
+  const [recipientId, setRecipientId] = useState(
+    values ? values.recipientId : ""
+  );
+
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
@@ -116,7 +123,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   });
 
   const [form] = Form.useForm();
-  
+
   const [valuesForm, setValuesForm] = useState();
 
   const handleFormSubmit = async () => {
@@ -249,9 +256,9 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
 
   useEffect(() => {
     form.setFieldsValue({
-      recipientId: recipientId
+      recipientId: recipientId,
     });
-  }, [recipientId])
+  }, [recipientId]);
   console.log(recipientId);
 
   const handleConfirm = (valuesForm) => {
@@ -261,7 +268,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
 
   const handleConfirmModalCancel = () => {
     setIsConfirmModalOpen(false);
-  }
+  };
 
   const [disabledButton, setDisabledButton] = useState(false);
 
@@ -315,30 +322,29 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                 <Input disabled />
               </Form.Item>
 
-              <Form.Item
-                label="ID người nhận"
-                name="recipientId"
-              >
-                <Row gutter={10}>
-                  <Col span={22}>
-                    <Form.Item
-                      name="recipientId"
-                      noStyle
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Vui lòng điền ID người nhận!',
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-
-                  <Col span={2} style={{display: "flex", alignItems: "right", justifyContent: "right"}}>
-                    <Button onClick={onClickScan} icon={<ScanOutlined />}></Button>
-                  </Col>
-                </Row>
+              <Form.Item label="ID người nhận" name="recipientId">
+                <Form.Item
+                  name="recipientId"
+                  noStyle
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng điền ID người nhận!",
+                    },
+                  ]}
+                >
+                  <div style={{ display: "flex" }}>
+                    <div style={{ width: "100%", marginRight: "2%" }}>
+                      <Input style={{ width: "100%" }} />
+                    </div>
+                    <div style={{}}>
+                      <Button
+                        onClick={onClickScan}
+                        icon={<ScanOutlined />}
+                      ></Button>
+                    </div>
+                  </div>
+                </Form.Item>
               </Form.Item>
 
               <Form.Item label="Tên người nhận" name="recipientName">
@@ -370,7 +376,9 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                 justifyItems: "center",
               }}
             >
-              <Button htmlType="submit" disabled={disabledButton}>Tạo yêu cầu</Button>
+              <Button htmlType="submit" disabled={disabledButton}>
+                Tạo yêu cầu
+              </Button>
             </div>
           </Form>
         </Modal>
@@ -386,13 +394,13 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
           </div>
         )}
 
-      <ConfirmModal
-        isOpen={isConfirmModalOpen}
-        handleOk={handleFormSubmit}
-        handleCancel={handleConfirmModalCancel}
-        title="Xác nhận"
-        content="Bạn có chắc chắn không?"
-      />
+        <ConfirmModal
+          isOpen={isConfirmModalOpen}
+          handleOk={handleFormSubmit}
+          handleCancel={handleConfirmModalCancel}
+          title="Xác nhận"
+          content="Bạn có chắc chắn không?"
+        />
 
         {/* {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
           <div className="modal-overlay">
