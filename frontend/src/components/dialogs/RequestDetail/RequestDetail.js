@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Cookies, useCookies } from "react-cookie";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Flex, Space } from "antd";
+import { Avatar, Flex, Popover, QRCode, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
 import { Alert, notification } from "antd";
 import styled from "styled-components";
@@ -14,6 +14,8 @@ import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDi
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 import SellingPrescriptionDrug from "../SellingPrescriptionDrug/SellingPrescriptionDrug";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import { ScanOutlined } from "@ant-design/icons";
+import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
 const { Option } = Select;
 
 const RequestDetailStyle = styled.div``;
@@ -22,6 +24,7 @@ const Info = styled.div`
   display: flex;
   /* justify-content: center; */
   /* justify-items: center; */
+  align-items: center;
   margin-bottom: 15px;
   .field {
     width: 20%;
@@ -460,7 +463,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
           <div style={{ marginTop: "20px", marginLeft: "20px" }}>
             <Info>
               <div className="field">ID yêu cầu</div>
-              <div>{data.requestId}</div>
+              <TextWithQRCode value={data.requestId}></TextWithQRCode>
             </Info>
             <Info>
               <div className="field">ID người gửi</div>
