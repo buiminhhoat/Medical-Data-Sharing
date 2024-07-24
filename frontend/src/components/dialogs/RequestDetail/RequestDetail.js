@@ -13,6 +13,7 @@ import MedicalRecordList from "../MedicalRecordList/MedicalRecordList";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 import SellingPrescriptionDrug from "../SellingPrescriptionDrug/SellingPrescriptionDrug";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 const { Option } = Select;
 
 const RequestDetailStyle = styled.div``;
@@ -100,8 +101,26 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
     name: "RequestDetail",
   });
 
-  const defineRequest = async (requestStatus) => {
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [requestStatusConfirm, setRequestStatusConfirm] = useState("");
+
+  const handleConfirm = (requestStatus) => {
+    setIsConfirmModalOpen(true);
+    setRequestStatusConfirm(requestStatus);
+  };
+
+  const handleConfirmModalCancel = () => {
+    setIsConfirmModalOpen(false);
+  };
+
+  const defineRequest = async () => {
     if (access_token) {
+      setIsConfirmModalOpen(false);
+      setDisabledButton(true);
+
+      const requestStatus = requestStatusConfirm;
+
       const formData = new FormData();
       formData.append("requestId", request.requestId);
       formData.append("requestType", request.requestType);
@@ -157,6 +176,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             <Button
               style={{ marginRight: "3%" }}
               onClick={() => openMedicalRecord(data.senderId)}
+              disabled={disabledButton}
             >
               Xem hồ sơ y tế
             </Button>
@@ -166,7 +186,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => defineRequest("Thu hồi")}
+                  onClick={() => handleConfirm("Thu hồi")}
+                  disabled={disabledButton}
                 >
                   Thu hồi
                 </Button>
@@ -181,7 +202,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             {data.requestStatus === "Chờ xử lý" && (
               <Button
                 style={{ marginRight: "3%" }}
-                onClick={() => defineRequest("Chấp thuận")}
+                onClick={() => handleConfirm("Chấp thuận")}
+                disabled={disabledButton}
               >
                 Chấp thuận
               </Button>
@@ -192,7 +214,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => defineRequest("Từ chối")}
+                  onClick={() => handleConfirm("Từ chối")}
+                  disabled={disabledButton}
                 >
                   Từ chối
                 </Button>
@@ -201,7 +224,10 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
             {data.requestStatus !== "Đồng ý" && (
               <>
-                <Button onClick={() => createMedicalRecord(data.requestId)}>
+                <Button
+                  onClick={() => createMedicalRecord(data.requestId)}
+                  disabled={disabledButton}
+                >
                   Tạo hồ sơ y tế
                 </Button>
               </>
@@ -219,6 +245,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <Button
                 style={{ marginRight: "3%" }}
                 onClick={() => openMedicalRecord(data.recipientId)}
+                disabled={disabledButton}
               >
                 Xem hồ sơ y tế
               </Button>
@@ -227,7 +254,9 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             {(data.requestStatus === "Chờ xử lý" ||
               data.requestStatus === "Chấp thuận") && (
               <>
-                <Button style={{ marginRight: "3%" }}>Thu hồi</Button>
+                <Button style={{ marginRight: "3%" }} disabled={disabledButton}>
+                  Thu hồi
+                </Button>
               </>
             )}
           </>
@@ -239,6 +268,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             <Button
               style={{ marginRight: "3%" }}
               onClick={() => openMedicalRecord(data.recipientId)}
+              disabled={disabledButton}
             >
               Xem hồ sơ y tế
             </Button>
@@ -247,7 +277,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => defineRequest("Đồng ý")}
+                  onClick={() => handleConfirm("Đồng ý")}
+                  disabled={disabledButton}
                 >
                   Đồng ý
                 </Button>
@@ -258,7 +289,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => defineRequest("Từ chối")}
+                  onClick={() => handleConfirm("Từ chối")}
+                  disabled={disabledButton}
                 >
                   Từ chối
                 </Button>
@@ -269,7 +301,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => defineRequest("Thu hồi")}
+                  onClick={() => handleConfirm("Thu hồi")}
+                  disabled={disabledButton}
                 >
                   Thu hồi
                 </Button>
@@ -288,6 +321,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <Button
                 style={{ marginRight: "3%" }}
                 onClick={() => openPrescriptionDetail(data.prescriptionId)}
+                disabled={disabledButton}
               >
                 Xem đơn thuốc
               </Button>
@@ -298,7 +332,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => defineRequest("Thu hồi")}
+                  onClick={() => handleConfirm("Thu hồi")}
+                  disabled={disabledButton}
                 >
                   Thu hồi
                 </Button>
@@ -309,6 +344,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <Button
                 style={{ marginRight: "3%" }}
                 onClick={() => openSellingPrescriptionDrug(data.prescriptionId)}
+                disabled={disabledButton}
               >
                 Bán thuốc
               </Button>
@@ -322,6 +358,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             <Button
               style={{ marginRight: "3%" }}
               onClick={() => openPrescriptionDetail(data.prescriptionId)}
+              disabled={disabledButton}
             >
               Xem đơn thuốc
             </Button>
@@ -330,7 +367,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => defineRequest("Đồng ý")}
+                  onClick={() => handleConfirm("Đồng ý")}
+                  disabled={disabledButton}
                 >
                   Đồng ý
                 </Button>
@@ -341,7 +379,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Button
                   style={{ marginRight: "3%" }}
-                  onClick={() => defineRequest("Từ chối")}
+                  onClick={() => handleConfirm("Từ chối")}
+                  disabled={disabledButton}
                 >
                   Từ chối
                 </Button>
@@ -406,7 +445,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
   };
 
   return (
-    <Context.Provider value={"Chi tiết y cầu"}>
+    <Context.Provider value={"Chi tiết yêu cầu"}>
       {contextHolder}
       <RequestDetailStyle>
         <Modal
@@ -580,6 +619,14 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               ></SellingPrescriptionDrug>
             </div>
           )}
+
+          <ConfirmModal
+            isOpen={isConfirmModalOpen}
+            handleOk={defineRequest}
+            handleCancel={handleConfirmModalCancel}
+            title="Xác nhận"
+            content="Bạn có chắc chắn không?"
+          />
         </Modal>
       </RequestDetailStyle>
     </Context.Provider>
