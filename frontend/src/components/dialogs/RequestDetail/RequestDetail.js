@@ -420,7 +420,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
         >
           <div style={{ marginTop: "20px", marginLeft: "20px" }}>
             <Info>
-              <div className="field">RequestID</div>
+              <div className="field">ID yêu cầu</div>
               <div>{data.requestId}</div>
             </Info>
             <Info>

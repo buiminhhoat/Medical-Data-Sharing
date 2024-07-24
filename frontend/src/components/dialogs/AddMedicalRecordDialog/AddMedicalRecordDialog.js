@@ -20,6 +20,7 @@ import {
 import { Alert, notification } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -49,12 +50,14 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleAddMedicalRecordFormSubmit = async (values) => {
-    // values.requestId = request.requestId;
-    console.log("handleAddMedicalRecordFormSubmit");
-    console.log(values);
-    console.log("Hashfile: ", hashFile);
+  const handleAddMedicalRecordFormSubmit = async () => {
     if (access_token) {
+      const values = valuesForm;
+      console.log("handleAddMedicalRecordFormSubmit");
+      console.log(values);
+      console.log("Hashfile: ", hashFile);
+      setIsConfirmModalOpen(false);
+      setDisabledButton(true);
       const formData = new FormData();
       console.log(values);
       for (const key in values) {
@@ -204,6 +207,19 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
 
   const [hashFile, setHashFile] = useState("");
 
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [form] = Form.useForm();
+  const [valuesForm, setValuesForm] = useState();
+  const handleConfirm = (valuesForm) => {
+    setIsConfirmModalOpen(true);
+    setValuesForm(valuesForm);
+  };
+
+  const handleConfirmModalCancel = () => {
+    setIsConfirmModalOpen(false);
+  };
+
   return (
     <Context.Provider value={"Thêm hồ sơ y tế"}>
       {contextHolder}
@@ -240,7 +256,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
               medicalInstitutionName: request.medicalInstitutionName,
               remember: true,
             }}
-            onFinish={handleAddMedicalRecordFormSubmit}
+            onFinish={handleConfirm}
             onFinishFailed={onFinishFailed}
             autoComplete="on"
           >
@@ -442,10 +458,20 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                 justifyItems: "center",
               }}
             >
-              <Button htmlType="submit">Thêm hồ sơ y tế</Button>
+              <Button htmlType="submit" disabled={disabledButton}>
+                Thêm hồ sơ y tế
+              </Button>
             </div>
           </Form>
         </Modal>
+
+        <ConfirmModal
+          isOpen={isConfirmModalOpen}
+          handleOk={handleAddMedicalRecordFormSubmit}
+          handleCancel={handleConfirmModalCancel}
+          title="Xác nhận"
+          content="Bạn có chắc chắn không?"
+        />
       </AddMedicalRecordDialogStyle>
     </Context.Provider>
   );

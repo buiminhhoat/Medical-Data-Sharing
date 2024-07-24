@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Purchase Detail">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/QRCodeScanner/QRCodeScanner.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/QRCodeScanner/QRCodeScanner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/ScanInput/ScanInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/ScanInput/ScanInput.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +116,7 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21893299" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21907553" />
       <window_info id="Commit" order="1" weight="0.25227863" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
@@ -286,6 +284,7 @@
       <workItem from="1721226602032" duration="5671000" />
       <workItem from="1721268824473" duration="2668000" />
       <workItem from="1721694817310" duration="596000" />
+      <workItem from="1721785381958" duration="740000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
