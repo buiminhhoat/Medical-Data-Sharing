@@ -467,7 +467,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             </Info>
             <Info>
               <div className="field">ID người gửi</div>
-              <div>{data.senderId}</div>
+              <TextWithQRCode value={data.senderId}></TextWithQRCode>
             </Info>
             <Info>
               <div className="field">Tên người gửi</div>
@@ -476,7 +476,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
             <Info>
               <div className="field">ID người nhận</div>
-              <div>{data.recipientId}</div>
+              <TextWithQRCode value={data.recipientId}></TextWithQRCode>
             </Info>
             <Info>
               <div className="field">Tên người nhận</div>
@@ -487,7 +487,9 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Info>
                   <div className="field">ID cơ sở y tế</div>
-                  <div>{data.medicalInstitutionId}</div>
+                  <TextWithQRCode
+                    value={data.medicalInstitutionId}
+                  ></TextWithQRCode>
                 </Info>
 
                 <Info>
@@ -520,7 +522,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             {data.requestType === "Xác nhận thanh toán" && (
               <Info>
                 <div className="field">ID yêu cầu thanh toán</div>
-                <div>{data.paymentRequestId}</div>
+                <TextWithQRCode value={data.paymentRequestId}></TextWithQRCode>
               </Info>
             )}
 
@@ -528,12 +530,14 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Info>
                   <div className="field">ID hợp đồng bảo hiểm</div>
-                  <div>{data.insuranceContractId}</div>
+                  <TextWithQRCode
+                    value={data.insuranceContractId}
+                  ></TextWithQRCode>
                 </Info>
 
                 <Info>
                   <div className="field">ID hồ sơ y tế</div>
-                  <div>{data.medicalRecordId}</div>
+                  <TextWithQRCode value={data.medicalRecordId}></TextWithQRCode>
                 </Info>
               </>
             )}
@@ -542,7 +546,9 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Info>
                   <div className="field">ID sản phẩm bảo hiểm</div>
-                  <div>{data.insuranceProductId}</div>
+                  <TextWithQRCode
+                    value={data.insuranceProductId}
+                  ></TextWithQRCode>
                 </Info>
 
                 <Info>
@@ -566,7 +572,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               <>
                 <Info>
                   <div className="field">ID đơn thuốc</div>
-                  <div>{data.prescriptionId}</div>
+                  <TextWithQRCode value={data.prescriptionId}></TextWithQRCode>
                 </Info>
               </>
             )}

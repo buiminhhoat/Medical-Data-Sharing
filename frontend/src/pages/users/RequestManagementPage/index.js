@@ -11,6 +11,8 @@ import {
   Card,
   message,
   DatePicker,
+  Popover,
+  QRCode,
 } from "antd";
 import {
   InfoCircleOutlined,
@@ -253,31 +255,43 @@ const RequestPage = () => {
       onFilter: (value, record) =>
         record.shortenedRequestId.indexOf(value) === 0,
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedText(index)}
-          onMouseLeave={() => setHighlightedText(null)}
-          style={{
-            backgroundColor: highlightedText === index ? "#ffe898" : "", // sử dụng màu để làm nổi bật văn bản
-            border:
-              highlightedText === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px", // Thêm padding để đường viền không dính sát vào chữ
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.requestId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.requestId)
-              .then(() => message.success("Đã sao chép " + record.requestId))
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.requestId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedText(index)}
+            onMouseLeave={() => setHighlightedText(null)}
+            style={{
+              backgroundColor: highlightedText === index ? "#ffe898" : "", // sử dụng màu để làm nổi bật văn bản
+              border:
+                highlightedText === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px", // Thêm padding để đường viền không dính sát vào chữ
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.requestId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.requestId)
+                .then(() => message.success("Đã sao chép " + record.requestId))
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
     {

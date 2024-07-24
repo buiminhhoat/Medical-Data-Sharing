@@ -69,8 +69,9 @@ const TextWithQRCode = ({ value }) => {
     <>
       <div>{value}</div>
       <div style={{ marginLeft: "1%", scale: "0.9" }}>
-        <Popover content="Bấm để sao chép">
+        <Popover placement="top" content="Bấm để sao chép">
           <Popover
+            placement="bottom"
             content={
               <div>
                 <div>
