@@ -45,6 +45,10 @@ const StyledList = styled(List)`
   }
 `;
 
+const Context = React.createContext({
+  name: "MedicalRecordDetail",
+});
+
 const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId"]);
   const access_token = cookies.access_token;
@@ -126,10 +130,6 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
       onClose: onClose,
     });
   };
-
-  const Context = React.createContext({
-    name: "MedicalRecordDetail",
-  });
 
   let apiDefineMedicalRecord = API.PATIENT.DEFINE_MEDICAL_RECORD;
 

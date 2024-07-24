@@ -92,7 +92,7 @@ const TextWithQRCode = ({ value }) => {
                   }}
                 >
                   <Button type="primary" onClick={downloadCanvasQRCode}>
-                    Download
+                    Tải xuống
                   </Button>
                 </div>
               </div>

@@ -44,6 +44,10 @@ const StyledList = styled(List)`
   }
 `;
 
+const Context = React.createContext({
+  name: "MedicalRecordList",
+});
+
 const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId"]);
   const access_token = cookies.access_token;
@@ -158,10 +162,6 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
       onClose: onClose,
     });
   };
-
-  const Context = React.createContext({
-    name: "MedicalRecordList",
-  });
 
   return (
     <Context.Provider value={"Danh sách hồ sơ y tế của bệnh nhân"}>

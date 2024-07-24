@@ -32,6 +32,10 @@ const Info = styled.div`
   }
 `;
 
+const Context = React.createContext({
+  name: "RequestDetail",
+});
+
 const RequestDetail = ({ request, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
@@ -99,10 +103,6 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
       onClose: onClose,
     });
   };
-
-  const Context = React.createContext({
-    name: "RequestDetail",
-  });
 
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [disabledButton, setDisabledButton] = useState(false);
@@ -587,56 +587,56 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
           >
             {additionalFields}
           </div>
-
-          {openDialog === DIALOGS.MEDICAL_RECORD && (
-            <div>
-              <MedicalRecordList
-                patientId={patientId}
-                onClose={handleDialogClose}
-                onSwitch={handleDialogSwitch}
-              />
-            </div>
-          )}
-
-          {openDialog === DIALOGS.ADD_MEDICAL_RECORD && (
-            <div>
-              <AddMedicalRecordDialog
-                request={data}
-                onClose={handleDialogClose}
-                onSwitch={handleDialogSwitch}
-              />
-            </div>
-          )}
-
-          {openDialog === DIALOGS.PRESCRIPTION_DETAIL && (
-            <div>
-              <PrescriptionDetail
-                prescriptionId={prescriptionId}
-                onClose={handleDialogClose}
-                onSwitch={handleDialogSwitch}
-              ></PrescriptionDetail>
-            </div>
-          )}
-
-          {openDialog === DIALOGS.SELLING_PRESCRIPTION_DRUG && (
-            <div>
-              <SellingPrescriptionDrug
-                patientId={data.recipientId}
-                prescriptionId={prescriptionId}
-                onClose={handleDialogClose}
-                onSwitch={handleDialogSwitch}
-              ></SellingPrescriptionDrug>
-            </div>
-          )}
-
-          <ConfirmModal
-            isOpen={isConfirmModalOpen}
-            handleOk={defineRequest}
-            handleCancel={handleConfirmModalCancel}
-            title="Xác nhận"
-            content="Bạn có chắc chắn không?"
-          />
         </Modal>
+
+        {openDialog === DIALOGS.MEDICAL_RECORD && (
+          <div>
+            <MedicalRecordList
+              patientId={patientId}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            />
+          </div>
+        )}
+
+        {openDialog === DIALOGS.ADD_MEDICAL_RECORD && (
+          <div>
+            <AddMedicalRecordDialog
+              request={data}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            />
+          </div>
+        )}
+
+        {openDialog === DIALOGS.PRESCRIPTION_DETAIL && (
+          <div>
+            <PrescriptionDetail
+              prescriptionId={prescriptionId}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            ></PrescriptionDetail>
+          </div>
+        )}
+
+        {openDialog === DIALOGS.SELLING_PRESCRIPTION_DRUG && (
+          <div>
+            <SellingPrescriptionDrug
+              patientId={data.recipientId}
+              prescriptionId={prescriptionId}
+              onClose={handleDialogClose}
+              onSwitch={handleDialogSwitch}
+            ></SellingPrescriptionDrug>
+          </div>
+        )}
+
+        <ConfirmModal
+          isOpen={isConfirmModalOpen}
+          handleOk={defineRequest}
+          handleCancel={handleConfirmModalCancel}
+          title="Xác nhận"
+          content="Bạn có chắc chắn không?"
+        />
       </RequestDetailStyle>
     </Context.Provider>
   );
