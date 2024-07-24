@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Purchase Detail">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/RequestDetail/RequestDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/RequestDetail/RequestDetail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

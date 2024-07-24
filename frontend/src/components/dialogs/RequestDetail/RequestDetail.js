@@ -117,6 +117,10 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
     setIsConfirmModalOpen(false);
   };
 
+  useEffect(() => {
+    console.log("disabledButton", disabledButton);
+  }, [disabledButton]);
+
   const defineRequest = async () => {
     if (access_token) {
       setIsConfirmModalOpen(false);
@@ -394,6 +398,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
       }
     }
   };
+
   useEffect(() => {
     if (data) {
       console.log(data);
@@ -401,6 +406,10 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
       setAdditionalFields(renderButton);
     }
   }, [data]);
+
+  useEffect(() => {
+    setAdditionalFields(renderButton);
+  }, [disabledButton]);
 
   const [prescriptionId, setPrescriptionId] = useState();
   const [openDialog, setOpenDialog] = useState(null);
