@@ -12,6 +12,9 @@
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/MedicalInstitutionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/MedicalInstitutionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/UserInfo/UserInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/UserInfo/UserInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/layout/header/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/layout/header/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/utils/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/router.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

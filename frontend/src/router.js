@@ -14,8 +14,6 @@ import UserManagement from "./pages/admin/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
 import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
-import DoctorManagementPage from "./pages/medicalInstitution/DoctorManagementPage";
-import ScientistManagementPage from "./pages/researchCenter/ScientistManagementPage";
 
 const userRouters = [
   {
@@ -72,7 +70,7 @@ const medicalInstitutionRouters = [
   },
   {
     path: ROUTERS.MEDICAL_INSTITUTION.DOCTOR_MANAGEMENT_PAGE,
-    component: <DoctorManagementPage></DoctorManagementPage>,
+    component: <UserManagement></UserManagement>,
   },
 ];
 
@@ -83,7 +81,7 @@ const researchCenterRouters = [
   },
   {
     path: ROUTERS.RESEARCH_CENTER.SCIENTIST_MANAGEMENT_PAGE,
-    component: <ScientistManagementPage></ScientistManagementPage>,
+    component: <UserManagement></UserManagement>,
   },
 ];
 

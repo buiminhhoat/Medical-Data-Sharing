@@ -37,7 +37,16 @@ const UserManagementPage = () => {
   const id = cookies.id;
   const role = cookies.role;
 
-  const apiGetAllUserByAdmin = API.ADMIN.GET_ALL_USER_BY_ADMIN;
+  let apiGetAllUser = API.ADMIN.GET_ALL_USER_BY_ADMIN;
+
+  if (role === "Cơ sở y tế") {
+    apiGetAllUser =
+      API.MEDICAL_INSTITUTION.GET_ALL_DOCTOR_BY_MEDICAL_INSTITUTION;
+  }
+
+  if (role === "Trung tâm nghiên cứu") {
+    apiGetAllUser = API.RESEARCH_CENTER.GET_ALL_SCIENTIST_BY_RESEARCH_CENTER;
+  }
 
   const [searchUserId, setSearchUserId] = useState("");
   const [searchUserName, setSearchUserName] = useState("");
@@ -108,11 +117,11 @@ const UserManagementPage = () => {
     setSearchAddress("");
   };
 
-  const fetchGetAllUserByAdmin = async () => {
+  const fetchGetAllUser = async () => {
     if (access_token) {
-      console.log("fetchGetAllUserByAdmin");
+      console.log("fetchGetAllUser");
       try {
-        const response = await fetch(apiGetAllUserByAdmin, {
+        const response = await fetch(apiGetAllUser, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -131,7 +140,7 @@ const UserManagementPage = () => {
   };
 
   useEffect(() => {
-    if (access_token) fetchGetAllUserByAdmin().then((r) => {});
+    if (access_token) fetchGetAllUser().then((r) => {});
   }, [access_token]);
 
   useEffect(() => {
@@ -149,7 +158,7 @@ const UserManagementPage = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    if (access_token) fetchGetAllUserByAdmin().then((r) => {});
+    if (access_token) fetchGetAllUser().then((r) => {});
   }, [openDialog]);
 
   const handleDialogSwitch = (dialogName) => {
