@@ -30,5 +30,6 @@ public class PatientResponse extends UserResponse {
         this.email = patient.getEmail();
         this.address = patient.getAddress();
         this.dateBirthday = StringUtil.parseDate(patient.getDateBirthday());
+        this.enabled = String.valueOf(patient.isEnabled());
     }
 }

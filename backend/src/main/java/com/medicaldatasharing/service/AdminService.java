@@ -1,11 +1,11 @@
 package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.Config;
+import com.medicaldatasharing.chaincode.dto.Drug;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
-import com.medicaldatasharing.response.DoctorResponse;
-import com.medicaldatasharing.response.UserResponse;
+import com.medicaldatasharing.response.*;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 
+import javax.print.Doc;
 import javax.security.auth.message.AuthException;
 import java.util.*;
 
@@ -60,49 +61,43 @@ public class AdminService {
         User user = userDetailsService.getLoggedUser();
         List<Patient> patientList = patientRepository.findAll();
         for (Patient patient: patientList) {
-            UserResponse userResponse = new UserResponse(patient);
+            PatientResponse userResponse = new PatientResponse(patient);
             userResponseList.add(userResponse);
         }
 
         List<Doctor> doctorList = doctorRepository.findAll();
         for (Doctor doctor: doctorList) {
-            UserResponse userResponse = new UserResponse(doctor);
+            DoctorResponse userResponse = new DoctorResponse(doctor);
             userResponseList.add(userResponse);
         }
 
         List<DrugStore> drugStoreList = drugStoreRepository.findAll();
         for (DrugStore drugStore: drugStoreList) {
-            UserResponse userResponse = new UserResponse(drugStore);
-            userResponseList.add(userResponse);
-        }
-
-        List<InsuranceCompany> insuranceCompanyList = insuranceCompanyRepository.findAll();
-        for (InsuranceCompany insuranceCompany: insuranceCompanyList) {
-            UserResponse userResponse = new UserResponse(insuranceCompany);
+            DrugStoreResponse userResponse = new DrugStoreResponse(drugStore);
             userResponseList.add(userResponse);
         }
 
         List<Manufacturer> manufacturerList = manufacturerRepository.findAll();
         for (Manufacturer manufacturer: manufacturerList) {
-            UserResponse userResponse = new UserResponse(manufacturer);
+            ManufacturerResponse userResponse = new ManufacturerResponse(manufacturer);
             userResponseList.add(userResponse);
         }
 
         List<MedicalInstitution> medicalInstitutionList = medicalInstitutionRepository.findAll();
         for (MedicalInstitution medicalInstitution: medicalInstitutionList) {
-            UserResponse userResponse = new UserResponse(medicalInstitution);
+            MedicalInstitutionResponse userResponse = new MedicalInstitutionResponse(medicalInstitution);
             userResponseList.add(userResponse);
         }
 
         List<ResearchCenter> researchCenterList = researchCenterRepository.findAll();
         for (ResearchCenter researchCenter: researchCenterList) {
-            UserResponse userResponse = new UserResponse(researchCenter);
+            ResearchCenterResponse userResponse = new ResearchCenterResponse(researchCenter);
             userResponseList.add(userResponse);
         }
 
         List<Scientist> scientistList = scientistRepository.findAll();
         for (Scientist scientist: scientistList) {
-            UserResponse userResponse = new UserResponse(scientist);
+            ScientistResponse userResponse = new ScientistResponse(scientist);
             userResponseList.add(userResponse);
         }
 
@@ -119,7 +114,7 @@ public class AdminService {
         User user = userDetailsService.getLoggedUser();
         List<Patient> patientList = patientRepository.findAllById(id);
         for (Patient patient: patientList) {
-            UserResponse userResponse = new UserResponse(patient);
+            PatientResponse userResponse = new PatientResponse(patient);
             userResponseList.add(userResponse);
         }
 
@@ -132,37 +127,31 @@ public class AdminService {
 
         List<DrugStore> drugStoreList = drugStoreRepository.findAllById(id);
         for (DrugStore drugStore: drugStoreList) {
-            UserResponse userResponse = new UserResponse(drugStore);
-            userResponseList.add(userResponse);
-        }
-
-        List<InsuranceCompany> insuranceCompanyList = insuranceCompanyRepository.findAllById(id);
-        for (InsuranceCompany insuranceCompany: insuranceCompanyList) {
-            UserResponse userResponse = new UserResponse(insuranceCompany);
+            DrugStoreResponse userResponse = new DrugStoreResponse(drugStore);
             userResponseList.add(userResponse);
         }
 
         List<Manufacturer> manufacturerList = manufacturerRepository.findAllById(id);
         for (Manufacturer manufacturer: manufacturerList) {
-            UserResponse userResponse = new UserResponse(manufacturer);
+            ManufacturerResponse userResponse = new ManufacturerResponse(manufacturer);
             userResponseList.add(userResponse);
         }
 
         List<MedicalInstitution> medicalInstitutionList = medicalInstitutionRepository.findAllById(id);
         for (MedicalInstitution medicalInstitution: medicalInstitutionList) {
-            UserResponse userResponse = new UserResponse(medicalInstitution);
+            MedicalInstitutionResponse userResponse = new MedicalInstitutionResponse(medicalInstitution);
             userResponseList.add(userResponse);
         }
 
         List<ResearchCenter> researchCenterList = researchCenterRepository.findAllById(id);
         for (ResearchCenter researchCenter: researchCenterList) {
-            UserResponse userResponse = new UserResponse(researchCenter);
+            ResearchCenterResponse userResponse = new ResearchCenterResponse(researchCenter);
             userResponseList.add(userResponse);
         }
 
         List<Scientist> scientistList = scientistRepository.findAllById(id);
         for (Scientist scientist: scientistList) {
-            UserResponse userResponse = new UserResponse(scientist);
+            ScientistResponse userResponse = new ScientistResponse(scientist);
             userResponseList.add(userResponse);
         }
 

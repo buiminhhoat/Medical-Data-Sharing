@@ -7,7 +7,7 @@ import { API, LOGIN, DIALOGS } from "@Const";
 import { Alert, notification } from "antd";
 import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
-import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
+import { Button, Modal, Checkbox, Form, Input, Select, Image } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import MedicalRecordList from "../MedicalRecordList/MedicalRecordList";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
@@ -41,7 +41,6 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState("");
@@ -435,6 +434,20 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
           width={"55%"}
           loading={loading}
         >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              justifyItems: "center",
+            }}
+          >
+            <Image
+              width={200}
+              height={200}
+              style={{ maxWidth: "100%" }}
+              src="https://i.pinimg.com/originals/60/07/0e/60070ed889df308cbe80253e8c36b3a3.jpg"
+            />
+          </div>
           <div style={{ marginTop: "20px", marginLeft: "20px" }}>
             <Info>
               <div className="field">ID người dùng</div>
@@ -449,10 +462,25 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
               <div className="field">Email</div>
               <TextWithQRCode value={data.email}></TextWithQRCode>
             </Info>
+
             <Info>
               <div className="field">Địa chỉ</div>
               <div>{data.address}</div>
             </Info>
+
+            {data.dateBirthday && (
+              <Info>
+                <div className="field">Ngày sinh</div>
+                <div>{data.dateBirthday}</div>
+              </Info>
+            )}
+
+            {data.gender && (
+              <Info>
+                <div className="field">Giới tính</div>
+                <div>{data.gender}</div>
+              </Info>
+            )}
 
             <Info>
               <div className="field">Vai trò</div>
@@ -466,25 +494,34 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
               </div>
             </Info>
 
-            {data.role === "Bác sĩ" && (
-              <>
-                <Info>
-                  <div className="field">Chuyên khoa</div>
-                  <div>{data.department}</div>
-                </Info>
+            {data.department && (
+              <Info>
+                <div className="field">Chuyên khoa</div>
+                <div>{data.department}</div>
+              </Info>
+            )}
 
-                <Info>
-                  <div className="field">ID cơ sở y tế</div>
-                  <TextWithQRCode
-                    value={data.medicalInstitutionId}
-                  ></TextWithQRCode>
-                </Info>
+            {data.medicalInstitutionId && (
+              <Info>
+                <div className="field">ID cơ sở y tế</div>
+                <TextWithQRCode
+                  value={data.medicalInstitutionId}
+                ></TextWithQRCode>
+              </Info>
+            )}
 
-                <Info>
-                  <div className="field">Tên cơ sở y tế</div>
-                  <div>{data.medicalInstitutionName}</div>
-                </Info>
-              </>
+            {data.medicalInstitutionName && (
+              <Info>
+                <div className="field">Tên cơ sở y tế</div>
+                <div>{data.medicalInstitutionName}</div>
+              </Info>
+            )}
+
+            {data.businessLicenseNumber && (
+              <Info>
+                <div className="field">Giấy phép kinh doanh</div>
+                <div>{data.businessLicenseNumber}</div>
+              </Info>
             )}
           </div>
 
