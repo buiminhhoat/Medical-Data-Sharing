@@ -12,6 +12,7 @@ public class ScientistResponse extends UserResponse {
 
     private String avatar;
     private String researchCenterId;
+    private String researchCenterName;
 
     public ScientistResponse(Scientist scientist) {
         this.id = scientist.getId();

@@ -1,0 +1,86 @@
+package com.medicaldatasharing.controller;
+
+import com.medicaldatasharing.form.RegisterForm;
+import com.medicaldatasharing.repository.ResearchCenterRepository;
+import com.medicaldatasharing.security.dto.ErrorResponse;
+import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
+import com.medicaldatasharing.service.*;
+import com.medicaldatasharing.util.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.Objects;
+
+@RestController
+@RequestMapping("/research_center")
+public class ResearchCenterController {
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private AdminService adminService;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private ResearchCenterRepository researchCenterRepository;
+
+    @Autowired
+    private ResearchCenterService researchCenterService;
+
+    @PostMapping("/get-all-scientist-by-research-center")
+    public ResponseEntity<?> getAllScientistByResearchCenter() throws Exception {
+        try {
+            String getAllScientistByResearchCenter = researchCenterService.getAllScientistByResearchCenter();
+            return ResponseEntity.status(HttpStatus.OK).body(getAllScientistByResearchCenter);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/get-user-info")
+    public ResponseEntity<?> getUserInfo(HttpServletRequest httpServletRequest) throws Exception {
+        try {
+            String id = httpServletRequest.getParameter("id");
+            String getUserInfo = researchCenterService.getUserInfo(id);
+            return ResponseEntity.status(HttpStatus.OK).body(getUserInfo);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/register-user")
+    public ResponseEntity<?> registerUser(@Valid @ModelAttribute RegisterForm registerForm,
+                                          BindingResult result) {
+        try {
+            String registerUser = "";
+
+            if (Objects.equals(registerForm.getRole(), Constants.ROLE_SCIENTIST)) {
+                registerUser = researchCenterService.registerScientist(registerForm);
+            }
+            else {
+                return new ResponseEntity<>(new ErrorResponse("registerForm.getRole() must be Constants.ROLE_SCIENTIST",
+                        HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(registerUser);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+}

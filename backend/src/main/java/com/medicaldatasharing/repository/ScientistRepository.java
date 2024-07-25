@@ -18,4 +18,8 @@ public interface ScientistRepository extends JpaRepository<Scientist, String> {
     Scientist findScientistByEmail(String email);
 
     List<Scientist> findAllById(String id);
+
+    List<Scientist> findScientistByIdAndResearchCenterId(String id, String researchCenterId);
+
+    List<Scientist> findAllByResearchCenterId(String researchCenterId);
 }

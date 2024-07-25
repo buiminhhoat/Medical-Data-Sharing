@@ -15,6 +15,7 @@ import MedicationManagementPage from "./pages/manufacturer/MedicationManagementP
 import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
 import DoctorManagementPage from "./pages/medicalInstitution/DoctorManagementPage";
+import ScientistManagementPage from "./pages/researchCenter/ScientistManagementPage";
 
 const userRouters = [
   {
@@ -72,6 +73,17 @@ const medicalInstitutionRouters = [
   {
     path: ROUTERS.MEDICAL_INSTITUTION.DOCTOR_MANAGEMENT_PAGE,
     component: <DoctorManagementPage></DoctorManagementPage>,
+  },
+];
+
+const researchCenterRouters = [
+  {
+    path: ROUTERS.USER.HOME,
+    component: <HomePage></HomePage>,
+  },
+  {
+    path: ROUTERS.RESEARCH_CENTER.SCIENTIST_MANAGEMENT_PAGE,
+    component: <ScientistManagementPage></ScientistManagementPage>,
   },
 ];
 
@@ -183,6 +195,21 @@ const renderMedicalInstitutionRouter = () => {
   );
 };
 
+const renderResearchCenterRouter = () => {
+  return (
+    <MasterLayout>
+      <Routes>
+        {userRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+        {researchCenterRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+      </Routes>
+    </MasterLayout>
+  );
+};
+
 const renderManufacturerRouter = () => {
   return (
     <MasterLayout>
@@ -255,7 +282,8 @@ const RouterCustom = () => {
     (role === "Quản trị viên" && renderAdminRouter()) ||
     (role === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
     (role === "Cửa hàng thuốc" && renderDrugStoreRouter()) ||
-    (role === "Cơ sở y tế" && renderMedicalInstitutionRouter())
+    (role === "Cơ sở y tế" && renderMedicalInstitutionRouter()) ||
+    (role === "Trung tâm nghiên cứu" && renderResearchCenterRouter())
   );
 };
 

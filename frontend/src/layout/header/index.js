@@ -120,6 +120,13 @@ const HeaderLayout = () => {
       },
     ]);
 
+  const [researchCenterMenuItems, setResearchCenterMenuItems] = useState([
+    {
+      name: "Quản lý nhà khoa học",
+      path: ROUTERS.RESEARCH_CENTER.SCIENTIST_MANAGEMENT_PAGE,
+    },
+  ]);
+
   const [manufacturerMenuItems, setManufacturerMenuItems] = useState([
     {
       name: "Quản lý loại thuốc",
@@ -197,6 +204,15 @@ const HeaderLayout = () => {
 
       if (role === "Cơ sở y tế") {
         medicalInstitutionMenuItems.map((item, key) => {
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
+        });
+      }
+
+      if (role === "Trung tâm nghiên cứu") {
+        researchCenterMenuItems.map((item, key) => {
           items.push({
             key: item.path,
             label: item.name,

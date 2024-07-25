@@ -52,6 +52,10 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
     apiGetUserInfo = API.MEDICAL_INSTITUTION.GET_USER_INFO;
   }
 
+  if (role === "Trung tâm nghiên cứu") {
+    apiGetUserInfo = API.RESEARCH_CENTER.GET_USER_INFO;
+  }
+
   console.log("role: ", role);
 
   const handleCancel = () => {

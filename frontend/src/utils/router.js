@@ -27,4 +27,7 @@ export const ROUTERS = {
   MEDICAL_INSTITUTION: {
     DOCTOR_MANAGEMENT_PAGE: "/medical_institution/doctor-management-page",
   },
+  RESEARCH_CENTER: {
+    SCIENTIST_MANAGEMENT_PAGE: "/research_center/scientist-management-page",
+  },
 };

@@ -5,7 +5,9 @@ import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
-import com.medicaldatasharing.response.*;
+import com.medicaldatasharing.response.DoctorResponse;
+import com.medicaldatasharing.response.ScientistResponse;
+import com.medicaldatasharing.response.UserResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MedicalInstitutionService {
+public class ResearchCenterService {
     @Autowired
     private AdminRepository adminRepository;
 
@@ -55,13 +57,13 @@ public class MedicalInstitutionService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String getAllDoctorByMedicalInstitution() throws Exception {
+    public String getAllScientistByResearchCenter() throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
         User user = userDetailsService.getLoggedUser();
 
-        List<Doctor> doctorList = doctorRepository.findAllByMedicalInstitutionId(user.getId());
-        for (Doctor doctor: doctorList) {
-            DoctorResponse userResponse = new DoctorResponse(doctor);
+        List<Scientist> scientistList = scientistRepository.findAllByResearchCenterId(user.getId());
+        for (Scientist scientist: scientistList) {
+            ScientistResponse userResponse = new ScientistResponse(scientist);
             userResponseList.add(userResponse);
         }
 
@@ -73,27 +75,26 @@ public class MedicalInstitutionService {
         }
     }
 
-    public String registerDoctor(RegisterForm registerForm) throws AuthException {
+    public String registerScientist(RegisterForm registerForm) throws AuthException {
         try {
-            Doctor doctor = Doctor
+            Scientist scientist = Scientist
                     .builder()
                     .fullName(registerForm.getFullName())
                     .email(registerForm.getEmail())
-                    .role(Constants.ROLE_DOCTOR)
+                    .role(Constants.ROLE_SCIENTIST)
                     .username(registerForm.getEmail())
                     .password(passwordEncoder.encode(registerForm.getPassword()))
                     .enabled(true)
-                    .department(registerForm.getDepartment())
-                    .medicalInstitutionId(userDetailsService.getLoggedUser().getId())
+                    .researchCenterId(userDetailsService.getLoggedUser().getId())
                     .address(registerForm.getAddress())
                     .build();
-            doctorRepository.save(doctor);
+            scientistRepository.save(scientist);
 
-            String appUserIdentityId = doctor.getEmail();
-            String org = Config.DOCTOR_ORG;
-            String userIdentityId = doctor.getId();
+            String appUserIdentityId = scientist.getEmail();
+            String org = Config.SCIENTIST_ORG;
+            String userIdentityId = scientist.getId();
             RegisterUserHyperledger.enrollOrgAppUsers(appUserIdentityId, org, userIdentityId);
-            return new Genson().serialize(doctor);
+            return new Genson().serialize(scientist);
         } catch (Exception e) {
             throw new AuthException("Error while signUp in hyperledger");
         }
@@ -103,12 +104,12 @@ public class MedicalInstitutionService {
         List<UserResponse> userResponseList = new ArrayList<>();
         User user = userDetailsService.getLoggedUser();
 
-        MedicalInstitution medicalInstitution = (MedicalInstitution) user;
-        List<Doctor> doctorList = doctorRepository.findDoctorByIdAndMedicalInstitutionId(id, medicalInstitution.getId());
+        ResearchCenter researchCenter = (ResearchCenter) user;
+        List<Scientist> scientistList = scientistRepository.findScientistByIdAndResearchCenterId(id, researchCenter.getId());
 
-        for (Doctor doctor: doctorList) {
-            DoctorResponse userResponse = new DoctorResponse(doctor);
-            userResponse.setMedicalInstitutionName(userDetailsService.getUserByUserId(userResponse.getMedicalInstitutionId()).getFullName());
+        for (Scientist scientist: scientistList) {
+            ScientistResponse userResponse = new ScientistResponse(scientist);
+            userResponse.setResearchCenterName(userDetailsService.getUserByUserId(userResponse.getResearchCenterId()).getFullName());
             userResponseList.add(userResponse);
         }
 
