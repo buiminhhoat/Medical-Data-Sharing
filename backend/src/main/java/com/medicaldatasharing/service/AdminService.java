@@ -4,6 +4,7 @@ import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
+import com.medicaldatasharing.response.DoctorResponse;
 import com.medicaldatasharing.response.UserResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
@@ -107,6 +108,71 @@ public class AdminService {
 
         try {
             return new Genson().serialize(userResponseList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getUserInfo(String id) throws Exception {
+        List<UserResponse> userResponseList = new ArrayList<>();
+        User user = userDetailsService.getLoggedUser();
+        List<Patient> patientList = patientRepository.findAllById(id);
+        for (Patient patient: patientList) {
+            UserResponse userResponse = new UserResponse(patient);
+            userResponseList.add(userResponse);
+        }
+
+        List<Doctor> doctorList = doctorRepository.findAllById(id);
+        for (Doctor doctor: doctorList) {
+            DoctorResponse userResponse = new DoctorResponse(doctor);
+            userResponse.setMedicalInstitutionName(userDetailsService.getUserByUserId(userResponse.getMedicalInstitutionId()).getFullName());
+            userResponseList.add(userResponse);
+        }
+
+        List<DrugStore> drugStoreList = drugStoreRepository.findAllById(id);
+        for (DrugStore drugStore: drugStoreList) {
+            UserResponse userResponse = new UserResponse(drugStore);
+            userResponseList.add(userResponse);
+        }
+
+        List<InsuranceCompany> insuranceCompanyList = insuranceCompanyRepository.findAllById(id);
+        for (InsuranceCompany insuranceCompany: insuranceCompanyList) {
+            UserResponse userResponse = new UserResponse(insuranceCompany);
+            userResponseList.add(userResponse);
+        }
+
+        List<Manufacturer> manufacturerList = manufacturerRepository.findAllById(id);
+        for (Manufacturer manufacturer: manufacturerList) {
+            UserResponse userResponse = new UserResponse(manufacturer);
+            userResponseList.add(userResponse);
+        }
+
+        List<MedicalInstitution> medicalInstitutionList = medicalInstitutionRepository.findAllById(id);
+        for (MedicalInstitution medicalInstitution: medicalInstitutionList) {
+            UserResponse userResponse = new UserResponse(medicalInstitution);
+            userResponseList.add(userResponse);
+        }
+
+        List<ResearchCenter> researchCenterList = researchCenterRepository.findAllById(id);
+        for (ResearchCenter researchCenter: researchCenterList) {
+            UserResponse userResponse = new UserResponse(researchCenter);
+            userResponseList.add(userResponse);
+        }
+
+        List<Scientist> scientistList = scientistRepository.findAllById(id);
+        for (Scientist scientist: scientistList) {
+            UserResponse userResponse = new UserResponse(scientist);
+            userResponseList.add(userResponse);
+        }
+
+        try {
+            if (userResponseList.size() == 1) {
+                return new Genson().serialize(userResponseList.get(0));
+            }
+            else {
+                throw new Exception("Không tìm thấy thông tin của user " + id);
+            }
         }
         catch (Exception e) {
             throw e;

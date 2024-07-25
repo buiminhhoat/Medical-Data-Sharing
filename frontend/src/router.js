@@ -14,15 +14,12 @@ import UserManagement from "./pages/admin/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
 import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
+import DoctorManagementPage from "./pages/medicalInstitution/DoctorManagementPage";
 
 const userRouters = [
   {
     path: ROUTERS.USER.HOME,
     component: <HomePage></HomePage>,
-  },
-  {
-    path: ROUTERS.USER.REQUEST,
-    component: <RequestManagementPage></RequestManagementPage>,
   },
 ];
 
@@ -39,12 +36,20 @@ const patientRouters = [
     path: ROUTERS.PATIENT.HISTORY_PURCHASE,
     component: <HistoryPurchasePage></HistoryPurchasePage>,
   },
+  {
+    path: ROUTERS.USER.REQUEST,
+    component: <RequestManagementPage></RequestManagementPage>,
+  },
 ];
 
 const doctorRouters = [
   {
     path: ROUTERS.DOCTOR.PATIENT_MANAGED_BY_DOCTOR_PAGE,
     component: <PatientManagedByDoctorPage></PatientManagedByDoctorPage>,
+  },
+  {
+    path: ROUTERS.USER.REQUEST,
+    component: <RequestManagementPage></RequestManagementPage>,
   },
 ];
 
@@ -56,6 +61,17 @@ const adminRouters = [
   {
     path: ROUTERS.ADMIN.USER_MANAGEMENT,
     component: <UserManagement></UserManagement>,
+  },
+];
+
+const medicalInstitutionRouters = [
+  {
+    path: ROUTERS.USER.HOME,
+    component: <HomePage></HomePage>,
+  },
+  {
+    path: ROUTERS.MEDICAL_INSTITUTION.DOCTOR_MANAGEMENT_PAGE,
+    component: <DoctorManagementPage></DoctorManagementPage>,
   },
 ];
 
@@ -86,6 +102,10 @@ const drugStoreRouters = [
   {
     path: ROUTERS.DRUGSTORE.HISTORY_PURCHASE,
     component: <HistoryPurchasePage></HistoryPurchasePage>,
+  },
+  {
+    path: ROUTERS.USER.REQUEST,
+    component: <RequestManagementPage></RequestManagementPage>,
   },
 ];
 
@@ -137,10 +157,25 @@ const renderAdminRouter = () => {
   return (
     <MasterLayout>
       <Routes>
-        {/* {userRouters.map((item, key) => (
+        {userRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component} />
-        ))} */}
+        ))}
         {adminRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+      </Routes>
+    </MasterLayout>
+  );
+};
+
+const renderMedicalInstitutionRouter = () => {
+  return (
+    <MasterLayout>
+      <Routes>
+        {userRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+        {medicalInstitutionRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component} />
         ))}
       </Routes>
@@ -152,9 +187,9 @@ const renderManufacturerRouter = () => {
   return (
     <MasterLayout>
       <Routes>
-        {/* {userRouters.map((item, key) => (
+        {userRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component} />
-        ))} */}
+        ))}
         {manufacturerRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component} />
         ))}
@@ -167,9 +202,9 @@ const renderDrugStoreRouter = () => {
   return (
     <MasterLayout>
       <Routes>
-        {/* {userRouters.map((item, key) => (
+        {userRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component} />
-        ))} */}
+        ))}
         {drugStoreRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component} />
         ))}
@@ -185,25 +220,27 @@ const RouterCustom = () => {
   const [role, setRole] = useState("");
 
   const fetchGetUserData = async () => {
-    console.log(role);
-    try {
-      const response = await fetch(API.PUBLIC.GET_USER_DATA, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+    if (accessToken) {
+      console.log(role);
+      try {
+        const response = await fetch(API.PUBLIC.GET_USER_DATA, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
-      if (response.status === 200) {
-        const data = await response.json();
-        setRole(data.role);
-        console.log("hello ", role);
-      } else {
+        if (response.status === 200) {
+          const data = await response.json();
+          setRole(data.role);
+          console.log("hello ", role);
+        } else {
+          setRole("");
+        }
+      } catch (error) {
         setRole("");
+        console.log(error);
       }
-    } catch (error) {
-      setRole("");
-      console.log(error);
     }
   };
 
@@ -217,7 +254,8 @@ const RouterCustom = () => {
     (role === "Bác sĩ" && renderDoctorRouter()) ||
     (role === "Quản trị viên" && renderAdminRouter()) ||
     (role === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
-    (role === "Cửa hàng thuốc" && renderDrugStoreRouter())
+    (role === "Cửa hàng thuốc" && renderDrugStoreRouter()) ||
+    (role === "Cơ sở y tế" && renderMedicalInstitutionRouter())
   );
 };
 

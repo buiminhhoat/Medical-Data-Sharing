@@ -11,4 +11,6 @@ public interface ResearchCenterRepository extends JpaRepository<ResearchCenter, 
     ResearchCenter findResearchInstituteById(String id);
 
     ResearchCenter findResearchInstituteByEmail(String email);
+
+    List<ResearchCenter> findAllById(String id);
 }

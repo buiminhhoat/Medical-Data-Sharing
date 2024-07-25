@@ -24,20 +24,20 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
 import RegisterUserDialog from "../../../components/dialogs/RegisterUser/RegisterUser";
-import UserInfo from "../../../components/dialogs/UserInfo/UserInfo";
 
-const UserManagementPageStyle = styled.div`
+const DoctorManagementPageStyle = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-const UserManagementPage = () => {
+const DoctorManagementPage = () => {
   const [cookies] = useCookies(["access_token", "id", "role"]);
   const access_token = cookies.access_token;
   const id = cookies.id;
   const role = cookies.role;
 
-  const apiGetAllUserByAdmin = API.ADMIN.GET_ALL_USER_BY_ADMIN;
+  const apiGetAllDoctorByMedicalInstitution =
+    API.MEDICAL_INSTITUTION.GET_ALL_DOCTOR_BY_MEDICAL_INSTITUTION;
 
   const [searchUserId, setSearchUserId] = useState("");
   const [searchUserName, setSearchUserName] = useState("");
@@ -112,7 +112,7 @@ const UserManagementPage = () => {
     if (access_token) {
       console.log("fetchGetAllUserByAdmin");
       try {
-        const response = await fetch(apiGetAllUserByAdmin, {
+        const response = await fetch(apiGetAllDoctorByMedicalInstitution, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -171,9 +171,8 @@ const UserManagementPage = () => {
   const openUserInfo = (user) => {
     console.log("openUserInfo");
     console.log("user: ", user);
-    setSelectedUser(user);
-
-    openModal(DIALOGS.USER_INFO);
+    openModal(DIALOGS.MEDICAL_RECORD);
+    setSelectedUser(user.id);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
@@ -290,7 +289,7 @@ const UserManagementPage = () => {
   };
 
   return (
-    <UserManagementPageStyle>
+    <DoctorManagementPageStyle>
       <div className="page">
         <div className="container">
           <div style={{ marginTop: "20px" }}>
@@ -477,17 +476,17 @@ const UserManagementPage = () => {
         </div>
       )}
 
-      {openDialog === DIALOGS.USER_INFO && (
+      {openDialog === DIALOGS.MEDICAL_RECORD && (
         <div className="modal-overlay">
-          <UserInfo
-            user={selectedUser}
+          <MedicalRecordList
+            id={selectedUser}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
         </div>
       )}
-    </UserManagementPageStyle>
+    </DoctorManagementPageStyle>
   );
 };
 
-export default memo(UserManagementPage);
+export default memo(DoctorManagementPage);

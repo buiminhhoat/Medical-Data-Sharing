@@ -16,4 +16,6 @@ public interface ScientistRepository extends JpaRepository<Scientist, String> {
     List<Scientist> findAllByRole(String role);
 
     Scientist findScientistByEmail(String email);
+
+    List<Scientist> findAllById(String id);
 }

@@ -70,6 +70,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(Constants.DOCTOR_API).hasAuthority(Constants.ROLE_DOCTOR)
                 .antMatchers(Constants.MANUFACTURER_API).hasAuthority(Constants.ROLE_MANUFACTURER)
                 .antMatchers(Constants.DRUGSTORE_API).hasAuthority(Constants.ROLE_DRUG_STORE)
+                .antMatchers(Constants.ADMIN_API).hasAuthority(Constants.ROLE_ADMIN)
+                .antMatchers(Constants.MEDICAL_INSTITUTION_API).hasAuthority(Constants.ROLE_MEDICAL_INSTITUTION)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

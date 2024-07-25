@@ -11,4 +11,6 @@ public interface MedicalInstitutionRepository extends JpaRepository<MedicalInsti
     MedicalInstitution findMedicalInstitutionById(String id);
 
     MedicalInstitution findMedicalInstitutionByEmail(String email);
+
+    List<MedicalInstitution> findAllById(String id);
 }

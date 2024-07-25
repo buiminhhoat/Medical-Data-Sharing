@@ -198,6 +198,13 @@ const RequestPage = () => {
     if (access_token) fetGetAllRequest().then((r) => {});
   }, [access_token]);
 
+  const [openDialog, setOpenDialog] = useState();
+
+  useEffect(() => {
+    console.log("openDialog :)");
+    fetGetAllRequest().then((r) => {});
+  }, [openDialog]);
+
   useEffect(() => {
     handleSearch();
   }, [
@@ -212,7 +219,6 @@ const RequestPage = () => {
     searchRequestStatus,
   ]);
 
-  const [openDialog, setOpenDialog] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
   const handleDialogSwitch = (dialogName) => {
@@ -270,13 +276,13 @@ const RequestPage = () => {
             onMouseEnter={() => setHighlightedText(index)}
             onMouseLeave={() => setHighlightedText(null)}
             style={{
-              backgroundColor: highlightedText === index ? "#ffe898" : "", // sử dụng màu để làm nổi bật văn bản
+              backgroundColor: highlightedText === index ? "#ffe898" : "",
               border:
                 highlightedText === index
                   ? "2px dashed rgb(234, 179, 8)"
                   : "none",
               borderRadius: "4px",
-              padding: "2px", // Thêm padding để đường viền không dính sát vào chữ
+              padding: "2px",
               cursor: "pointer",
             }}
             onClick={() => {

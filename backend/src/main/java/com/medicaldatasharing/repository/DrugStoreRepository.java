@@ -9,4 +9,6 @@ public interface DrugStoreRepository extends JpaRepository<DrugStore, String> {
     DrugStore findDrugStoreById(String id);
 
     DrugStore findDrugStoreByEmail(String mail);
+
+    List<DrugStore> findAllById(String id);
 }

@@ -1,9 +1,16 @@
 package com.medicaldatasharing.response;
 
+import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.owlike.genson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.print.Doc;
+
+@Getter
+@Setter
 public class UserResponse {
     @JsonProperty("id")
     protected String id;
@@ -23,6 +30,15 @@ public class UserResponse {
     @JsonProperty("avatar")
     protected String avatar;
 
+    @JsonProperty("enabled")
+    protected String enabled;
+
+    @JsonProperty("medicalInstitutionId")
+    protected String medicalInstitutionId;
+
+    @JsonProperty("department")
+    protected String department;
+
     public UserResponse() {
     }
 
@@ -33,5 +49,6 @@ public class UserResponse {
         this.role = user.getRole();
         this.address = user.getAddress();
         this.avatar = user.getAvatar();
+        this.enabled = String.valueOf(user.isEnabled());
     }
 }

@@ -75,13 +75,6 @@ const HeaderLayout = () => {
   const userId = cookies.userId;
   const role = cookies.role;
 
-  const [userMenuItems, setUserMenuItems] = useState([
-    {
-      name: "Quản lý yêu cầu",
-      path: ROUTERS.USER.REQUEST,
-    },
-  ]);
-
   const [patientMenuItems, setPatientMenuItems] = useState([
     {
       name: "Đặt lịch khám",
@@ -95,12 +88,20 @@ const HeaderLayout = () => {
       name: "Lịch sử giao dịch",
       path: ROUTERS.PATIENT.HISTORY_PURCHASE,
     },
+    {
+      name: "Quản lý yêu cầu",
+      path: ROUTERS.USER.REQUEST,
+    },
   ]);
 
   const [doctorMenuItems, setDoctorMenuItems] = useState([
     {
       name: "Quản lý bệnh nhân",
       path: ROUTERS.DOCTOR.PATIENT_MANAGED_BY_DOCTOR_PAGE,
+    },
+    {
+      name: "Quản lý yêu cầu",
+      path: ROUTERS.USER.REQUEST,
     },
   ]);
 
@@ -110,6 +111,14 @@ const HeaderLayout = () => {
       path: ROUTERS.ADMIN.USER_MANAGEMENT,
     },
   ]);
+
+  const [medicalInstitutionMenuItems, setMedicalInstitutionMenuItems] =
+    useState([
+      {
+        name: "Quản lý bác sĩ",
+        path: ROUTERS.MEDICAL_INSTITUTION.DOCTOR_MANAGEMENT_PAGE,
+      },
+    ]);
 
   const [manufacturerMenuItems, setManufacturerMenuItems] = useState([
     {
@@ -126,6 +135,10 @@ const HeaderLayout = () => {
     {
       name: "Lịch sử giao dịch",
       path: ROUTERS.DRUGSTORE.HISTORY_PURCHASE,
+    },
+    {
+      name: "Quản lý yêu cầu",
+      path: ROUTERS.USER.REQUEST,
     },
   ]);
 
@@ -155,6 +168,15 @@ const HeaderLayout = () => {
         });
       }
 
+      if (role === "Cửa hàng thuốc") {
+        drugStoreMenuItems.map((item, key) => {
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
+        });
+      }
+
       if (role === "Quản trị viên") {
         adminMenuItems.map((item, key) => {
           items.push({
@@ -172,22 +194,16 @@ const HeaderLayout = () => {
           });
         });
       }
-      if (role === "Cửa hàng thuốc") {
-        drugStoreMenuItems.map((item, key) => {
+
+      if (role === "Cơ sở y tế") {
+        medicalInstitutionMenuItems.map((item, key) => {
           items.push({
             key: item.path,
             label: item.name,
           });
         });
       }
-      if (role !== "Quản trị viên" && role !== "Công ty sản xuất thuốc") {
-        userMenuItems.map((item, key) => {
-          items.push({
-            key: item.path,
-            label: item.name,
-          });
-        });
-      }
+
       setMenuItems(items);
     }
   });

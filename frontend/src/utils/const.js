@@ -14,7 +14,8 @@ export const DIALOGS = {
   SELLING_PRESCRIPTION_DRUG: "SELLING_PRESCRIPTION_DRUG",
   PURCHASE_DETAIL: "PURCHASE_DETAIL",
   ADD_USER: "ADD_USER",
-  QRCODE_SCANNER: "QRCODE_SCANNER"
+  QRCODE_SCANNER: "QRCODE_SCANNER",
+  USER_INFO: "USER_INFO",
 };
 
 export const API = {
@@ -56,6 +57,7 @@ export const API = {
   ADMIN: {
     GET_ALL_USER_BY_ADMIN: "/api/admin/get-all-user-by-admin",
     REGISTER_USER: "/api/admin/register-user",
+    GET_USER_INFO: "/api/admin/get-user-info",
   },
   MANUFACTURER: {
     GET_LIST_MEDICATION_BY_MANUFACTURERID:
@@ -74,6 +76,10 @@ export const API = {
     GET_LIST_PURCHASE_BY_DRUGSTORE_ID:
       "/api/drugstore/get-list-purchase-by-drugStoreId",
     GET_PURCHASE_BY_PURCHASE_ID: "/api/drugstore/get-purchase-by-purchaseId",
+  },
+  MEDICAL_INSTITUTION: {
+    GET_ALL_DOCTOR_BY_MEDICAL_INSTITUTION:
+      "/api/medical_institution/get-all-doctor-by-medical-institution",
   },
 };
 
