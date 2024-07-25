@@ -27,6 +27,10 @@ public class RegisterForm {
     @NotBlank
     String role;
 
+    String department;
+
+    String medicalInstitutionId;
+
     String businessLicenseNumber;
 
     public JSONObject toJSONObject() {

@@ -48,6 +48,12 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
 
   let apiGetUserInfo = API.ADMIN.GET_USER_INFO;
 
+  if (role === "Cơ sở y tế") {
+    apiGetUserInfo = API.MEDICAL_INSTITUTION.GET_USER_INFO;
+  }
+
+  console.log("role: ", role);
+
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
@@ -445,10 +451,14 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
               width={200}
               height={200}
               style={{ maxWidth: "100%" }}
-              src="https://i.pinimg.com/originals/60/07/0e/60070ed889df308cbe80253e8c36b3a3.jpg"
+              src={
+                data.avatar
+                  ? data.avatar
+                  : "https://i.pinimg.com/originals/60/07/0e/60070ed889df308cbe80253e8c36b3a3.jpg"
+              }
             />
           </div>
-          <div style={{ marginTop: "20px", marginLeft: "20px" }}>
+          <div style={{ marginTop: "45px", marginLeft: "20px" }}>
             <Info>
               <div className="field">ID người dùng</div>
               <TextWithQRCode value={data.id}></TextWithQRCode>

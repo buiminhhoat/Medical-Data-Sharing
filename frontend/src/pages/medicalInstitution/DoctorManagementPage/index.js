@@ -24,6 +24,7 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
 import RegisterUserDialog from "../../../components/dialogs/RegisterUser/RegisterUser";
+import UserInfo from "../../../components/dialogs/UserInfo/UserInfo";
 
 const DoctorManagementPageStyle = styled.div`
   width: 100%;
@@ -108,9 +109,9 @@ const DoctorManagementPage = () => {
     setSearchAddress("");
   };
 
-  const fetchGetAllUserByAdmin = async () => {
+  const fetchGetAllDoctorByMedicalInstitution = async () => {
     if (access_token) {
-      console.log("fetchGetAllUserByAdmin");
+      console.log("fetchGetAllDoctorByMedicalInstitution");
       try {
         const response = await fetch(apiGetAllDoctorByMedicalInstitution, {
           method: "POST",
@@ -131,7 +132,7 @@ const DoctorManagementPage = () => {
   };
 
   useEffect(() => {
-    if (access_token) fetchGetAllUserByAdmin().then((r) => {});
+    if (access_token) fetchGetAllDoctorByMedicalInstitution().then((r) => {});
   }, [access_token]);
 
   useEffect(() => {
@@ -147,6 +148,10 @@ const DoctorManagementPage = () => {
 
   const [openDialog, setOpenDialog] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  useEffect(() => {
+    if (access_token) fetchGetAllDoctorByMedicalInstitution().then((r) => {});
+  }, [openDialog]);
 
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
@@ -171,8 +176,9 @@ const DoctorManagementPage = () => {
   const openUserInfo = (user) => {
     console.log("openUserInfo");
     console.log("user: ", user);
-    openModal(DIALOGS.MEDICAL_RECORD);
-    setSelectedUser(user.id);
+    setSelectedUser(user);
+
+    openModal(DIALOGS.USER_INFO);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
@@ -476,10 +482,10 @@ const DoctorManagementPage = () => {
         </div>
       )}
 
-      {openDialog === DIALOGS.MEDICAL_RECORD && (
+      {openDialog === DIALOGS.USER_INFO && (
         <div className="modal-overlay">
-          <MedicalRecordList
-            id={selectedUser}
+          <UserInfo
+            user={selectedUser}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />

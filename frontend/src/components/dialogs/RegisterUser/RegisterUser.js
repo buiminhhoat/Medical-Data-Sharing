@@ -41,7 +41,16 @@ const RegisterUserDialog = ({ values, onClose, onSwitch }) => {
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  const apiRegisterUser = API.ADMIN.REGISTER_USER;
+  let apiRegisterUser = API.ADMIN.REGISTER_USER;
+
+  if (role === "Cơ sở y tế") {
+    apiRegisterUser = API.MEDICAL_INSTITUTION.REGISTER_USER;
+  }
+
+  if (role === "Trung tâm nghiên cứu") {
+    apiRegisterUser = API.RESEARCH_CENTER.REGISTER_USER;
+  }
+
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [options, setOptions] = useState();
@@ -61,6 +70,24 @@ const RegisterUserDialog = ({ values, onClose, onSwitch }) => {
         {
           label: "Trung tâm nghiên cứu",
           value: "Trung tâm nghiên cứu",
+        },
+      ]);
+    }
+
+    if (role === "Cơ sở y tế") {
+      setOptions([
+        {
+          label: "Bác sĩ",
+          value: "Bác sĩ",
+        },
+      ]);
+    }
+
+    if (role === "Trung tâm nghiên cứu") {
+      setOptions([
+        {
+          label: "Nhà khoa học",
+          value: "Nhà khoa học",
         },
       ]);
     }
@@ -115,6 +142,25 @@ const RegisterUserDialog = ({ values, onClose, onSwitch }) => {
         >
           <Input />
         </Form.Item>
+      );
+    }
+
+    if (value === "Bác sĩ") {
+      return (
+        <>
+          <Form.Item
+            label="Chuyên khoa"
+            name="department"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng điền chuyên khoa",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </>
       );
     }
     return "";

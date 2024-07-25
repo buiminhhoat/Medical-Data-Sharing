@@ -148,6 +148,10 @@ const UserManagementPage = () => {
   const [openDialog, setOpenDialog] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
+  useEffect(() => {
+    if (access_token) fetchGetAllUserByAdmin().then((r) => {});
+  }, [openDialog]);
+
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
   };

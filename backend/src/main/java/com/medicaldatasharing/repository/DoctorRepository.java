@@ -19,4 +19,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, String> {
     List<Doctor> findAllByMedicalInstitutionId(String medicalInstitutionId);
 
     List<Doctor> findAllById(String id);
+
+    List<Doctor> findDoctorByIdAndMedicalInstitutionId(String id, String medicalInstitutionId);
 }

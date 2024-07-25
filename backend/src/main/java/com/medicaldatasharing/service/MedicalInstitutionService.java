@@ -5,7 +5,7 @@ import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
-import com.medicaldatasharing.response.UserResponse;
+import com.medicaldatasharing.response.*;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
@@ -73,71 +73,56 @@ public class MedicalInstitutionService {
         }
     }
 
-    public String registerMedicalInstitution(RegisterForm registerForm) {
-        MedicalInstitution medicalInstitution = null;
+    public String registerDoctor(RegisterForm registerForm) throws AuthException {
         try {
-            medicalInstitution = MedicalInstitution
+            Doctor doctor = Doctor
                     .builder()
                     .fullName(registerForm.getFullName())
                     .email(registerForm.getEmail())
-                    .role(Constants.ROLE_MEDICAL_INSTITUTION)
+                    .role(Constants.ROLE_DOCTOR)
                     .username(registerForm.getEmail())
                     .password(passwordEncoder.encode(registerForm.getPassword()))
+                    .enabled(true)
+                    .department(registerForm.getDepartment())
+                    .medicalInstitutionId(userDetailsService.getLoggedUser().getId())
                     .address(registerForm.getAddress())
-                    .enabled(true)
                     .build();
-            medicalInstitutionRepository.save(medicalInstitution);
-            return new Genson().serialize(medicalInstitution);
-        }
-        catch (Exception exception) {
-            medicalInstitutionRepository.delete(medicalInstitution);
-            throw exception;
-        }
-    }
+            doctorRepository.save(doctor);
 
-    public String registerManufacturer(RegisterForm registerForm) throws AuthException {
-        try {
-            Manufacturer manufacturer = Manufacturer
-                    .builder()
-                    .fullName(registerForm.getFullName())
-                    .email(registerForm.getEmail())
-                    .businessLicenseNumber(registerForm.getBusinessLicenseNumber())
-                    .role(Constants.ROLE_MANUFACTURER)
-                    .username(registerForm.getEmail())
-                    .password(passwordEncoder.encode(registerForm.getPassword()))
-                    .enabled(true)
-                    .build();
-            manufacturerRepository.save(manufacturer);
-
-            String appUserIdentityId = manufacturer.getEmail();
-            String org = Config.MANUFACTURER_ORG;
-            String userIdentityId = manufacturer.getId();
+            String appUserIdentityId = doctor.getEmail();
+            String org = Config.DOCTOR_ORG;
+            String userIdentityId = doctor.getId();
             RegisterUserHyperledger.enrollOrgAppUsers(appUserIdentityId, org, userIdentityId);
-            return new Genson().serialize(manufacturer);
+            return new Genson().serialize(doctor);
         } catch (Exception e) {
             throw new AuthException("Error while signUp in hyperledger");
         }
     }
 
-    public String registerResearchCenter(RegisterForm registerForm) throws AuthException {
-        ResearchCenter researchCenter = null;
-        try {
-            researchCenter = ResearchCenter
-                    .builder()
-                    .fullName(registerForm.getFullName())
-                    .email(registerForm.getEmail())
-                    .username(registerForm.getEmail())
-                    .password(passwordEncoder.encode(registerForm.getPassword()))
-                    .address(registerForm.getAddress())
-                    .role(Constants.ROLE_RESEARCH_CENTER)
-                    .enabled(true)
-                    .build();
+    public String getUserInfo(String id) throws Exception {
+        List<UserResponse> userResponseList = new ArrayList<>();
+        User user = userDetailsService.getLoggedUser();
 
-            researchCenterRepository.save(researchCenter);
-            return new Genson().serialize(researchCenter);
-        } catch (Exception e) {
-            researchCenterRepository.delete(researchCenter);
+        MedicalInstitution medicalInstitution = (MedicalInstitution) user;
+        List<Doctor> doctorList = doctorRepository.findDoctorByIdAndMedicalInstitutionId(id, medicalInstitution.getId());
+
+        for (Doctor doctor: doctorList) {
+            DoctorResponse userResponse = new DoctorResponse(doctor);
+            userResponse.setMedicalInstitutionName(userDetailsService.getUserByUserId(userResponse.getMedicalInstitutionId()).getFullName());
+            userResponseList.add(userResponse);
+        }
+
+        try {
+            if (userResponseList.size() == 1) {
+                return new Genson().serialize(userResponseList.get(0));
+            }
+            else {
+                throw new Exception("Không tìm thấy thông tin của user " + id);
+            }
+        }
+        catch (Exception e) {
             throw e;
         }
     }
+
 }
