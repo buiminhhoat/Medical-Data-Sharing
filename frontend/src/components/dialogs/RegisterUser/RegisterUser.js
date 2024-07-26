@@ -230,10 +230,10 @@ const RegisterUserDialog = ({ values, onClose, onSwitch }) => {
   };
 
   const [api, contextHolder] = notification.useNotification();
-  const openNotification = (placement, type, message, password, onClose) => {
+  const openNotification = (placement, type, message, description, onClose) => {
     api[type]({
       message: message,
-      password: password,
+      description: description,
       placement,
       showProgress: true,
       pauseOnHover: true,
