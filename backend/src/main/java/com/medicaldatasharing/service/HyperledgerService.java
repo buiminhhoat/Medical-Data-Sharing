@@ -923,6 +923,31 @@ public class HyperledgerService {
         return viewPrescriptionRequest;
     }
 
+    public ViewPrescriptionRequest sharePrescriptionByPatient(User user,
+                                                              SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm) throws Exception {
+        ViewPrescriptionRequest viewPrescriptionRequest = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("senderId", sendViewPrescriptionRequestForm.getSenderId());
+            jsonObject.put("recipientId", sendViewPrescriptionRequestForm.getRecipientId());
+            jsonObject.put("dateCreated", sendViewPrescriptionRequestForm.getDateCreated());
+            jsonObject.put("dateModified", sendViewPrescriptionRequestForm.getDateModified());
+            jsonObject.put("prescriptionId", sendViewPrescriptionRequestForm.getPrescriptionId());
+            byte[] result = contract.submitTransaction(
+                    "sharePrescriptionByPatient",
+                    jsonObject.toString()
+            );
+
+            String viewPrescriptionRequestStr = new String(result);
+            viewPrescriptionRequest = new Genson().deserialize(viewPrescriptionRequestStr, ViewPrescriptionRequest.class);
+            LOG.info("result: " + viewPrescriptionRequest);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return viewPrescriptionRequest;
+    }
+
     public ViewPrescriptionRequest defineViewPrescriptionRequest(User user, DefineViewPrescriptionRequestForm defineViewPrescriptionRequestForm) throws Exception {
         ViewPrescriptionRequest viewPrescriptionRequest = null;
         try {

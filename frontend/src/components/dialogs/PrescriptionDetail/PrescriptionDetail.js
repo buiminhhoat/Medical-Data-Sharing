@@ -17,6 +17,7 @@ import {
   Typography,
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import SharePrescriptionDialog from "../SharePrescriptionDialog/SharePrescriptionDialog";
 const { Option } = Select;
 
 const PrescriptionDetailStyle = styled.div`
@@ -65,6 +66,23 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
+  };
+
+  const [openDialog, setOpenDialog] = useState(null);
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
   };
 
   const fetchGetPrescriptionByPrescriptionId = async () => {
@@ -177,6 +195,11 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
     },
   ];
 
+  const onClickSharePrescription = () => {
+    console.log("hello");
+    openModal(DIALOGS.SHARE_PRESCRIPTION);
+  };
+
   return (
     <PrescriptionDetailStyle>
       <Modal
@@ -227,7 +250,6 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
           )}
           loading={loading}
         />
-        ;
         <div
           style={{
             display: "flex",
@@ -236,13 +258,28 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
             marginTop: "1%",
           }}
         >
-          {/* {medicalRecord.patientId === userId && (
+          {role === "Bệnh nhân" && (
             <>
-              <Button style={{ marginRight: "3%" }}>Chia sẻ đơn thuốc</Button>
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={onClickSharePrescription}
+              >
+                Chia sẻ đơn thuốc
+              </Button>
             </>
-          )} */}
+          )}
         </div>
       </Modal>
+
+      {openDialog === DIALOGS.SHARE_PRESCRIPTION && (
+        <div className="modal-overlay">
+          <SharePrescriptionDialog
+            prescriptionId={prescriptionId}
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
     </PrescriptionDetailStyle>
   );
 };

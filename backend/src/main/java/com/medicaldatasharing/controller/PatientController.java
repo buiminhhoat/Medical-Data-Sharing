@@ -94,6 +94,20 @@ public class PatientController {
         }
     }
 
+    @PostMapping("/share-prescription-by-patient")
+    public ResponseEntity<?> sharePrescriptionByPatient(@Valid @ModelAttribute SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm, BindingResult result) throws Exception {
+        try {
+            sendViewPrescriptionRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
+            sendViewPrescriptionRequestForm.setDateModified(StringUtil.parseDate(new Date()));
+            sendViewPrescriptionRequestForm.setRecipientId(userDetailsService.getLoggedUser().getId());
+            String sharePrescriptionByPatient = patientService.sharePrescriptionByPatient(sendViewPrescriptionRequestForm);
+            return ResponseEntity.status(HttpStatus.OK).body(sharePrescriptionByPatient);
+        }
+        catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @PostMapping("/get-list-purchase-by-patientId")
     public ResponseEntity<?> getListPurchaseByPatientId(@Valid @ModelAttribute SearchPurchaseForm searchPurchaseForm,
                                                         BindingResult result) {

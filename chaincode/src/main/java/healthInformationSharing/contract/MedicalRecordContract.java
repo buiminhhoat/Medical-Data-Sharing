@@ -1030,6 +1030,34 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String sharePrescriptionByPatient(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        String senderId = jsonObject.getString("senderId");
+        String recipientId = jsonObject.getString("recipientId");
+        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
+        String prescriptionId = jsonObject.getString("prescriptionId");
+
+        authorizeRequest(ctx, recipientId, "sharePrescriptionByPatient(validate recipientId)");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("senderId", senderId);
+        jsonDto.put("recipientId", recipientId);
+        jsonDto.put("dateCreated", dateCreated);
+        jsonDto.put("dateModified", dateModified);
+        jsonDto.put("requestType", RequestType.VIEW_PRESCRIPTION);
+        jsonDto.put("prescriptionId", prescriptionId);
+        ViewPrescriptionRequest viewPrescriptionRequest = ctx.getViewPrescriptionRequestDAO().sharePrescriptionByPatient(
+                jsonDto
+        );
+        return new Genson().serialize(viewPrescriptionRequest);
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String defineViewPrescriptionRequest(
             MedicalRecordContext ctx,
             String jsonString

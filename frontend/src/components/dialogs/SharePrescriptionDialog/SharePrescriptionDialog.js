@@ -36,23 +36,23 @@ const Context = React.createContext({
   name: "Default",
 });
 
-const SendRequestDialogStyle = styled.div`
+const SharePrescriptionDialogStyle = styled.div`
   overflow: auto;
 `;
 
-const SendRequestDialog = ({ values, onClose, onSwitch }) => {
+const SharePrescriptionDialog = ({ prescriptionId, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  const [apiSendRequest, setApiSendRequest] = useState("");
+  const [apiSharePrescription, setApiSharePrescription] = useState(
+    API.PATIENT.SHARE_PRESCRIPTION_BY_PATIENT
+  );
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [recipientId, setRecipientId] = useState(
-    values ? values.recipientId : ""
-  );
+  const [recipientId, setRecipientId] = useState();
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -83,30 +83,8 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
 
   const patientOptions = [
     {
-      value: "Đặt lịch khám",
-      label: "Đặt lịch khám",
-    },
-    {
-      value: "Mua bảo hiểm",
-      label: "Mua bảo hiểm",
-    },
-    {
-      value: "Thanh toán",
-      label: "Thanh toán",
-    },
-  ];
-
-  const doctorOptions = [
-    {
-      value: "Xem hồ sơ y tế",
-      label: "Xem hồ sơ y tế",
-    },
-  ];
-
-  const drugStoreOptions = [
-    {
-      value: "Xem đơn thuốc",
-      label: "Xem đơn thuốc",
+      value: "Chia sẻ đơn thuốc",
+      label: "Chia sẻ đơn thuốc",
     },
   ];
 
@@ -117,8 +95,6 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     console.log("role: ", role);
     if (options === null) {
       if (role === "Bệnh nhân") setOptions(patientOptions);
-      if (role === "Bác sĩ") setOptions(doctorOptions);
-      if (role === "Cửa hàng thuốc") setOptions(drugStoreOptions);
     }
   });
 
@@ -130,14 +106,14 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     if (access_token) {
       setIsConfirmModalOpen(false);
       setDisabledButton(true);
-      console.log("apiSendRequest: ", apiSendRequest);
-      const formData = new FormData();
+      console.log("apiSharePrescription: ", apiSharePrescription);
 
+      const formData = new FormData();
       console.log(valuesForm);
-      for (const key in valuesForm) {
-        if (key === "hashFile") continue;
-        formData.append(key, valuesForm[key]);
-      }
+
+      formData.append("senderId", valuesForm["recipientId"]);
+      formData.append("recipientId", userId);
+      formData.append("prescriptionId", prescriptionId);
 
       openNotification(
         "topRight",
@@ -147,7 +123,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
       );
 
       try {
-        const response = await fetch(apiSendRequest, {
+        const response = await fetch(apiSharePrescription, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -181,53 +157,6 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     }
   };
 
-  const [treeData, setTreeData] = useState(null);
-
-  const renderViewPrescriptionRequest = () => {
-    return (
-      <Form.Item
-        label="ID đơn thuốc"
-        name="prescriptionId"
-        rules={[
-          {
-            required: true,
-            message: "Vui lòng điền ID đơn thuốc",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-    );
-  };
-
-  const changeRequestType = (value) => {
-    if (value === "Đặt lịch khám") {
-      setApiSendRequest(API.PATIENT.SEND_APPOINTMENT_REQUEST);
-    }
-    if (value === "Xem hồ sơ y tế") {
-      setApiSendRequest(API.DOCTOR.SEND_VIEW_REQUEST);
-    }
-    if (value === "Xem đơn thuốc") {
-      setAdditionalFields(renderViewPrescriptionRequest());
-      setApiSendRequest(API.DRUGSTORE.SEND_VIEW_PRESCRIPTION_REQUEST);
-    }
-  };
-
-  useEffect(() => {
-    if (values != null) {
-      changeRequestType(values.requestType);
-    }
-  }, [values]);
-
-  const onChange = (value) => {
-    console.log("value: ", value);
-    changeRequestType(value);
-  };
-
-  const onPopupScroll = (e) => {
-    console.log("onPopupScroll", e);
-  };
-
   const onClickScan = () => {
     setOpenDialog(DIALOGS.QRCODE_SCANNER);
   };
@@ -244,13 +173,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     });
   };
 
-  const [hashFile, setHashFile] = useState("");
-
-  console.log(doctorOptions);
-
   const [senderId, setSenderId] = useState(userId);
-
-  const [additionalFields, setAdditionalFields] = useState(null);
 
   // console.log(requestType);
 
@@ -273,11 +196,11 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const [disabledButton, setDisabledButton] = useState(false);
 
   return (
-    <Context.Provider value={"Tạo yêu cầu"}>
+    <Context.Provider value={"Chia sẻ đơn thuốc"}>
       {contextHolder}
-      <SendRequestDialogStyle>
+      <SharePrescriptionDialogStyle>
         <Modal
-          title="Tạo yêu cầu"
+          title="Chia sẻ đơn thuốc"
           open={isModalOpen}
           onCancel={handleCancel}
           footer={null}
@@ -286,7 +209,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
           // loading={loading}
         >
           <Form
-            name="addRequest"
+            name="sharePrescription"
             labelCol={{
               span: 5,
             }}
@@ -300,11 +223,10 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
             }}
             initialValues={{
               // requestId: request.requestId,
-              senderId: senderId,
               // senderName: request.senderName,
               recipientId: recipientId,
+              prescriptionId: prescriptionId,
               // recipientName: values.recipientName,
-              requestType: values ? values.requestType : "",
               // medicalInstitutionName: request.medicalInstitutionName,
               remember: true,
             }}
@@ -314,22 +236,18 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
             form={form}
           >
             <div style={{ width: "100%" }}>
-              <Form.Item label="ID người gửi" name="senderId">
+              <Form.Item label="ID đơn thuốc" name="prescriptionId">
                 <Input disabled />
               </Form.Item>
 
-              <Form.Item label="Tên người gửi" name="senderName">
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item label="ID người nhận" name="recipientId">
+              <Form.Item label="ID cửa hàng thuốc" name="recipientId">
                 <Form.Item
                   name="recipientId"
                   noStyle
                   rules={[
                     {
                       required: true,
-                      message: "Vui lòng điền ID người nhận!",
+                      message: "Vui lòng điền ID cửa hàng thuốc!",
                     },
                   ]}
                 >
@@ -341,7 +259,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                         rules={[
                           {
                             required: true,
-                            message: "Vui lòng điền ID người nhận!",
+                            message: "Vui lòng điền ID cửa hàng thuốc!",
                           },
                         ]}
                       >
@@ -366,27 +284,9 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                 </Form.Item>
               </Form.Item>
 
-              <Form.Item label="Tên người nhận" name="recipientName">
+              <Form.Item label="Tên cửa hàng thuốc" name="recipientName">
                 <Input disabled />
               </Form.Item>
-              <Form.Item
-                label="Loại yêu cầu"
-                name="requestType"
-                rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng điền loại yêu cầu!",
-                  },
-                ]}
-              >
-                <Select
-                  options={options}
-                  onChange={(value) => {
-                    onChange(value);
-                  }}
-                />
-              </Form.Item>
-              {additionalFields}
             </div>
             <div
               style={{
@@ -430,9 +330,9 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
             />
           </div>
         )} */}
-      </SendRequestDialogStyle>
+      </SharePrescriptionDialogStyle>
     </Context.Provider>
   );
 };
 
-export default SendRequestDialog;
+export default SharePrescriptionDialog;

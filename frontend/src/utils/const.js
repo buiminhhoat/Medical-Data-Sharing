@@ -16,6 +16,7 @@ export const DIALOGS = {
   ADD_USER: "ADD_USER",
   QRCODE_SCANNER: "QRCODE_SCANNER",
   USER_INFO: "USER_INFO",
+  SHARE_PRESCRIPTION: "SHARE_PRESCRIPTION",
 };
 
 export const API = {
@@ -44,6 +45,7 @@ export const API = {
       "/api/patient/get-list-purchase-by-patientId",
     GET_PURCHASE_BY_PURCHASE_ID: "/api/patient/get-purchase-by-purchaseId",
     DEFINE_MEDICAL_RECORD: "/api/patient/define-medical-record",
+    SHARE_PRESCRIPTION_BY_PATIENT: "/api/patient/share-prescription-by-patient",
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",

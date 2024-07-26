@@ -56,6 +56,10 @@ public class ViewPrescriptionRequestDAO {
         return viewPrescriptionRequestCRUD.sendViewPrescriptionRequest(jsonDto);
     }
 
+    public ViewPrescriptionRequest sharePrescriptionByPatient(JSONObject jsonDto) {
+        return viewPrescriptionRequestCRUD.sharePrescriptionByPatient(jsonDto);
+    }
+
     public List<ViewPrescriptionRequest> getListViewPrescriptionRequestBySenderQuery(JSONObject jsonDto) {
         return viewPrescriptionRequestQuery.getListViewPrescriptionRequest(jsonDto);
     }

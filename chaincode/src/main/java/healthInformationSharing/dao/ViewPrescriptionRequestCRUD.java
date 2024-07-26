@@ -78,4 +78,32 @@ public class ViewPrescriptionRequestCRUD {
         ctx.getStub().putStringState(dbKey, requestStr);
         return request;
     }
+
+    public ViewPrescriptionRequest sharePrescriptionByPatient(JSONObject jsonDto) {
+        String senderId = jsonDto.getString("senderId");
+        String recipientId = jsonDto.getString("recipientId");
+        String dateCreated = jsonDto.getString("dateCreated");
+        String dateModified = jsonDto.getString("dateModified");
+        String requestType = jsonDto.getString("requestType");
+        String prescriptionId = jsonDto.getString("prescriptionId");
+
+        String requestId = ctx.getStub().getTxId();
+        CompositeKey compositeKey = ctx.getStub().createCompositeKey(entityName, requestId);
+        String dbKey = compositeKey.toString();
+
+        ViewPrescriptionRequest request = ViewPrescriptionRequest.createInstance(
+                requestId,
+                senderId,
+                recipientId,
+                dateCreated,
+                dateModified,
+                requestType,
+                RequestStatus.ACCEPTED,
+                prescriptionId
+        );
+
+        String requestStr = genson.serialize(request);
+        ctx.getStub().putStringState(dbKey, requestStr);
+        return request;
+    }
 }
