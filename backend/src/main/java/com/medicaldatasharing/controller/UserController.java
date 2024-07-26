@@ -54,6 +54,18 @@ public class UserController {
         }
     }
 
+    @PostMapping("/get-user-info")
+    public ResponseEntity<?> getUserInfo(HttpServletRequest httpServletRequest) throws Exception {
+        try {
+            String id = httpServletRequest.getParameter("id");
+            String getUserInfo = userService.getUserInfo(id);
+            return ResponseEntity.status(HttpStatus.OK).body(getUserInfo);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @PostMapping("/define-request")
     public ResponseEntity<?> defineRequest(
             @Valid @ModelAttribute DefineRequestForm defineRequestForm,

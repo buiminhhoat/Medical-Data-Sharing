@@ -56,8 +56,8 @@ const ProfileMenu = ({ openModal }) => {
     if (access_token) fetchUserData().then((r) => {});
   }, [access_token]);
 
-  return (
-    <ProfileMenuStyle>
+  const renderHasAccessToken = () => {
+    return (
       <div className="info">
         <div>
           <ul style={{ marginRight: 20, textAlign: "right" }}>
@@ -66,6 +66,22 @@ const ProfileMenu = ({ openModal }) => {
           </ul>
         </div>
 
+        <a href="/profile">
+          <div className="pointer-cursor">
+            <Space direction="vertical" size={16}>
+              <Space wrap size={16}>
+                <Avatar size={45} icon={<UserOutlined />} />
+              </Space>
+            </Space>
+          </div>
+        </a>
+      </div>
+    );
+  };
+
+  const renderNoAccessToken = () => {
+    return (
+      <div className="info">
         <div
           className="pointer-cursor"
           onClick={() => openModal(DIALOGS.LOGIN)}
@@ -77,6 +93,12 @@ const ProfileMenu = ({ openModal }) => {
           </Space>
         </div>
       </div>
+    );
+  };
+
+  return (
+    <ProfileMenuStyle>
+      {access_token ? renderHasAccessToken() : renderNoAccessToken()}
     </ProfileMenuStyle>
   );
 };

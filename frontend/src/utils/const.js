@@ -30,6 +30,7 @@ export const API = {
     GET_ALL_DOCTOR: "/api/public/get-all-doctor",
     GET_LIST_DRUG_BY_OWNER_ID: "/api/public/get-list-drug-by-ownerId",
     DEFINE_REQUEST: "/api/public/define-request",
+    GET_USER_INFO: "/api/public/get-user-info",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:

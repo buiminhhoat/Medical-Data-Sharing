@@ -14,11 +14,16 @@ import UserManagement from "./pages/admin/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
 import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
+import ProfilePage from "./pages/users/ProfilePage";
 
 const userRouters = [
   {
     path: ROUTERS.USER.HOME,
     component: <HomePage></HomePage>,
+  },
+  {
+    path: ROUTERS.USER.PROFILE,
+    component: <ProfilePage></ProfilePage>,
   },
 ];
 
