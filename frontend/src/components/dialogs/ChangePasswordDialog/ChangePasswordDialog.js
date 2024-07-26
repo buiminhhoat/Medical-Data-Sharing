@@ -123,15 +123,14 @@ const ChangePasswordDialog = ({ userId, onClose, onSwitch }) => {
             <Form
               name="basic"
               labelCol={{
-                span: 8,
+                span: 9,
               }}
               wrapperCol={{
-                span: 16,
+                span: 18,
               }}
               style={{
-                maxWidth: 600,
-                justifyContent: "center",
-                alignItems: "center",
+                marginTop: "4%",
+                marginRight: "5%",
               }}
               initialValues={{}}
               onFinish={handleConfirm}
@@ -194,20 +193,26 @@ const ChangePasswordDialog = ({ userId, onClose, onSwitch }) => {
                 <Input.Password />
               </Form.Item>
 
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  justifyItems: "center",
                 }}
               >
                 <Button
                   type="primary"
                   htmlType="submit"
                   disabled={disabledButton}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    justifyItems: "center",
+                  }}
                 >
                   Đổi mật khẩu
                 </Button>
-              </Form.Item>
+              </div>
             </Form>
           </Modal>
         </>
