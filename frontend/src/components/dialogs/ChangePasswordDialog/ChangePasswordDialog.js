@@ -198,6 +198,7 @@ const ChangePasswordDialog = ({ userId, onClose, onSwitch }) => {
                   display: "flex",
                   justifyContent: "center",
                   justifyItems: "center",
+                  marginRight: "-5%",
                 }}
               >
                 <Button
