@@ -1,6 +1,10 @@
 package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.form.DefineRequestForm;
+import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.security.dto.ChangePasswordDto;
+import com.medicaldatasharing.security.dto.ErrorResponse;
+import com.medicaldatasharing.security.dto.JwtResponse;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.UserService;
@@ -8,9 +12,15 @@ import com.medicaldatasharing.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
@@ -105,6 +115,31 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@ModelAttribute ChangePasswordDto changePasswordDto, BindingResult result) throws AuthException {
+        if (result.hasErrors()) {
+            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+            throw new AuthException(errorMsg);
+        }
+
+        if (changePasswordDto.getOldPassword().isEmpty()) {
+            return new ResponseEntity<>(new ErrorResponse("Old password is empty", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (changePasswordDto.getPassword().isEmpty()) {
+            return new ResponseEntity<>(new ErrorResponse("Password is empty", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+        }
+
+        try {
+            String changePassword = userService.changePassword(changePasswordDto);
+            return ResponseEntity.status(HttpStatus.OK).body(changePassword);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 //    @PostMapping("/sendRequest")
 //    public SendRequestDto sendRequest(
 //            @Valid @ModelAttribute SendRequestForm sendRequestForm,

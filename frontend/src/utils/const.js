@@ -17,6 +17,7 @@ export const DIALOGS = {
   QRCODE_SCANNER: "QRCODE_SCANNER",
   USER_INFO: "USER_INFO",
   SHARE_PRESCRIPTION: "SHARE_PRESCRIPTION",
+  CHANGE_PASSWORD: "CHANGE_PASSWORD",
 };
 
 export const API = {
@@ -31,6 +32,7 @@ export const API = {
     GET_LIST_DRUG_BY_OWNER_ID: "/api/public/get-list-drug-by-ownerId",
     DEFINE_REQUEST: "/api/public/define-request",
     GET_USER_INFO: "/api/public/get-user-info",
+    CHANGE_PASSWORD: "/api/public/change-password",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:

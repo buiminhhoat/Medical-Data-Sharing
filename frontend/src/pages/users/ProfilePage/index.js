@@ -12,6 +12,7 @@ import { SearchOutlined, CalendarOutlined } from "@ant-design/icons";
 import { API } from "@Const";
 import SendRequestDialog from "../../../components/dialogs/SendRequest/SendRequest";
 import TextWithQRCode from "../../../components/TextWithQRCode/TextWithQRCode";
+import ChangePasswordDialog from "../../../components/dialogs/ChangePasswordDialog/ChangePasswordDialog";
 
 const ProfilePageStyle = styled.div`
   .fullName {
@@ -316,10 +317,35 @@ const ProfilePage = () => {
                       <div>{data.businessLicenseNumber}</div>
                     </Info>
                   )}
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      justifyItems: "center",
+                    }}
+                  >
+                    <Button>Cập nhật thông tin</Button>
+                    <Button
+                      style={{ marginLeft: "10%" }}
+                      onClick={() => openModal(DIALOGS.CHANGE_PASSWORD)}
+                    >
+                      Đổi mật khẩu
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
           </div>
+          {openDialog === DIALOGS.CHANGE_PASSWORD && (
+            <div className="modal-overlay">
+              <ChangePasswordDialog
+                userId={userId}
+                onClose={handleDialogClose}
+                onSwitch={handleDialogSwitch}
+              />
+            </div>
+          )}
         </div>
       </div>
     </ProfilePageStyle>

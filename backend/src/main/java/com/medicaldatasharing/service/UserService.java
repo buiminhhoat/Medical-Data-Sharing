@@ -7,9 +7,19 @@ import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.response.*;
+import com.medicaldatasharing.security.dto.ChangePasswordDto;
+import com.medicaldatasharing.security.dto.ErrorResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
+import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -50,6 +60,12 @@ public class UserService {
 
     @Autowired
     private DrugStoreRepository drugStoreRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public String getAllRequest() throws Exception {
         User user = userDetailsService.getLoggedUser();
@@ -247,6 +263,58 @@ public class UserService {
             else {
                 throw new Exception("Không tìm thấy thông tin của user " + id);
             }
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String changePassword(ChangePasswordDto changePasswordDto) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            Authentication authentication = null;
+            try {
+                authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                user.getEmail(),
+                                changePasswordDto.getOldPassword()
+                        )
+                );
+            } catch (AuthenticationException e) {
+                throw new Exception("Mật khẩu cũ không đúng");
+            }
+
+            user.setPassword(passwordEncoder.encode(changePasswordDto.getPassword()));
+            switch (user.getRole()) {
+                case Constants.ROLE_ADMIN:
+                    adminRepository.save((Admin) user);
+                    break;
+                case Constants.ROLE_MANUFACTURER:
+                    manufacturerRepository.save((Manufacturer) user);
+                    break;
+                case Constants.ROLE_DOCTOR:
+                    doctorRepository.save((Doctor) user);
+                    break;
+                case Constants.ROLE_MEDICAL_INSTITUTION:
+                    medicalInstitutionRepository.save((MedicalInstitution) user);
+                    break;
+                case Constants.ROLE_DRUG_STORE:
+                    drugStoreRepository.save((DrugStore) user);
+                    break;
+                case Constants.ROLE_RESEARCH_CENTER:
+                    researchCenterRepository.save((ResearchCenter) user);
+                    break;
+                case Constants.ROLE_INSURANCE_COMPANY:
+                    insuranceCompanyRepository.save((InsuranceCompany) user);
+                    break;
+                case Constants.ROLE_SCIENTIST:
+                    scientistRepository.save((Scientist) user);
+                    break;
+                case Constants.ROLE_PATIENT:
+                    patientRepository.save((Patient) user);
+                    break;
+            }
+            return "Thành công";
         }
         catch (Exception e) {
             throw e;
