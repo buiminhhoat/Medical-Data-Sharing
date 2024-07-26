@@ -183,12 +183,23 @@ const ProfilePage = () => {
             }}
           >
             <Card
+              title={
+                <h1
+                  style={{
+                    textAlign: "center",
+                  }}
+                >
+                  Thông tin cá nhân
+                </h1>
+              }
               style={{
-                width: "50%",
+                width: "70%",
+                marginTop: "30px",
               }}
             >
               <div
                 style={{
+                  display: "flex",
                   justifyContent: "center",
                   justifyItems: "center",
                 }}
@@ -198,6 +209,7 @@ const ProfilePage = () => {
                     display: "flex",
                     justifyContent: "center",
                     justifyItems: "center",
+                    width: "30%",
                   }}
                 >
                   <div>
@@ -223,7 +235,13 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                <div style={{ marginTop: "20px", marginLeft: "20px" }}>
+                <div
+                  style={{
+                    marginTop: "20px",
+                    marginLeft: "5%",
+                    width: "70%",
+                  }}
+                >
                   <Info>
                     <div className="field">ID người dùng</div>
                     <TextWithQRCode value={data.id}></TextWithQRCode>
