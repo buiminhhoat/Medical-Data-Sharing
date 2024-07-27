@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -18,5 +19,8 @@ public class Doctor extends User {
     private String department;
 
     private String medicalInstitutionId;
+
+    private String gender;
+    private Date dateBirthday;
 }
 

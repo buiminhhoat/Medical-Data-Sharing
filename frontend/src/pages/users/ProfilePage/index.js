@@ -13,6 +13,7 @@ import { API } from "@Const";
 import SendRequestDialog from "../../../components/dialogs/SendRequest/SendRequest";
 import TextWithQRCode from "../../../components/TextWithQRCode/TextWithQRCode";
 import ChangePasswordDialog from "../../../components/dialogs/ChangePasswordDialog/ChangePasswordDialog";
+import UpdateInformationDialog from "../../../components/dialogs/UpdateInformationDialog/UpdateInformationDialog";
 
 const ProfilePageStyle = styled.div`
   .fullName {
@@ -325,7 +326,11 @@ const ProfilePage = () => {
                       justifyItems: "center",
                     }}
                   >
-                    <Button>Cập nhật thông tin</Button>
+                    <Button
+                      onClick={() => openModal(DIALOGS.UPDATE_INFORMATION)}
+                    >
+                      Cập nhật thông tin
+                    </Button>
                     <Button
                       style={{ marginLeft: "10%" }}
                       onClick={() => openModal(DIALOGS.CHANGE_PASSWORD)}
@@ -340,6 +345,16 @@ const ProfilePage = () => {
           {openDialog === DIALOGS.CHANGE_PASSWORD && (
             <div className="modal-overlay">
               <ChangePasswordDialog
+                userId={userId}
+                onClose={handleDialogClose}
+                onSwitch={handleDialogSwitch}
+              />
+            </div>
+          )}
+
+          {openDialog === DIALOGS.UPDATE_INFORMATION && (
+            <div className="modal-overlay">
+              <UpdateInformationDialog
                 userId={userId}
                 onClose={handleDialogClose}
                 onSwitch={handleDialogSwitch}

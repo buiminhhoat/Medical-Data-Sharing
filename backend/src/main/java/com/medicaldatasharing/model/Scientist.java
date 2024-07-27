@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -16,4 +17,6 @@ import javax.persistence.ManyToOne;
 public class Scientist extends User {
 
     private String researchCenterId;
+    private String gender;
+    private Date dateBirthday;
 }

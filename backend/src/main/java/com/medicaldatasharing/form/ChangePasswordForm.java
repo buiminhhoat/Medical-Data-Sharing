@@ -1,4 +1,4 @@
-package com.medicaldatasharing.security.dto;
+package com.medicaldatasharing.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChangePasswordDto {
+public class ChangePasswordForm {
     @NotBlank
     @Size(min = 8, max = 60)
     private String oldPassword;

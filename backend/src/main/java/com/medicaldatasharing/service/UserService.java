@@ -7,14 +7,12 @@ import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.response.*;
-import com.medicaldatasharing.security.dto.ChangePasswordDto;
-import com.medicaldatasharing.security.dto.ErrorResponse;
+import com.medicaldatasharing.form.ChangePasswordForm;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
+import com.medicaldatasharing.util.StringUtil;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +20,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -269,7 +268,7 @@ public class UserService {
         }
     }
 
-    public String changePassword(ChangePasswordDto changePasswordDto) throws Exception {
+    public String changePassword(ChangePasswordForm changePasswordForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
         try {
             Authentication authentication = null;
@@ -277,14 +276,72 @@ public class UserService {
                 authentication = authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 user.getEmail(),
-                                changePasswordDto.getOldPassword()
+                                changePasswordForm.getOldPassword()
                         )
                 );
             } catch (AuthenticationException e) {
                 throw new Exception("Mật khẩu cũ không đúng");
             }
 
-            user.setPassword(passwordEncoder.encode(changePasswordDto.getPassword()));
+            user.setPassword(passwordEncoder.encode(changePasswordForm.getPassword()));
+            switch (user.getRole()) {
+                case Constants.ROLE_ADMIN:
+                    adminRepository.save((Admin) user);
+                    break;
+                case Constants.ROLE_MANUFACTURER:
+                    manufacturerRepository.save((Manufacturer) user);
+                    break;
+                case Constants.ROLE_DOCTOR:
+                    doctorRepository.save((Doctor) user);
+                    break;
+                case Constants.ROLE_MEDICAL_INSTITUTION:
+                    medicalInstitutionRepository.save((MedicalInstitution) user);
+                    break;
+                case Constants.ROLE_DRUG_STORE:
+                    drugStoreRepository.save((DrugStore) user);
+                    break;
+                case Constants.ROLE_RESEARCH_CENTER:
+                    researchCenterRepository.save((ResearchCenter) user);
+                    break;
+                case Constants.ROLE_INSURANCE_COMPANY:
+                    insuranceCompanyRepository.save((InsuranceCompany) user);
+                    break;
+                case Constants.ROLE_SCIENTIST:
+                    scientistRepository.save((Scientist) user);
+                    break;
+                case Constants.ROLE_PATIENT:
+                    patientRepository.save((Patient) user);
+                    break;
+            }
+            return "Thành công";
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String updateInformation(UpdateInformationForm updateInformationForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            user.setFullName(updateInformationForm.getFullName());
+            user.setAddress(updateInformationForm.getAddress());
+
+            if (Objects.equals(user.getRole(), Constants.ROLE_PATIENT)) {
+                Patient patient = (Patient) user;
+                patient.setDateBirthday(updateInformationForm.getDateBirthday());
+            }
+
+            if (Objects.equals(user.getRole(), Constants.ROLE_DOCTOR)) {
+                Doctor doctor = (Doctor) user;
+                doctor.setDateBirthday(updateInformationForm.getDateBirthday());
+                doctor.setDepartment(updateInformationForm.getDepartment());
+            }
+
+            if (Objects.equals(user.getRole(), Constants.ROLE_SCIENTIST)) {
+                Scientist scientist = (Scientist) user;
+                scientist.setDateBirthday(updateInformationForm.getDateBirthday());
+            }
+
             switch (user.getRole()) {
                 case Constants.ROLE_ADMIN:
                     adminRepository.save((Admin) user);

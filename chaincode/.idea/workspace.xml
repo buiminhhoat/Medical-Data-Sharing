@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Purchase Detail">
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/dto/ChangePasswordDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/controller/AuthRestAPIs.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/controller/AuthRestAPIs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/security/dto/ChangePasswordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/ChangePasswordDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/pages/users/ProfilePage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/users/ProfilePage/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/utils/const.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/const.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -296,7 +297,8 @@
       <workItem from="1721999222982" duration="73000" />
       <workItem from="1721999302527" duration="31000" />
       <workItem from="1721999384361" duration="630000" />
-      <workItem from="1722000370319" duration="1206000" />
+      <workItem from="1722000370319" duration="1210000" />
+      <workItem from="1722047519431" duration="638000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

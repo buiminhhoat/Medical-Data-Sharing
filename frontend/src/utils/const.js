@@ -18,6 +18,7 @@ export const DIALOGS = {
   USER_INFO: "USER_INFO",
   SHARE_PRESCRIPTION: "SHARE_PRESCRIPTION",
   CHANGE_PASSWORD: "CHANGE_PASSWORD",
+  UPDATE_INFORMATION: "UPDATE_INFORMATION",
 };
 
 export const API = {
@@ -33,6 +34,7 @@ export const API = {
     DEFINE_REQUEST: "/api/public/define-request",
     GET_USER_INFO: "/api/public/get-user-info",
     CHANGE_PASSWORD: "/api/public/change-password",
+    UPDATE_INFORMATION: "/api/public/update-information",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:
