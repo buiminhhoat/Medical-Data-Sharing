@@ -3,6 +3,7 @@ package healthInformationSharing.dao;
 import com.owlike.genson.Genson;
 import healthInformationSharing.entity.PrescriptionDetails;
 import org.hyperledger.fabric.contract.Context;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -39,6 +40,10 @@ public class PrescriptionDetailsDAO {
 
     public List<PrescriptionDetails> getListPrescriptionDetails(String prescriptionId) {
         return prescriptionDetailsQuery.getListPrescriptionDetails(prescriptionId);
+    }
+
+    public List<PrescriptionDetails> getListPrescriptionDetails(JSONObject jsonObject) {
+        return prescriptionDetailsQuery.getListPrescriptionDetails(jsonObject);
     }
 
     public PrescriptionDetails getPrescriptionDetails(String prescriptionDetailId) {

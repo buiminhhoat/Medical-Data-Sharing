@@ -217,6 +217,30 @@ public class HyperledgerService {
         return getListAuthorizedMedicalRecordByDoctorQueryList;
     }
 
+    public List<DrugReactionDto> getListDrugReactionByManufacturer(User user,
+                                                                           GetDrugReactionForm getDrugReactionForm) throws Exception {
+        List<DrugReactionDto> getListDrugReactionByManufacturerList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = getDrugReactionForm.toJSONObject();
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListDrugReactionByManufacturer",
+                    jsonObject.toString()
+            );
+
+            String getListDrugReactionByManufacturerStr = new String(result);
+            getListDrugReactionByManufacturerList = new Genson().deserialize(
+                    getListDrugReactionByManufacturerStr,
+                    new GenericType<List<DrugReactionDto>>() {}
+            );
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return getListDrugReactionByManufacturerList;
+    }
+
     public AppointmentRequest sendAppointmentRequest(
             User user,
             SendAppointmentRequestForm sendAppointmentRequestForm

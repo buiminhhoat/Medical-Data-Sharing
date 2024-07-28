@@ -136,6 +136,10 @@ const HeaderLayout = () => {
       name: "Quản lý thuốc",
       path: ROUTERS.MANUFACTURER.DRUG_MANAGEMENT_PAGE,
     },
+    {
+      name: "Quản lý phản ứng thuốc",
+      path: ROUTERS.MANUFACTURER.DRUG_REACTION_MANAGEMENT_PAGE,
+    },
   ]);
 
   const [drugStoreMenuItems, setDrugStoreItems] = useState([

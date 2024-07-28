@@ -1,0 +1,23 @@
+package com.medicaldatasharing.dto;
+
+import com.owlike.genson.annotation.JsonProperty;
+import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+
+@Getter
+@Setter
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class DrugReactionDto {
+    @JsonProperty("medicationId")
+    private String medicationId;
+
+    @JsonProperty("prescriptionId")
+    private String prescriptionId;
+
+    @JsonProperty("drugReaction")
+    private String drugReaction;
+}

@@ -21,10 +21,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Contract(name = "chaincode",
@@ -913,6 +910,42 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonDto = jsonObject;
         Prescription prescription = ctx.getPrescriptionDAO().updateDrugReactionFromPatient(jsonDto);
         return new Genson().serialize(prescription);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListDrugReactionByManufacturer(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String manufacturerId = jsonObject.getString("manufacturerId");
+        authorizeRequest(ctx, manufacturerId, "getListDrugReactionByManufacturer(validate manufacturerId)");
+
+        List<Medication> medicationList = ctx.getMedicationDAO().getListMedication(
+                new JSONObject().put("manufacturerId", manufacturerId)
+        );
+
+        List<DrugReactionDto> drugReactionDtoList = new ArrayList<>();
+        for (Medication medication: medicationList) {
+            List<PrescriptionDetails> prescriptionDetailsList = ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(
+                    new JSONObject().put("medicationId", medication.getMedicationId())
+            );
+
+            Set<String> prescriptionIdSet = new HashSet<>();
+            for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
+                prescriptionIdSet.add(prescriptionDetails.getPrescriptionId());
+            }
+
+            for (String prescriptionId: prescriptionIdSet) {
+                Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
+                DrugReactionDto drugReactionDto = new DrugReactionDto();
+                drugReactionDto.setPrescriptionId(prescriptionId);
+                drugReactionDto.setMedicationId(medication.getMedicationId());
+                drugReactionDto.setDrugReaction(prescription.getDrugReaction());
+                drugReactionDtoList.add(drugReactionDto);
+            }
+        }
+        return new Genson().serialize(drugReactionDtoList);
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)

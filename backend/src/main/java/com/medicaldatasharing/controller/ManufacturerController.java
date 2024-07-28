@@ -2,6 +2,7 @@ package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.form.AddDrugForm;
 import com.medicaldatasharing.form.AddMedicationForm;
+import com.medicaldatasharing.form.GetDrugReactionForm;
 import com.medicaldatasharing.form.SearchMedicationForm;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
@@ -61,6 +62,17 @@ public class ManufacturerController {
         try {
             String addDrug = manufacturerService.addDrug(addDrugForm);
             return ResponseEntity.status(HttpStatus.OK).body(addDrug);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/get-list-drug-reaction-by-manufacturer")
+    public ResponseEntity<?> getListDrugReactionByManufacturer() throws Exception {
+        try {
+            String getListMedication = manufacturerService.getListDrugReactionByManufacturer();
+            return ResponseEntity.status(HttpStatus.OK).body(getListMedication);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

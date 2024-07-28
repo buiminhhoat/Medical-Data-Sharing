@@ -47,6 +47,8 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const [openDialog, setOpenDialog] = useState(null);
+
   const apiGetRequest = API.PUBLIC.GET_REQUEST;
   const apiDefineRequest = API.PUBLIC.DEFINE_REQUEST;
 
@@ -412,7 +414,6 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
   }, [disabledButton]);
 
   const [prescriptionId, setPrescriptionId] = useState();
-  const [openDialog, setOpenDialog] = useState(null);
   const [patientId, setPatientId] = useState(null);
 
   const handleDialogSwitch = (dialogName) => {

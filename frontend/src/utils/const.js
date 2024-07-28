@@ -74,6 +74,8 @@ export const API = {
       "/api/manufacturer/get-list-medication-by-manufacturerId",
     ADD_MEDICATION: "/api/manufacturer/add-medication",
     ADD_DRUG: "/api/manufacturer/add-drug",
+    GET_LIST_DRUG_REACTION_BY_MANUFACTURER:
+      "/api/manufacturer/get-list-drug-reaction-by-manufacturer",
   },
   DRUGSTORE: {
     GET_PRESCRIPTION_BY_DRUG_STORE:

@@ -15,6 +15,7 @@ import MedicationManagementPage from "./pages/manufacturer/MedicationManagementP
 import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
 import ProfilePage from "./pages/users/ProfilePage";
+import DrugReactionManagementPage from "./pages/manufacturer/DrugReactionManagementPage";
 
 const userRouters = [
   {
@@ -102,6 +103,10 @@ const manufacturerRouters = [
   {
     path: ROUTERS.MANUFACTURER.DRUG_MANAGEMENT_PAGE,
     component: <DrugManagementPage></DrugManagementPage>,
+  },
+  {
+    path: ROUTERS.MANUFACTURER.DRUG_REACTION_MANAGEMENT_PAGE,
+    component: <DrugReactionManagementPage></DrugReactionManagementPage>,
   },
 ];
 
