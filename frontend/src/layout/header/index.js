@@ -344,7 +344,7 @@ const HeaderLayout = () => {
             <div
               style={{ marginLeft: "30px", color: "white", lineHeight: "25px" }}
             >
-              <ProfileMenu openModal={openModal} />
+              <ProfileMenu openModal={openModal} setMenuItems={setMenuItems} />
             </div>
           </Header>
         </Layout>
