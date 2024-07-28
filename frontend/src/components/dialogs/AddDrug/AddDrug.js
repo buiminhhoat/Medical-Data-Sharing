@@ -142,16 +142,10 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
   };
 
   const [api, contextHolder] = notification.useNotification();
-  const openNotification = (
-    placement,
-    type,
-    message,
-    manufactureDate,
-    onClose
-  ) => {
+  const openNotification = (placement, type, message, description, onClose) => {
     api[type]({
       message: message,
-      manufactureDate: manufactureDate,
+      description: description,
       placement,
       showProgress: true,
       pauseOnHover: true,

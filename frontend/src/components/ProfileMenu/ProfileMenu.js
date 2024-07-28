@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Space } from "antd";
+import { Alert, Avatar, Dropdown, Popover, Space } from "antd";
 import { API, DIALOGS } from "@Const";
 import styled from "styled-components";
 import theme from "../../styles/pages/theme";
+import { useNavigate } from "react-router-dom";
+import { useLogout } from "../../utils/logout";
+import { notification } from "antd";
 
 const ProfileMenuStyle = styled.div`
   .breadcrumb-wrap {
@@ -23,7 +26,11 @@ const ProfileMenuStyle = styled.div`
   }
 `;
 
-const ProfileMenu = ({ openModal }) => {
+const Context = React.createContext({
+  name: "ProfileMenuContext",
+});
+
+const ProfileMenu = ({ setMenuItems, openModal }) => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
   const [fullName, setFullName] = useState("");
@@ -56,26 +63,75 @@ const ProfileMenu = ({ openModal }) => {
     if (access_token) fetchUserData().then((r) => {});
   }, [access_token]);
 
-  const renderHasAccessToken = () => {
-    return (
-      <div className="info">
-        <div>
-          <ul style={{ marginRight: 20, textAlign: "right" }}>
-            <li>{fullName}</li>
-            <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>{role}</li>
-          </ul>
-        </div>
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (placement, type, message, description, onClose) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement,
+      showProgress: true,
+      pauseOnHover: true,
+      onClose: onClose,
+    });
+  };
 
-        <a href="/profile">
-          <div className="pointer-cursor">
-            <Space direction="vertical" size={16}>
-              <Space wrap size={16}>
-                <Avatar size={45} icon={<UserOutlined />} />
-              </Space>
-            </Space>
+  const logout = useLogout();
+
+  const handleLogout = () => {
+    logout()
+      .then(() => {
+        openNotification(
+          "topRight",
+          "success",
+          "Thành công",
+          "Đăng xuất thành công!"
+        );
+        setMenuItems(null);
+      })
+      .catch((error) => {
+        openNotification(
+          "topRight",
+          "error",
+          "Thất bại",
+          "Đăng xuất thất bại!"
+        );
+      });
+  };
+
+  const renderHasAccessToken = () => {
+    const items = [
+      {
+        key: "1",
+        label: <a onClick={handleLogout}>Đăng xuất</a>,
+      },
+    ];
+
+    return (
+      <Dropdown
+        menu={{
+          items,
+        }}
+        placement="bottom"
+      >
+        <div className="info">
+          <div>
+            <ul style={{ marginRight: 20, textAlign: "right" }}>
+              <li>{fullName}</li>
+              <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>{role}</li>
+            </ul>
           </div>
-        </a>
-      </div>
+
+          <a href="/profile">
+            <div className="pointer-cursor">
+              <Space direction="vertical" size={16}>
+                <Space wrap size={16}>
+                  <Avatar size={45} icon={<UserOutlined />} />
+                </Space>
+              </Space>
+            </div>
+          </a>
+        </div>
+      </Dropdown>
     );
   };
 
@@ -97,9 +153,12 @@ const ProfileMenu = ({ openModal }) => {
   };
 
   return (
-    <ProfileMenuStyle>
-      {access_token ? renderHasAccessToken() : renderNoAccessToken()}
-    </ProfileMenuStyle>
+    <Context.Provider value={"Profile Menu"}>
+      {contextHolder}
+      <ProfileMenuStyle>
+        {access_token ? renderHasAccessToken() : renderNoAccessToken()}
+      </ProfileMenuStyle>
+    </Context.Provider>
   );
 };
 
