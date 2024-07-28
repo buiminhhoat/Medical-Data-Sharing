@@ -82,6 +82,41 @@ const UpdateDrugReactionDialog = ({ prescription, onClose, onSwitch }) => {
     setOpenDialog(null);
   };
 
+  let apiGetPrescriptionByPrescriptionId =
+    API.PATIENT.GET_PRESCRIPTION_BY_PRESCRIPTION_ID;
+
+  const [data, setData] = useState("");
+
+  const fetchGetPrescriptionByPrescriptionId = async () => {
+    if (access_token) {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("prescriptionId", prescription.prescriptionId);
+
+      try {
+        const response = await fetch(apiGetPrescriptionByPrescriptionId, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+          body: formData,
+        });
+
+        if (response.status === 200) {
+          setData(await response.json());
+          console.log(data);
+          setLoading(false);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (access_token) fetchGetPrescriptionByPrescriptionId().then((r) => {});
+  }, [access_token, openDialog]);
+
   const [form] = Form.useForm();
 
   const [valuesForm, setValuesForm] = useState();
@@ -91,7 +126,7 @@ const UpdateDrugReactionDialog = ({ prescription, onClose, onSwitch }) => {
       setIsConfirmModalOpen(false);
       setDisabledButton(true);
       console.log("apiUpdateDrugReaction: ", apiUpdateDrugReaction);
-
+      setLoading(true);
       const formData = new FormData();
       console.log(valuesForm);
 
@@ -185,7 +220,7 @@ const UpdateDrugReactionDialog = ({ prescription, onClose, onSwitch }) => {
           footer={null}
           centered
           width={"60%"}
-          // loading={loading}
+          loading={loading}
         >
           <Form
             name="sharePrescription"
@@ -201,8 +236,8 @@ const UpdateDrugReactionDialog = ({ prescription, onClose, onSwitch }) => {
               alignItems: "center",
             }}
             initialValues={{
-              prescriptionId: prescription.prescriptionId,
-              drugReaction: prescription.drugReaction,
+              prescriptionId: data.prescriptionId,
+              drugReaction: data.drugReaction,
               remember: true,
             }}
             onFinish={handleConfirm}

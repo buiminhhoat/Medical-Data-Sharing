@@ -113,7 +113,7 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
 
   useEffect(() => {
     if (access_token) fetchGetPrescriptionByPrescriptionId().then((r) => {});
-  }, [access_token]);
+  }, [access_token, openDialog]);
 
   useEffect(() => {
     if (data) {

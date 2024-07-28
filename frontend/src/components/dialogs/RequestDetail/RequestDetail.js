@@ -88,7 +88,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
   useEffect(() => {
     if (access_token) fetchGetRequest().then((r) => {});
-  }, [access_token]);
+  }, [access_token, openDialog]);
 
   const [additionalFields, setAdditionalFields] = useState(null);
 

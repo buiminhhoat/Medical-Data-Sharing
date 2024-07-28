@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Purchase Detail">
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/UpdateDrugReactionForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/PatientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/PatientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/PatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/PatientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
+    <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction">
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/PrescriptionDetail/PrescriptionDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/PrescriptionDetail/PrescriptionDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/utils/const.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/const.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/UpdateDrugReactionDialog/UpdateDrugReaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/UpdateDrugReactionDialog/UpdateDrugReaction.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,8 +117,8 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.21907553" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.21907553" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21907553" />
+      <window_info id="Commit" order="1" weight="0.21907553" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -301,7 +293,7 @@
       <workItem from="1721999384361" duration="630000" />
       <workItem from="1722000370319" duration="1210000" />
       <workItem from="1722047519431" duration="638000" />
-      <workItem from="1722146914158" duration="3054000" />
+      <workItem from="1722146914158" duration="3492000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
@@ -415,7 +407,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721109269983</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Add Update Drug Reaction">
+      <option name="closed" value="true" />
+      <created>1722152606081</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1722152606081</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -443,7 +443,8 @@
     <MESSAGE value="Add Insurance Product &amp; Insurance Contract" />
     <MESSAGE value="Update Add Medical Record Dialog" />
     <MESSAGE value="Add Purchase Detail" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Purchase Detail" />
+    <MESSAGE value="Add Update Drug Reaction" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Update Drug Reaction" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
