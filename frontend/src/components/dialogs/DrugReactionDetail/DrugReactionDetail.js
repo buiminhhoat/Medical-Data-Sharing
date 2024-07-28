@@ -19,6 +19,7 @@ import {
 import { VscCommentUnresolved } from "react-icons/vsc";
 import SharePrescriptionDialog from "../SharePrescriptionDialog/SharePrescriptionDialog";
 import UpdateDrugReactionDialog from "../UpdateDrugReactionDialog/UpdateDrugReaction";
+import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
 const { Option } = Select;
 
 const DrugReactionDetailStyle = styled.div`
@@ -45,14 +46,20 @@ const StyledList = styled(List)`
   }
 `;
 
-const DrugReactionDetail = ({ prescriptionId, onClose, onSwitch }) => {
+const DrugReactionDetail = ({
+  prescriptionId,
+  patientId,
+  medicalRecordId,
+  onClose,
+  onSwitch,
+}) => {
   const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
 
   let apiGetPrescriptionByPrescriptionId =
-    API.MANUFACTURER.GET_PRESCRIPTION_BY_PRESCRIPTION_ID;
+    API.MANUFACTURER.GET_PRESCRIPTION_BY_MANUFACTURER;
 
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -214,8 +221,12 @@ const DrugReactionDetail = ({ prescriptionId, onClose, onSwitch }) => {
           <List.Item>
             <div style={{ width: "100%" }}>
               <Info>
+                <div className="field">ID hồ sơ y tế</div>
+                <TextWithQRCode value={medicalRecordId}></TextWithQRCode>
+              </Info>
+              <Info>
                 <div className="field">ID đơn thuốc</div>
-                <div>{prescriptionId}</div>
+                <TextWithQRCode value={prescriptionId}></TextWithQRCode>
               </Info>
 
               {/* <Info>
@@ -227,6 +238,11 @@ const DrugReactionDetail = ({ prescriptionId, onClose, onSwitch }) => {
                 <div className="field">Tên bác sĩ</div>
                 <div>{medicalRecord.doctorName}</div>
               </Info> */}
+
+              <Info>
+                <div className="field">ID bệnh nhân</div>
+                <TextWithQRCode value={patientId}></TextWithQRCode>
+              </Info>
 
               <Info>
                 <div className="field">Phản ứng thuốc của bệnh nhân</div>

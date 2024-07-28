@@ -13,6 +13,10 @@ public class GetPrescriptionForm {
 
     private String drugStoreId;
 
+    private String manufacturerId;
+
+    private String scientistId;
+
     public @NotBlank String getPrescriptionId() {
         return prescriptionId;
     }
@@ -37,6 +41,24 @@ public class GetPrescriptionForm {
 
     public GetPrescriptionForm setDrugStoreId(String drugStoreId) {
         this.drugStoreId = drugStoreId;
+        return this;
+    }
+
+    public String getManufacturerId() {
+        return manufacturerId;
+    }
+
+    public GetPrescriptionForm setManufacturerId(String manufacturerId) {
+        this.manufacturerId = manufacturerId;
+        return this;
+    }
+
+    public String getScientistId() {
+        return scientistId;
+    }
+
+    public GetPrescriptionForm setScientistId(String scientistId) {
+        this.scientistId = scientistId;
         return this;
     }
 

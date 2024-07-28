@@ -77,8 +77,10 @@ export const API = {
     ADD_DRUG: "/api/manufacturer/add-drug",
     GET_LIST_DRUG_REACTION_BY_MANUFACTURER:
       "/api/manufacturer/get-list-drug-reaction-by-manufacturer",
-    GET_PRESCRIPTION_BY_PRESCRIPTION_ID:
-      "/api/manufacturer/get-prescription-by-prescriptionId",
+    GET_PRESCRIPTION_BY_MANUFACTURER:
+      "/api/manufacturer/get-prescription-by-manufacturer",
+    GET_LIST_MEDICAL_RECORD:
+      "/api/manufacturer/get-list-medical-record-by-manufacturerId",
   },
   DRUGSTORE: {
     GET_PRESCRIPTION_BY_DRUG_STORE:
@@ -104,6 +106,11 @@ export const API = {
       "/api/research_center/get-all-scientist-by-research-center",
     GET_USER_INFO: "/api/research_center/get-user-info",
     REGISTER_USER: "/api/research_center/register-user",
+  },
+
+  SCIENTIST: {
+    GET_LIST_MEDICAL_RECORD:
+      "/api/scientist/get-list-medical-record-by-scientistId",
   },
 };
 

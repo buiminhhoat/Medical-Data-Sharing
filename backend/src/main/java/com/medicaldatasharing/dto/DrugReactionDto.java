@@ -20,4 +20,10 @@ public class DrugReactionDto {
 
     @JsonProperty("drugReaction")
     private String drugReaction;
+
+    @JsonProperty("patientId")
+    private String patientId;
+
+    @JsonProperty("medicalRecordId")
+    private String medicalRecordId;
 }

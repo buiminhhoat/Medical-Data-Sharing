@@ -56,6 +56,11 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
   let apiAllMedicalRecord = API.PATIENT.GET_LIST_MEDICAL_RECORD;
   if (role === "Bác sĩ")
     apiAllMedicalRecord = API.DOCTOR.GET_LIST_MEDICAL_RECORD;
+  if (role === "Công ty sản xuất thuốc")
+    apiAllMedicalRecord = API.MANUFACTURER.GET_LIST_MEDICAL_RECORD;
+  if (role === "Nhà khoa học")
+    apiAllMedicalRecord = API.SCIENTIST.GET_LIST_MEDICAL_RECORD;
+
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState([]);

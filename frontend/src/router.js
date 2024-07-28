@@ -108,6 +108,10 @@ const manufacturerRouters = [
     path: ROUTERS.MANUFACTURER.DRUG_REACTION_MANAGEMENT_PAGE,
     component: <DrugReactionManagementPage></DrugReactionManagementPage>,
   },
+  {
+    path: ROUTERS.USER.REQUEST,
+    component: <RequestManagementPage></RequestManagementPage>,
+  },
 ];
 
 const drugStoreRouters = [

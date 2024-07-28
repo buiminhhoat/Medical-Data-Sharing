@@ -16,6 +16,12 @@ public class DrugReactionDto {
     @JsonProperty("drugReaction")
     private String drugReaction;
 
+    @JsonProperty("patientId")
+    private String patientId;
+
+    @JsonProperty("medicalRecordId")
+    private String medicalRecordId;
+
     public String getMedicationId() {
         return medicationId;
     }
@@ -40,6 +46,24 @@ public class DrugReactionDto {
 
     public DrugReactionDto setDrugReaction(String drugReaction) {
         this.drugReaction = drugReaction;
+        return this;
+    }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public DrugReactionDto setPatientId(String patientId) {
+        this.patientId = patientId;
+        return this;
+    }
+
+    public String getMedicalRecordId() {
+        return medicalRecordId;
+    }
+
+    public DrugReactionDto setMedicalRecordId(String medicalRecordId) {
+        this.medicalRecordId = medicalRecordId;
         return this;
     }
 }

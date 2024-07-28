@@ -608,6 +608,48 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListAuthorizedMedicalRecordByManufacturerQuery(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String manufacturerId = jsonObject.getString("manufacturerId");
+        String patientId = jsonObject.has("patientId") ? jsonObject.getString("patientId") : "";
+        authorizeRequest(ctx, manufacturerId, "getListAuthorizedMedicalRecordByManufacturerQuery(validate manufacturerId)");
+
+        JSONObject jsonViewRequestDto = new JSONObject();
+
+        jsonViewRequestDto.put("senderId", manufacturerId);
+        if (!patientId.isEmpty()) {
+            jsonViewRequestDto.put("recipientId", patientId);
+        }
+        jsonViewRequestDto.put("requestType", RequestType.VIEW_RECORD);
+        jsonViewRequestDto.put("requestStatus", RequestStatus.ACCEPTED);
+
+        System.out.println(jsonViewRequestDto.toString());
+
+        List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestBySenderQuery(
+                jsonViewRequestDto
+        );
+
+        System.out.println("viewRequestList.size(): " + viewRequestList.size());
+        System.out.println("viewRequestList: " + viewRequestList.toString());
+
+        List<MedicalRecord> medicalRecordList = new ArrayList<>();
+        for (ViewRequest viewRequest: viewRequestList) {
+            JSONObject jsonDto = new JSONObject();
+            System.out.println("viewRequest.getRecipientId(): " + viewRequest.getRecipientId());
+            jsonDto.put("patientId", viewRequest.getRecipientId());
+            List<MedicalRecord> medicalRecords = ctx.getMedicalRecordDAO()
+                    .getListAuthorizedMedicalRecordByDoctorQuery(jsonDto);
+            for (MedicalRecord medicalRecord: medicalRecords) {
+                medicalRecordList.add(medicalRecord);
+            }
+        }
+        return new Genson().serialize(medicalRecordList);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getListAllAuthorizedPatientForScientist(
             MedicalRecordContext ctx,
             String jsonString
@@ -933,6 +975,26 @@ public class MedicalRecordContract implements ContractInterface {
                                 .put("dateCreated", dateCreated)
                                 .put("dateModified", dateModified));
             }
+
+            /*
+            List<ViewPrescriptionRequest> viewPrescriptionRequestList = ctx.getViewPrescriptionRequestDAO()
+                    .getListViewPrescriptionRequest(
+                            new JSONObject().put("prescriptionId", prescriptionId)
+                                    .put("recipientId", medicalRecord.getPatientId())
+                                    .put("senderId", medication.getManufacturerId())
+                                    .put("requestStatus", RequestStatus.ACCEPTED)
+                    );
+            if (viewPrescriptionRequestList.isEmpty()) {
+                ctx.getViewPrescriptionRequestDAO().sendViewPrescriptionRequest(
+                        new JSONObject().put("senderId", medication.getManufacturerId())
+                                .put("recipientId", medicalRecord.getPatientId())
+                                .put("dateCreated", dateCreated)
+                                .put("dateModified", dateModified)
+                                .put("requestType", RequestType.VIEW_PRESCRIPTION)
+                                .put("requestStatus", RequestStatus.ACCEPTED)
+                );
+            }
+             */
         }
         return new Genson().serialize(prescription);
     }
@@ -964,10 +1026,16 @@ public class MedicalRecordContract implements ContractInterface {
             for (String prescriptionId: prescriptionIdSet) {
                 Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
                 if (Objects.equals(prescription.getDrugReaction(), DrugReactionStatus.NO_INFORMATION)) continue;
+                List<MedicalRecord> medicalRecordList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
+                        new JSONObject().put("prescriptionId", prescriptionId)
+                );
+                MedicalRecord medicalRecord = medicalRecordList.get(0);
                 DrugReactionDto drugReactionDto = new DrugReactionDto();
                 drugReactionDto.setPrescriptionId(prescriptionId);
                 drugReactionDto.setMedicationId(medication.getMedicationId());
                 drugReactionDto.setDrugReaction(prescription.getDrugReaction());
+                drugReactionDto.setPatientId(medicalRecord.getPatientId());
+                drugReactionDto.setMedicalRecordId(medicalRecord.getMedicalRecordId());
                 drugReactionDtoList.add(drugReactionDto);
             }
         }
@@ -1063,6 +1131,88 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(prescriptionDto);
     }
 
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPrescriptionByManufacturer(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String manufacturerId = jsonObject.getString("manufacturerId");
+        authorizeRequest(ctx, manufacturerId, "getPrescriptionByManufacturer(validate manufacturerId)");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("prescriptionId", prescriptionId);
+        jsonDto.put("senderId", manufacturerId);
+        jsonDto.put("requestType", RequestType.VIEW_RECORD);
+        jsonDto.put("requestStatus", RequestStatus.ACCEPTED);
+
+        List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestQuery(jsonDto);
+
+        if (viewRequestList.isEmpty()) {
+            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+                    ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
+        }
+
+        Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
+
+        PrescriptionDto prescriptionDto = new PrescriptionDto();
+        prescriptionDto.setPrescriptionId(prescription.getPrescriptionId());
+        prescriptionDto.setDrugReaction(prescription.getDrugReaction());
+        prescriptionDto.setEntityName(prescription.getEntityName());
+        List<PrescriptionDetails> prescriptionDetailsList = ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(prescriptionId);
+        List<PrescriptionDetailsDto> prescriptionDetailsDtoList = new ArrayList<>();
+        for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
+            PrescriptionDetailsDto prescriptionDetailsDto = new PrescriptionDetailsDto(prescriptionDetails);
+            Medication medication = ctx.getMedicationDAO().getMedication(prescriptionDetailsDto.getMedicationId());
+            prescriptionDetailsDto.setMedicationName(medication.getMedicationName());
+            prescriptionDetailsDtoList.add(prescriptionDetailsDto);
+        }
+        prescriptionDto.setPrescriptionDetailsListDto(prescriptionDetailsDtoList);
+        return new Genson().serialize(prescriptionDto);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPrescriptionByScientist(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String scientistId = jsonObject.getString("scientistId");
+        authorizeRequest(ctx, scientistId, "getPrescriptionByScientist(validate scientistId)");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("prescriptionId", prescriptionId);
+        jsonDto.put("senderId", scientistId);
+        jsonDto.put("requestType", RequestType.VIEW_RECORD);
+        jsonDto.put("requestStatus", RequestStatus.ACCEPTED);
+
+        List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestQuery(jsonDto);
+
+        if (viewRequestList.isEmpty()) {
+            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+                    ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
+        }
+
+        Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
+
+        PrescriptionDto prescriptionDto = new PrescriptionDto();
+        prescriptionDto.setPrescriptionId(prescription.getPrescriptionId());
+        prescriptionDto.setDrugReaction(prescription.getDrugReaction());
+        prescriptionDto.setEntityName(prescription.getEntityName());
+        List<PrescriptionDetails> prescriptionDetailsList = ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(prescriptionId);
+        List<PrescriptionDetailsDto> prescriptionDetailsDtoList = new ArrayList<>();
+        for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
+            PrescriptionDetailsDto prescriptionDetailsDto = new PrescriptionDetailsDto(prescriptionDetails);
+            Medication medication = ctx.getMedicationDAO().getMedication(prescriptionDetailsDto.getMedicationId());
+            prescriptionDetailsDto.setMedicationName(medication.getMedicationName());
+            prescriptionDetailsDtoList.add(prescriptionDetailsDto);
+        }
+        prescriptionDto.setPrescriptionDetailsListDto(prescriptionDetailsDtoList);
+        return new Genson().serialize(prescriptionDto);
+    }
+
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String sendViewPrescriptionRequest(
             MedicalRecordContext ctx,
@@ -1083,7 +1233,6 @@ public class MedicalRecordContract implements ContractInterface {
         jsonDto.put("recipientId", recipientId);
         jsonDto.put("dateCreated", dateCreated);
         jsonDto.put("dateModified", dateModified);
-        jsonDto.put("requestType", RequestType.VIEW_PRESCRIPTION);
         jsonDto.put("prescriptionId", prescriptionId);
         ViewPrescriptionRequest viewPrescriptionRequest = ctx.getViewPrescriptionRequestDAO().sendViewPrescriptionRequest(
                 jsonDto

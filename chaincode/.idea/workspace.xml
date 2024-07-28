@@ -5,18 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction">
-      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/enumeration/DrugReactionStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/enumeration/DrugReactionStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/Prescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/chaincode/dto/Prescription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/PatientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/PatientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/UpdateDrugReactionForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/UpdateDrugReactionForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/GetListAuthorizedMedicalRecordByManufacturerQueryDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/ManufacturerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/controller/ManufacturerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/DrugReactionDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/dto/DrugReactionDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/GetPrescriptionForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/form/GetPrescriptionForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/ManufacturerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/medicaldatasharing/service/ManufacturerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewRequestDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/Prescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/entity/Prescription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewPrescriptionRequestCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewPrescriptionRequestCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewPrescriptionRequestDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao/ViewPrescriptionRequestDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dto/DrugReactionDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/healthInformationSharing/dto/DrugReactionDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/DrugReactionDetail/DrugReactionDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/DrugReactionDetail/DrugReactionDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/dialogs/MedicalRecordList/MedicalRecordList.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/dialogs/MedicalRecordList/MedicalRecordList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/layout/header/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/layout/header/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/pages/manufacturer/DrugReactionManagementPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/manufacturer/DrugReactionManagementPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/utils/const.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/const.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +144,7 @@
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.3302696" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.60110295" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3302696" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.19546568" />
       <window_info anchor="bottom" id="Build" order="4" weight="0.2689951" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.2689951" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.2689951" />
@@ -307,7 +312,8 @@
       <workItem from="1722146914158" duration="5060000" />
       <workItem from="1722157385039" duration="1166000" />
       <workItem from="1722158751256" duration="1725000" />
-      <workItem from="1722161261819" duration="4738000" />
+      <workItem from="1722161261819" duration="9311000" />
+      <workItem from="1722182109391" duration="1466000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
@@ -465,7 +471,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/healthInformationSharing/contract/MedicalRecordContract.java</url>
-          <line>1640</line>
+          <line>1789</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>

@@ -217,6 +217,30 @@ public class HyperledgerService {
         return getListAuthorizedMedicalRecordByDoctorQueryList;
     }
 
+    public List<MedicalRecord> getListAuthorizedMedicalRecordByManufacturerQuery(User user,
+                                                                           GetListAuthorizedMedicalRecordByManufacturerQueryDto getListAuthorizedMedicalRecordByManufacturerQueryDto) throws Exception {
+        List<MedicalRecord> getListAuthorizedMedicalRecordByManufacturerQueryList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = getListAuthorizedMedicalRecordByManufacturerQueryDto.toJSONObject();
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListAuthorizedMedicalRecordByManufacturerQuery",
+                    jsonObject.toString()
+            );
+
+            String getListAuthorizedMedicalRecordByManufacturerQueryListStr = new String(result);
+            getListAuthorizedMedicalRecordByManufacturerQueryList = new Genson().deserialize(
+                    getListAuthorizedMedicalRecordByManufacturerQueryListStr,
+                    new GenericType<List<MedicalRecord>>() {}
+            );
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return getListAuthorizedMedicalRecordByManufacturerQueryList;
+    }
+
     public List<DrugReactionDto> getListDrugReactionByManufacturer(User user,
                                                                            GetDrugReactionForm getDrugReactionForm) throws Exception {
         List<DrugReactionDto> getListDrugReactionByManufacturerList = new ArrayList<>();
@@ -913,6 +937,40 @@ public class HyperledgerService {
             JSONObject jsonDto = getPrescriptionForm.toJSONObject();
             byte[] result = contract.submitTransaction(
                     "getPrescriptionByDrugStore",
+                    jsonDto.toString()
+            );
+            prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
+            LOG.info("result: " + prescriptionDto);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return prescriptionDto;
+    }
+
+    public PrescriptionDto getPrescriptionByManufacturer(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
+        PrescriptionDto prescriptionDto = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = getPrescriptionForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "getPrescriptionByManufacturer",
+                    jsonDto.toString()
+            );
+            prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
+            LOG.info("result: " + prescriptionDto);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return prescriptionDto;
+    }
+
+    public PrescriptionDto getPrescriptionByScientist(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
+        PrescriptionDto prescriptionDto = null;
+        try {
+            Contract contract = getContract(user);
+            JSONObject jsonDto = getPrescriptionForm.toJSONObject();
+            byte[] result = contract.submitTransaction(
+                    "getPrescriptionByScientist",
                     jsonDto.toString()
             );
             prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);

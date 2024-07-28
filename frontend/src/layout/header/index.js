@@ -140,6 +140,10 @@ const HeaderLayout = () => {
       name: "Quản lý phản ứng thuốc",
       path: ROUTERS.MANUFACTURER.DRUG_REACTION_MANAGEMENT_PAGE,
     },
+    {
+      name: "Quản lý yêu cầu",
+      path: ROUTERS.USER.REQUEST,
+    },
   ]);
 
   const [drugStoreMenuItems, setDrugStoreItems] = useState([

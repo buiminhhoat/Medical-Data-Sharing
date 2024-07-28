@@ -1,17 +1,19 @@
 package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.dto.Drug;
+import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.dto.DrugReactionDto;
-import com.medicaldatasharing.form.AddDrugForm;
-import com.medicaldatasharing.form.AddMedicationForm;
-import com.medicaldatasharing.form.GetDrugReactionForm;
-import com.medicaldatasharing.form.SearchMedicationForm;
+import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
+import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByManufacturerQueryDto;
+import com.medicaldatasharing.dto.PrescriptionDto;
+import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
+import com.medicaldatasharing.response.MedicalRecordResponse;
 import com.medicaldatasharing.response.MedicationResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
@@ -40,6 +42,46 @@ public class ManufacturerService {
 
     @Autowired
     private HyperledgerService hyperledgerService;
+
+    public String getListMedicalRecord(GetListAuthorizedMedicalRecordByManufacturerQueryDto getListAuthorizedMedicalRecordByManufacturerQueryDto) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            List<MedicalRecord> medicalRecordList = hyperledgerService.getListAuthorizedMedicalRecordByManufacturerQuery(user,
+                    getListAuthorizedMedicalRecordByManufacturerQueryDto);
+            List<MedicalRecordResponse> medicalRecordResponseList = new ArrayList<>();
+            for (MedicalRecord medicalRecord: medicalRecordList) {
+                MedicalRecordResponse medicalRecordResponse = new MedicalRecordResponse(medicalRecord);
+
+                User patient = userDetailsService.getUserByUserId(medicalRecord.getPatientId());
+                medicalRecordResponse.setPatientName(patient.getFullName());
+
+                User doctor = userDetailsService.getUserByUserId(medicalRecord.getDoctorId());
+                medicalRecordResponse.setDoctorName(doctor.getFullName());
+
+                User medicalInstitution = userDetailsService.getUserByUserId(medicalRecord.getMedicalInstitutionId());
+                medicalRecordResponse.setMedicalInstitutionName(medicalInstitution.getFullName());
+
+                medicalRecordResponseList.add(medicalRecordResponse);
+            }
+            return new Genson().serialize(medicalRecordResponseList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getPrescriptionByManufacturer(GetPrescriptionForm getPrescriptionForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            getPrescriptionForm.setManufacturerId(user.getId());
+            PrescriptionDto prescriptionDto = hyperledgerService.getPrescriptionByManufacturer(user,
+                    getPrescriptionForm);
+            return new Genson().serialize(prescriptionDto);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
 
     public String getListMedicationByManufacturerId(SearchMedicationForm searchMedicationForm) throws Exception {
         User user = userDetailsService.getLoggedUser();

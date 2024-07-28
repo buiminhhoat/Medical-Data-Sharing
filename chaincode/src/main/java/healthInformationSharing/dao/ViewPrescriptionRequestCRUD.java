@@ -3,6 +3,7 @@ package healthInformationSharing.dao;
 import com.owlike.genson.Genson;
 import healthInformationSharing.entity.ViewPrescriptionRequest;
 import healthInformationSharing.enumeration.RequestStatus;
+import healthInformationSharing.enumeration.RequestType;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
@@ -56,7 +57,7 @@ public class ViewPrescriptionRequestCRUD {
         String recipientId = jsonDto.getString("recipientId");
         String dateCreated = jsonDto.getString("dateCreated");
         String dateModified = jsonDto.getString("dateModified");
-        String requestType = jsonDto.getString("requestType");
+        String requestType = RequestType.VIEW_PRESCRIPTION;
         String prescriptionId = jsonDto.getString("prescriptionId");
 
         String requestId = ctx.getStub().getTxId();

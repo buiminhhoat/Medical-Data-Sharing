@@ -1,9 +1,9 @@
 package com.medicaldatasharing.controller;
 
-import com.medicaldatasharing.form.AddDrugForm;
-import com.medicaldatasharing.form.AddMedicationForm;
-import com.medicaldatasharing.form.GetDrugReactionForm;
-import com.medicaldatasharing.form.SearchMedicationForm;
+import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
+import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByManufacturerQueryDto;
+import com.medicaldatasharing.form.*;
+import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.ManufacturerService;
@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 
@@ -33,11 +34,29 @@ public class ManufacturerController {
     @Autowired
     private ManufacturerService manufacturerService;
 
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
     @GetMapping("/get-list-medication-by-manufacturerId")
     public ResponseEntity<?> getListMedicationByManufacturerId(@Valid @ModelAttribute SearchMedicationForm searchMedicationForm) throws Exception {
         try {
             String getListMedication = manufacturerService.getListMedicationByManufacturerId(searchMedicationForm);
             return ResponseEntity.status(HttpStatus.OK).body(getListMedication);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/get-list-medical-record-by-manufacturerId")
+    public ResponseEntity<?> getListMedicalRecord(HttpServletRequest httpServletRequest) {
+        try {
+            String patientId = httpServletRequest.getParameter("patientId");
+            GetListAuthorizedMedicalRecordByManufacturerQueryDto getListAuthorizedMedicalRecordByManufacturerQueryDto = new GetListAuthorizedMedicalRecordByManufacturerQueryDto();
+            getListAuthorizedMedicalRecordByManufacturerQueryDto.setManufacturerId(userDetailsService.getLoggedUser().getId());
+            getListAuthorizedMedicalRecordByManufacturerQueryDto.setPatientId(patientId);
+            String getListMedicalRecord = manufacturerService.getListMedicalRecord(getListAuthorizedMedicalRecordByManufacturerQueryDto);
+            return ResponseEntity.status(HttpStatus.OK).body(getListMedicalRecord);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -73,6 +92,18 @@ public class ManufacturerController {
         try {
             String getListMedication = manufacturerService.getListDrugReactionByManufacturer();
             return ResponseEntity.status(HttpStatus.OK).body(getListMedication);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/get-prescription-by-manufacturer")
+    public ResponseEntity<?> getPrescriptionByManufacturer(@Valid @ModelAttribute GetPrescriptionForm getPrescriptionForm,
+                                                        BindingResult result) throws Exception {
+        try {
+            String getPrescriptionByPrescriptionId = manufacturerService.getPrescriptionByManufacturer(getPrescriptionForm);
+            return ResponseEntity.status(HttpStatus.OK).body(getPrescriptionByPrescriptionId);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
