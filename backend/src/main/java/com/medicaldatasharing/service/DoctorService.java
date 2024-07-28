@@ -4,12 +4,10 @@ import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.chaincode.dto.ViewRequest;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
+import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.enumeration.RequestType;
-import com.medicaldatasharing.form.AddMedicalRecordForm;
-import com.medicaldatasharing.form.DefineMedicalRecordForm;
-import com.medicaldatasharing.form.SearchViewRequestForm;
-import com.medicaldatasharing.form.SendViewRequestForm;
+import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
@@ -146,6 +144,18 @@ public class DoctorService {
         return new Genson().serialize(defineMedicalRecord);
     }
 
+    public String getPrescriptionByDoctor(GetPrescriptionForm getPrescriptionForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            getPrescriptionForm.setDoctorId(user.getId());
+            PrescriptionDto prescriptionDto = hyperledgerService.getPrescriptionByDoctor(user,
+                    getPrescriptionForm);
+            return new Genson().serialize(prescriptionDto);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
 //    public SendRequestDto sendRequest(
 //            SendRequestForm sendRequestForm) throws Exception {
 //        User user = userDetailsService.getLoggedUser();

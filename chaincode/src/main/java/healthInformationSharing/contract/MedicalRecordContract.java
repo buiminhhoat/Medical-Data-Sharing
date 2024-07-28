@@ -1132,6 +1132,47 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPrescriptionByDoctor(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String prescriptionId = jsonObject.getString("prescriptionId");
+        String doctorId = jsonObject.getString("doctorId");
+        authorizeRequest(ctx, doctorId, "getPrescriptionByDoctor(validate doctorId)");
+
+        JSONObject jsonDto = new JSONObject();
+        jsonDto.put("prescriptionId", prescriptionId);
+        jsonDto.put("senderId", doctorId);
+        jsonDto.put("requestType", RequestType.VIEW_RECORD);
+        jsonDto.put("requestStatus", RequestStatus.ACCEPTED);
+
+        List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestQuery(jsonDto);
+
+        if (viewRequestList.isEmpty()) {
+            throw new ChaincodeException("UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS",
+                    ContractErrors.UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS.toString());
+        }
+
+        Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
+
+        PrescriptionDto prescriptionDto = new PrescriptionDto();
+        prescriptionDto.setPrescriptionId(prescription.getPrescriptionId());
+        prescriptionDto.setDrugReaction(prescription.getDrugReaction());
+        prescriptionDto.setEntityName(prescription.getEntityName());
+        List<PrescriptionDetails> prescriptionDetailsList = ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(prescriptionId);
+        List<PrescriptionDetailsDto> prescriptionDetailsDtoList = new ArrayList<>();
+        for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
+            PrescriptionDetailsDto prescriptionDetailsDto = new PrescriptionDetailsDto(prescriptionDetails);
+            Medication medication = ctx.getMedicationDAO().getMedication(prescriptionDetailsDto.getMedicationId());
+            prescriptionDetailsDto.setMedicationName(medication.getMedicationName());
+            prescriptionDetailsDtoList.add(prescriptionDetailsDto);
+        }
+        prescriptionDto.setPrescriptionDetailsListDto(prescriptionDetailsDtoList);
+        return new Genson().serialize(prescriptionDto);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getPrescriptionByManufacturer(
             MedicalRecordContext ctx,
             String jsonString

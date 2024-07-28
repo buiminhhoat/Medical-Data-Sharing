@@ -178,6 +178,10 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
   };
 
   const renderButton = () => {
+    console.log("data.requestType: ", data.requestType);
+    console.log("data.senderId", data.senderId);
+    console.log("userId", userId);
+
     if (data.requestType === "Đặt lịch khám") {
       if (data.senderId === userId) {
         return (

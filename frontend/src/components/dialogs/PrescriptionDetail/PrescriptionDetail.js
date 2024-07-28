@@ -54,9 +54,18 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
   let apiGetPrescriptionByPrescriptionId =
     API.PATIENT.GET_PRESCRIPTION_BY_PRESCRIPTION_ID;
 
+  if (role === "Bác sĩ") {
+    apiGetPrescriptionByPrescriptionId = API.DOCTOR.GET_PRESCRIPTION_BY_DOCTOR;
+  }
+
   if (role === "Cửa hàng thuốc") {
     apiGetPrescriptionByPrescriptionId =
       API.DRUGSTORE.GET_PRESCRIPTION_BY_DRUG_STORE;
+  }
+
+  if (role === "Công ty sản xuất thuốc") {
+    apiGetPrescriptionByPrescriptionId =
+      API.MANUFACTURER.GET_PRESCRIPTION_BY_MANUFACTURER;
   }
 
   const [isModalOpen, setIsModalOpen] = useState(true);

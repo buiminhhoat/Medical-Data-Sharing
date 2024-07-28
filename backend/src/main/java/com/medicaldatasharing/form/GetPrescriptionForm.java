@@ -17,6 +17,8 @@ public class GetPrescriptionForm {
 
     private String scientistId;
 
+    private String doctorId;
+
     public @NotBlank String getPrescriptionId() {
         return prescriptionId;
     }
@@ -59,6 +61,15 @@ public class GetPrescriptionForm {
 
     public GetPrescriptionForm setScientistId(String scientistId) {
         this.scientistId = scientistId;
+        return this;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public GetPrescriptionForm setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
         return this;
     }
 

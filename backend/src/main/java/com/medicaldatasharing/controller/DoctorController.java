@@ -2,10 +2,7 @@ package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
-import com.medicaldatasharing.form.AddMedicalRecordForm;
-import com.medicaldatasharing.form.AddPrescriptionForm;
-import com.medicaldatasharing.form.DefineMedicalRecordForm;
-import com.medicaldatasharing.form.SendViewRequestForm;
+import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.UserService;
@@ -122,6 +119,18 @@ public class DoctorController {
             return ResponseEntity.status(HttpStatus.OK).body(defineMedicalRecord);
         }
         catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/get-prescription-by-doctor")
+    public ResponseEntity<?> getPrescriptionByDoctor(@Valid @ModelAttribute GetPrescriptionForm getPrescriptionForm,
+                                                           BindingResult result) throws Exception {
+        try {
+            String getPrescriptionByPrescriptionId = doctorService.getPrescriptionByDoctor(getPrescriptionForm);
+            return ResponseEntity.status(HttpStatus.OK).body(getPrescriptionByPrescriptionId);
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

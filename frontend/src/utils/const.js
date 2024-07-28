@@ -64,6 +64,7 @@ export const API = {
       "/api/doctor/get-all-patient-managed-by-doctorId",
     SEND_VIEW_REQUEST: "/api/doctor/send-view-request",
     DEFINE_MEDICAL_RECORD: "/api/doctor/define-medical-record",
+    GET_PRESCRIPTION_BY_DOCTOR: "/api/doctor/get-prescription-by-doctor",
   },
   ADMIN: {
     GET_ALL_USER_BY_ADMIN: "/api/admin/get-all-user-by-admin",

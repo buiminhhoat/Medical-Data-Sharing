@@ -18,6 +18,7 @@ import {
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import { Alert, notification } from "antd";
+import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 const { Option } = Select;
 
 const MedicalRecordDialogStyle = styled.div`
@@ -99,6 +100,31 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
   useEffect(() => {
     if (access_token) fetchAllMedicalRecord().then((r) => {});
   }, [access_token]);
+
+  const [openDialog, setOpenDialog] = useState(null);
+  const handleDialogSwitch = (dialogName) => {
+    openModal(dialogName);
+  };
+
+  const handleDialogClose = () => {
+    closeModal();
+  };
+
+  const openModal = (dialogName) => {
+    setOpenDialog(dialogName);
+  };
+
+  const closeModal = () => {
+    setOpenDialog(null);
+  };
+
+  const [selectedPrescriptionId, setSelectedPrescriptionId] = useState("");
+  const openPrescriptionDetail = (prescriptionId) => {
+    console.log("openPrescriptionDetail");
+    console.log("prescriptionId: ", prescriptionId);
+    setSelectedPrescriptionId(prescriptionId);
+    openModal(DIALOGS.PRESCRIPTION_DETAIL);
+  };
 
   let apiDefineMedicalRecord = API.PATIENT.DEFINE_MEDICAL_RECORD;
   if (role === "Bệnh nhân") {
@@ -258,7 +284,14 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
                   </Info>
 
                   <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Button style={{ marginRight: "3%" }}>Xem đơn thuốc</Button>
+                    <Button
+                      style={{ marginRight: "3%" }}
+                      onClick={() =>
+                        openPrescriptionDetail(item.prescriptionId)
+                      }
+                    >
+                      Xem đơn thuốc
+                    </Button>
                     {item.doctorId === userId && (
                       <Button
                         style={{ marginRight: "3%" }}
@@ -275,13 +308,15 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
             )}
           />
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              justifyItems: "center",
-            }}
-          ></div>
+          {openDialog === DIALOGS.PRESCRIPTION_DETAIL && (
+            <div>
+              <PrescriptionDetail
+                prescriptionId={selectedPrescriptionId}
+                onClose={handleDialogClose}
+                onSwitch={handleDialogSwitch}
+              />
+            </div>
+          )}
         </Modal>
       </MedicalRecordDialogStyle>
     </Context.Provider>
