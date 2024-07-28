@@ -1,6 +1,7 @@
 package healthInformationSharing.entity;
 
 import com.owlike.genson.Genson;
+import healthInformationSharing.enumeration.DrugReactionStatus;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import com.owlike.genson.annotation.JsonProperty;
@@ -27,6 +28,7 @@ public class Prescription {
     private String entityName;
 
     public Prescription() {
+        this.drugReaction = DrugReactionStatus.NO_INFORMATION;
         this.entityName = Prescription.class.getSimpleName();
     }
 

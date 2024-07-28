@@ -20,6 +20,7 @@ export const DIALOGS = {
   CHANGE_PASSWORD: "CHANGE_PASSWORD",
   UPDATE_INFORMATION: "UPDATE_INFORMATION",
   UPDATE_DRUG_REACTION: "UPDATE_DRUG_REACTION",
+  DRUG_REACTION_DETAIL: "DRUG_REACTION_DETAIL",
 };
 
 export const API = {
@@ -76,6 +77,8 @@ export const API = {
     ADD_DRUG: "/api/manufacturer/add-drug",
     GET_LIST_DRUG_REACTION_BY_MANUFACTURER:
       "/api/manufacturer/get-list-drug-reaction-by-manufacturer",
+    GET_PRESCRIPTION_BY_PRESCRIPTION_ID:
+      "/api/manufacturer/get-prescription-by-prescriptionId",
   },
   DRUGSTORE: {
     GET_PRESCRIPTION_BY_DRUG_STORE:

@@ -1,5 +1,6 @@
 package com.medicaldatasharing.chaincode.dto;
 
+import com.medicaldatasharing.enumeration.DrugReactionStatus;
 import com.owlike.genson.annotation.JsonProperty;
 
 public class Prescription {
@@ -13,6 +14,7 @@ public class Prescription {
     private String entityName;
 
     public Prescription() {
+        this.drugReaction = DrugReactionStatus.NO_INFORMATION;
         this.entityName = Prescription.class.getSimpleName();
     }
 

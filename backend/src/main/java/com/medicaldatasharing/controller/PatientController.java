@@ -159,6 +159,8 @@ public class PatientController {
         }
 
         try {
+            updateDrugReactionForm.setDateCreated(StringUtil.parseDate(new Date()));
+            updateDrugReactionForm.setDateModified(StringUtil.parseDate(new Date()));
             String updateDrugReactionByPatient = patientService.updateDrugReactionByPatient(updateDrugReactionForm);
             return ResponseEntity.status(HttpStatus.OK).body(updateDrugReactionByPatient);
         }

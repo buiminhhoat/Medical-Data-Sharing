@@ -24,6 +24,7 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 import ScanInput from "../../../components/ScanInput/ScanInput";
+import DrugReactionDetail from "../../../components/dialogs/DrugReactionDetail/DrugReactionDetail";
 // import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 
 const DrugReactionManagementPageStyle = styled.div`
@@ -120,7 +121,7 @@ const DrugReactionManagementPage = () => {
   }, [searchPrescriptionId, searchMedicationId]);
 
   const [openDialog, setOpenDialog] = useState(null);
-  const [selectedMedication, setSelectedRequest] = useState(null);
+  const [selectedPrescription, setSelectedRequest] = useState(null);
 
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
@@ -138,11 +139,11 @@ const DrugReactionManagementPage = () => {
     setOpenDialog(null);
   };
 
-  const openDrugDetail = (request) => {
-    console.log("openDrugDetail");
-    console.log(request);
-    openModal(DIALOGS.DRUG_DETAIL);
-    setSelectedRequest(request);
+  const openPrescriptionDetail = (prescription) => {
+    console.log("openPrescriptionDetail");
+    console.log(prescription);
+    openModal(DIALOGS.DRUG_REACTION_DETAIL);
+    setSelectedRequest(prescription);
   };
 
   const openAddDrug = () => {
@@ -244,7 +245,7 @@ const DrugReactionManagementPage = () => {
           <Space size="middle">
             <Button
               icon={<InfoCircleOutlined />}
-              onClick={() => openDrugDetail(record)}
+              onClick={() => openPrescriptionDetail(record)}
             >
               Chi tiết
             </Button>
@@ -398,15 +399,15 @@ const DrugReactionManagementPage = () => {
         </div>
       </div>
 
-      {/* {openDialog === DIALOGS.DRUG_DETAIL && (
+      {openDialog === DIALOGS.DRUG_REACTION_DETAIL && (
         <div className="modal-overlay">
-          <DrugDetail
-            request={selectedMedication}
+          <DrugReactionDetail
+            prescriptionId={selectedPrescription.prescriptionId}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
         </div>
-      )} */}
+      )}
     </DrugReactionManagementPageStyle>
   );
 };

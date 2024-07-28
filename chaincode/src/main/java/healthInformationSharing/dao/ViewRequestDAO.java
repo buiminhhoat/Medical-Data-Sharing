@@ -56,6 +56,10 @@ public class ViewRequestDAO {
         return viewRequestCRUD.sendViewRequest(jsonDto);
     }
 
+    public List<ViewRequest> getListViewRequestQuery(JSONObject jsonDto) {
+        return viewRequestQuery.getListViewRequestQuery(jsonDto);
+    }
+
     public List<ViewRequest> getListViewRequestBySenderQuery(JSONObject jsonDto) {
         return viewRequestQuery.getListViewRequestQuery(jsonDto);
     }

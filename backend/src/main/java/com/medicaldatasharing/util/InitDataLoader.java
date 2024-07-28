@@ -605,6 +605,8 @@ public class InitDataLoader implements CommandLineRunner {
             UpdateDrugReactionForm updateDrugReactionForm = new UpdateDrugReactionForm();
             updateDrugReactionForm.setPrescriptionId(medicalRecord.getPrescriptionId());
             updateDrugReactionForm.setDrugReaction("Cảm thấy buồn ngủ sau khi uống");
+            updateDrugReactionForm.setDateCreated(StringUtil.parseDate(dateCreated));
+            updateDrugReactionForm.setDateModified(StringUtil.parseDate(dateModified));
             Prescription prescription = hyperledgerService.updateDrugReactionFromPatient(
                     patient,
                     updateDrugReactionForm

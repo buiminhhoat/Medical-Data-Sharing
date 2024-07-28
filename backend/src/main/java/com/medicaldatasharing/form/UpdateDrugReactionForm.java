@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import javax.validation.constraints.NotBlank;
 import java.lang.reflect.Field;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -16,6 +17,10 @@ public class UpdateDrugReactionForm {
     String prescriptionId;
 
     String drugReaction;
+
+    String dateCreated;
+
+    String dateModified;
 
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();

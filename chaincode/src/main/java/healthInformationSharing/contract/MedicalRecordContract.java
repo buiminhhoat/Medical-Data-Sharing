@@ -6,6 +6,7 @@ import healthInformationSharing.component.MedicalRecordContext;
 import healthInformationSharing.dao.*;
 import healthInformationSharing.dto.*;
 import healthInformationSharing.entity.*;
+import healthInformationSharing.enumeration.DrugReactionStatus;
 import healthInformationSharing.enumeration.MedicalRecordStatus;
 import healthInformationSharing.enumeration.RequestStatus;
 import healthInformationSharing.enumeration.RequestType;
@@ -447,7 +448,8 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonDto = jsonObject;
         jsonDto.put("requestType", RequestType.APPOINTMENT);
         AppointmentRequest appointmentRequest = ctx.getAppointmentRequestDAO().sendAppointmentRequest(jsonDto);
-        ctx.getViewRequestDAO().sendViewRequestAccepted(new JSONObject().put("senderId", recipientId)
+        ctx.getViewRequestDAO().sendViewRequestAccepted(
+                new JSONObject().put("senderId", recipientId)
                 .put("recipientId", senderId)
                 .put("dateCreated", dateCreated)
                 .put("dateModified", dateModified));
@@ -884,6 +886,8 @@ public class MedicalRecordContract implements ContractInterface {
         JSONObject jsonObject = new JSONObject(jsonString);
         String prescriptionId = jsonObject.getString("prescriptionId");
         String drugReaction = jsonObject.getString("drugReaction");
+        String dateCreated = jsonObject.getString("dateCreated");
+        String dateModified = jsonObject.getString("dateModified");
 
         List<MedicalRecord> medicalRecordList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
                 new JSONObject().put("prescriptionId", prescriptionId)
@@ -909,6 +913,27 @@ public class MedicalRecordContract implements ContractInterface {
 
         JSONObject jsonDto = jsonObject;
         Prescription prescription = ctx.getPrescriptionDAO().updateDrugReactionFromPatient(jsonDto);
+
+        List<PrescriptionDetails> prescriptionDetailsList = ctx.getPrescriptionDetailsDAO().getListPrescriptionDetails(
+                prescriptionId
+        );
+
+        for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
+            String medicationId = prescriptionDetails.getMedicationId();
+            Medication medication = ctx.getMedicationDAO().getMedication(medicationId);
+            List<ViewRequest> viewRequestList = ctx.getViewRequestDAO().getListViewRequestQuery(
+                    new JSONObject().put("senderId", medication.getManufacturerId())
+                            .put("recipientId", medicalRecord.getPatientId())
+                            .put("requestStatus", RequestStatus.ACCEPTED)
+            );
+            if (viewRequestList.isEmpty()) {
+                ctx.getViewRequestDAO().sendViewRequestAccepted(
+                        new JSONObject().put("senderId", medication.getManufacturerId())
+                                .put("recipientId", medicalRecord.getPatientId())
+                                .put("dateCreated", dateCreated)
+                                .put("dateModified", dateModified));
+            }
+        }
         return new Genson().serialize(prescription);
     }
 
@@ -938,6 +963,7 @@ public class MedicalRecordContract implements ContractInterface {
 
             for (String prescriptionId: prescriptionIdSet) {
                 Prescription prescription = ctx.getPrescriptionDAO().getPrescription(prescriptionId);
+                if (Objects.equals(prescription.getDrugReaction(), DrugReactionStatus.NO_INFORMATION)) continue;
                 DrugReactionDto drugReactionDto = new DrugReactionDto();
                 drugReactionDto.setPrescriptionId(prescriptionId);
                 drugReactionDto.setMedicationId(medication.getMedicationId());
