@@ -75,27 +75,14 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
     });
   };
 
-  const logout = useLogout();
+  const logout = useLogout(api, contextHolder);
 
   const handleLogout = () => {
     logout()
       .then(() => {
-        openNotification(
-          "topRight",
-          "success",
-          "Thành công",
-          "Đăng xuất thành công!"
-        );
         setMenuItems(null);
       })
-      .catch((error) => {
-        openNotification(
-          "topRight",
-          "error",
-          "Thất bại",
-          "Đăng xuất thất bại!"
-        );
-      });
+      .catch((error) => {});
   };
 
   const renderHasAccessToken = () => {

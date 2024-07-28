@@ -1,10 +1,21 @@
-import { Alert } from "antd";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { notification } from "antd";
 
-export function useLogout() {
+export function useLogout(api, contextHolder) {
   const navigate = useNavigate();
   const [cookies, , removeCookie] = useCookies();
+
+  const openNotification = (placement, type, message, description, onClose) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement,
+      showProgress: true,
+      pauseOnHover: true,
+      onClose: onClose,
+    });
+  };
 
   return async () => {
     try {
@@ -28,9 +39,14 @@ export function useLogout() {
       //   <Alert message="Đăng xuất thành công!" type="success"></Alert>;
       //   alert("Đăng xuất thành công!");
       navigate("/");
-      //   window.location.href = "/";
+      openNotification(
+        "topRight",
+        "success",
+        "Thành công",
+        "Đăng xuất thành công!"
+      );
     } catch (error) {
-      console.error("Error during logout:", error);
+      openNotification("topRight", "error", "Thất bại", "Đăng xuất thất bại!");
     }
   };
 }
