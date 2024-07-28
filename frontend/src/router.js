@@ -16,6 +16,7 @@ import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
 import ProfilePage from "./pages/users/ProfilePage";
 import DrugReactionManagementPage from "./pages/manufacturer/DrugReactionManagementPage";
+import { useLogout } from "./utils/logout";
 
 const userRouters = [
   {
@@ -258,6 +259,8 @@ const RouterCustom = () => {
 
   const [role, setRole] = useState("");
 
+  const logout = useLogout();
+
   const fetchGetUserData = async () => {
     if (accessToken) {
       console.log(role);
@@ -272,13 +275,13 @@ const RouterCustom = () => {
         if (response.status === 200) {
           const data = await response.json();
           setRole(data.role);
-          console.log("hello ", role);
         } else {
-          setRole("");
+          logout();
         }
       } catch (error) {
         setRole("");
         console.log(error);
+        logout();
       }
     }
   };

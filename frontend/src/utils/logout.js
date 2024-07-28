@@ -39,14 +39,23 @@ export function useLogout(api, contextHolder) {
       //   <Alert message="Đăng xuất thành công!" type="success"></Alert>;
       //   alert("Đăng xuất thành công!");
       navigate("/");
-      openNotification(
-        "topRight",
-        "success",
-        "Thành công",
-        "Đăng xuất thành công!"
-      );
+      if (api && contextHolder) {
+        openNotification(
+          "topRight",
+          "success",
+          "Thành công",
+          "Đăng xuất thành công!"
+        );
+      }
     } catch (error) {
-      openNotification("topRight", "error", "Thất bại", "Đăng xuất thất bại!");
+      if (api && contextHolder) {
+        openNotification(
+          "topRight",
+          "error",
+          "Thất bại",
+          "Đăng xuất thất bại!"
+        );
+      }
     }
   };
 }

@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/ProfileMenu/ProfileMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/ProfileMenu/ProfileMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/utils/logout.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/logout.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

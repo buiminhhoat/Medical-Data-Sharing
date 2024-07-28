@@ -35,34 +35,6 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
   const access_token = cookies.access_token;
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState("");
-  const apiGetUserData = API.PUBLIC.GET_USER_DATA;
-  const fetchUserData = async () => {
-    if (access_token) {
-      try {
-        const response = await fetch(apiGetUserData, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        });
-        console.log(response);
-
-        if (response.status === 200) {
-          const json = await response.json();
-          console.log(json);
-          const fullName = json.fullName;
-          const role = json.role;
-          setFullName(fullName);
-          setRole(role);
-        }
-      } catch (e) {}
-    }
-  };
-
-  useEffect(() => {
-    if (access_token) fetchUserData().then((r) => {});
-  }, [access_token]);
-
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (placement, type, message, description, onClose) => {
     api[type]({
@@ -84,6 +56,38 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
       })
       .catch((error) => {});
   };
+
+  const apiGetUserData = API.PUBLIC.GET_USER_DATA;
+  const fetchUserData = async () => {
+    if (access_token) {
+      try {
+        const response = await fetch(apiGetUserData, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        });
+        console.log(response);
+
+        if (response.status === 200) {
+          const json = await response.json();
+          console.log(json);
+          const fullName = json.fullName;
+          const role = json.role;
+          setFullName(fullName);
+          setRole(role);
+        } else {
+          handleLogout();
+        }
+      } catch (e) {
+        console.log("e: ", e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (access_token) fetchUserData().then((r) => {});
+  }, [access_token]);
 
   const renderHasAccessToken = () => {
     const items = [
