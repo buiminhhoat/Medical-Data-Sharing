@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "antd";
 import { Scanner } from "@yudiel/react-qr-scanner";
+import ModalWrapper from "../ModalWrapper/ModalWrapper";
 
 const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
   const [data, setData] = useState("");
@@ -51,7 +52,7 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
 
   return (
     <>
-      <Modal
+      <ModalWrapper
         title="Quét QR Code"
         onCancel={handleCancel}
         open={isModalOpen}
@@ -117,7 +118,7 @@ const QRCodeScanner = ({ value, setValue, onClose, onSwitch }) => {
             )} */}
           </div>
         </div>
-      </Modal>
+      </ModalWrapper>
     </>
   );
 };

@@ -18,6 +18,7 @@ import {
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import { Alert, notification } from "antd";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 
 const { Option } = Select;
 
@@ -343,7 +344,7 @@ const SellingPrescriptionDrug = ({
     <Context.Provider value={"Bán thuốc"}>
       {contextHolder}
       <SellingPrescriptionDrugStyle>
-        <Modal
+        <ModalWrapper
           title="Bán thuốc"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -403,7 +404,7 @@ const SellingPrescriptionDrug = ({
               Bán thuốc
             </Button>
           </div>
-        </Modal>
+        </ModalWrapper>
       </SellingPrescriptionDrugStyle>
     </Context.Provider>
   );

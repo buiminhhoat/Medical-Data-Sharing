@@ -9,6 +9,7 @@ import { CgEnter } from "react-icons/cg";
 import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import dayjs from "dayjs";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 
 const { Option } = Select;
 
@@ -176,7 +177,7 @@ const UpdateInformationDialog = ({ userId, onClose, onSwitch }) => {
       {contextHolder}
       <UpdateInformationDialogStyle>
         <>
-          <Modal
+          <ModalWrapper
             title="Cập nhật thông tin"
             open={isModalOpen}
             onCancel={handleCancel}
@@ -281,7 +282,7 @@ const UpdateInformationDialog = ({ userId, onClose, onSwitch }) => {
                 </Button>
               </div>
             </Form>
-          </Modal>
+          </ModalWrapper>
         </>
 
         <ConfirmModal

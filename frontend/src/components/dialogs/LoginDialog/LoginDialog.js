@@ -7,6 +7,7 @@ import { API, LOGIN, DIALOGS } from "@Const";
 import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
 import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const LoginDialogStyle = styled.div``;
@@ -64,7 +65,7 @@ const LoginDialog = ({ onClose, onSwitch }) => {
   return (
     <LoginDialogStyle>
       <>
-        <Modal
+        <ModalWrapper
           title="Đăng nhập"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -140,7 +141,7 @@ const LoginDialog = ({ onClose, onSwitch }) => {
               </Button>
             </Form.Item>
           </Form>
-        </Modal>
+        </ModalWrapper>
       </>
     </LoginDialogStyle>
   );

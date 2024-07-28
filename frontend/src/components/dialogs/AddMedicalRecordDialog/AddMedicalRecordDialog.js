@@ -21,6 +21,7 @@ import { Alert, notification } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -224,7 +225,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
     <Context.Provider value={"Thêm hồ sơ y tế"}>
       {contextHolder}
       <AddMedicalRecordDialogStyle>
-        <Modal
+        <ModalWrapper
           title="Tạo hồ sơ y tế"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -463,7 +464,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
               </Button>
             </div>
           </Form>
-        </Modal>
+        </ModalWrapper>
 
         <ConfirmModal
           isOpen={isConfirmModalOpen}

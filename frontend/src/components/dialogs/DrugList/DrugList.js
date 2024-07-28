@@ -17,6 +17,7 @@ import {
   Typography,
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const DrugListStyle = styled.div`
@@ -59,7 +60,7 @@ const DrugList = ({ data, onClose, onSwitch }) => {
 
   return (
     <DrugListStyle>
-      <Modal
+      <ModalWrapper
         title="Danh sách thuốc được tạo ra"
         open={isModalOpen}
         onCancel={handleCancel}
@@ -110,7 +111,7 @@ const DrugList = ({ data, onClose, onSwitch }) => {
             justifyItems: "center",
           }}
         ></div>
-      </Modal>
+      </ModalWrapper>
     </DrugListStyle>
   );
 };

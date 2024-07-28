@@ -30,6 +30,7 @@ import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 import QRCodeScanner from "../../QRCodeScanner/QRCodeScanner";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -199,7 +200,7 @@ const SharePrescriptionDialog = ({ prescriptionId, onClose, onSwitch }) => {
     <Context.Provider value={"Chia sẻ đơn thuốc"}>
       {contextHolder}
       <SharePrescriptionDialogStyle>
-        <Modal
+        <ModalWrapper
           title="Chia sẻ đơn thuốc"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -300,7 +301,7 @@ const SharePrescriptionDialog = ({ prescriptionId, onClose, onSwitch }) => {
               </Button>
             </div>
           </Form>
-        </Modal>
+        </ModalWrapper>
 
         {openDialog === DIALOGS.QRCODE_SCANNER && (
           <div>

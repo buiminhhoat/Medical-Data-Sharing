@@ -16,6 +16,7 @@ import SellingPrescriptionDrug from "../SellingPrescriptionDrug/SellingPrescript
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import { ScanOutlined } from "@ant-design/icons";
 import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const UserInfoStyle = styled.div``;
@@ -435,7 +436,7 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
     <Context.Provider value={"Thông tin người dùng"}>
       {contextHolder}
       <UserInfoStyle>
-        <Modal
+        <ModalWrapper
           title="Thông tin người dùng"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -548,7 +549,7 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
           >
             {additionalFields}
           </div>
-        </Modal>
+        </ModalWrapper>
 
         {/* {openDialog === DIALOGS.MEDICAL_RECORD && (
           <div>

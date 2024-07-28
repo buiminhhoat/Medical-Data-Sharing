@@ -16,6 +16,7 @@ import SellingPrescriptionDrug from "../SellingPrescriptionDrug/SellingPrescript
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import { ScanOutlined } from "@ant-design/icons";
 import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const RequestDetailStyle = styled.div``;
@@ -465,7 +466,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
     <Context.Provider value={"Chi tiết yêu cầu"}>
       {contextHolder}
       <RequestDetailStyle>
-        <Modal
+        <ModalWrapper
           title="Chi tiết yêu cầu"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -601,7 +602,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
           >
             {additionalFields}
           </div>
-        </Modal>
+        </ModalWrapper>
 
         {openDialog === DIALOGS.MEDICAL_RECORD && (
           <div>

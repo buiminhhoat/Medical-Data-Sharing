@@ -2,7 +2,6 @@ import React from "react";
 import { Modal } from "antd";
 import styled from "styled-components";
 
-// Styled scrollbar container
 const ScrollBar = styled.div`
   overflow-y: scroll;
   max-height: 80vh;
@@ -20,6 +19,7 @@ const ScrollBar = styled.div`
   &::-webkit-scrollbar-thumb {
     background: rgba(10, 101, 22, 0.5);
     border-radius: 10px;
+    min-height: 90px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -27,7 +27,6 @@ const ScrollBar = styled.div`
   }
 `;
 
-// Modal wrapper component that applies custom scrollbar to content
 const ModalWrapper = ({ children, ...props }) => {
   return (
     <Modal {...props}>

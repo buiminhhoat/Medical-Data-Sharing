@@ -31,6 +31,7 @@ import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDi
 import QRCodeScanner from "../../QRCodeScanner/QRCodeScanner";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import TextArea from "antd/es/input/TextArea";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -213,7 +214,7 @@ const UpdateDrugReactionDialog = ({ prescription, onClose, onSwitch }) => {
     <Context.Provider value={"Cập nhật phản ứng thuốc"}>
       {contextHolder}
       <UpdateDrugReactionDialogStyle>
-        <Modal
+        <ModalWrapper
           title="Cập nhật phản ứng thuốc"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -266,7 +267,7 @@ const UpdateDrugReactionDialog = ({ prescription, onClose, onSwitch }) => {
               </Button>
             </div>
           </Form>
-        </Modal>
+        </ModalWrapper>
 
         {openDialog === DIALOGS.QRCODE_SCANNER && (
           <div>

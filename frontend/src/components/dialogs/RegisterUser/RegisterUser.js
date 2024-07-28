@@ -26,6 +26,7 @@ import { Alert, notification } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -245,7 +246,7 @@ const RegisterUserDialog = ({ values, onClose, onSwitch }) => {
     <Context.Provider value={"Tạo người dùng"}>
       {contextHolder}
       <RegisterUserDialogStyle>
-        <Modal
+        <ModalWrapper
           title="Tạo người dùng"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -369,7 +370,7 @@ const RegisterUserDialog = ({ values, onClose, onSwitch }) => {
               <Button htmlType="submit">Tạo người dùng</Button>
             </div>
           </Form>
-        </Modal>
+        </ModalWrapper>
 
         {/* {openDialog === DIALOGS.EDIT_MEDICAL_RECORD && (
           <div className="modal-overlay">

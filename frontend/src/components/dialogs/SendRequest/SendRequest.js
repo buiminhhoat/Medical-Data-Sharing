@@ -30,6 +30,7 @@ import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 import QRCodeScanner from "../../QRCodeScanner/QRCodeScanner";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -276,7 +277,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     <Context.Provider value={"Tạo yêu cầu"}>
       {contextHolder}
       <SendRequestDialogStyle>
-        <Modal
+        <ModalWrapper
           title="Tạo yêu cầu"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -400,7 +401,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
               </Button>
             </div>
           </Form>
-        </Modal>
+        </ModalWrapper>
 
         {openDialog === DIALOGS.QRCODE_SCANNER && (
           <div>

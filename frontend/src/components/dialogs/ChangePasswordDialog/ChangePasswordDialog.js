@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
 import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const ChangePasswordDialogStyle = styled.div``;
@@ -112,7 +113,7 @@ const ChangePasswordDialog = ({ userId, onClose, onSwitch }) => {
       {contextHolder}
       <ChangePasswordDialogStyle>
         <>
-          <Modal
+          <ModalWrapper
             title="Đổi mật khẩu"
             open={isModalOpen}
             onCancel={handleCancel}
@@ -215,7 +216,7 @@ const ChangePasswordDialog = ({ userId, onClose, onSwitch }) => {
                 </Button>
               </div>
             </Form>
-          </Modal>
+          </ModalWrapper>
         </>
 
         <ConfirmModal

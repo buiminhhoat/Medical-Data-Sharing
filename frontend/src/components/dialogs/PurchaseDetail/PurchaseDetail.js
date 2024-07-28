@@ -18,6 +18,7 @@ import {
   message,
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const PurchaseDetailStyle = styled.div`
@@ -297,7 +298,7 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
 
   return (
     <PurchaseDetailStyle>
-      <Modal
+      <ModalWrapper
         title="Chi tiết giao dịch"
         open={isModalOpen}
         onCancel={handleCancel}
@@ -371,7 +372,7 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
             </>
           )} */}
         </div>
-      </Modal>
+      </ModalWrapper>
     </PurchaseDetailStyle>
   );
 };

@@ -1,9 +1,10 @@
-import React from 'react';
-import { Modal, Button } from 'antd';
+import React from "react";
+import { Modal, Button } from "antd";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 
 const ConfirmModal = ({ isOpen, handleOk, handleCancel, title, content }) => {
   return (
-    <Modal
+    <ModalWrapper
       title={title}
       open={isOpen}
       onOk={handleOk}
@@ -19,7 +20,7 @@ const ConfirmModal = ({ isOpen, handleOk, handleCancel, title, content }) => {
       centered
     >
       {content}
-    </Modal>
+    </ModalWrapper>
   );
 };
 

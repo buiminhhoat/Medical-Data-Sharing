@@ -19,6 +19,7 @@ import {
 import { VscCommentUnresolved } from "react-icons/vsc";
 import SharePrescriptionDialog from "../SharePrescriptionDialog/SharePrescriptionDialog";
 import UpdateDrugReactionDialog from "../UpdateDrugReactionDialog/UpdateDrugReaction";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const PrescriptionDetailStyle = styled.div`
@@ -215,7 +216,7 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
 
   return (
     <PrescriptionDetailStyle>
-      <Modal
+      <ModalWrapper
         title="Đơn thuốc"
         open={isModalOpen}
         onCancel={handleCancel}
@@ -289,7 +290,7 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
             </>
           )}
         </div>
-      </Modal>
+      </ModalWrapper>
 
       {openDialog === DIALOGS.SHARE_PRESCRIPTION && (
         <div className="modal-overlay">

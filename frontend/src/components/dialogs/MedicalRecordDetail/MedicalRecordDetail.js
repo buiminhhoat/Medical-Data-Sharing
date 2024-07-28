@@ -19,6 +19,7 @@ import {
 import { VscCommentUnresolved } from "react-icons/vsc";
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 import { Alert, notification } from "antd";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const MedicalRecordDetailStyle = styled.div`
@@ -192,7 +193,7 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
     <Context.Provider value={"Chi tiết hồ sơ y tế"}>
       {contextHolder}
       <MedicalRecordDetailStyle>
-        <Modal
+        <ModalWrapper
           title="Chi tiết hồ sơ y tế"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -334,7 +335,7 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
               </div>
             )}
           </div>
-        </Modal>
+        </ModalWrapper>
       </MedicalRecordDetailStyle>
     </Context.Provider>
   );

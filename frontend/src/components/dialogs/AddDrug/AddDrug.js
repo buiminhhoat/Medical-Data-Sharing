@@ -23,6 +23,7 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import AddMedicalRecordDialog from "../AddMedicalRecordDialog/AddMedicalRecordDialog";
 import DrugList from "../DrugList/DrugList";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const Context = React.createContext({
@@ -163,7 +164,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
     <Context.Provider value={"Tạo thuốc"}>
       {contextHolder}
       <AddDrugDialogStyle>
-        <Modal
+        <ModalWrapper
           title="Tạo thuốc"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -309,7 +310,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
               <Button htmlType="submit">Tạo thuốc</Button>
             </div>
           </Form>
-        </Modal>
+        </ModalWrapper>
 
         {openDialog === DIALOGS.DRUG_LIST && (
           <div>
