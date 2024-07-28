@@ -19,6 +19,7 @@ import {
 import { VscCommentUnresolved } from "react-icons/vsc";
 import { Alert, notification } from "antd";
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
+import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
 const MedicalRecordDialogStyle = styled.div`
@@ -33,6 +34,29 @@ const Info = styled.div`
   .field {
     width: 20%;
     margin-right: 3%;
+  }
+`;
+
+const ScrollBar = styled.div`
+  overflow-y: scroll;
+  max-height: 80vh;
+  padding-right: 3px;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(10, 101, 22, 0.5);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(10, 101, 22, 0.75);
   }
 `;
 
@@ -198,7 +222,7 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
     <Context.Provider value={"Danh sách hồ sơ y tế của bệnh nhân"}>
       {contextHolder}
       <MedicalRecordDialogStyle>
-        <Modal
+        <ModalWrapper
           title="Danh sách hồ sơ y tế của bệnh nhân"
           open={isModalOpen}
           onCancel={handleCancel}
@@ -317,7 +341,7 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
               />
             </div>
           )}
-        </Modal>
+        </ModalWrapper>
       </MedicalRecordDialogStyle>
     </Context.Provider>
   );
