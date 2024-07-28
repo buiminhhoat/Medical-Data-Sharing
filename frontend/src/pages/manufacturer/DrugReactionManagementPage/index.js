@@ -11,6 +11,8 @@ import {
   Card,
   message,
   DatePicker,
+  Popover,
+  QRCode,
 } from "antd";
 import {
   InfoCircleOutlined,
@@ -40,6 +42,7 @@ const DrugReactionManagementPage = () => {
 
   const [searchPrescriptionId, setSearchPrescriptionId] = useState("");
   const [searchMedicationId, setSearchMedicationId] = useState("");
+  const [searchPatientId, setSearchPatientId] = useState("");
 
   const [data, setData] = useState([]);
 
@@ -59,6 +62,11 @@ const DrugReactionManagementPage = () => {
         record.medicationId.substring(0, 4) +
         "..." +
         record.medicationId.substring(record.medicationId.length - 4);
+
+      record.shortenedPatientId =
+        record.patientId.substring(0, 4) +
+        "..." +
+        record.patientId.substring(record.patientId.length - 4);
     });
 
     setDataSource(json);
@@ -79,7 +87,10 @@ const DrugReactionManagementPage = () => {
             .includes(searchMedicationId.toLowerCase())
         : true;
 
-      return matchesPrescriptionId & matchesMedicationId;
+      const matchesPatientId = searchPatientId
+        ? entry.patientId.toLowerCase().includes(searchPatientId.toLowerCase())
+        : true;
+      return matchesPrescriptionId & matchesMedicationId & matchesPatientId;
     });
     setDataSource(filteredData);
     // setLoading(false);
@@ -118,7 +129,7 @@ const DrugReactionManagementPage = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [searchPrescriptionId, searchMedicationId]);
+  }, [searchPrescriptionId, searchMedicationId, searchPatientId]);
 
   const [openDialog, setOpenDialog] = useState(null);
   const [selectedPrescription, setSelectedRequest] = useState(null);
@@ -153,6 +164,9 @@ const DrugReactionManagementPage = () => {
   const [highlightedText, setHighlightedText] = useState(null);
   const [highlightedTextMedicationId, setHighlightedTextMedicationId] =
     useState(null);
+
+  const [highlightedTextPatientId, setHighlightedTextPatientId] =
+    useState(null);
   const columns = [
     {
       title: "ID loại thuốc",
@@ -161,32 +175,46 @@ const DrugReactionManagementPage = () => {
       align: "center",
       onFilter: (value, record) => record.medicationId.indexOf(value) === 0,
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedTextMedicationId(index)}
-          onMouseLeave={() => setHighlightedTextMedicationId(null)}
-          style={{
-            backgroundColor:
-              highlightedTextMedicationId === index ? "#ffe898" : "",
-            border:
-              highlightedTextMedicationId === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.medicationId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.medicationId)
-              .then(() => message.success("Đã sao chép " + record.medicationId))
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.medicationId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedTextMedicationId(index)}
+            onMouseLeave={() => setHighlightedTextMedicationId(null)}
+            style={{
+              backgroundColor:
+                highlightedTextMedicationId === index ? "#ffe898" : "",
+              border:
+                highlightedTextMedicationId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.medicationId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.medicationId)
+                .then(() =>
+                  message.success("Đã sao chép " + record.medicationId)
+                )
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
     {
@@ -195,44 +223,107 @@ const DrugReactionManagementPage = () => {
       showSorterTooltip: {
         target: "full-header",
       },
-      width: "10%",
+      width: "15%",
       align: "center",
       onFilter: (value, record) =>
         record.shortenedPrescriptionId.indexOf(value) === 0,
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedText(index)}
-          onMouseLeave={() => setHighlightedText(null)}
-          style={{
-            backgroundColor: highlightedText === index ? "#ffe898" : "",
-            border:
-              highlightedText === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.prescriptionId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.prescriptionId)
-              .then(() =>
-                message.success("Đã sao chép " + record.prescriptionId)
-              )
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.prescriptionId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedText(index)}
+            onMouseLeave={() => setHighlightedText(null)}
+            style={{
+              backgroundColor: highlightedText === index ? "#ffe898" : "",
+              border:
+                highlightedText === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.prescriptionId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.prescriptionId)
+                .then(() =>
+                  message.success("Đã sao chép " + record.prescriptionId)
+                )
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
+      ),
+    },
+    {
+      title: "ID bệnh nhân",
+      dataIndex: "shortenedPatientId",
+      showSorterTooltip: {
+        target: "full-header",
+      },
+      width: "15%",
+      align: "center",
+      onFilter: (value, record) =>
+        record.shortenedPatientId.indexOf(value) === 0,
+      render: (text, record, index) => (
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.patientId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
+        >
+          <span
+            onMouseEnter={() => setHighlightedTextPatientId(index)}
+            onMouseLeave={() => setHighlightedTextPatientId(null)}
+            style={{
+              backgroundColor:
+                highlightedTextPatientId === index ? "#ffe898" : "",
+              border:
+                highlightedTextPatientId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.patientId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.patientId)
+                .then(() => message.success("Đã sao chép " + record.patientId))
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
     {
       title: "Phản ứng thuốc của bệnh nhân",
       dataIndex: "drugReaction",
-      width: "50%",
+      width: "40%",
       align: "center",
     },
     {
@@ -324,7 +415,15 @@ const DrugReactionManagementPage = () => {
                         <ScanInput
                           value={searchPrescriptionId}
                           setValue={setSearchPrescriptionId}
-                          placeholder="Mã thuốc"
+                          placeholder="ID đơn thuốc"
+                        />
+                      </div>
+
+                      <div style={{ width: "30%", marginRight: "2%" }}>
+                        <ScanInput
+                          value={searchPatientId}
+                          setValue={setSearchPatientId}
+                          placeholder="Mã bệnh nhân"
                         />
                       </div>
                     </div>
@@ -403,6 +502,8 @@ const DrugReactionManagementPage = () => {
         <div className="modal-overlay">
           <DrugReactionDetail
             prescriptionId={selectedPrescription.prescriptionId}
+            patientId={selectedPrescription.patientId}
+            medicalRecordId={selectedPrescription.medicalRecordId}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
