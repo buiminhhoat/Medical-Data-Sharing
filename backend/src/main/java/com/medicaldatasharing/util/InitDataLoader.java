@@ -602,11 +602,12 @@ public class InitDataLoader implements CommandLineRunner {
             );
             System.out.println(purchase);
 
+            UpdateDrugReactionForm updateDrugReactionForm = new UpdateDrugReactionForm();
+            updateDrugReactionForm.setPrescriptionId(medicalRecord.getPrescriptionId());
+            updateDrugReactionForm.setDrugReaction("Cảm thấy buồn ngủ sau khi uống");
             Prescription prescription = hyperledgerService.updateDrugReactionFromPatient(
                     patient,
-                    new JSONObject().put("medicalRecordId", medicalRecord.getMedicalRecordId())
-                            .put("prescriptionId", medicalRecord.getPrescriptionId())
-                            .put("drugReaction", "Cảm thấy buồn ngủ sau khi uống")
+                    updateDrugReactionForm
             );
 
             SendViewRequestForm sendViewRequestFormByScientist = new SendViewRequestForm();

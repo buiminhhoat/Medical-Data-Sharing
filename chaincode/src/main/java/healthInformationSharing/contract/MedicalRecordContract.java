@@ -885,16 +885,19 @@ public class MedicalRecordContract implements ContractInterface {
             String jsonString
     ) {
         JSONObject jsonObject = new JSONObject(jsonString);
-        String medicalRecordId = jsonObject.getString("medicalRecordId");
         String prescriptionId = jsonObject.getString("prescriptionId");
         String drugReaction = jsonObject.getString("drugReaction");
 
-        MedicalRecord medicalRecord = ctx.getMedicalRecordDAO().getMedicalRecord(medicalRecordId);
+        List<MedicalRecord> medicalRecordList = ctx.getMedicalRecordDAO().getListMedicalRecordByQuery(
+                new JSONObject().put("prescriptionId", prescriptionId)
+        );
 
-        if (!Objects.equals(prescriptionId, medicalRecord.getPrescriptionId())) {
-            throw new ChaincodeException("prescriptionId " + prescriptionId + " does not match medicalRecord.getPrescription()",
+        if (medicalRecordList.isEmpty()) {
+            throw new ChaincodeException("Not found prescriptionId " + prescriptionId + " in any medical records",
                     ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
+
+        MedicalRecord medicalRecord = medicalRecordList.get(0);
 
         List<Purchase> purchaseList = ctx.getPurchaseDAO().getListPurchaseByQuery(
                 new JSONObject().put("prescriptionId", prescriptionId)

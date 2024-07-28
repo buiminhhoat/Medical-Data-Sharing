@@ -1080,13 +1080,14 @@ public class HyperledgerService {
         return getListAuthorizedMedicalRecordByScientistQueryList;
     }
 
-    public Prescription updateDrugReactionFromPatient(User user, JSONObject jsonDto) throws Exception {
+    public Prescription updateDrugReactionFromPatient(User user, UpdateDrugReactionForm updateDrugReactionForm) throws Exception {
         Prescription prescription = null;
         try {
+            JSONObject jsonObject = updateDrugReactionForm.toJSONObject();
             Contract contract = getContract(user);
             byte[] result = contract.submitTransaction(
                     "updateDrugReactionFromPatient",
-                    jsonDto.toString()
+                    jsonObject.toString()
             );
             prescription = new Genson().deserialize(new String(result), Prescription.class);
             LOG.info("result: " + prescription);

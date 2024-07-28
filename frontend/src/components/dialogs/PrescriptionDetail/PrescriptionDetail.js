@@ -18,6 +18,7 @@ import {
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import SharePrescriptionDialog from "../SharePrescriptionDialog/SharePrescriptionDialog";
+import UpdateDrugReactionDialog from "../UpdateDrugReactionDialog/UpdateDrugReaction";
 const { Option } = Select;
 
 const PrescriptionDetailStyle = styled.div`
@@ -196,8 +197,11 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
   ];
 
   const onClickSharePrescription = () => {
-    console.log("hello");
     openModal(DIALOGS.SHARE_PRESCRIPTION);
+  };
+
+  const onClickUpdateDrugReaction = () => {
+    openModal(DIALOGS.UPDATE_DRUG_REACTION);
   };
 
   return (
@@ -266,6 +270,13 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
               >
                 Chia sẻ đơn thuốc
               </Button>
+
+              <Button
+                style={{ marginRight: "3%" }}
+                onClick={onClickUpdateDrugReaction}
+              >
+                Cập nhật phản ứng thuốc
+              </Button>
             </>
           )}
         </div>
@@ -275,6 +286,16 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
         <div className="modal-overlay">
           <SharePrescriptionDialog
             prescriptionId={prescriptionId}
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
+
+      {openDialog === DIALOGS.UPDATE_DRUG_REACTION && (
+        <div className="modal-overlay">
+          <UpdateDrugReactionDialog
+            prescription={data}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />

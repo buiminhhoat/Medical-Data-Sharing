@@ -148,6 +148,24 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("/update-drug-reaction-by-patient")
+    public ResponseEntity<?> updateDrugReactionByPatient(
+            @Valid @ModelAttribute UpdateDrugReactionForm updateDrugReactionForm,
+                                                 BindingResult result) {
+        if (result.hasErrors()) {
+            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+            throw new ValidationException(errorMsg);
+        }
+
+        try {
+            String updateDrugReactionByPatient = patientService.updateDrugReactionByPatient(updateDrugReactionForm);
+            return ResponseEntity.status(HttpStatus.OK).body(updateDrugReactionByPatient);
+        }
+        catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 //    @PostMapping("/defineRequest")
 //    public DefineRequestDto defineRequest(
 //            @Valid @ModelAttribute DefineRequestForm defineRequestForm,

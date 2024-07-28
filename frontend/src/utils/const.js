@@ -19,6 +19,7 @@ export const DIALOGS = {
   SHARE_PRESCRIPTION: "SHARE_PRESCRIPTION",
   CHANGE_PASSWORD: "CHANGE_PASSWORD",
   UPDATE_INFORMATION: "UPDATE_INFORMATION",
+  UPDATE_DRUG_REACTION: "UPDATE_DRUG_REACTION",
 };
 
 export const API = {
@@ -51,6 +52,8 @@ export const API = {
     GET_PURCHASE_BY_PURCHASE_ID: "/api/patient/get-purchase-by-purchaseId",
     DEFINE_MEDICAL_RECORD: "/api/patient/define-medical-record",
     SHARE_PRESCRIPTION_BY_PATIENT: "/api/patient/share-prescription-by-patient",
+    UPDATE_DRUG_REACTION_BY_PATIENT:
+      "/api/patient/update-drug-reaction-by-patient",
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
