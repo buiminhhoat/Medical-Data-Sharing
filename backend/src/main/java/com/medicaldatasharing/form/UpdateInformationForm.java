@@ -21,4 +21,6 @@ public class UpdateInformationForm {
     private String department;
 
     private String businessLicenseNumber;
+
+    private String gender;
 }

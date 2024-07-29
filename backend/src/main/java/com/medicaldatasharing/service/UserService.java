@@ -328,17 +328,20 @@ public class UserService {
 
             if (Objects.equals(user.getRole(), Constants.ROLE_PATIENT)) {
                 Patient patient = (Patient) user;
+                patient.setGender(updateInformationForm.getGender());
                 patient.setDateBirthday(updateInformationForm.getDateBirthday());
             }
 
             if (Objects.equals(user.getRole(), Constants.ROLE_DOCTOR)) {
                 Doctor doctor = (Doctor) user;
+                doctor.setGender(updateInformationForm.getGender());
                 doctor.setDateBirthday(updateInformationForm.getDateBirthday());
                 doctor.setDepartment(updateInformationForm.getDepartment());
             }
 
             if (Objects.equals(user.getRole(), Constants.ROLE_SCIENTIST)) {
                 Scientist scientist = (Scientist) user;
+                scientist.setGender(updateInformationForm.getGender());
                 scientist.setDateBirthday(updateInformationForm.getDateBirthday());
             }
 

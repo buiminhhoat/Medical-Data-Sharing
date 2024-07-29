@@ -138,7 +138,8 @@ public class UserController {
     public ResponseEntity<?> updateInformation(@ModelAttribute UpdateInformationForm updateInformationForm, BindingResult result) throws AuthException {
         if (result.hasErrors()) {
             String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
-            throw new AuthException(errorMsg);
+//            throw new AuthException(errorMsg);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         try {

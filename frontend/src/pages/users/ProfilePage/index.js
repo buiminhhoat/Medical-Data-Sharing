@@ -162,7 +162,7 @@ const ProfilePage = () => {
     } else {
       handleLogout();
     }
-  }, [access_token]);
+  }, [access_token, openDialog]);
 
   useEffect(() => {
     console.log("data: ", data);

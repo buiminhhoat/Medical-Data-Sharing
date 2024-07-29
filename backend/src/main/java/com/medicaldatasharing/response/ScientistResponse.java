@@ -2,6 +2,7 @@ package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.Scientist;
+import com.medicaldatasharing.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ public class ScientistResponse extends UserResponse {
     private String avatar;
     private String researchCenterId;
     private String researchCenterName;
+    private String dateBirthday;
+    private String gender;
 
     public ScientistResponse(Scientist scientist) {
         this.id = scientist.getId();
@@ -24,6 +27,8 @@ public class ScientistResponse extends UserResponse {
         this.role = scientist.getRole();
         this.address = scientist.getAddress();
         this.enabled = String.valueOf(scientist.isEnabled());
+        this.dateBirthday = StringUtil.parseDate(scientist.getDateBirthday());
+        this.gender = scientist.getGender();
     }
 
     public String getDoctorId() {

@@ -1,6 +1,8 @@
 package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.model.Doctor;
+import com.medicaldatasharing.util.StringUtil;
+import com.owlike.genson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,10 +12,11 @@ public class DoctorResponse extends UserResponse {
     private String doctorId;
 
     private String department;
-
+    private String dateBirthday;
     private String avatar;
     private String medicalInstitutionId;
     private String medicalInstitutionName;
+    private String gender;
 
     public DoctorResponse(Doctor doctor) {
         this.id = doctor.getId();
@@ -26,6 +29,8 @@ public class DoctorResponse extends UserResponse {
         this.role = doctor.getRole();
         this.address = doctor.getAddress();
         this.enabled = String.valueOf(doctor.isEnabled());
+        this.dateBirthday = StringUtil.parseDate(doctor.getDateBirthday());
+        this.gender = doctor.getGender();
     }
 
     public String getDoctorId() {
