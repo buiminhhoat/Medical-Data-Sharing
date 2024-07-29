@@ -252,7 +252,9 @@ const ProfilePage = () => {
                           }
                         />
                       </div>
-                      <h2>{data.fullName}</h2>
+                      <h2>
+                        <p style={{ textAlign: "center" }}>{data.fullName}</p>
+                      </h2>
                     </div>
                   </div>
 

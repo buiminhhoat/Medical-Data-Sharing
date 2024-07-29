@@ -113,6 +113,10 @@ const manufacturerRouters = [
     path: ROUTERS.USER.REQUEST,
     component: <RequestManagementPage></RequestManagementPage>,
   },
+  {
+    path: ROUTERS.MANUFACTURER.PATIENT_MANAGED_BY_MANUFACTURER_PAGE,
+    component: <PatientManagedByDoctorPage></PatientManagedByDoctorPage>,
+  },
 ];
 
 const drugStoreRouters = [

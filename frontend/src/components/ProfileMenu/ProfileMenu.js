@@ -93,6 +93,10 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
     const items = [
       {
         key: "1",
+        label: <a href="/profile">Thông tin cá nhân</a>,
+      },
+      {
+        key: "2",
         label: <a onClick={handleLogout}>Đăng xuất</a>,
       },
     ];

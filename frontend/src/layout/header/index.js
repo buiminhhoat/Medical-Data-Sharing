@@ -144,6 +144,10 @@ const HeaderLayout = () => {
       name: "Quản lý yêu cầu",
       path: ROUTERS.USER.REQUEST,
     },
+    {
+      name: "Quản lý bệnh nhân",
+      path: ROUTERS.MANUFACTURER.PATIENT_MANAGED_BY_MANUFACTURER_PAGE,
+    },
   ]);
 
   const [drugStoreMenuItems, setDrugStoreItems] = useState([

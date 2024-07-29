@@ -488,7 +488,7 @@ const DrugReactionManagementPage = () => {
                 columns={columns}
                 dataSource={dataSource}
                 onChange={onChange}
-                // loading={loading}
+                loading={loading}
                 showSorterTooltip={{
                   target: "sorter-icon",
                 }}
