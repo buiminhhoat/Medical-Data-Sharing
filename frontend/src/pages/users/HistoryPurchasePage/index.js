@@ -11,6 +11,8 @@ import {
   Card,
   message,
   DatePicker,
+  Popover,
+  QRCode,
 } from "antd";
 import {
   InfoCircleOutlined,
@@ -262,31 +264,43 @@ const HistoryPurchasePage = () => {
       onFilter: (value, record) =>
         record.shortenedPurchaseId.indexOf(value) === 0,
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedText(index)}
-          onMouseLeave={() => setHighlightedText(null)}
-          style={{
-            backgroundColor: highlightedText === index ? "#ffe898" : "",
-            border:
-              highlightedText === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.purchaseId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.purchaseId)
-              .then(() => message.success("Đã sao chép " + record.purchaseId))
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.purchaseId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedText(index)}
+            onMouseLeave={() => setHighlightedText(null)}
+            style={{
+              backgroundColor: highlightedText === index ? "#ffe898" : "",
+              border:
+                highlightedText === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.purchaseId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.purchaseId)
+                .then(() => message.success("Đã sao chép " + record.purchaseId))
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
     {
@@ -296,32 +310,44 @@ const HistoryPurchasePage = () => {
       align: "center",
       onFilter: (value, record) => record.patientId.indexOf(value) === 0,
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedShortenedTextPatientId(index)}
-          onMouseLeave={() => setHighlightedShortenedTextPatientId(null)}
-          style={{
-            backgroundColor:
-              highlightedTextShortenedPatientId === index ? "#ffe898" : "",
-            border:
-              highlightedTextShortenedPatientId === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.patientId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.patientId)
-              .then(() => message.success("Đã sao chép " + record.patientId))
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.patientId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedShortenedTextPatientId(index)}
+            onMouseLeave={() => setHighlightedShortenedTextPatientId(null)}
+            style={{
+              backgroundColor:
+                highlightedTextShortenedPatientId === index ? "#ffe898" : "",
+              border:
+                highlightedTextShortenedPatientId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.patientId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.patientId)
+                .then(() => message.success("Đã sao chép " + record.patientId))
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
       hidden: role === "Bệnh nhân",
     },
@@ -340,32 +366,46 @@ const HistoryPurchasePage = () => {
       align: "center",
       onFilter: (value, record) => record.drugStoreId.indexOf(value) === 0,
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedTextShortenedDrugStoreId(index)}
-          onMouseLeave={() => setHighlightedTextShortenedDrugStoreId(null)}
-          style={{
-            backgroundColor:
-              highlightedTextShortenedDrugStoreId === index ? "#ffe898" : "",
-            border:
-              highlightedTextShortenedDrugStoreId === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.drugStoreId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.drugStoreId)
-              .then(() => message.success("Đã sao chép " + record.drugStoreId))
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.drugStoreId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedTextShortenedDrugStoreId(index)}
+            onMouseLeave={() => setHighlightedTextShortenedDrugStoreId(null)}
+            style={{
+              backgroundColor:
+                highlightedTextShortenedDrugStoreId === index ? "#ffe898" : "",
+              border:
+                highlightedTextShortenedDrugStoreId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.drugStoreId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.drugStoreId)
+                .then(() =>
+                  message.success("Đã sao chép " + record.drugStoreId)
+                )
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
       hidden: role === "Cửa hàng thuốc",
     },
@@ -403,34 +443,50 @@ const HistoryPurchasePage = () => {
       onFilter: (value, record) =>
         record.shortenedPrescriptionId.indexOf(value) === 0,
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedTextShortenedPrescriptionId(index)}
-          onMouseLeave={() => setHighlightedTextShortenedPrescriptionId(null)}
-          style={{
-            backgroundColor:
-              highlightedTextShortenedPrescriptionId === index ? "#ffe898" : "",
-            border:
-              highlightedTextShortenedPrescriptionId === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.prescriptionId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.prescriptionId)
-              .then(() =>
-                message.success("Đã sao chép " + record.prescriptionId)
-              )
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.prescriptionId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() =>
+              setHighlightedTextShortenedPrescriptionId(index)
+            }
+            onMouseLeave={() => setHighlightedTextShortenedPrescriptionId(null)}
+            style={{
+              backgroundColor:
+                highlightedTextShortenedPrescriptionId === index
+                  ? "#ffe898"
+                  : "",
+              border:
+                highlightedTextShortenedPrescriptionId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.prescriptionId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.prescriptionId)
+                .then(() =>
+                  message.success("Đã sao chép " + record.prescriptionId)
+                )
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
     {
