@@ -25,7 +25,8 @@ export const DIALOGS = {
 
 export const API = {
   PUBLIC: {
-    LOGIN_ENDPOINT: "/api/public/login",
+    LOGIN: "/api/public/login",
+    REGISTER: "/api/public/register",
     GET_USER_DATA: "/api/public/get-user-data",
     GET_ALL_REQUEST: "/api/public/get-all-request",
     GET_REQUEST: "/api/public/get-request",

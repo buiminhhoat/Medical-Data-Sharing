@@ -70,6 +70,8 @@ const SellingPrescriptionDrug = ({
   const [loading, setLoading] = useState(true);
   const [loadingTable, setLoadingTable] = useState(true);
 
+  const [disabled, setDisabled] = useState(false);
+
   const handleCancel = () => {
     setIsModalOpen(false);
     onClose();
@@ -217,6 +219,7 @@ const SellingPrescriptionDrug = ({
     console.log("form: ", form);
     console.log("dataSource: ", dataSource);
     if (access_token && !loading && !loadingTable) {
+      setDisabled(true);
       let sellingPrescriptionDrug = [];
       if (form != null) {
         form.map((item) => {
@@ -400,7 +403,11 @@ const SellingPrescriptionDrug = ({
               marginTop: "1%",
             }}
           >
-            <Button style={{ marginRight: "3%" }} onClick={SellingDrug}>
+            <Button
+              style={{ marginRight: "3%" }}
+              onClick={SellingDrug}
+              disabled={disabled}
+            >
               Bán thuốc
             </Button>
           </div>

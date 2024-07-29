@@ -1,12 +1,17 @@
 package com.medicaldatasharing.security.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterDto {
     @NotBlank
     @Size(max = 100)
@@ -23,5 +28,5 @@ public class RegisterDto {
     private String gender;
 
     @NotBlank
-    private Date birthday;
+    private Date dateBirthday;
 }

@@ -3,7 +3,7 @@ package com.medicaldatasharing.controller;
 import com.medicaldatasharing.form.DefineRequestForm;
 import com.medicaldatasharing.form.ChangePasswordForm;
 import com.medicaldatasharing.form.UpdateInformationForm;
-import com.medicaldatasharing.security.dto.ErrorResponse;
+import com.medicaldatasharing.security.dto.Response;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.UserService;
@@ -130,11 +130,11 @@ public class UserController {
         }
 
         if (changePasswordForm.getOldPassword().isEmpty()) {
-            return new ResponseEntity<>(new ErrorResponse("Old password is empty", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Mật khẩu cũ không được bỏ trống!"));
         }
 
         if (changePasswordForm.getPassword().isEmpty()) {
-            return new ResponseEntity<>(new ErrorResponse("Password is empty", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Mật khẩu mới không được bỏ trống!"));
         }
 
         try {

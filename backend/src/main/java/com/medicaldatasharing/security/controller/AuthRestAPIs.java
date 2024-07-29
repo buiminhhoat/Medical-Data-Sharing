@@ -46,21 +46,21 @@ public class AuthRestAPIs {
     @Autowired
     private JwtProvider jwtProvider;
 
-    @PostMapping(value = "/register")
-    public String register(@Valid @RequestBody RegisterDto registerDto, BindingResult result) throws AuthException {
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@ModelAttribute RegisterDto registerDto, BindingResult result) {
         if (result.hasErrors()) {
-            throw new AuthException("Error while register");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Đã gặp lỗi trong quá trình đăng ký"));
         }
 
         if (userDetailsService.getUser(registerDto.getEmail()) != null) {
-            throw new AuthException("Username already exists");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Email đã tồn tại!"));
         }
 
         Patient patient = Patient
                 .builder()
                 .fullName(registerDto.getFullName())
                 .gender(registerDto.getGender())
-                .dateBirthday(registerDto.getBirthday())
+                .dateBirthday(registerDto.getDateBirthday())
                 .username(registerDto.getEmail())
                 .email(registerDto.getEmail())
                 .password(userPasswordEncoder.encode(registerDto.getPassword()))
@@ -74,9 +74,9 @@ public class AuthRestAPIs {
             RegisterUserHyperledger.enrollOrgAppUsers(patientSaved.getEmail(), Config.PATIENT_ORG, userIdentityId);
         } catch (Exception e) {
             patientRepository.delete(patient);
-            throw new AuthException("Error while register in Hyperledger");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Đã gặp lỗi trong quá trình đăng ký với Hyperledger Fabric"));
         }
-        return "Success";
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("Đăng ký thành công"));
     }
 
     @PostMapping("/login")
@@ -84,11 +84,11 @@ public class AuthRestAPIs {
         User user = userDetailsService.getUser(loginDto.getEmail());
 
         if (user == null) {
-            return new ResponseEntity<>(new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Email hoặc mật khẩu không đúng!"));
         }
 
         if (!user.isEnabled()) {
-            return new ResponseEntity<>(new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Email hoặc mật khẩu không đúng!"));
         }
 
         Authentication authentication = null;
@@ -101,7 +101,7 @@ public class AuthRestAPIs {
             );
         } catch (AuthenticationException e) {
             System.out.println("Not validation");
-            return new ResponseEntity<>(new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Email hoặc mật khẩu không đúng!"));
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -122,16 +122,16 @@ public class AuthRestAPIs {
             }
 
             if (user == null) {
-                return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Access Token không hợp lệ!"));
             }
 
             if (!user.isEnabled()) {
-                return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Access Token không hợp lệ!"));
             }
             return ResponseEntity.ok(new GetUserDataResponse(user.getFullName(), user.getRole()));
         }
         catch (Exception exception) {
-            return new ResponseEntity<>(new ErrorResponse("Invalid access token", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Access Token không hợp lệ!"));
         }
     }
 }

@@ -42,7 +42,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
+  const apiLoginUrl = API.PUBLIC.LOGIN;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState("");

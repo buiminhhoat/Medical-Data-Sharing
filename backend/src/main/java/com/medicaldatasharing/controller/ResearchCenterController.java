@@ -2,7 +2,7 @@ package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.repository.ResearchCenterRepository;
-import com.medicaldatasharing.security.dto.ErrorResponse;
+import com.medicaldatasharing.security.dto.Response;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.*;
 import com.medicaldatasharing.util.Constants;
@@ -73,8 +73,8 @@ public class ResearchCenterController {
                 registerUser = researchCenterService.registerScientist(registerForm);
             }
             else {
-                return new ResponseEntity<>(new ErrorResponse("registerForm.getRole() must be Constants.ROLE_SCIENTIST",
-                        HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                        new Response("Vai trò của người dùng phải là Nhà khoa học"));
             }
 
             return ResponseEntity.status(HttpStatus.OK).body(registerUser);

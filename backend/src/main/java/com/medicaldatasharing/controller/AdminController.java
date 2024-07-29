@@ -6,7 +6,7 @@ import com.medicaldatasharing.form.AddMedicalRecordForm;
 import com.medicaldatasharing.form.AddPrescriptionForm;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.form.SendViewRequestForm;
-import com.medicaldatasharing.security.dto.ErrorResponse;
+import com.medicaldatasharing.security.dto.Response;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.AdminService;
 import com.medicaldatasharing.service.DoctorService;
@@ -78,16 +78,14 @@ public class AdminController {
 
             if (Objects.equals(registerForm.getRole(), "Công ty sản xuất thuốc")) {
                 if (registerForm.getBusinessLicenseNumber().isEmpty()) {
-                    return new ResponseEntity<>(new ErrorResponse("Business License Number is empty",
-                            HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Mã số giấy phép kinh doanh không được bỏ trống!"));
                 }
                 registerUser = adminService.registerManufacturer(registerForm);
             }
 
             if (Objects.equals(registerForm.getRole(), "Trung tâm nghiên cứu")) {
                 if (registerForm.getBusinessLicenseNumber().isEmpty()) {
-                    return new ResponseEntity<>(new ErrorResponse("Business License Number is empty",
-                            HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Mã số giấy phép kinh doanh không được bỏ trống!"));
                 }
                 registerUser = adminService.registerResearchCenter(registerForm);
             }

@@ -2,7 +2,7 @@ package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.model.MedicalInstitution;
-import com.medicaldatasharing.security.dto.ErrorResponse;
+import com.medicaldatasharing.security.dto.Response;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.AdminService;
 import com.medicaldatasharing.service.DoctorService;
@@ -71,14 +71,12 @@ public class MedicalInstitutionController {
 
             if (Objects.equals(registerForm.getRole(), Constants.ROLE_DOCTOR)) {
                 if (registerForm.getDepartment().isEmpty()) {
-                    return new ResponseEntity<>(new ErrorResponse("Department is empty",
-                            HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Chuyên khoa không được bỏ trống!"));
                 }
                 registerUser = medicalInstitutionService.registerDoctor(registerForm);
             }
             else {
-                return new ResponseEntity<>(new ErrorResponse("registerForm.getRole() must be Constants.ROLE_DOCTOR",
-                        HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response("Vai trò của người dùng phải là bác sỹ!"));
             }
 
             return ResponseEntity.status(HttpStatus.OK).body(registerUser);
