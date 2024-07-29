@@ -41,7 +41,7 @@ export function useLogout(api, contextHolder) {
       navigate("/");
       if (api && contextHolder) {
         openNotification(
-          "topRight",
+          "bottomRight",
           "success",
           "Thành công",
           "Đăng xuất thành công!"
@@ -50,7 +50,7 @@ export function useLogout(api, contextHolder) {
     } catch (error) {
       if (api && contextHolder) {
         openNotification(
-          "topRight",
+          "bottomRight",
           "error",
           "Thất bại",
           "Đăng xuất thất bại!"

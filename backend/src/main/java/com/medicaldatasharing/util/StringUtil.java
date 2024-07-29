@@ -20,6 +20,7 @@ public class StringUtil {
 
     public static String parseDate(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (date == null) return "";
         return simpleDateFormat.format(date);
     }
 

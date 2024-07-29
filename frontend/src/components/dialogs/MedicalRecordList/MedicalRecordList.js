@@ -20,6 +20,7 @@ import { VscCommentUnresolved } from "react-icons/vsc";
 import { Alert, notification } from "antd";
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper";
+import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
 const { Option } = Select;
 
 const MedicalRecordDialogStyle = styled.div`
@@ -30,6 +31,7 @@ const Info = styled.div`
   display: flex;
   /* justify-content: center; */
   /* justify-items: center; */
+  align-items: center;
   margin-bottom: 15px;
   .field {
     width: 20%;
@@ -239,12 +241,16 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
                 <div style={{ width: "100%" }}>
                   <Info>
                     <div className="field">ID hồ sơ y tế</div>
-                    <div>{item.medicalRecordId}</div>
+                    {/* <div>{item.medicalRecordId}</div> */}
+                    <TextWithQRCode
+                      value={item.medicalRecordId}
+                    ></TextWithQRCode>
                   </Info>
 
                   <Info>
                     <div className="field">ID bệnh nhân</div>
-                    <div>{item.patientId}</div>
+                    {/* <div>{item.patientId}</div> */}
+                    <TextWithQRCode value={item.patientId}></TextWithQRCode>
                   </Info>
 
                   <Info>
@@ -254,7 +260,8 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
 
                   <Info>
                     <div className="field">ID bác sĩ</div>
-                    <div>{item.doctorId}</div>
+                    {/* <div>{item.doctorId}</div> */}
+                    <TextWithQRCode value={item.doctorId}></TextWithQRCode>
                   </Info>
 
                   <Info>
@@ -264,7 +271,10 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
 
                   <Info>
                     <div className="field">ID bệnh viện</div>
-                    <div>{item.medicalInstitutionId}</div>
+                    {/* <div>{item.medicalInstitutionId}</div> */}
+                    <TextWithQRCode
+                      value={item.medicalInstitutionId}
+                    ></TextWithQRCode>
                   </Info>
 
                   <Info>
@@ -289,7 +299,10 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
 
                   <Info>
                     <div className="field">ID đơn thuốc</div>
-                    <div>{item.prescriptionId}</div>
+                    {/* <div>{item.prescriptionId}</div> */}
+                    <TextWithQRCode
+                      value={item.prescriptionId}
+                    ></TextWithQRCode>
                   </Info>
 
                   <Info>
