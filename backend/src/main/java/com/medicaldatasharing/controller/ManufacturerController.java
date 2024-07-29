@@ -37,6 +37,20 @@ public class ManufacturerController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @PostMapping("/send-view-request")
+    public ResponseEntity<?> sendViewRequest(@Valid @ModelAttribute SendViewRequestForm sendViewRequestForm,
+                                             BindingResult result) throws Exception {
+        try {
+            sendViewRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
+            sendViewRequestForm.setDateModified(StringUtil.parseDate(new Date()));
+            String viewRequest = manufacturerService.sendViewRequest(sendViewRequestForm);
+            return ResponseEntity.status(HttpStatus.OK).body(viewRequest);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @GetMapping("/get-list-medication-by-manufacturerId")
     public ResponseEntity<?> getListMedicationByManufacturerId(@Valid @ModelAttribute SearchMedicationForm searchMedicationForm) throws Exception {
         try {

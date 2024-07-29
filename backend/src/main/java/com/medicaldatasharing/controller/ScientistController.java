@@ -1,10 +1,7 @@
 package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByScientistQueryDto;
-import com.medicaldatasharing.form.AddDrugForm;
-import com.medicaldatasharing.form.AddMedicationForm;
-import com.medicaldatasharing.form.GetPrescriptionForm;
-import com.medicaldatasharing.form.SearchMedicationForm;
+import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
@@ -75,6 +72,20 @@ public class ScientistController {
         try {
             String getAllPatientManagedByScientistId = scientistService.getAllPatientManagedByScientistId();
             return ResponseEntity.status(HttpStatus.OK).body(getAllPatientManagedByScientistId);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/send-view-request")
+    public ResponseEntity<?> sendViewRequest(@Valid @ModelAttribute SendViewRequestForm sendViewRequestForm,
+                                             BindingResult result) throws Exception {
+        try {
+            sendViewRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
+            sendViewRequestForm.setDateModified(StringUtil.parseDate(new Date()));
+            String viewRequest = scientistService.sendViewRequest(sendViewRequestForm);
+            return ResponseEntity.status(HttpStatus.OK).body(viewRequest);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

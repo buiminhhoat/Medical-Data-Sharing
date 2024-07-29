@@ -87,14 +87,6 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
       value: "Đặt lịch khám",
       label: "Đặt lịch khám",
     },
-    {
-      value: "Mua bảo hiểm",
-      label: "Mua bảo hiểm",
-    },
-    {
-      value: "Thanh toán",
-      label: "Thanh toán",
-    },
   ];
 
   const doctorOptions = [
@@ -111,6 +103,20 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     },
   ];
 
+  const manufacturerOptions = [
+    {
+      value: "Xem hồ sơ y tế",
+      label: "Xem hồ sơ y tế",
+    },
+  ];
+
+  const scientistOptions = [
+    {
+      value: "Xem hồ sơ y tế",
+      label: "Xem hồ sơ y tế",
+    },
+  ];
+
   const [options, setOptions] = useState(null);
 
   useEffect(() => {
@@ -120,6 +126,8 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
       if (role === "Bệnh nhân") setOptions(patientOptions);
       if (role === "Bác sĩ") setOptions(doctorOptions);
       if (role === "Cửa hàng thuốc") setOptions(drugStoreOptions);
+      if (role === "Công ty sản xuất thuốc") setOptions(manufacturerOptions);
+      if (role === "Nhà khoa học") setOptions(scientistOptions);
     }
   });
 
@@ -206,7 +214,15 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
       setApiSendRequest(API.PATIENT.SEND_APPOINTMENT_REQUEST);
     }
     if (value === "Xem hồ sơ y tế") {
-      setApiSendRequest(API.DOCTOR.SEND_VIEW_REQUEST);
+      if (role === "Bác sĩ") {
+        setApiSendRequest(API.DOCTOR.SEND_VIEW_REQUEST);
+      }
+      if (role === "Công ty sản xuất thuốc") {
+        setApiSendRequest(API.MANUFACTURER.SEND_VIEW_REQUEST);
+      }
+      if (role === "Nhà khoa học") {
+        setApiSendRequest(API.SCIENTIST.SEND_VIEW_REQUEST);
+      }
     }
     if (value === "Xem đơn thuốc") {
       setAdditionalFields(renderViewPrescriptionRequest());

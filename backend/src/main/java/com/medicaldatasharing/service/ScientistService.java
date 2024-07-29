@@ -3,6 +3,7 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.chaincode.dto.Drug;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
+import com.medicaldatasharing.chaincode.dto.ViewRequest;
 import com.medicaldatasharing.dto.DrugReactionDto;
 import com.medicaldatasharing.dto.GetListAllAuthorizedPatientForScientistDto;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByScientistQueryDto;
@@ -103,6 +104,18 @@ public class ScientistService {
                 patientResponseList.add(patientResponse);
             }
             return new Genson().serialize(patientResponseList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String sendViewRequest(SendViewRequestForm sendViewRequestForm) throws Exception {
+        User user = userDetailsService.getLoggedUser();
+        try {
+            sendViewRequestForm.setSenderId(user.getId());
+            ViewRequest viewRequest = hyperledgerService.sendViewRequest(user, sendViewRequestForm);
+            return new Genson().serialize(viewRequest);
         }
         catch (Exception e) {
             throw e;

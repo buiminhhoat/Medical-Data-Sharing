@@ -129,6 +129,7 @@ public class DoctorService {
     public String sendViewRequest(SendViewRequestForm sendViewRequestForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
         try {
+            sendViewRequestForm.setSenderId(user.getId());
             ViewRequest viewRequest = hyperledgerService.sendViewRequest(user, sendViewRequestForm);
             return new Genson().serialize(viewRequest);
         }

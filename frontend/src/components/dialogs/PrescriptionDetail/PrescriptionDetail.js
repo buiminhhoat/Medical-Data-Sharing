@@ -71,6 +71,11 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
       API.MANUFACTURER.GET_PRESCRIPTION_BY_MANUFACTURER;
   }
 
+  if (role === "Nhà khoa học") {
+    apiGetPrescriptionByPrescriptionId =
+      API.SCIENTIST.GET_PRESCRIPTION_BY_SCIENTIST;
+  }
+
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState(null);
