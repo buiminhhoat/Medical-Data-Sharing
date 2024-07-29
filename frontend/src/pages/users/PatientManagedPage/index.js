@@ -11,6 +11,7 @@ import {
   Card,
   message,
   DatePicker,
+  Select,
 } from "antd";
 import {
   InfoCircleOutlined,
@@ -119,7 +120,7 @@ const PatientManagedPage = () => {
     setSearchPatientName("");
     setSearchEmail("");
     setSearchDateBirthday("");
-    setSearchGender("");
+    setSearchGender(null);
     setSearchAddress("");
   };
 
@@ -299,6 +300,8 @@ const PatientManagedPage = () => {
               style={{
                 border: "none",
                 background: "white",
+                marginTop: "20px",
+                marginBottom: "25px",
               }}
             >
               <div
@@ -306,13 +309,17 @@ const PatientManagedPage = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  marginTop: "10px",
+                  marginBottom: "10px",
                 }}
               >
                 <div
                   style={{
+                    display: "flex",
                     width: "100%",
                     justifyContent: "center",
                     alignItems: "center",
+                    justifyItems: "center",
                   }}
                 >
                   <div
@@ -320,6 +327,7 @@ const PatientManagedPage = () => {
                       width: "100%",
                       justifyContent: "center",
                       alignItems: "center",
+                      justifyItems: "center",
                     }}
                   >
                     <div
@@ -365,7 +373,6 @@ const PatientManagedPage = () => {
                         width: "100%",
                         display: "flex",
                         justifyContent: "center",
-                        marginBottom: "20px",
                       }}
                     >
                       <Input
@@ -377,12 +384,23 @@ const PatientManagedPage = () => {
                         style={{ width: "30%", marginRight: "2%" }}
                       />
 
-                      <Input
+                      <Select
+                        options={[
+                          {
+                            value: "Nam",
+                            label: "Nam",
+                          },
+                          {
+                            value: "Nữ",
+                            label: "Nữ",
+                          },
+                        ]}
                         placeholder="Giới tính"
                         value={searchGender}
-                        onChange={(e) => {
-                          setSearchGender(e.target.value);
+                        onChange={(value) => {
+                          setSearchGender(value);
                         }}
+                        allowClear
                         style={{ width: "30%", marginRight: "2%" }}
                       />
 
