@@ -114,7 +114,6 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
 
         if (response.status === 200) {
           setData(await response.json());
-          console.log(data);
           setLoading(false);
         }
       } catch (e) {
@@ -122,6 +121,10 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
       }
     }
   };
+
+  useEffect(() => {
+    console.log("data: ", data);
+  }, [data]);
 
   useEffect(() => {
     if (access_token) fetchAllMedicalRecord().then((r) => {});
