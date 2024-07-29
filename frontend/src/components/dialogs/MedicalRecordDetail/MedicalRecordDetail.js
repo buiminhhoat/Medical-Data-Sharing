@@ -20,6 +20,7 @@ import { VscCommentUnresolved } from "react-icons/vsc";
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 import { Alert, notification } from "antd";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper";
+import { GATEWAY_IPFS } from "../../../utils/const";
 const { Option } = Select;
 
 const MedicalRecordDetailStyle = styled.div`
@@ -254,10 +255,14 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
                     <div>{item.details}</div>
                   </Info>
 
-                  <Info>
-                    <div className="field">File</div>
-                    <div>{item.hashFile}</div>
-                  </Info>
+                  {item.hashFile && (
+                    <Info>
+                      <div className="field">File</div>
+                      <a href={GATEWAY_IPFS + item.hashFile} target="_blank">
+                        {item.hashFile}
+                      </a>
+                    </Info>
+                  )}
 
                   <Info>
                     <div className="field">ID đơn thuốc</div>

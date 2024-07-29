@@ -125,6 +125,8 @@ export const API = {
   },
 };
 
+export const GATEWAY_IPFS = "https://pink-active-bear-865.mypinata.cloud/ipfs/";
+
 export const LOGIN = {
   LOGIN: "Đăng nhập",
   EMAIL_PHONE: "Email/Số điện thoại",

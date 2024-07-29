@@ -21,6 +21,7 @@ import { Alert, notification } from "antd";
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
+import { GATEWAY_IPFS } from "../../../utils/const";
 const { Option } = Select;
 
 const MedicalRecordDialogStyle = styled.div`
@@ -295,10 +296,14 @@ const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
                     <div>{item.details}</div>
                   </Info>
 
-                  <Info>
-                    <div className="field">File</div>
-                    <div>{item.hashFile}</div>
-                  </Info>
+                  {item.hashFile && (
+                    <Info>
+                      <div className="field">File</div>
+                      <a href={GATEWAY_IPFS + item.hashFile} target="_blank">
+                        {item.hashFile}
+                      </a>
+                    </Info>
+                  )}
 
                   <Info>
                     <div className="field">ID đơn thuốc</div>
