@@ -20,6 +20,7 @@ import { VscCommentUnresolved } from "react-icons/vsc";
 import SharePrescriptionDialog from "../SharePrescriptionDialog/SharePrescriptionDialog";
 import UpdateDrugReactionDialog from "../UpdateDrugReactionDialog/UpdateDrugReaction";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper";
+import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
 const { Option } = Select;
 
 const PrescriptionDetailStyle = styled.div`
@@ -30,6 +31,7 @@ const Info = styled.div`
   display: flex;
   /* justify-content: center; */
   /* justify-items: center; */
+  align-items: center;
   margin-bottom: 15px;
   .field {
     width: 20%;
@@ -230,7 +232,8 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
             <div style={{ width: "100%" }}>
               <Info>
                 <div className="field">ID đơn thuốc</div>
-                <div>{prescriptionId}</div>
+                {/* <div>{prescriptionId}</div> */}
+                <TextWithQRCode value={prescriptionId}></TextWithQRCode>
               </Info>
 
               {/* <Info>
