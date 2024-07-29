@@ -70,6 +70,18 @@ public class UserController {
         }
     }
 
+    @PostMapping("/get-full-name")
+    public ResponseEntity<?> getFullName(HttpServletRequest httpServletRequest) throws Exception {
+        try {
+            String id = httpServletRequest.getParameter("id");
+            String getFullName = userService.getFullName(id);
+            return ResponseEntity.status(HttpStatus.OK).body(getFullName);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @PostMapping("/define-request")
     public ResponseEntity<?> defineRequest(
             @Valid @ModelAttribute DefineRequestForm defineRequestForm,

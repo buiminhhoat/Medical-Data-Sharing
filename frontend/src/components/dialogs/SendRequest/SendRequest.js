@@ -47,6 +47,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const userId = cookies.userId;
   const role = cookies.role;
   const [apiSendRequest, setApiSendRequest] = useState("");
+  const [apiGetFullName, setGetFullName] = useState(API.PUBLIC.GET_FULL_NAME);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
@@ -190,6 +191,33 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     }
   };
 
+  const fetchGetFullName = async (id) => {
+    if (access_token) {
+      const formData = new FormData();
+      formData.append("id", id);
+
+      try {
+        const response = await fetch(apiGetFullName, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+          body: formData,
+        });
+
+        if (response.status === 200) {
+          let data = await response.json();
+          return data;
+        } else {
+          return "Không tìm thấy người dùng";
+        }
+      } catch (e) {
+        console.log(e);
+        return "Không tìm thấy người dùng";
+      }
+    }
+  };
+
   const [treeData, setTreeData] = useState(null);
 
   const renderViewPrescriptionRequest = () => {
@@ -276,6 +304,27 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
       recipientId: recipientId,
     });
   }, [recipientId]);
+
+  useEffect(() => {
+    async function fetchAndSet() {
+      if (senderId.length >= 32) {
+        const senderName = await fetchGetFullName(senderId);
+        form.setFieldsValue({ senderName: senderName });
+      } else {
+        form.setFieldsValue({ senderName: "" });
+      }
+      if (recipientId.length >= 32) {
+        console.log("recipientName");
+        const recipientName = await fetchGetFullName(recipientId);
+        form.setFieldsValue({ recipientName: recipientName });
+      } else {
+        form.setFieldsValue({ recipientName: "" });
+      }
+    }
+
+    fetchAndSet();
+  }, [senderId, recipientId]);
+
   console.log(recipientId);
 
   const handleConfirm = (valuesForm) => {
@@ -362,7 +411,9 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
                           },
                         ]}
                       >
-                        <Input />
+                        <Input
+                          onChange={(e) => setRecipientId(e.target.value)}
+                        />
                       </Form.Item>
                     </Col>
 

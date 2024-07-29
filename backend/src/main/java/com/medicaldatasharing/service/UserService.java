@@ -268,6 +268,66 @@ public class UserService {
         }
     }
 
+    public String getFullName(String id) throws Exception {
+        List<UserResponse> userResponseList = new ArrayList<>();
+        User user = userDetailsService.getLoggedUser();
+
+        List<Patient> patientList = patientRepository.findAllById(id);
+        for (Patient patient: patientList) {
+            PatientResponse userResponse = new PatientResponse(patient);
+            userResponseList.add(userResponse);
+        }
+
+        List<Doctor> doctorList = doctorRepository.findAllById(id);
+        for (Doctor doctor: doctorList) {
+            DoctorResponse userResponse = new DoctorResponse(doctor);
+            userResponse.setMedicalInstitutionName(userDetailsService.getUserByUserId(userResponse.getMedicalInstitutionId()).getFullName());
+            userResponseList.add(userResponse);
+        }
+
+        List<DrugStore> drugStoreList = drugStoreRepository.findAllById(id);
+        for (DrugStore drugStore: drugStoreList) {
+            DrugStoreResponse userResponse = new DrugStoreResponse(drugStore);
+            userResponseList.add(userResponse);
+        }
+
+        List<Manufacturer> manufacturerList = manufacturerRepository.findAllById(id);
+        for (Manufacturer manufacturer: manufacturerList) {
+            ManufacturerResponse userResponse = new ManufacturerResponse(manufacturer);
+            userResponseList.add(userResponse);
+        }
+
+        List<MedicalInstitution> medicalInstitutionList = medicalInstitutionRepository.findAllById(id);
+        for (MedicalInstitution medicalInstitution: medicalInstitutionList) {
+            MedicalInstitutionResponse userResponse = new MedicalInstitutionResponse(medicalInstitution);
+            userResponseList.add(userResponse);
+        }
+
+        List<ResearchCenter> researchCenterList = researchCenterRepository.findAllById(id);
+        for (ResearchCenter researchCenter: researchCenterList) {
+            ResearchCenterResponse userResponse = new ResearchCenterResponse(researchCenter);
+            userResponseList.add(userResponse);
+        }
+
+        List<Scientist> scientistList = scientistRepository.findAllById(id);
+        for (Scientist scientist: scientistList) {
+            ScientistResponse userResponse = new ScientistResponse(scientist);
+            userResponseList.add(userResponse);
+        }
+
+        try {
+            if (userResponseList.size() == 1) {
+                return new Genson().serialize(userResponseList.get(0).getFullName());
+            }
+            else {
+                throw new Exception("Không tìm thấy thông tin của user " + id);
+            }
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
     public String changePassword(ChangePasswordForm changePasswordForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
         try {

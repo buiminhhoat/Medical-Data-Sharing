@@ -37,6 +37,7 @@ export const API = {
     GET_USER_INFO: "/api/public/get-user-info",
     CHANGE_PASSWORD: "/api/public/change-password",
     UPDATE_INFORMATION: "/api/public/update-information",
+    GET_FULL_NAME: "/api/public/get-full-name",
   },
   PATIENT: {
     GET_LIST_MEDICAL_RECORD:
