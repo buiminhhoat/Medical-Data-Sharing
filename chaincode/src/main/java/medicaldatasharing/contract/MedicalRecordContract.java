@@ -611,8 +611,11 @@ public class MedicalRecordContract implements ContractInterface {
         System.out.println("viewRequestList.size(): " + viewRequestList.size());
         System.out.println("viewRequestList: " + viewRequestList.toString());
 
+        Map<String, Boolean> checkRecipient = new HashMap<>();
         List<MedicalRecord> medicalRecordList = new ArrayList<>();
         for (ViewRequest viewRequest: viewRequestList) {
+            if (checkRecipient.containsKey(viewRequest.getRecipientId())) continue;
+            checkRecipient.put(viewRequest.getRecipientId(), true);
             JSONObject jsonDto = new JSONObject();
             System.out.println("viewRequest.getRecipientId(): " + viewRequest.getRecipientId());
             jsonDto.put("patientId", viewRequest.getRecipientId());
