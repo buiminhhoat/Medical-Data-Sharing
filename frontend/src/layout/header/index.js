@@ -141,12 +141,23 @@ const HeaderLayout = () => {
       path: ROUTERS.MANUFACTURER.DRUG_REACTION_MANAGEMENT_PAGE,
     },
     {
+      name: "Quản lý bệnh nhân",
+      path: ROUTERS.MANUFACTURER.PATIENT_MANAGED_BY_MANUFACTURER_PAGE,
+    },
+    {
       name: "Quản lý yêu cầu",
       path: ROUTERS.USER.REQUEST,
     },
+  ]);
+
+  const [scientistMenuItems, setScientistMenuItems] = useState([
     {
       name: "Quản lý bệnh nhân",
-      path: ROUTERS.MANUFACTURER.PATIENT_MANAGED_BY_MANUFACTURER_PAGE,
+      path: ROUTERS.SCIENTIST.PATIENT_MANAGED_BY_SCIENTIST_PAGE,
+    },
+    {
+      name: "Quản lý yêu cầu",
+      path: ROUTERS.USER.REQUEST,
     },
   ]);
 
@@ -232,6 +243,14 @@ const HeaderLayout = () => {
         });
       }
 
+      if (role === "Nhà khoa học") {
+        scientistMenuItems.map((item, key) => {
+          items.push({
+            key: item.path,
+            label: item.name,
+          });
+        });
+      }
       setMenuItems(items);
     }
   });

@@ -34,4 +34,8 @@ export const ROUTERS = {
   RESEARCH_CENTER: {
     SCIENTIST_MANAGEMENT_PAGE: "/research_center/scientist-management-page",
   },
+  SCIENTIST: {
+    PATIENT_MANAGED_BY_SCIENTIST_PAGE:
+      "/scientist/patient-managed-by-scientist-page",
+  },
 };

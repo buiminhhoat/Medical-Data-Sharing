@@ -119,6 +119,21 @@ const manufacturerRouters = [
   },
 ];
 
+const scientistRouters = [
+  {
+    path: ROUTERS.USER.HOME,
+    component: <HomePage></HomePage>,
+  },
+  {
+    path: ROUTERS.USER.REQUEST,
+    component: <RequestManagementPage></RequestManagementPage>,
+  },
+  {
+    path: ROUTERS.SCIENTIST.PATIENT_MANAGED_BY_SCIENTIST_PAGE,
+    component: <PatientManagedPage></PatientManagedPage>,
+  },
+];
+
 const drugStoreRouters = [
   {
     path: ROUTERS.USER.HOME,
@@ -242,6 +257,21 @@ const renderManufacturerRouter = () => {
   );
 };
 
+const renderScientistRouter = () => {
+  return (
+    <MasterLayout>
+      <Routes>
+        {userRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+        {scientistRouters.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+      </Routes>
+    </MasterLayout>
+  );
+};
+
 const renderDrugStoreRouter = () => {
   return (
     <MasterLayout>
@@ -302,7 +332,8 @@ const RouterCustom = () => {
     (role === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
     (role === "Cửa hàng thuốc" && renderDrugStoreRouter()) ||
     (role === "Cơ sở y tế" && renderMedicalInstitutionRouter()) ||
-    (role === "Trung tâm nghiên cứu" && renderResearchCenterRouter())
+    (role === "Trung tâm nghiên cứu" && renderResearchCenterRouter()) ||
+    (role === "Nhà khoa học" && renderScientistRouter())
   );
 };
 
