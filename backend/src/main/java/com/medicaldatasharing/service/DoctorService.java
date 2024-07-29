@@ -3,6 +3,8 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.chaincode.dto.ViewRequest;
+import com.medicaldatasharing.dto.GetListAllAuthorizedPatientForDoctorDto;
+import com.medicaldatasharing.dto.GetListAllAuthorizedPatientForManufacturerDto;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
 import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.enumeration.RequestStatus;
@@ -105,17 +107,14 @@ public class DoctorService {
         List<PatientResponse> patientResponseList = new ArrayList<>();
         User user = userDetailsService.getLoggedUser();
         try {
-            SearchViewRequestForm searchViewRequestForm = new SearchViewRequestForm();
-            searchViewRequestForm.setSenderId(user.getId());
-            searchViewRequestForm.setRequestType(RequestType.VIEW_RECORD.toString());
-            searchViewRequestForm.setRequestStatus(RequestStatus.ACCEPTED.toString());
-            List<ViewRequest> viewRequestList = hyperledgerService.getListViewRequestByRecipientQuery(user, searchViewRequestForm);
-            Set<String> patientSet = new HashSet<>();
-            for (ViewRequest viewRequest: viewRequestList) {
-                patientSet.add(viewRequest.getRecipientId());
-            }
+            GetListAllAuthorizedPatientForDoctorDto getListAllAuthorizedPatientForDoctorDto = new GetListAllAuthorizedPatientForDoctorDto();
+            getListAllAuthorizedPatientForDoctorDto.setDoctorId(user.getId());
+            List<String> stringList = hyperledgerService.getListAllAuthorizedPatientForDoctor(
+                    user,
+                    getListAllAuthorizedPatientForDoctorDto
+            );
 
-            for (String patientId: patientSet) {
+            for (String patientId: stringList) {
                 Patient patient = (Patient) userDetailsService.getUserByUserId(patientId);
                 PatientResponse patientResponse = new PatientResponse(patient);
                 patientResponseList.add(patientResponse);

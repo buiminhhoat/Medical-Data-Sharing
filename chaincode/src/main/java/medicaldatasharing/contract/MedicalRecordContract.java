@@ -566,6 +566,24 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListAllAuthorizedPatientForDoctor(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String doctorId = jsonObject.getString("doctorId");
+        authorizeRequest(ctx, doctorId, "getListAllAuthorizedPatientForDoctor(validate doctorId)");
+        JSONObject jsonDto = jsonObject;
+        jsonDto.put("senderId", doctorId);
+        jsonDto.put("requestType", RequestType.VIEW_RECORD);
+        jsonDto.put("requestStatus", RequestStatus.ACCEPTED);
+        List<String> authorizedPatientList = ctx.getViewRequestDAO().getListAllAuthorizedPatientForDoctor(
+                jsonDto
+        );
+        return new Genson().serialize(authorizedPatientList);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getListAuthorizedMedicalRecordByDoctorQuery(
             MedicalRecordContext ctx,
             String jsonString
@@ -605,6 +623,24 @@ public class MedicalRecordContract implements ContractInterface {
             }
         }
         return new Genson().serialize(medicalRecordList);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getListAllAuthorizedPatientForManufacturer(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String manufacturerId = jsonObject.getString("manufacturerId");
+        authorizeRequest(ctx, manufacturerId, "getListAllAuthorizedPatientForManufacturer(validate manufacturerId)");
+        JSONObject jsonDto = jsonObject;
+        jsonDto.put("senderId", manufacturerId);
+        jsonDto.put("requestType", RequestType.VIEW_RECORD);
+        jsonDto.put("requestStatus", RequestStatus.ACCEPTED);
+        List<String> authorizedPatientList = ctx.getViewRequestDAO().getListAllAuthorizedPatientForManufacturer(
+                jsonDto
+        );
+        return new Genson().serialize(authorizedPatientList);
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)

@@ -109,4 +109,15 @@ public class ManufacturerController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("/get-all-patient-managed-by-manufacturerId")
+    public ResponseEntity<?> getAllPatientManagedByManufacturerId() throws Exception {
+        try {
+            String getAllPatientManagedByManufacturerId = manufacturerService.getAllPatientManagedByManufacturerId();
+            return ResponseEntity.status(HttpStatus.OK).body(getAllPatientManagedByManufacturerId);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 }

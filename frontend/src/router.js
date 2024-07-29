@@ -9,7 +9,7 @@ import MedicalRecordManagementPage from "./pages/users/MedicalRecordManagementPa
 
 import { API } from "@Const";
 import { useCookies } from "react-cookie";
-import PatientManagedByDoctorPage from "./pages/users/PatientManagedByDoctorPage";
+import PatientManagedPage from "./pages/users/PatientManagedPage";
 import UserManagement from "./pages/admin/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
 import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
@@ -51,7 +51,7 @@ const patientRouters = [
 const doctorRouters = [
   {
     path: ROUTERS.DOCTOR.PATIENT_MANAGED_BY_DOCTOR_PAGE,
-    component: <PatientManagedByDoctorPage></PatientManagedByDoctorPage>,
+    component: <PatientManagedPage></PatientManagedPage>,
   },
   {
     path: ROUTERS.USER.REQUEST,
@@ -115,7 +115,7 @@ const manufacturerRouters = [
   },
   {
     path: ROUTERS.MANUFACTURER.PATIENT_MANAGED_BY_MANUFACTURER_PAGE,
-    component: <PatientManagedByDoctorPage></PatientManagedByDoctorPage>,
+    component: <PatientManagedPage></PatientManagedPage>,
   },
 ];
 

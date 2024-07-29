@@ -1131,6 +1131,30 @@ public class HyperledgerService {
         return purchase;
     }
 
+    public List<String> getListAllAuthorizedPatientForDoctor(User user,
+                                                             GetListAllAuthorizedPatientForDoctorDto getListAllAuthorizedPatientForDoctorDto) throws Exception {
+        List<String> getListAllAuthorizedPatientForDoctorList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = getListAllAuthorizedPatientForDoctorDto.toJSONObject();
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListAllAuthorizedPatientForDoctor",
+                    jsonObject.toString()
+            );
+
+            String getListAllAuthorizedPatientForDoctorListStr = new String(result);
+            getListAllAuthorizedPatientForDoctorList = new Genson().deserialize(
+                    getListAllAuthorizedPatientForDoctorListStr,
+                    new GenericType<List<String>>() {}
+            );
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return getListAllAuthorizedPatientForDoctorList;
+    }
+
     public List<String> getListAllAuthorizedPatientForScientist(User user,
                                                                 GetListAllAuthorizedPatientForScientistDto getListAllAuthorizedPatientForScientistDto) throws Exception {
         List<String> getListAllAuthorizedPatientForScientistList = new ArrayList<>();
@@ -1153,6 +1177,30 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return getListAllAuthorizedPatientForScientistList;
+    }
+
+    public List<String> getListAllAuthorizedPatientForManufacturer(User user,
+                                                                   GetListAllAuthorizedPatientForManufacturerDto getListAllAuthorizedPatientForManufacturerDto) throws Exception {
+        List<String> getListAllAuthorizedPatientForManufacturerList = new ArrayList<>();
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = getListAllAuthorizedPatientForManufacturerDto.toJSONObject();
+
+            byte[] result = contract.evaluateTransaction(
+                    "getListAllAuthorizedPatientForManufacturer",
+                    jsonObject.toString()
+            );
+
+            String getListAllAuthorizedPatientForManufacturerListStr = new String(result);
+            getListAllAuthorizedPatientForManufacturerList = new Genson().deserialize(
+                    getListAllAuthorizedPatientForManufacturerListStr,
+                    new GenericType<List<String>>() {}
+            );
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return getListAllAuthorizedPatientForManufacturerList;
     }
 
     public List<MedicalRecord> getListAuthorizedMedicalRecordByScientistQuery(User user,

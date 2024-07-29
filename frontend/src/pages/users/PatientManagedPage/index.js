@@ -24,19 +24,26 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
 
-const PatientManagedByDoctorPageStyle = styled.div`
+const PatientManagedPageStyle = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-const PatientManagedByDoctorPage = () => {
+const PatientManagedPage = () => {
   const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
 
-  const apiGetAllPatientByDoctorId =
-    API.DOCTOR.GET_ALL_PATIENT_MANAGED_BY_DOCTOR;
+  let apiGetAllPatientManaged = API.DOCTOR.GET_ALL_PATIENT_MANAGED_BY_DOCTOR;
+
+  if (role === "Công ty sản xuất thuốc")
+    apiGetAllPatientManaged =
+      API.MANUFACTURER.GET_ALL_PATIENT_MANAGED_BY_MANUFACTURER;
+
+  if (role === "Nhà khoa học")
+    apiGetAllPatientManaged =
+      API.SCIENTIST.GET_ALL_PATIENT_MANAGED_BY_SCIENTIST;
 
   const [searchPatientId, setSearchPatientId] = useState("");
   const [searchPatientName, setSearchPatientName] = useState("");
@@ -120,7 +127,7 @@ const PatientManagedByDoctorPage = () => {
     if (access_token) {
       try {
         const formData = new FormData();
-        const response = await fetch(apiGetAllPatientByDoctorId, {
+        const response = await fetch(apiGetAllPatientManaged, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -283,7 +290,7 @@ const PatientManagedByDoctorPage = () => {
   };
 
   return (
-    <PatientManagedByDoctorPageStyle>
+    <PatientManagedPageStyle>
       <div className="page">
         <div className="container">
           <div style={{ marginTop: "20px" }}>
@@ -464,8 +471,8 @@ const PatientManagedByDoctorPage = () => {
           />
         </div>
       )}
-    </PatientManagedByDoctorPageStyle>
+    </PatientManagedPageStyle>
   );
 };
 
-export default memo(PatientManagedByDoctorPage);
+export default memo(PatientManagedPage);

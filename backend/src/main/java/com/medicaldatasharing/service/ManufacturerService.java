@@ -3,11 +3,9 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.chaincode.dto.Drug;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
-import com.medicaldatasharing.dto.DrugReactionDto;
-import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
-import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByManufacturerQueryDto;
-import com.medicaldatasharing.dto.PrescriptionDto;
+import com.medicaldatasharing.dto.*;
 import com.medicaldatasharing.form.*;
+import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
@@ -15,6 +13,7 @@ import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.response.MedicalRecordResponse;
 import com.medicaldatasharing.response.MedicationResponse;
+import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +129,29 @@ public class ManufacturerService {
         try {
             List<Drug> drugList = hyperledgerService.addDrug(user, addDrugForm);
             return new Genson().serialize(drugList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getAllPatientManagedByManufacturerId() throws Exception {
+        List<PatientResponse> patientResponseList = new ArrayList<>();
+        User user = userDetailsService.getLoggedUser();
+        try {
+            GetListAllAuthorizedPatientForManufacturerDto getListAllAuthorizedPatientForManufacturerDto = new GetListAllAuthorizedPatientForManufacturerDto();
+            getListAllAuthorizedPatientForManufacturerDto.setManufacturerId(user.getId());
+            List<String> stringList = hyperledgerService.getListAllAuthorizedPatientForManufacturer(
+                    user,
+                    getListAllAuthorizedPatientForManufacturerDto
+            );
+
+            for (String patientId: stringList) {
+                Patient patient = (Patient) userDetailsService.getUserByUserId(patientId);
+                PatientResponse patientResponse = new PatientResponse(patient);
+                patientResponseList.add(patientResponse);
+            }
+            return new Genson().serialize(patientResponseList);
         }
         catch (Exception e) {
             throw e;

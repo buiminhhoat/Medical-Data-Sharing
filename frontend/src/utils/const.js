@@ -82,6 +82,8 @@ export const API = {
       "/api/manufacturer/get-prescription-by-manufacturer",
     GET_LIST_MEDICAL_RECORD:
       "/api/manufacturer/get-list-medical-record-by-manufacturerId",
+    GET_ALL_PATIENT_MANAGED_BY_MANUFACTURER:
+      "/api/manufacturer/get-all-patient-managed-by-manufacturerId",
   },
   DRUGSTORE: {
     GET_PRESCRIPTION_BY_DRUG_STORE:
@@ -112,6 +114,8 @@ export const API = {
   SCIENTIST: {
     GET_LIST_MEDICAL_RECORD:
       "/api/scientist/get-list-medical-record-by-scientistId",
+    GET_ALL_PATIENT_MANAGED_BY_SCIENTIST:
+      "/api/scientist/get-all-patient-managed-by-scientistId",
   },
 };
 

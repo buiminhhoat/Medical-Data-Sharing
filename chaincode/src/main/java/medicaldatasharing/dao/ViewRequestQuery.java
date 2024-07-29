@@ -83,6 +83,19 @@ public class ViewRequestQuery {
         return stringList;
     }
 
+    public List<String> getListAllAuthorizedPatientForManufacturer(JSONObject jsonDto) {
+        List<ViewRequest> viewRequestList = getListViewRequestQuery(jsonDto);
+        Set<String> stringSet = new HashSet<>();
+        for (ViewRequest viewRequest: viewRequestList) {
+            stringSet.add(viewRequest.getRecipientId());
+        }
+        List<String> stringList = new ArrayList<>();
+        for (String s: stringSet) {
+            stringList.add(s);
+        }
+        return stringList;
+    }
+
     public JSONObject createQuerySelector(
             String requestId,
             String senderId,
