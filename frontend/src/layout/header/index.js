@@ -9,6 +9,8 @@ import { ROUTERS } from "@Utils/router";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { ConfigProvider, Layout, Menu } from "antd";
+import RegisterUserDialog from "../../components/dialogs/RegisterUser/RegisterUser";
+import RegisterDialog from "../../components/dialogs/RegisterDialog/RegisterDialog";
 
 const { Header } = Layout;
 
@@ -376,6 +378,15 @@ const HeaderLayout = () => {
       {openDialog === DIALOGS.LOGIN && (
         <div className="modal-overlay">
           <LoginDialog
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
+
+      {openDialog === DIALOGS.REGISTER && (
+        <div className="modal-overlay">
+          <RegisterDialog
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />

@@ -1,6 +1,6 @@
 export const DIALOGS = {
-  LOGIN: "login",
-  REGISTER: "register",
+  LOGIN: "LOGIN",
+  REGISTER: "REGISTER",
   FORGOT_PASSWORD: "forgot-password",
   REQUEST_DETAIL: "REQUEST_DETAIL",
   MEDICAL_RECORD: "MEDICAL_RECORD",

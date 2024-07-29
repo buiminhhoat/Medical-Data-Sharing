@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 public class RegisterDto {
     @NotBlank
-    @Size(min = 8, max = 40)
+    @Size(max = 100)
     private String email;
 
     @NotBlank
@@ -20,10 +20,8 @@ public class RegisterDto {
     private String fullName;
 
     @NotBlank
-    private String lastName;
-
-    @NotBlank
     private String gender;
 
+    @NotBlank
     private Date birthday;
 }

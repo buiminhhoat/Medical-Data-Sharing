@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Cookies, useCookies } from "react-cookie";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Space } from "antd";
+import { Avatar, DatePicker, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
 import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
@@ -10,8 +10,8 @@ import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
-const LoginDialogStyle = styled.div``;
-const LoginDialog = ({ onClose, onSwitch }) => {
+const RegisterDialogStyle = styled.div``;
+const RegisterDialog = ({ onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
   const apiLoginUrl = API.PUBLIC.LOGIN_ENDPOINT;
@@ -67,10 +67,10 @@ const LoginDialog = ({ onClose, onSwitch }) => {
   };
 
   return (
-    <LoginDialogStyle>
+    <RegisterDialogStyle>
       <>
         <ModalWrapper
-          title="Đăng nhập"
+          title="Đăng ký dành cho bệnh nhân"
           open={isModalOpen}
           onCancel={handleCancel}
           footer={null}
@@ -96,6 +96,20 @@ const LoginDialog = ({ onClose, onSwitch }) => {
             onFinishFailed={onFinishFailed}
             autoComplete="on"
           >
+            <Form.Item
+              style={{ marginTop: 25 }}
+              label="Họ và tên"
+              name="fullName"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập họ và tên!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
             <Form.Item
               style={{ marginTop: 25 }}
               label="Email"
@@ -124,14 +138,20 @@ const LoginDialog = ({ onClose, onSwitch }) => {
             </Form.Item>
 
             <Form.Item
-              name="remember"
-              valuePropName="checked"
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
+              label="Ngày sinh"
+              name="dateBirthday"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng chọn ngày sinh!",
+                },
+              ]}
             >
-              <Checkbox>Ghi nhớ đăng nhập</Checkbox>
+              <DatePicker
+                style={{ width: "100%" }}
+                format={"YYYY-MM-DD"}
+                placeholder="Chọn ngày sinh"
+              />
             </Form.Item>
             <div
               style={{
@@ -140,27 +160,27 @@ const LoginDialog = ({ onClose, onSwitch }) => {
                 justifyItems: "center",
               }}
             >
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", marginTop: "20px" }}>
                 <Button
                   type="primary"
                   htmlType="submit"
                   style={{ marginRight: "10%" }}
                 >
-                  Đăng nhập
+                  Đăng ký dành cho bệnh nhân
                 </Button>
 
                 <Button
-                  onClick={() => handleSwitchToOtherDialog(DIALOGS.REGISTER)}
+                  onClick={() => handleSwitchToOtherDialog(DIALOGS.LOGIN)}
                 >
-                  Đăng ký
+                  Đăng nhập
                 </Button>
               </div>
             </div>
           </Form>
         </ModalWrapper>
       </>
-    </LoginDialogStyle>
+    </RegisterDialogStyle>
   );
 };
 
-export default LoginDialog;
+export default RegisterDialog;

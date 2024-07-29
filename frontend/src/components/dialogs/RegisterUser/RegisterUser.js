@@ -37,7 +37,7 @@ const RegisterUserDialogStyle = styled.div`
   overflow: auto;
 `;
 
-const RegisterUserDialog = ({ values, onClose, onSwitch }) => {
+const RegisterUserDialog = ({ onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;

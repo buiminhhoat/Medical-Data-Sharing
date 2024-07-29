@@ -483,7 +483,6 @@ const UserManagementPage = () => {
       {openDialog === DIALOGS.ADD_USER && (
         <div className="modal-overlay">
           <RegisterUserDialog
-            values={selectedUser}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
