@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Cookies, useCookies } from "react-cookie";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Flex, Space, Table } from "antd";
+import { Avatar, Flex, Popover, QRCode, Space, Table } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
 import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
@@ -19,6 +19,7 @@ import {
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper";
+import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
 const { Option } = Select;
 
 const PurchaseDetailStyle = styled.div`
@@ -29,6 +30,7 @@ const Info = styled.div`
   display: flex;
   /* justify-content: center; */
   /* justify-items: center; */
+  align-items: center;
   margin-bottom: 15px;
   .field {
     width: 20%;
@@ -158,34 +160,46 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
       width: "15%",
       align: "center",
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedTextPurchaseDetailId(index)}
-          onMouseLeave={() => setHighlightedTextPurchaseDetailId(null)}
-          style={{
-            backgroundColor:
-              highlightedTextPurchaseDetailId === index ? "#ffe898" : "",
-            border:
-              highlightedTextPurchaseDetailId === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.purchaseDetailId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.purchaseDetailId)
-              .then(() =>
-                message.success("Đã sao chép " + record.purchaseDetailId)
-              )
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.purchaseDetailId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedTextPurchaseDetailId(index)}
+            onMouseLeave={() => setHighlightedTextPurchaseDetailId(null)}
+            style={{
+              backgroundColor:
+                highlightedTextPurchaseDetailId === index ? "#ffe898" : "",
+              border:
+                highlightedTextPurchaseDetailId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.purchaseDetailId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.purchaseDetailId)
+                .then(() =>
+                  message.success("Đã sao chép " + record.purchaseDetailId)
+                )
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
     {
@@ -195,34 +209,46 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
       width: "15%",
       align: "center",
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedTextPrescriptionDetailId(index)}
-          onMouseLeave={() => setHighlightedTextPrescriptionDetailId(null)}
-          style={{
-            backgroundColor:
-              highlightedTextPrescriptionDetailId === index ? "#ffe898" : "",
-            border:
-              highlightedTextPrescriptionDetailId === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.prescriptionDetailId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.prescriptionDetailId)
-              .then(() =>
-                message.success("Đã sao chép " + record.prescriptionDetailId)
-              )
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.prescriptionDetailId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedTextPrescriptionDetailId(index)}
+            onMouseLeave={() => setHighlightedTextPrescriptionDetailId(null)}
+            style={{
+              backgroundColor:
+                highlightedTextPrescriptionDetailId === index ? "#ffe898" : "",
+              border:
+                highlightedTextPrescriptionDetailId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.prescriptionDetailId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.prescriptionDetailId)
+                .then(() =>
+                  message.success("Đã sao chép " + record.prescriptionDetailId)
+                )
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
     {
@@ -232,32 +258,46 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
       width: "15%",
       align: "center",
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedTextMedicationId(index)}
-          onMouseLeave={() => setHighlightedTextMedicationId(null)}
-          style={{
-            backgroundColor:
-              highlightedTextMedicationId === index ? "#ffe898" : "",
-            border:
-              highlightedTextMedicationId === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.medicationId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.medicationId)
-              .then(() => message.success("Đã sao chép " + record.medicationId))
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.medicationId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedTextMedicationId(index)}
+            onMouseLeave={() => setHighlightedTextMedicationId(null)}
+            style={{
+              backgroundColor:
+                highlightedTextMedicationId === index ? "#ffe898" : "",
+              border:
+                highlightedTextMedicationId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.medicationId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.medicationId)
+                .then(() =>
+                  message.success("Đã sao chép " + record.medicationId)
+                )
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
     {
@@ -267,31 +307,43 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
       width: "20%",
       align: "center",
       render: (text, record, index) => (
-        <span
-          onMouseEnter={() => setHighlightedTextDrugId(index)}
-          onMouseLeave={() => setHighlightedTextDrugId(null)}
-          style={{
-            backgroundColor: highlightedTextDrugId === index ? "#ffe898" : "",
-            border:
-              highlightedTextDrugId === index
-                ? "2px dashed rgb(234, 179, 8)"
-                : "none",
-            borderRadius: "4px",
-            padding: "2px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            console.log(record.drugId);
-            console.log(index);
-            console.log(dataSource);
-            navigator.clipboard
-              .writeText(record.drugId)
-              .then(() => message.success("Đã sao chép " + record.drugId))
-              .catch((err) => message.error("Sao chép thất bại!"));
-          }}
+        <Popover
+          content={
+            <QRCode
+              type="canvas"
+              value={record.drugId}
+              bordered={false}
+              id="myqrcode"
+              bgColor="#fff"
+            />
+          }
         >
-          {text}
-        </span>
+          <span
+            onMouseEnter={() => setHighlightedTextDrugId(index)}
+            onMouseLeave={() => setHighlightedTextDrugId(null)}
+            style={{
+              backgroundColor: highlightedTextDrugId === index ? "#ffe898" : "",
+              border:
+                highlightedTextDrugId === index
+                  ? "2px dashed rgb(234, 179, 8)"
+                  : "none",
+              borderRadius: "4px",
+              padding: "2px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              console.log(record.drugId);
+              console.log(index);
+              console.log(dataSource);
+              navigator.clipboard
+                .writeText(record.drugId)
+                .then(() => message.success("Đã sao chép " + record.drugId))
+                .catch((err) => message.error("Sao chép thất bại!"));
+            }}
+          >
+            {text}
+          </span>
+        </Popover>
       ),
     },
   ];
@@ -312,17 +364,17 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
             <div style={{ width: "100%" }}>
               <Info>
                 <div className="field">ID giao dịch</div>
-                <div>{purchaseId}</div>
+                <TextWithQRCode value={purchaseId}></TextWithQRCode>
               </Info>
 
               <Info>
                 <div className="field">ID bệnh nhân</div>
-                <div>{purchase.patientId}</div>
+                <TextWithQRCode value={purchase.patientId}></TextWithQRCode>
               </Info>
 
               <Info>
                 <div className="field">ID cửa hàng thuốc</div>
-                <div>{purchase.drugStoreId}</div>
+                <TextWithQRCode value={purchase.drugStoreId}></TextWithQRCode>
               </Info>
 
               <Info>
@@ -332,7 +384,9 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
 
               <Info>
                 <div className="field">ID đơn thuốc</div>
-                <div>{purchase.prescriptionId}</div>
+                <TextWithQRCode
+                  value={purchase.prescriptionId}
+                ></TextWithQRCode>
               </Info>
 
               <Info>

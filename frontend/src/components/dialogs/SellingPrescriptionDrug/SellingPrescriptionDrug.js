@@ -30,6 +30,7 @@ const Info = styled.div`
   display: flex;
   /* justify-content: center; */
   /* justify-items: center; */
+  align-items: center;
   margin-bottom: 15px;
   .field {
     width: 20%;
