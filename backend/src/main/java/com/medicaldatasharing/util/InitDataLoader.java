@@ -58,7 +58,7 @@ public class InitDataLoader implements CommandLineRunner {
         initUsers();
         initScientist();
         initInsuranceCompany();
-//        init();
+        init();
     }
 
     private void initMedicalInstitutions() {
