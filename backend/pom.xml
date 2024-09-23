@@ -14,7 +14,7 @@
     <name>backend</name>
     <description>Health Care</description>
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
     </properties>
     <repositories>
         <repository>
@@ -117,6 +117,12 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.jopenlibs</groupId>
+            <artifactId>vault-java-driver</artifactId>
+            <version>6.2.0</version>
         </dependency>
     </dependencies>
 

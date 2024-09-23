@@ -51,14 +51,14 @@ public class InitDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initMedicalInstitutions();
-        initManufacturer();
-        initDrugStore();
-        initResearchCenter();
-        initUsers();
-        initScientist();
-        initInsuranceCompany();
-        init();
+//        initMedicalInstitutions();
+//        initManufacturer();
+//        initDrugStore();
+//        initResearchCenter();
+//        initUsers();
+//        initScientist();
+//        initInsuranceCompany();
+//        init();
     }
 
     private void initMedicalInstitutions() {
