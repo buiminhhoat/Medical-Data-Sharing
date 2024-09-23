@@ -84,24 +84,6 @@ public class RequestResponse {
             AppointmentRequest appointmentRequest = (AppointmentRequest) request;
             this.medicalInstitutionId = appointmentRequest.getMedicalInstitutionId();
         }
-        if (request instanceof ConfirmPaymentRequest && Objects.equals(requestType, RequestType.CONFIRM_PAYMENT.toString())) {
-            ConfirmPaymentRequest confirmPaymentRequest = (ConfirmPaymentRequest) request;
-            this.paymentRequestId = confirmPaymentRequest.getPaymentRequestId();
-        }
-
-        if (request instanceof PaymentRequest && Objects.equals(requestType, RequestType.PAYMENT.toString())) {
-            PaymentRequest paymentRequest = (PaymentRequest) request;
-            this.insuranceContractId = paymentRequest.getInsuranceContractId();
-            this.medicalRecordId = paymentRequest.getMedicalRecordId();
-        }
-
-        if (request instanceof PurchaseRequest && Objects.equals(requestType, RequestType.PURCHASE.toString())) {
-            PurchaseRequest purchaseRequest =(PurchaseRequest) request;
-            this.insuranceProductId = purchaseRequest.getInsuranceProductId();
-            this.startDate = purchaseRequest.getStartDate();
-            this.endDate = purchaseRequest.getEndDate();
-            this.hashFile = purchaseRequest.getHashFile();
-        }
 
         if (request instanceof ViewPrescriptionRequest && Objects.equals(requestType, RequestType.VIEW_PRESCRIPTION.toString())) {
             ViewPrescriptionRequest viewPrescriptionRequest = (ViewPrescriptionRequest) request;

@@ -99,15 +99,6 @@ public class UserService {
             if (Objects.equals(requestType, RequestType.VIEW_PRESCRIPTION.toString())) {
                 request = hyperledgerService.getViewPrescriptionRequest(user, requestId);
             }
-            if (Objects.equals(requestType, RequestType.PURCHASE.toString())) {
-                request = hyperledgerService.getPurchaseRequest(user, requestId);
-            }
-            if (Objects.equals(requestType, RequestType.PAYMENT.toString())) {
-                request = hyperledgerService.getPaymentRequest(user, requestId);
-            }
-            if (Objects.equals(requestType, RequestType.CONFIRM_PAYMENT.toString())) {
-                request = hyperledgerService.getConfirmPaymentRequest(user, requestId);
-            }
 
             RequestResponse requestResponse = new RequestResponse(request);
             User sender = userDetailsService.getUserByUserId(request.getSenderId());
@@ -142,18 +133,6 @@ public class UserService {
             if (Objects.equals(defineRequestForm.getRequestType(), RequestType.VIEW_PRESCRIPTION.toString())) {
                 DefineViewPrescriptionRequestForm viewPrescriptionRequestForm = new DefineViewPrescriptionRequestForm(defineRequestForm);
                 request = hyperledgerService.defineViewPrescriptionRequest(user, viewPrescriptionRequestForm);
-            }
-            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.PURCHASE.toString())) {
-                DefinePurchaseRequestForm definePurchaseRequestForm = new DefinePurchaseRequestForm(defineRequestForm);
-                request = hyperledgerService.definePurchaseRequest(user, definePurchaseRequestForm);
-            }
-            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.PAYMENT.toString())) {
-                DefinePaymentRequestForm definePaymentRequestForm = new DefinePaymentRequestForm(defineRequestForm);
-                request = hyperledgerService.definePaymentRequest(user, definePaymentRequestForm);
-            }
-            if (Objects.equals(defineRequestForm.getRequestType(), RequestType.CONFIRM_PAYMENT.toString())) {
-                DefineConfirmPaymentRequestForm defineConfirmPaymentRequestForm = new DefineConfirmPaymentRequestForm(defineRequestForm);
-                request = hyperledgerService.defineConfirmPaymentRequest(user, defineConfirmPaymentRequestForm);
             }
 
             RequestResponse requestResponse = new RequestResponse(request);
