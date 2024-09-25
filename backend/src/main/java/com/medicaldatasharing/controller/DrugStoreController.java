@@ -60,7 +60,7 @@ public class DrugStoreController {
         try {
             sendViewPrescriptionRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
             sendViewPrescriptionRequestForm.setDateModified(StringUtil.parseDate(new Date()));
-            sendViewPrescriptionRequestForm.setSenderId(userDetailsService.getLoggedUser().getId());
+            sendViewPrescriptionRequestForm.setSenderId(drugStoreService.getLoggedUser().getId());
             String viewPrescriptionRequestStr = drugStoreService.sendViewPrescriptionRequest(sendViewPrescriptionRequestForm);
             return ResponseEntity.status(HttpStatus.OK).body(viewPrescriptionRequestStr);
         }
@@ -93,7 +93,7 @@ public class DrugStoreController {
             purchaseDto.setPrescriptionId(prescriptionId);
             purchaseDto.setMedicationPurchaseList(new Genson().serialize(medicationPurchaseDtoList));
             purchaseDto.setPatientId(patientId);
-            purchaseDto.setDrugStoreId(userDetailsService.getLoggedUser().getId());
+            purchaseDto.setDrugStoreId(drugStoreService.getLoggedUser().getId());
             purchaseDto.setDateCreated(StringUtil.parseDate(new Date()));
             purchaseDto.setDateModified(StringUtil.parseDate(new Date()));
 

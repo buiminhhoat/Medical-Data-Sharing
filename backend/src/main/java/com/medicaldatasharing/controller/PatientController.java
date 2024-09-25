@@ -44,7 +44,7 @@ public class PatientController {
         try {
             String patientId = httpServletRequest.getParameter("patientId");
             SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
-            searchMedicalRecordForm.setPatientId(userDetailsService.getLoggedUser().getId());
+            searchMedicalRecordForm.setPatientId(patientService.getLoggedUser().getId());
             String getListMedicalRecord = patientService.getListMedicalRecordByPatientId(searchMedicalRecordForm);
             return ResponseEntity.status(HttpStatus.OK).body(getListMedicalRecord);
         }
@@ -58,7 +58,7 @@ public class PatientController {
         try {
             String medicalRecordId = httpServletRequest.getParameter("medicalRecordId");
             SearchMedicalRecordForm searchMedicalRecordForm = new SearchMedicalRecordForm();
-            searchMedicalRecordForm.setPatientId(userDetailsService.getLoggedUser().getId());
+            searchMedicalRecordForm.setPatientId(patientService.getLoggedUser().getId());
             searchMedicalRecordForm.setMedicalRecordId(medicalRecordId);
             String getListMedicalRecord = patientService.getListMedicalRecordByPatientId(searchMedicalRecordForm);
             return ResponseEntity.status(HttpStatus.OK).body(getListMedicalRecord);
@@ -99,7 +99,7 @@ public class PatientController {
         try {
             sendViewPrescriptionRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
             sendViewPrescriptionRequestForm.setDateModified(StringUtil.parseDate(new Date()));
-            sendViewPrescriptionRequestForm.setRecipientId(userDetailsService.getLoggedUser().getId());
+            sendViewPrescriptionRequestForm.setRecipientId(patientService.getLoggedUser().getId());
             String sharePrescriptionByPatient = patientService.sharePrescriptionByPatient(sendViewPrescriptionRequestForm);
             return ResponseEntity.status(HttpStatus.OK).body(sharePrescriptionByPatient);
         }

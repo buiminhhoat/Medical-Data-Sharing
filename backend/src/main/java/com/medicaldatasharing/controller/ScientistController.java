@@ -2,6 +2,7 @@ package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByScientistQueryDto;
 import com.medicaldatasharing.form.*;
+import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.HyperledgerService;
@@ -12,6 +13,8 @@ import com.medicaldatasharing.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,29 +26,14 @@ import java.util.Date;
 @RequestMapping("/scientist")
 public class ScientistController {
     @Autowired
-    private DoctorService doctorService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private HyperledgerService hyperledgerService;
-
-    @Autowired
-    private ManufacturerService manufacturerService;
-
-    @Autowired
     private ScientistService scientistService;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/get-list-medical-record-by-scientistId")
     public ResponseEntity<?> getListMedicalRecord(HttpServletRequest httpServletRequest) {
         try {
             String patientId = httpServletRequest.getParameter("patientId");
             GetListAuthorizedMedicalRecordByScientistQueryDto getListAuthorizedMedicalRecordByScientistQueryDto = new GetListAuthorizedMedicalRecordByScientistQueryDto();
-            getListAuthorizedMedicalRecordByScientistQueryDto.setScientistId(userDetailsService.getLoggedUser().getId());
+            getListAuthorizedMedicalRecordByScientistQueryDto.setScientistId(scientistService.getLoggedUser().getId());
             getListAuthorizedMedicalRecordByScientistQueryDto.setPatientId(patientId);
             String getListMedicalRecord = scientistService.getListMedicalRecord(getListAuthorizedMedicalRecordByScientistQueryDto);
             return ResponseEntity.status(HttpStatus.OK).body(getListMedicalRecord);

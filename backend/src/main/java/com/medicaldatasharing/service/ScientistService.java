@@ -9,8 +9,7 @@ import com.medicaldatasharing.dto.GetListAllAuthorizedPatientForScientistDto;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByScientistQueryDto;
 import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.Patient;
-import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.response.MedicalRecordResponse;
 import com.medicaldatasharing.response.MedicationResponse;
@@ -18,6 +17,8 @@ import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,18 +26,6 @@ import java.util.List;
 
 @Service
 public class ScientistService {
-    @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
-    private MedicalInstitutionRepository medicalInstitutionRepository;
-
-    @Autowired
-    private PatientRepository patientRepository;
-
     @Autowired
     private ScientistRepository scientistRepository;
     
@@ -46,8 +35,29 @@ public class ScientistService {
     @Autowired
     private HyperledgerService hyperledgerService;
 
+    public User getUser(String email) {
+        Scientist scientist = scientistRepository.findScientistByEmail(email);
+        if (scientist != null){
+            return scientist;
+        }
+        return null;
+    }
+
+    public User getLoggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        User user;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+            user = getUser(username);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
     public String getListMedicalRecord(GetListAuthorizedMedicalRecordByScientistQueryDto getListAuthorizedMedicalRecordByScientistQueryDto) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             getListAuthorizedMedicalRecordByScientistQueryDto.setScientistId(user.getId());
             List<MedicalRecord> medicalRecordList = hyperledgerService.getListAuthorizedMedicalRecordByScientistQuery(user,
@@ -75,7 +85,7 @@ public class ScientistService {
     }
 
     public String getPrescriptionByScientist(GetPrescriptionForm getPrescriptionForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             getPrescriptionForm.setScientistId(user.getId());
             PrescriptionDto prescriptionDto = hyperledgerService.getPrescriptionByScientist(user,
@@ -89,7 +99,7 @@ public class ScientistService {
 
     public String getAllPatientManagedByScientistId() throws Exception {
         List<PatientResponse> patientResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             GetListAllAuthorizedPatientForScientistDto getListAllAuthorizedPatientForScientistDto = new GetListAllAuthorizedPatientForScientistDto();
             getListAllAuthorizedPatientForScientistDto.setScientistId(user.getId());
@@ -111,7 +121,7 @@ public class ScientistService {
     }
 
     public String sendViewRequest(SendViewRequestForm sendViewRequestForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             sendViewRequestForm.setSenderId(user.getId());
             ViewRequest viewRequest = hyperledgerService.sendViewRequest(user, sendViewRequestForm);

@@ -10,6 +10,8 @@ import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,9 +57,30 @@ public class MedicalInstitutionService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public User getUser(String email) {
+        MedicalInstitution medicalInstitution = medicalInstitutionRepository.findMedicalInstitutionByEmail(email);
+        if (medicalInstitution != null) {
+            return medicalInstitution;
+        }
+        
+        return null;
+    }
+
+    public User getLoggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        User user;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+            user = getUser(username);
+            return user;
+        } else {
+            return null;
+        }
+    }
     public String getAllDoctorByMedicalInstitution() throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
 
         List<Doctor> doctorList = doctorRepository.findAllByMedicalInstitutionId(user.getId());
         for (Doctor doctor: doctorList) {
@@ -84,7 +107,7 @@ public class MedicalInstitutionService {
                     .password(passwordEncoder.encode(registerForm.getPassword()))
                     .enabled(true)
                     .department(registerForm.getDepartment())
-                    .medicalInstitutionId(userDetailsService.getLoggedUser().getId())
+                    .medicalInstitutionId(getLoggedUser().getId())
                     .address(registerForm.getAddress())
                     .build();
             doctorRepository.save(doctor);
@@ -101,7 +124,7 @@ public class MedicalInstitutionService {
 
     public String getUserInfo(String id) throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
 
         MedicalInstitution medicalInstitution = (MedicalInstitution) user;
         List<Doctor> doctorList = doctorRepository.findDoctorByIdAndMedicalInstitutionId(id, medicalInstitution.getId());

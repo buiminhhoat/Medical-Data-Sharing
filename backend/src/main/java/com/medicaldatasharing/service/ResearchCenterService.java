@@ -12,6 +12,8 @@ import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,44 +24,41 @@ import java.util.List;
 @Service
 public class ResearchCenterService {
     @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
-    private DrugStoreRepository drugStoreRepository;
-
-    @Autowired
-    private InsuranceCompanyRepository insuranceCompanyRepository;
-
-    @Autowired
-    private ManufacturerRepository manufacturerRepository;
-
-    @Autowired
     private ResearchCenterRepository researchCenterRepository;
 
     @Autowired
     private ScientistRepository scientistRepository;
 
     @Autowired
-    private MedicalInstitutionRepository medicalInstitutionRepository;
-
-    @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private HyperledgerService hyperledgerService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public User getUser(String email) {
+        ResearchCenter researchCenter = researchCenterRepository.findResearchInstituteByEmail(email);
+        if (researchCenter != null) {
+            return researchCenter;
+        }
+
+        return null;
+    }
+
+    public User getLoggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        User user;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+            user = getUser(username);
+            return user;
+        } else {
+            return null;
+        }
+    }
     public String getAllScientistByResearchCenter() throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
 
         List<Scientist> scientistList = scientistRepository.findAllByResearchCenterId(user.getId());
         for (Scientist scientist: scientistList) {
@@ -85,7 +84,7 @@ public class ResearchCenterService {
                     .username(registerForm.getEmail())
                     .password(passwordEncoder.encode(registerForm.getPassword()))
                     .enabled(true)
-                    .researchCenterId(userDetailsService.getLoggedUser().getId())
+                    .researchCenterId(getLoggedUser().getId())
                     .address(registerForm.getAddress())
                     .build();
             scientistRepository.save(scientist);
@@ -102,7 +101,7 @@ public class ResearchCenterService {
 
     public String getUserInfo(String id) throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
 
         ResearchCenter researchCenter = (ResearchCenter) user;
         List<Scientist> scientistList = scientistRepository.findScientistByIdAndResearchCenterId(id, researchCenter.getId());

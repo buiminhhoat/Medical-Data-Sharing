@@ -17,6 +17,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,8 +68,69 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    public User getUser(String email) {
+        Patient patient = patientRepository.findByUsername(email);
+        if (patient != null) {
+            return patient;
+        }
+
+        Doctor doctor = doctorRepository.findByUsername(email);
+        if (doctor != null) {
+            return doctor;
+        }
+
+        Admin admin = adminRepository.findAdminByEmail(email);
+        if (admin != null) {
+            return admin;
+        }
+
+        DrugStore drugStore = drugStoreRepository.findDrugStoreByEmail(email);
+        if (drugStore != null) {
+            return drugStore;
+        }
+
+        InsuranceCompany insuranceCompany = insuranceCompanyRepository.findInsuranceCompanyByEmail(email);
+        if (insuranceCompany != null) {
+            return insuranceCompany;
+        }
+
+        Manufacturer manufacturer = manufacturerRepository.findManufacturerByEmail(email);
+        if (manufacturer != null) {
+            return manufacturer;
+        }
+
+        MedicalInstitution medicalInstitution = medicalInstitutionRepository.findMedicalInstitutionByEmail(email);
+        if (medicalInstitution != null) {
+            return medicalInstitution;
+        }
+
+        ResearchCenter researchCenter = researchCenterRepository.findResearchInstituteByEmail(email);
+        if (researchCenter != null) {
+            return researchCenter;
+        }
+
+        Scientist scientist = scientistRepository.findScientistByEmail(email);
+        if (scientist != null){
+            return scientist;
+        }
+        return null;
+    }
+
+    public User getLoggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        User user;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+            user = getUser(username);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
     public String getAllRequest() throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             List<Request> requestList = hyperledgerService.getAllRequest(user, user.getId());
             List<RequestResponse> requestResponseList = new ArrayList<>();
@@ -87,7 +150,7 @@ public class UserService {
     }
 
     public String getRequest(String requestId, String requestType) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         Request request = new Request();
         try {
             if (Objects.equals(requestType, RequestType.APPOINTMENT.toString())) {
@@ -119,7 +182,7 @@ public class UserService {
     }
 
     public String defineRequest(DefineRequestForm defineRequestForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         Request request = new Request();
         try {
             if (Objects.equals(defineRequestForm.getRequestType(), RequestType.APPOINTMENT.toString())) {
@@ -171,7 +234,7 @@ public class UserService {
     }
 
     public String getListDrugByOwnerId() throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             SearchDrugForm searchDrugForm = new SearchDrugForm();
             searchDrugForm.setOwnerId(user.getId());
@@ -185,7 +248,7 @@ public class UserService {
 
     public String getUserInfo(String id) throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
 
         if (!Objects.equals(id, user.getId())) {
             throw new Exception("Lỗi xác thực!!!");
@@ -249,7 +312,7 @@ public class UserService {
 
     public String getFullName(String id) throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
 
         List<Patient> patientList = patientRepository.findAllById(id);
         for (Patient patient: patientList) {
@@ -308,7 +371,7 @@ public class UserService {
     }
 
     public String changePassword(ChangePasswordForm changePasswordForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             Authentication authentication = null;
             try {
@@ -360,7 +423,7 @@ public class UserService {
     }
 
     public String updateInformation(UpdateInformationForm updateInformationForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             user.setFullName(updateInformationForm.getFullName());
             user.setAddress(updateInformationForm.getAddress());

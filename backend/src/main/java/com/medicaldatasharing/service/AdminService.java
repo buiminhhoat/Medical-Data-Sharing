@@ -10,6 +10,8 @@ import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
@@ -56,9 +58,31 @@ public class AdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public User getUser(String email) {
+        Admin admin = adminRepository.findAdminByUsername(email);
+        if (admin != null) {
+            return admin;
+        }
+
+        return null;
+    }
+
+    public User getLoggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        User user;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+            user = getUser(username);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
     public String getAllUserByAdmin() throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         List<Patient> patientList = patientRepository.findAll();
         for (Patient patient: patientList) {
             PatientResponse userResponse = new PatientResponse(patient);
@@ -111,7 +135,7 @@ public class AdminService {
 
     public String getUserInfo(String id) throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         List<Patient> patientList = patientRepository.findAllById(id);
         for (Patient patient: patientList) {
             PatientResponse userResponse = new PatientResponse(patient);

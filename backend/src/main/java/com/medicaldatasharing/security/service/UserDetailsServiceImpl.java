@@ -143,17 +143,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return null;
     }
-
-    public User getLoggedUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = "";
-        User user;
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-            user = getUser(username);
-            return user;
-        } else {
-            return null;
-        }
-    }
 }

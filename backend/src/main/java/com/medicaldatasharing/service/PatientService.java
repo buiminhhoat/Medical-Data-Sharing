@@ -4,7 +4,7 @@ import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.dto.PurchaseDto;
 import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
@@ -14,6 +14,8 @@ import com.medicaldatasharing.response.PurchaseResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,14 +23,6 @@ import java.util.List;
 
 @Service
 public class PatientService {
-    @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
-    private MedicalInstitutionRepository medicalInstitutionRepository;
 
     @Autowired
     private PatientRepository patientRepository;
@@ -39,8 +33,29 @@ public class PatientService {
     @Autowired
     private HyperledgerService hyperledgerService;
 
+    public User getUser(String email) {
+        Patient patient = patientRepository.findByUsername(email);
+        if (patient != null) {
+            return patient;
+        }
+        return null;
+    }
+
+    public User getLoggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        User user;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+            user = getUser(username);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
     public String getListMedicalRecordByPatientId(SearchMedicalRecordForm searchMedicalRecordForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             List<MedicalRecord> medicalRecordList = hyperledgerService.getListMedicalRecordByPatientQuery(user,
                     searchMedicalRecordForm);
@@ -67,7 +82,7 @@ public class PatientService {
     }
 
     public String getPrescriptionByPrescriptionId(GetPrescriptionForm getPrescriptionForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             getPrescriptionForm.setPatientId(user.getId());
             PrescriptionDto prescriptionDto = hyperledgerService.getPrescriptionByPatient(user,
@@ -80,7 +95,7 @@ public class PatientService {
     }
 
     public String sendAppointmentRequest(SendAppointmentRequestForm appointmentRequestForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             appointmentRequestForm.setSenderId(user.getId());
             AppointmentRequest appointmentRequest = hyperledgerService.sendAppointmentRequest(user, appointmentRequestForm);
@@ -91,7 +106,7 @@ public class PatientService {
     }
 
     public String getListPurchaseByPatientId(SearchPurchaseForm searchPurchaseForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             searchPurchaseForm.setPatientId(user.getId());
             List<Purchase> purchaseList = hyperledgerService.getListPurchaseByPatientId(user, searchPurchaseForm);
@@ -109,7 +124,7 @@ public class PatientService {
     }
 
     public String getPurchaseByPurchaseId(String purchaseId) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             PurchaseDto purchaseDto = hyperledgerService.getPurchaseByPurchaseId(user, purchaseId);
             PurchaseResponse purchaseResponse = new PurchaseResponse(purchaseDto);
@@ -122,14 +137,14 @@ public class PatientService {
     }
 
     public String defineMedicalRecord(DefineMedicalRecordForm defineMedicalRecordForm) throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         MedicalRecord defineMedicalRecord = hyperledgerService.defineMedicalRecord(user, defineMedicalRecordForm);
         return new Genson().serialize(defineMedicalRecord);
     }
 
     public String sharePrescriptionByPatient(SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm)
             throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             sendViewPrescriptionRequestForm.setRecipientId(user.getId());
             ViewPrescriptionRequest viewPrescriptionRequest = hyperledgerService.sharePrescriptionByPatient(user,
@@ -143,7 +158,7 @@ public class PatientService {
 
     public String updateDrugReactionByPatient(UpdateDrugReactionForm updateDrugReactionForm)
             throws Exception {
-        User user = userDetailsService.getLoggedUser();
+        User user = getLoggedUser();
         try {
             Prescription prescription = hyperledgerService.updateDrugReactionFromPatient(user,
                     updateDrugReactionForm);
@@ -157,7 +172,7 @@ public class PatientService {
 //    public DefineRequestDto defineRequest(
 //            DefineRequestForm defineRequestForm
 //    ) throws Exception {
-//        User user = userDetailsService.getLoggedUser();
+//        User user = getLoggedUser();
 //        Request request = hyperledgerService.defineRequest(user, defineRequestForm);
 //
 //        DefineRequestDto defineRequestDto = new DefineRequestDto();

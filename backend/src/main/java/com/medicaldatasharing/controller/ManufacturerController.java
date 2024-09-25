@@ -37,6 +37,7 @@ public class ManufacturerController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+
     @PostMapping("/send-view-request")
     public ResponseEntity<?> sendViewRequest(@Valid @ModelAttribute SendViewRequestForm sendViewRequestForm,
                                              BindingResult result) throws Exception {
@@ -67,7 +68,7 @@ public class ManufacturerController {
         try {
             String patientId = httpServletRequest.getParameter("patientId");
             GetListAuthorizedMedicalRecordByManufacturerQueryDto getListAuthorizedMedicalRecordByManufacturerQueryDto = new GetListAuthorizedMedicalRecordByManufacturerQueryDto();
-            getListAuthorizedMedicalRecordByManufacturerQueryDto.setManufacturerId(userDetailsService.getLoggedUser().getId());
+            getListAuthorizedMedicalRecordByManufacturerQueryDto.setManufacturerId(manufacturerService.getLoggedUser().getId());
             getListAuthorizedMedicalRecordByManufacturerQueryDto.setPatientId(patientId);
             String getListMedicalRecord = manufacturerService.getListMedicalRecord(getListAuthorizedMedicalRecordByManufacturerQueryDto);
             return ResponseEntity.status(HttpStatus.OK).body(getListMedicalRecord);
