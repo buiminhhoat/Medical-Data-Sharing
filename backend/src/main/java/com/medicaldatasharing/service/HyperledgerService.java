@@ -117,13 +117,15 @@ public class HyperledgerService {
         return builder.connect();
     }
 
-    public MedicalRecord addMedicalRecord(User user, JSONObject jsonDto) throws Exception {
+    public MedicalRecord addMedicalRecord(User user, AddMedicalRecordForm addMedicalRecordForm) throws Exception {
         MedicalRecord medicalRecord = null;
         try {
             Contract contract = getContract(user);
             LOG.info("Submit Transaction: AddMedicalRecord");
 
-            JSONObject jsonObject = jsonDto;
+            addMedicalRecordForm.encrypt();
+
+            JSONObject jsonObject = addMedicalRecordForm.toJSONObject();
 
             byte[] result = contract.submitTransaction(
                     "addMedicalRecord",
@@ -131,6 +133,8 @@ public class HyperledgerService {
             );
             String medicalRecordStr = new String(result);
             medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
+
+            medicalRecord.decrypt();
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -151,6 +155,7 @@ public class HyperledgerService {
             );
             String medicalRecordStr = new String(result);
             medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
+            medicalRecord.decrypt();
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -171,6 +176,7 @@ public class HyperledgerService {
             );
             String medicalRecordStr = new String(result);
             medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
+            medicalRecord.decrypt();
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -196,6 +202,10 @@ public class HyperledgerService {
                     getListAuthorizedMedicalRecordByDoctorQueryListStr,
                     new GenericType<List<MedicalRecord>>() {}
             );
+
+            for (MedicalRecord medicalRecord: getListAuthorizedMedicalRecordByDoctorQueryList) {
+                medicalRecord.decrypt();
+            }
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
@@ -220,6 +230,10 @@ public class HyperledgerService {
                     getListAuthorizedMedicalRecordByManufacturerQueryListStr,
                     new GenericType<List<MedicalRecord>>() {}
             );
+
+            for (MedicalRecord medicalRecord: getListAuthorizedMedicalRecordByManufacturerQueryList) {
+                medicalRecord.decrypt();
+            }
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
@@ -244,6 +258,10 @@ public class HyperledgerService {
                     getListDrugReactionByManufacturerStr,
                     new GenericType<List<DrugReactionDto>>() {}
             );
+
+            for (DrugReactionDto drugReactionDto: getListDrugReactionByManufacturerList) {
+                drugReactionDto.decrypt();
+            }
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
@@ -376,6 +394,7 @@ public class HyperledgerService {
             );
             String medicalRecordStr = new String(result);
             medicalRecord = new Genson().deserialize(medicalRecordStr, MedicalRecord.class);
+            medicalRecord.decrypt();
             LOG.info("result: " + medicalRecord);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -390,6 +409,8 @@ public class HyperledgerService {
         List<MedicalRecord> medicalRecordList = new ArrayList<>();
         try {
             Contract contract = getContract(user);
+
+            searchMedicalRecordForm.encrypt();
 
             Map<String, String> searchParams = prepareSearchMedicalRecordParams(searchMedicalRecordForm);
 
@@ -410,111 +431,15 @@ public class HyperledgerService {
                     new GenericType<List<MedicalRecord>>() {}
             );
 
+            for (MedicalRecord medicalRecord: medicalRecordList) {
+                medicalRecord.decrypt();
+            }
             LOG.info("result: " + medicalRecordList);
 
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
         return medicalRecordList;
-    }
-
-
-    private Map<String, String> prepareSearchMedicalRecordParams(SearchMedicalRecordForm searchMedicalRecordForm) {
-        String medicalRecordId = searchMedicalRecordForm.getMedicalRecordId() == null ? "" : searchMedicalRecordForm.getMedicalRecordId();
-        String patientId = searchMedicalRecordForm.getPatientId() == null ? "" : searchMedicalRecordForm.getPatientId();
-        String doctorId = searchMedicalRecordForm.getDoctorId() == null ? "" : searchMedicalRecordForm.getDoctorId();
-        String testName = searchMedicalRecordForm.getTestName() == null ? "" : searchMedicalRecordForm.getTestName();
-        String medicalInstitutionId = searchMedicalRecordForm.getMedicalInstitutionId() == null ? "" : searchMedicalRecordForm.getMedicalInstitutionId();
-        String medicalRecordStatus = searchMedicalRecordForm.getMedicalRecordStatus() == null ? "" : searchMedicalRecordForm.getMedicalRecordStatus();
-        String prescriptionId = searchMedicalRecordForm.getPrescriptionId() == null ? "" : searchMedicalRecordForm.getPrescriptionId();
-        String hashFile = searchMedicalRecordForm.getHashFile() == null ? "" : searchMedicalRecordForm.getHashFile();
-        String from;
-        if (searchMedicalRecordForm.getFrom() == null) {
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.add(Calendar.MONTH, -6);
-//            from = StringUtil.parseDate(calendar.getTime());
-            from = "";
-        } else {
-            from = StringUtil.parseDate(searchMedicalRecordForm.getFrom());
-        }
-        String until;
-        if (searchMedicalRecordForm.getFrom() == null) {
-//            until = StringUtil.parseDate(new Date());
-            until = "";
-        } else {
-            until = StringUtil.parseDate(searchMedicalRecordForm.getUntil());
-        }
-        String sortingOrder = searchMedicalRecordForm.getSortingOrder() == null ? "desc" : searchMedicalRecordForm.getSortingOrder();
-        String details = searchMedicalRecordForm.getDetails() == null ?
-                "" : searchMedicalRecordForm.getDetails();
-
-        return new HashMap<String, String>() {{
-            put("medicalRecordId", medicalRecordId);
-            put("patientId", patientId);
-            put("doctorId", doctorId);
-            put("medicalInstitutionId", medicalInstitutionId);
-            put("from", from);
-            put("until", until);
-            put("testName", testName);
-            put("medicalRecordStatus", medicalRecordStatus);
-            put("details", details);
-            put("sortingOrder", sortingOrder);
-            put("prescriptionId", prescriptionId);
-            put("hashFile", hashFile);
-        }};
-    }
-
-    private Map<String, String> prepareSearchMedicationParams(SearchMedicationForm searchMedicationForm) {
-        String medicationId = searchMedicationForm.getMedicationId() == null ? "" : searchMedicationForm.getMedicationId();
-        String manufacturerId = searchMedicationForm.getManufacturerId() == null ? "" : searchMedicationForm.getManufacturerId();
-        String medicationName = searchMedicationForm.getMedicationName() == null ? "" : searchMedicationForm.getMedicationName();
-        String description = searchMedicationForm.getDescription() == null ? "" : searchMedicationForm.getDescription();
-
-        String from;
-        if (searchMedicationForm.getFrom() == null) {
-            from = "";
-        } else {
-            from = StringUtil.parseDate(searchMedicationForm.getFrom());
-        }
-        String until;
-        if (searchMedicationForm.getFrom() == null) {
-            until = "";
-        } else {
-            until = StringUtil.parseDate(searchMedicationForm.getUntil());
-        }
-        String sortingOrder = searchMedicationForm.getSortingOrder() == null ? "desc" : searchMedicationForm.getSortingOrder();
-
-        return new HashMap<String, String>() {{
-            put("medicationId", medicationId);
-            put("manufacturerId", manufacturerId);
-            put("medicationName", medicationName);
-            put("description", description);
-            put("from", from);
-            put("until", until);
-            put("sortingOrder", sortingOrder);
-        }};
-    }
-
-    private Map<String, String> prepareSearchDrugParams(SearchDrugForm searchDrugForm) {
-        String drugId = searchDrugForm.getDrugId() == null ? "" : searchDrugForm.getDrugId();
-        String medicationId = searchDrugForm.getMedicationId() == null ? "" : searchDrugForm.getMedicationId();
-        String manufactureDate = searchDrugForm.getManufactureDate() == null ? "" : searchDrugForm.getManufactureDate();
-        String expirationDate = searchDrugForm.getExpirationDate() == null ? "" : searchDrugForm.getExpirationDate();
-        String ownerId = searchDrugForm.getOwnerId() == null ? "" : searchDrugForm.getOwnerId();
-
-        return new HashMap<String, String>() {{
-            put("drugId", drugId);
-            put("medicationId", medicationId);
-            put("manufactureDate", manufactureDate);
-            put("expirationDate", expirationDate);
-            put("ownerId", ownerId);
-        }};
-    }
-
-    private void formatExceptionMessage(Exception e) throws Exception {
-        String msg = e.getMessage();
-        String errorMsg = msg.substring(msg.lastIndexOf(":") + 1);
-        throw new Exception(errorMsg);
     }
 
     public List<ViewRequest> getListViewRequestBySenderQuery(User user,
@@ -571,7 +496,10 @@ public class HyperledgerService {
                     "getMedicalRecordChangeHistory",
                     jsonDto.toString()
             );
-            changeHistory = new Genson().deserialize(new String(result), List.class);
+            changeHistory = new Genson().deserialize(new String(result), new GenericType<List<MedicalRecord>>() {});
+            for (MedicalRecord medicalRecord: changeHistory) {
+                medicalRecord.decrypt();
+            }
             LOG.info("result: " + changeHistory);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -583,12 +511,14 @@ public class HyperledgerService {
         Medication medication = null;
         try {
             Contract contract = getContract(user);
+            addMedicationForm.encrypt();
             JSONObject jsonDto = addMedicationForm.toJSONObject();
             byte[] result = contract.submitTransaction(
                     "addMedication",
                     jsonDto.toString()
             );
             medication = new Genson().deserialize(new String(result), Medication.class);
+            medication.decrypt();
             LOG.info("result: " + medication);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -600,12 +530,14 @@ public class HyperledgerService {
         Medication medication = null;
         try {
             Contract contract = getContract(user);
+            editMedicationForm.encrypt();
             JSONObject jsonDto = editMedicationForm.toJSONObject();
             byte[] result = contract.submitTransaction(
                     "editMedication",
                     jsonDto.toString()
             );
             medication = new Genson().deserialize(new String(result), Medication.class);
+            medication.decrypt();
             LOG.info("result: " + medication);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -620,7 +552,6 @@ public class HyperledgerService {
         try {
             Contract contract = getContract(user);
 
-
             byte[] result = contract.evaluateTransaction(
                     "getAllMedication"
             );
@@ -631,6 +562,10 @@ public class HyperledgerService {
                     new GenericType<List<Medication>>() {
                     }
             );
+
+            for (Medication medication: medicationList) {
+                medication.decrypt();
+            }
 
             LOG.info("result: " + medicationList);
         } catch (Exception e) {
@@ -647,6 +582,7 @@ public class HyperledgerService {
         try {
             Contract contract = getContract(user);
 
+            searchMedicationForm.encrypt();
             Map<String, String> searchParams = prepareSearchMedicationParams(searchMedicationForm);
 
             JSONObject jsonObject = new JSONObject();
@@ -667,6 +603,9 @@ public class HyperledgerService {
                     }
             );
 
+            for (Medication medication: medicationList) {
+                medication.decrypt();
+            }
             LOG.info("result: " + medicationList);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -831,13 +770,15 @@ public class HyperledgerService {
             );
             prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
             LOG.info("result: " + prescriptionDto);
+            prescriptionDto.decrypt();
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
         return prescriptionDto;
     }
 
-    public PrescriptionDto getPrescriptionByDrugStore(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
+    public PrescriptionDto getPrescriptionByDrugStore(User user,
+                                                      GetPrescriptionForm getPrescriptionForm) throws Exception {
         PrescriptionDto prescriptionDto = null;
         try {
             Contract contract = getContract(user);
@@ -847,6 +788,7 @@ public class HyperledgerService {
                     jsonDto.toString()
             );
             prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
+            prescriptionDto.decrypt();
             LOG.info("result: " + prescriptionDto);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -854,7 +796,8 @@ public class HyperledgerService {
         return prescriptionDto;
     }
 
-    public PrescriptionDto getPrescriptionByManufacturer(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
+    public PrescriptionDto getPrescriptionByManufacturer(User user,
+                                                         GetPrescriptionForm getPrescriptionForm) throws Exception {
         PrescriptionDto prescriptionDto = null;
         try {
             Contract contract = getContract(user);
@@ -864,6 +807,7 @@ public class HyperledgerService {
                     jsonDto.toString()
             );
             prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
+            prescriptionDto.decrypt();
             LOG.info("result: " + prescriptionDto);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -881,6 +825,7 @@ public class HyperledgerService {
                     jsonDto.toString()
             );
             prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
+            prescriptionDto.decrypt();
             LOG.info("result: " + prescriptionDto);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -888,7 +833,8 @@ public class HyperledgerService {
         return prescriptionDto;
     }
 
-    public PrescriptionDto getPrescriptionByScientist(User user, GetPrescriptionForm getPrescriptionForm) throws Exception {
+    public PrescriptionDto getPrescriptionByScientist(User user,
+                                                      GetPrescriptionForm getPrescriptionForm) throws Exception {
         PrescriptionDto prescriptionDto = null;
         try {
             Contract contract = getContract(user);
@@ -898,6 +844,7 @@ public class HyperledgerService {
                     jsonDto.toString()
             );
             prescriptionDto = new Genson().deserialize(new String(result), PrescriptionDto.class);
+            prescriptionDto.decrypt();
             LOG.info("result: " + prescriptionDto);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -905,7 +852,8 @@ public class HyperledgerService {
         return prescriptionDto;
     }
 
-    public ViewPrescriptionRequest sendViewPrescriptionRequest(User user, SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm) throws Exception {
+    public ViewPrescriptionRequest sendViewPrescriptionRequest(User user,
+                                                               SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm) throws Exception {
         ViewPrescriptionRequest viewPrescriptionRequest = null;
         try {
             Contract contract = getContract(user);
@@ -954,7 +902,8 @@ public class HyperledgerService {
         return viewPrescriptionRequest;
     }
 
-    public ViewPrescriptionRequest defineViewPrescriptionRequest(User user, DefineViewPrescriptionRequestForm defineViewPrescriptionRequestForm) throws Exception {
+    public ViewPrescriptionRequest defineViewPrescriptionRequest(User user,
+                                                                 DefineViewPrescriptionRequestForm defineViewPrescriptionRequestForm) throws Exception {
         ViewPrescriptionRequest viewPrescriptionRequest = null;
         try {
             Contract contract = getContract(user);
@@ -1128,6 +1077,10 @@ public class HyperledgerService {
                     getListAuthorizedMedicalRecordByScientistQueryListStr,
                     new GenericType<List<MedicalRecord>>() {}
             );
+
+            for (MedicalRecord medicalRecord: getListAuthorizedMedicalRecordByScientistQueryList) {
+                medicalRecord.decrypt();
+            }
         } catch (Exception e) {
             formatExceptionMessage(e);
         }
@@ -1137,6 +1090,7 @@ public class HyperledgerService {
     public Prescription updateDrugReactionFromPatient(User user, UpdateDrugReactionForm updateDrugReactionForm) throws Exception {
         Prescription prescription = null;
         try {
+            updateDrugReactionForm.encrypt();
             JSONObject jsonObject = updateDrugReactionForm.toJSONObject();
             Contract contract = getContract(user);
             byte[] result = contract.submitTransaction(
@@ -1144,6 +1098,7 @@ public class HyperledgerService {
                     jsonObject.toString()
             );
             prescription = new Genson().deserialize(new String(result), Prescription.class);
+            prescription.decrypt();
             LOG.info("result: " + prescription);
         } catch (Exception e) {
             formatExceptionMessage(e);
@@ -1264,5 +1219,103 @@ public class HyperledgerService {
             formatExceptionMessage(e);
         }
         return requestList;
+    }
+
+    private Map<String, String> prepareSearchMedicalRecordParams(SearchMedicalRecordForm searchMedicalRecordForm) {
+        String medicalRecordId = searchMedicalRecordForm.getMedicalRecordId() == null ? "" : searchMedicalRecordForm.getMedicalRecordId();
+        String patientId = searchMedicalRecordForm.getPatientId() == null ? "" : searchMedicalRecordForm.getPatientId();
+        String doctorId = searchMedicalRecordForm.getDoctorId() == null ? "" : searchMedicalRecordForm.getDoctorId();
+        String testName = searchMedicalRecordForm.getTestName() == null ? "" : searchMedicalRecordForm.getTestName();
+        String medicalInstitutionId = searchMedicalRecordForm.getMedicalInstitutionId() == null ? "" : searchMedicalRecordForm.getMedicalInstitutionId();
+        String medicalRecordStatus = searchMedicalRecordForm.getMedicalRecordStatus() == null ? "" : searchMedicalRecordForm.getMedicalRecordStatus();
+        String prescriptionId = searchMedicalRecordForm.getPrescriptionId() == null ? "" : searchMedicalRecordForm.getPrescriptionId();
+        String hashFile = searchMedicalRecordForm.getHashFile() == null ? "" : searchMedicalRecordForm.getHashFile();
+        String from;
+        if (searchMedicalRecordForm.getFrom() == null) {
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.add(Calendar.MONTH, -6);
+//            from = StringUtil.parseDate(calendar.getTime());
+            from = "";
+        } else {
+            from = StringUtil.parseDate(searchMedicalRecordForm.getFrom());
+        }
+        String until;
+        if (searchMedicalRecordForm.getFrom() == null) {
+//            until = StringUtil.parseDate(new Date());
+            until = "";
+        } else {
+            until = StringUtil.parseDate(searchMedicalRecordForm.getUntil());
+        }
+        String sortingOrder = searchMedicalRecordForm.getSortingOrder() == null ? "desc" : searchMedicalRecordForm.getSortingOrder();
+        String details = searchMedicalRecordForm.getDetails() == null ?
+                "" : searchMedicalRecordForm.getDetails();
+
+        return new HashMap<String, String>() {{
+            put("medicalRecordId", medicalRecordId);
+            put("patientId", patientId);
+            put("doctorId", doctorId);
+            put("medicalInstitutionId", medicalInstitutionId);
+            put("from", from);
+            put("until", until);
+            put("testName", testName);
+            put("medicalRecordStatus", medicalRecordStatus);
+            put("details", details);
+            put("sortingOrder", sortingOrder);
+            put("prescriptionId", prescriptionId);
+            put("hashFile", hashFile);
+        }};
+    }
+
+    private Map<String, String> prepareSearchMedicationParams(SearchMedicationForm searchMedicationForm) {
+        String medicationId = searchMedicationForm.getMedicationId() == null ? "" : searchMedicationForm.getMedicationId();
+        String manufacturerId = searchMedicationForm.getManufacturerId() == null ? "" : searchMedicationForm.getManufacturerId();
+        String medicationName = searchMedicationForm.getMedicationName() == null ? "" : searchMedicationForm.getMedicationName();
+        String description = searchMedicationForm.getDescription() == null ? "" : searchMedicationForm.getDescription();
+
+        String from;
+        if (searchMedicationForm.getFrom() == null) {
+            from = "";
+        } else {
+            from = StringUtil.parseDate(searchMedicationForm.getFrom());
+        }
+        String until;
+        if (searchMedicationForm.getFrom() == null) {
+            until = "";
+        } else {
+            until = StringUtil.parseDate(searchMedicationForm.getUntil());
+        }
+        String sortingOrder = searchMedicationForm.getSortingOrder() == null ? "desc" : searchMedicationForm.getSortingOrder();
+
+        return new HashMap<String, String>() {{
+            put("medicationId", medicationId);
+            put("manufacturerId", manufacturerId);
+            put("medicationName", medicationName);
+            put("description", description);
+            put("from", from);
+            put("until", until);
+            put("sortingOrder", sortingOrder);
+        }};
+    }
+
+    private Map<String, String> prepareSearchDrugParams(SearchDrugForm searchDrugForm) {
+        String drugId = searchDrugForm.getDrugId() == null ? "" : searchDrugForm.getDrugId();
+        String medicationId = searchDrugForm.getMedicationId() == null ? "" : searchDrugForm.getMedicationId();
+        String manufactureDate = searchDrugForm.getManufactureDate() == null ? "" : searchDrugForm.getManufactureDate();
+        String expirationDate = searchDrugForm.getExpirationDate() == null ? "" : searchDrugForm.getExpirationDate();
+        String ownerId = searchDrugForm.getOwnerId() == null ? "" : searchDrugForm.getOwnerId();
+
+        return new HashMap<String, String>() {{
+            put("drugId", drugId);
+            put("medicationId", medicationId);
+            put("manufactureDate", manufactureDate);
+            put("expirationDate", expirationDate);
+            put("ownerId", ownerId);
+        }};
+    }
+
+    private void formatExceptionMessage(Exception e) throws Exception {
+        String msg = e.getMessage();
+        String errorMsg = msg.substring(msg.lastIndexOf(":") + 1);
+        throw new Exception(errorMsg);
     }
 }

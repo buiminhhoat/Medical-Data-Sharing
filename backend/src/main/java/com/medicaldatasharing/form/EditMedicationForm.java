@@ -1,5 +1,6 @@
 package com.medicaldatasharing.form;
 
+import com.medicaldatasharing.util.AESUtil;
 import lombok.*;
 import org.checkerframework.checker.units.qual.N;
 import org.json.JSONObject;
@@ -31,6 +32,16 @@ public class EditMedicationForm {
     @NotBlank
     String description;
 
+
+    public void encrypt() throws Exception {
+        this.medicationName = AESUtil.encrypt(this.medicationName);
+        this.description = AESUtil.encrypt(this.description);
+    }
+
+    public void decrypt() throws Exception {
+        this.medicationName = AESUtil.decrypt(this.medicationName);
+        this.description = AESUtil.decrypt(this.description);
+    }
 
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();

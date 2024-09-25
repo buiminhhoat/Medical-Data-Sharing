@@ -1,6 +1,9 @@
 package com.medicaldatasharing.dto;
 
+import com.medicaldatasharing.chaincode.dto.Prescription;
 import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
+import com.medicaldatasharing.enumeration.DrugReactionStatus;
+import com.medicaldatasharing.util.AESUtil;
 import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
 
@@ -10,7 +13,6 @@ import java.util.List;
 @Setter
 @Builder
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 public class PrescriptionDto {
     @JsonProperty("prescriptionId")
@@ -25,6 +27,24 @@ public class PrescriptionDto {
     @JsonProperty("prescriptionDetailsListDto")
     List<PrescriptionDetailsDto> prescriptionDetailsListDto;
 
+    public PrescriptionDto() throws Exception {
+        this.drugReaction = AESUtil.encrypt(DrugReactionStatus.NO_INFORMATION);
+        this.entityName = PrescriptionDto.class.getSimpleName();
+    }
+
+    public void encrypt() throws Exception {
+        this.drugReaction = AESUtil.encrypt(this.drugReaction);
+        for (PrescriptionDetailsDto prescriptionDetailsDto: prescriptionDetailsListDto) {
+            prescriptionDetailsDto.encrypt();
+        }
+    }
+
+    public void decrypt() throws Exception {
+        this.drugReaction = AESUtil.decrypt(this.drugReaction);
+        for (PrescriptionDetailsDto prescriptionDetailsDto: prescriptionDetailsListDto) {
+            prescriptionDetailsDto.decrypt();
+        }
+    }
     public String getPrescriptionId() {
         return prescriptionId;
     }

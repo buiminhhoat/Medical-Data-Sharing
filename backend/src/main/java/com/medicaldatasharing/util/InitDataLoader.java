@@ -51,14 +51,14 @@ public class InitDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        initMedicalInstitutions();
-//        initManufacturer();
-//        initDrugStore();
-//        initResearchCenter();
-//        initUsers();
-//        initScientist();
-//        initInsuranceCompany();
-//        init();
+        initMedicalInstitutions();
+        initManufacturer();
+        initDrugStore();
+        initResearchCenter();
+        initUsers();
+        initScientist();
+        initInsuranceCompany();
+        init();
     }
 
     private void initMedicalInstitutions() {
@@ -409,6 +409,7 @@ public class InitDataLoader implements CommandLineRunner {
 
             Medication medication = hyperledgerService.addMedication(manufacturer, addMedicationForm);
 
+            System.out.println("medication: " + medication);
             EditMedicationForm editMedicationForm = new EditMedicationForm();
             editMedicationForm.setMedicationId(medication.getMedicationId());
             editMedicationForm.setManufacturerId(manufacturer.getId());
@@ -418,6 +419,7 @@ public class InitDataLoader implements CommandLineRunner {
             editMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
 
             medication = hyperledgerService.editMedication(manufacturer, editMedicationForm);
+            System.out.println("medication: " + medication);
 
             AddDrugForm addDrugForm = new AddDrugForm();
             addDrugForm.setMedicationId(medication.getMedicationId());
@@ -427,7 +429,12 @@ public class InitDataLoader implements CommandLineRunner {
             addDrugForm.setUnit("Viên");
 
             List<Drug> drugList = hyperledgerService.addDrug(manufacturer, addDrugForm);
+
+            System.out.println("drugList: " + drugList);
+
             drugList = hyperledgerService.addDrug(manufacturer, addDrugForm);
+
+            System.out.println("drugList: " + drugList);
             Drug drug = drugList.get(0);
             System.out.println(drug);
             AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
@@ -453,7 +460,7 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecordDto.setHashFile("");
             medicalRecordDto.setAddPrescription(addPrescriptionForm.toJSONObject().toString());
 
-            MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto.toJSONObject());
+            MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto);
             System.out.println("chaincodeMedicalRecord: " + medicalRecord);
 
             MedicalRecord getMedicalRecordByPatient = hyperledgerService.getMedicalRecordByPatient(
@@ -512,6 +519,7 @@ public class InitDataLoader implements CommandLineRunner {
 
             List<MedicalRecord> changeHistory = hyperledgerService.getMedicalRecordChangeHistory(patient, medicalRecord.getMedicalRecordId());
 
+            System.out.println("changeHistory: " + changeHistory);
             SearchMedicationForm searchMedicationForm = new SearchMedicationForm();
             searchMedicationForm.setMedicationId(medication.getMedicationId());
             searchMedicationForm.setFrom(StringUtil.createDate("2024-01-01"));
@@ -565,6 +573,7 @@ public class InitDataLoader implements CommandLineRunner {
             System.out.println(drug);
 
             List<Drug> drugList2 = hyperledgerService.addDrug(manufacturer, addDrugForm);
+
             drugList2 = hyperledgerService.addDrug(manufacturer, addDrugForm);
             for (Drug drug2: drugList2) {
                 TransferDrugDto transferDrugDto2 = new TransferDrugDto();
@@ -574,7 +583,12 @@ public class InitDataLoader implements CommandLineRunner {
                         manufacturer,
                         transferDrugDto2
                 );
+
+                System.out.println("drug2: " + drug2);
             }
+
+            System.out.println("drugList2: " + drugList2);
+
 
             MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
             medicationPurchaseDto.setMedicationId(medication.getMedicationId());
@@ -611,6 +625,8 @@ public class InitDataLoader implements CommandLineRunner {
                     patient,
                     updateDrugReactionForm
             );
+
+            System.out.println("prescription: " + prescription);
 
             SendViewRequestForm sendViewRequestFormByScientist = new SendViewRequestForm();
             sendViewRequestFormByScientist.setSenderId(scientist1Id);

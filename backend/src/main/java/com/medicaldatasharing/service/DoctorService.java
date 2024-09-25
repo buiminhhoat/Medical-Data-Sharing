@@ -98,7 +98,7 @@ public class DoctorService {
     public String addMedicalRecord(AddMedicalRecordForm addMedicalRecordForm) throws Exception {
         User user = userDetailsService.getLoggedUser();
 
-        MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(user, addMedicalRecordForm.toJSONObject());
+        MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(user, addMedicalRecordForm);
 
         return new Genson().serialize(medicalRecord);
     }

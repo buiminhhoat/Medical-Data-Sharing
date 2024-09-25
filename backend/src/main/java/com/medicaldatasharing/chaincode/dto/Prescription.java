@@ -1,6 +1,7 @@
 package com.medicaldatasharing.chaincode.dto;
 
 import com.medicaldatasharing.enumeration.DrugReactionStatus;
+import com.medicaldatasharing.util.AESUtil;
 import com.owlike.genson.annotation.JsonProperty;
 
 public class Prescription {
@@ -13,11 +14,18 @@ public class Prescription {
     @JsonProperty("entityName")
     private String entityName;
 
-    public Prescription() {
-        this.drugReaction = DrugReactionStatus.NO_INFORMATION;
+    public Prescription() throws Exception {
+        this.drugReaction = AESUtil.encrypt(DrugReactionStatus.NO_INFORMATION);
         this.entityName = Prescription.class.getSimpleName();
     }
 
+    public void encrypt() throws Exception {
+        this.drugReaction = AESUtil.encrypt(this.drugReaction);
+    }
+
+    public void decrypt() throws Exception {
+        this.drugReaction = AESUtil.decrypt(this.drugReaction);
+    }
     public String getPrescriptionId() {
         return prescriptionId;
     }

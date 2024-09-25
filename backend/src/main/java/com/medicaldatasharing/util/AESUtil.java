@@ -11,19 +11,12 @@ import io.github.jopenlibs.vault.Vault;
 
 import io.github.jopenlibs.vault.VaultConfig;
 
-import io.github.jopenlibs.vault.VaultException;
-
-import io.github.jopenlibs.vault.SslConfig;
-
-import io.github.jopenlibs.vault.api.Logical;
-import io.github.jopenlibs.vault.response.AuthResponse;
-
 import io.github.jopenlibs.vault.response.LogicalResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AESVaultUtil {
+public class AESUtil {
 
     // Nạp các giá trị từ application.properties
     @Value("${vault.address}")
@@ -86,11 +79,21 @@ public class AESVaultUtil {
             throw new IllegalStateException("Vault chưa được khởi tạo. Hãy gọi initializeVault trước.");
         }
 
-        Cipher cipher = Cipher.getInstance("AES");
-        SecretKeySpec secretKeySpec = new SecretKeySpec(aesKey, "AES");
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-        byte[] encrypted = cipher.doFinal(plainText.getBytes());
-        return Base64.getEncoder().encodeToString(encrypted);
+        if (plainText == null) {
+            return "";
+        }
+
+        try {
+            Cipher cipher = Cipher.getInstance("AES");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(aesKey, "AES");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            byte[] encrypted = cipher.doFinal(plainText.getBytes());
+            return Base64.getEncoder().encodeToString(encrypted);
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return plainText;
+        }
     }
 
     // Hàm giải mã dữ liệu bằng AES
@@ -99,11 +102,17 @@ public class AESVaultUtil {
             throw new IllegalStateException("Vault chưa được khởi tạo. Hãy gọi initializeVault trước.");
         }
 
-        Cipher cipher = Cipher.getInstance("AES");
-        SecretKeySpec secretKeySpec = new SecretKeySpec(aesKey, "AES");
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-        byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
-        return new String(decrypted);
+        try {
+            Cipher cipher = Cipher.getInstance("AES");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(aesKey, "AES");
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+            byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
+            return new String(decrypted);
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return encryptedText;
+        }
     }
 
     // Hàm chuyển đổi từ chuỗi hex thành mảng byte[]

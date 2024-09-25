@@ -1,5 +1,6 @@
 package com.medicaldatasharing.form;
 
+import com.medicaldatasharing.util.AESUtil;
 import org.json.JSONObject;
 
 import javax.validation.constraints.NotBlank;
@@ -159,6 +160,18 @@ public class AddMedicalRecordForm {
     public AddMedicalRecordForm setMedicalRecordStatus(@NotBlank String medicalRecordStatus) {
         this.medicalRecordStatus = medicalRecordStatus;
         return this;
+    }
+
+    public void encrypt() throws Exception {
+        this.testName = AESUtil.encrypt(this.testName);
+        this.details = AESUtil.encrypt(this.details);
+        this.hashFile = AESUtil.encrypt(this.hashFile);
+    }
+
+    public void decrypt() throws Exception {
+        this.testName = AESUtil.decrypt(this.testName);
+        this.details = AESUtil.decrypt(this.details);
+        this.hashFile = AESUtil.decrypt(this.hashFile);
     }
 
     public JSONObject toJSONObject() {

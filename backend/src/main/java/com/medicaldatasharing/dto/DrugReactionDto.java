@@ -1,5 +1,6 @@
 package com.medicaldatasharing.dto;
 
+import com.medicaldatasharing.util.AESUtil;
 import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
 
@@ -26,4 +27,12 @@ public class DrugReactionDto {
 
     @JsonProperty("medicalRecordId")
     private String medicalRecordId;
+
+    public void encrypt() throws Exception {
+        this.drugReaction = AESUtil.encrypt(this.drugReaction);
+    }
+
+    public void decrypt() throws Exception {
+        this.drugReaction = AESUtil.decrypt(this.drugReaction);
+    }
 }

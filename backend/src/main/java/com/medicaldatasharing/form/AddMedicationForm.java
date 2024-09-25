@@ -1,5 +1,6 @@
 package com.medicaldatasharing.form;
 
+import com.medicaldatasharing.util.AESUtil;
 import lombok.*;
 import org.json.JSONObject;
 
@@ -28,6 +29,18 @@ public class AddMedicationForm {
     String dateModified;
 
     String hashFile;
+
+    public void encrypt() throws Exception {
+        this.medicationName = AESUtil.encrypt(this.medicationName);
+        this.description = AESUtil.encrypt(this.description);
+        this.hashFile = AESUtil.encrypt(this.hashFile);
+    }
+
+    public void decrypt() throws Exception {
+        this.medicationName = AESUtil.decrypt(this.medicationName);
+        this.description = AESUtil.decrypt(this.description);
+        this.hashFile = AESUtil.decrypt(this.hashFile);
+    }
 
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();

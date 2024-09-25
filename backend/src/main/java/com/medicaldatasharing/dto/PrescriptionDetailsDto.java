@@ -1,6 +1,7 @@
 package com.medicaldatasharing.dto;
 
 import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
+import com.medicaldatasharing.util.AESUtil;
 import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
@@ -40,6 +41,16 @@ public class PrescriptionDetailsDto {
     public PrescriptionDetailsDto() {
         this.purchasedQuantity = "0";
         this.entityName = PrescriptionDetails.class.getSimpleName();
+    }
+
+    public void encrypt() throws Exception {
+        this.medicationName = AESUtil.encrypt(this.medicationName);
+        this.details = AESUtil.encrypt(this.details);
+    }
+
+    public void decrypt() throws Exception {
+        this.medicationName = AESUtil.decrypt(this.medicationName);
+        this.details = AESUtil.decrypt(this.details);
     }
 
     public String getPrescriptionDetailId() {

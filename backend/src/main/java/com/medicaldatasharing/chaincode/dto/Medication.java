@@ -1,5 +1,6 @@
 package com.medicaldatasharing.chaincode.dto;
 
+import com.medicaldatasharing.util.AESUtil;
 import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
 
@@ -60,6 +61,18 @@ public class Medication {
         medication.setHashFile(hashFile);
         medication.setEntityName(Medication.class.getSimpleName());
         return medication;
+    }
+
+    public void encrypt() throws Exception {
+        this.medicationName = AESUtil.encrypt(this.medicationName);
+        this.description = AESUtil.encrypt(this.description);
+        this.hashFile = AESUtil.encrypt(this.hashFile);
+    }
+
+    public void decrypt() throws Exception {
+        this.medicationName = AESUtil.decrypt(this.medicationName);
+        this.description = AESUtil.decrypt(this.description);
+        this.hashFile = AESUtil.decrypt(this.hashFile);
     }
 
     public String getMedicationId() {
