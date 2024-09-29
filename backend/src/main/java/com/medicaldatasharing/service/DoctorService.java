@@ -4,12 +4,12 @@ import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.chaincode.dto.ViewRequest;
 import com.medicaldatasharing.dto.GetListAllAuthorizedPatientForDoctorDto;
-import com.medicaldatasharing.dto.GetListAllAuthorizedPatientForManufacturerDto;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
 import com.medicaldatasharing.dto.PrescriptionDto;
-import com.medicaldatasharing.enumeration.RequestStatus;
-import com.medicaldatasharing.enumeration.RequestType;
-import com.medicaldatasharing.form.*;
+import com.medicaldatasharing.form.AddMedicalRecordForm;
+import com.medicaldatasharing.form.DefineMedicalRecordForm;
+import com.medicaldatasharing.form.GetPrescriptionForm;
+import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
@@ -17,8 +17,8 @@ import com.medicaldatasharing.repository.AdminRepository;
 import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.repository.PatientRepository;
-import com.medicaldatasharing.response.MedicalRecordResponse;
 import com.medicaldatasharing.response.ManufacturerResponse;
+import com.medicaldatasharing.response.MedicalRecordResponse;
 import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
@@ -27,22 +27,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class DoctorService {
     @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
     private DoctorRepository doctorRepository;
-
-    @Autowired
-    private MedicalInstitutionRepository medicalInstitutionRepository;
-
-    @Autowired
-    private PatientRepository patientRepository;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -180,17 +173,4 @@ public class DoctorService {
             throw e;
         }
     }
-//    public SendRequestDto sendRequest(
-//            SendRequestForm sendRequestForm) throws Exception {
-//        User user = getLoggedUser();
-//        Request request = hyperledgerService.sendRequest(user, sendRequestForm);
-//
-//        SendRequestDto sendRequestDto = new SendRequestDto();
-//        sendRequestDto.setSenderId(request.getSenderId());
-//        sendRequestDto.setRecipientId(request.getRecipientId());
-//        sendRequestDto.setMedicalRecordId(request.getMedicalRecordId());
-//        sendRequestDto.setDateModified(request.getDateModified());
-//        sendRequestDto.setRequestType(request.getRequestType());
-//        return sendRequestDto;
-//    }
 }

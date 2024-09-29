@@ -1,13 +1,9 @@
 package com.medicaldatasharing.response;
 
-import com.medicaldatasharing.model.Doctor;
-import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.owlike.genson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.print.Doc;
 
 @Getter
 @Setter

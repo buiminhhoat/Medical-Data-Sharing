@@ -3,8 +3,6 @@ package com.medicaldatasharing.response;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.owlike.genson.annotation.JsonProperty;
 
-import java.util.List;
-
 public class MedicationResponse {
     @JsonProperty("medicationId")
     private String medicationId;

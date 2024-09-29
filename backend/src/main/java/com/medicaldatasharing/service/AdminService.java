@@ -1,7 +1,7 @@
 package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.Config;
-import com.medicaldatasharing.chaincode.dto.Drug;
+import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
@@ -12,13 +12,12 @@ import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
+import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
 import javax.security.auth.message.AuthException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AdminService {
@@ -30,9 +29,6 @@ public class AdminService {
 
     @Autowired
     private DrugStoreRepository drugStoreRepository;
-
-    @Autowired
-    private InsuranceCompanyRepository insuranceCompanyRepository;
 
     @Autowired
     private ManufacturerRepository manufacturerRepository;
@@ -51,9 +47,6 @@ public class AdminService {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private HyperledgerService hyperledgerService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

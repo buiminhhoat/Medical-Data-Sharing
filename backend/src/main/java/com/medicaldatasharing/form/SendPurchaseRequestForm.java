@@ -1,6 +1,5 @@
 package com.medicaldatasharing.form;
 
-import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
 import org.json.JSONObject;
 

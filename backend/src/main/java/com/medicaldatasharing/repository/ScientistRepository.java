@@ -1,7 +1,6 @@
 package com.medicaldatasharing.repository;
 
 import com.medicaldatasharing.model.Scientist;
-import com.medicaldatasharing.model.ResearchCenter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

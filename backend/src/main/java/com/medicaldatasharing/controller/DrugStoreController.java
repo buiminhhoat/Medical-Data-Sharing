@@ -2,17 +2,13 @@ package com.medicaldatasharing.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.medicaldatasharing.chaincode.dto.Purchase;
 import com.medicaldatasharing.dto.MedicationPurchaseDto;
 import com.medicaldatasharing.dto.PurchaseDto;
 import com.medicaldatasharing.form.GetPrescriptionForm;
 import com.medicaldatasharing.form.SearchDrugForm;
 import com.medicaldatasharing.form.SearchPurchaseForm;
 import com.medicaldatasharing.form.SendViewPrescriptionRequestForm;
-import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
-import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.DrugStoreService;
-import com.medicaldatasharing.service.PatientService;
 import com.medicaldatasharing.util.StringUtil;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,22 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/drugstore")
 public class DrugStoreController {
     @Autowired
-    private DoctorService doctorService;
-
-    @Autowired
-    private PatientService patientService;
-
-    @Autowired
     private DrugStoreService drugStoreService;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/get-prescription-by-drugstore")
     public ResponseEntity<?> getPrescriptionByDrugStore(@Valid @ModelAttribute GetPrescriptionForm getPrescriptionForm,
@@ -128,15 +114,4 @@ public class DrugStoreController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-//    @PostMapping("/defineRequest")
-//    public DefineRequestDto defineRequest(
-//            @Valid @ModelAttribute DefineRequestForm defineRequestForm,
-//            BindingResult result) throws Exception {
-//        if (result.hasErrors()) {
-//            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
-//            throw new ValidationException(errorMsg);
-//        }
-//
-//        return patientService.defineRequest(defineRequestForm);
-//    }
 }

@@ -1,19 +1,17 @@
 package com.medicaldatasharing.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.jopenlibs.vault.Vault;
+import io.github.jopenlibs.vault.VaultConfig;
+import io.github.jopenlibs.vault.response.LogicalResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 import java.util.Map;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.jopenlibs.vault.Vault;
-
-import io.github.jopenlibs.vault.VaultConfig;
-
-import io.github.jopenlibs.vault.response.LogicalResponse;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 @Component
 public class AESUtil {

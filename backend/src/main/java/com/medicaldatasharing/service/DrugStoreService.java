@@ -11,7 +11,10 @@ import com.medicaldatasharing.form.SearchPurchaseForm;
 import com.medicaldatasharing.form.SendViewPrescriptionRequestForm;
 import com.medicaldatasharing.model.DrugStore;
 import com.medicaldatasharing.model.User;
-import com.medicaldatasharing.repository.*;
+import com.medicaldatasharing.repository.AdminRepository;
+import com.medicaldatasharing.repository.DoctorRepository;
+import com.medicaldatasharing.repository.DrugStoreRepository;
+import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.response.PurchaseResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;
@@ -25,15 +28,6 @@ import java.util.List;
 
 @Service
 public class DrugStoreService {
-    @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
-    private MedicalInstitutionRepository medicalInstitutionRepository;
-
     @Autowired
     private DrugStoreRepository drugStoreRepository;
 

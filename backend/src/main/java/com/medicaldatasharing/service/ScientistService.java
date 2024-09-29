@@ -1,18 +1,17 @@
 package com.medicaldatasharing.service;
 
-import com.medicaldatasharing.chaincode.dto.Drug;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.chaincode.dto.ViewRequest;
-import com.medicaldatasharing.dto.DrugReactionDto;
 import com.medicaldatasharing.dto.GetListAllAuthorizedPatientForScientistDto;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByScientistQueryDto;
 import com.medicaldatasharing.dto.PrescriptionDto;
-import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.*;
-import com.medicaldatasharing.repository.*;
+import com.medicaldatasharing.form.GetPrescriptionForm;
+import com.medicaldatasharing.form.SendViewRequestForm;
+import com.medicaldatasharing.model.Patient;
+import com.medicaldatasharing.model.Scientist;
+import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.repository.ScientistRepository;
 import com.medicaldatasharing.response.MedicalRecordResponse;
-import com.medicaldatasharing.response.MedicationResponse;
 import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.owlike.genson.Genson;

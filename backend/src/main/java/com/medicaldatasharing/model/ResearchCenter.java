@@ -1,13 +1,12 @@
 package com.medicaldatasharing.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.PrePersist;
 
 @Entity
 @Getter
@@ -15,5 +14,10 @@ import javax.persistence.Id;
 @SuperBuilder
 @NoArgsConstructor
 public class ResearchCenter extends User {
-
+    @PrePersist
+    private void addPrefixToId() {
+        if (this.getId() == null || this.getId().isEmpty()) {
+            this.setId("ResearchCenter-" + java.util.UUID.randomUUID().toString());
+        }
+    }
 }

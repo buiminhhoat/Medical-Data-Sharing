@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
 
 @Entity
 @Getter
@@ -14,4 +15,10 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class Manufacturer extends User {
     private String businessLicenseNumber;
+    @PrePersist
+    private void addPrefixToId() {
+        if (this.getId() == null || this.getId().isEmpty()) {
+            this.setId("Manufacturer-" + java.util.UUID.randomUUID().toString());
+        }
+    }
 }

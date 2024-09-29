@@ -3,12 +3,7 @@ package com.medicaldatasharing.controller;
 import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
 import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.Doctor;
-import com.medicaldatasharing.model.User;
-import com.medicaldatasharing.repository.DoctorRepository;
-import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.DoctorService;
-import com.medicaldatasharing.service.UserService;
 import com.medicaldatasharing.util.StringUtil;
 import com.medicaldatasharing.util.ValidationUtil;
 import com.owlike.genson.GenericType;
@@ -16,8 +11,6 @@ import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,13 +27,7 @@ import java.util.List;
 @RequestMapping("/doctor")
 public class DoctorController {
     @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
     private DoctorService doctorService;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/get-list-medical-record-by-patientId")
     public ResponseEntity<?> getListMedicalRecord(HttpServletRequest httpServletRequest) {

@@ -1,6 +1,5 @@
 package com.medicaldatasharing.response;
 
-import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.DrugStore;
 import lombok.Getter;
 import lombok.Setter;

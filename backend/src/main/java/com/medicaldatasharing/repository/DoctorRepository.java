@@ -1,10 +1,8 @@
 package com.medicaldatasharing.repository;
 
 import com.medicaldatasharing.model.Doctor;
-import com.medicaldatasharing.model.MedicalInstitution;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.print.Doc;
 import java.util.List;
 
 public interface DoctorRepository extends JpaRepository<Doctor, String> {

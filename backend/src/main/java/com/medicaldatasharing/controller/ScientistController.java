@@ -1,22 +1,18 @@
 package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByScientistQueryDto;
-import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.User;
-import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
-import com.medicaldatasharing.service.DoctorService;
-import com.medicaldatasharing.service.HyperledgerService;
-import com.medicaldatasharing.service.ManufacturerService;
+import com.medicaldatasharing.form.GetPrescriptionForm;
+import com.medicaldatasharing.form.SendViewRequestForm;
 import com.medicaldatasharing.service.ScientistService;
-import com.medicaldatasharing.service.UserService;
 import com.medicaldatasharing.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

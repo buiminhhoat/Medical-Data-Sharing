@@ -4,12 +4,18 @@ import com.medicaldatasharing.chaincode.dto.Drug;
 import com.medicaldatasharing.chaincode.dto.MedicalRecord;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.chaincode.dto.ViewRequest;
-import com.medicaldatasharing.dto.*;
+import com.medicaldatasharing.dto.DrugReactionDto;
+import com.medicaldatasharing.dto.GetListAllAuthorizedPatientForManufacturerDto;
+import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByManufacturerQueryDto;
+import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Manufacturer;
 import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
-import com.medicaldatasharing.repository.*;
+import com.medicaldatasharing.repository.AdminRepository;
+import com.medicaldatasharing.repository.DoctorRepository;
+import com.medicaldatasharing.repository.ManufacturerRepository;
+import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.response.MedicalRecordResponse;
 import com.medicaldatasharing.response.MedicationResponse;
 import com.medicaldatasharing.response.PatientResponse;
@@ -25,15 +31,6 @@ import java.util.List;
 
 @Service
 public class ManufacturerService {
-    @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
-    private MedicalInstitutionRepository medicalInstitutionRepository;
-
     @Autowired
     private ManufacturerRepository manufacturerRepository;
 

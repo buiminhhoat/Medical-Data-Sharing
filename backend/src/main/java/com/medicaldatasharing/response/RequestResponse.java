@@ -1,6 +1,8 @@
 package com.medicaldatasharing.response;
 
-import com.medicaldatasharing.chaincode.dto.*;
+import com.medicaldatasharing.chaincode.dto.AppointmentRequest;
+import com.medicaldatasharing.chaincode.dto.Request;
+import com.medicaldatasharing.chaincode.dto.ViewPrescriptionRequest;
 import com.medicaldatasharing.enumeration.RequestType;
 import com.owlike.genson.annotation.JsonProperty;
 

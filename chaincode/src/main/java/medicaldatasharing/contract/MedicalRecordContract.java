@@ -906,7 +906,7 @@ public class MedicalRecordContract implements ContractInterface {
 
         Drug drug = ctx.getDrugDAO().getDrug(drugId);
 
-        authorizeRequest(ctx, drug.getOwnerId(), "transferDrug(validate jsonString)");
+        authorizeRequest(ctx, drug.getOwnerId(), "transferDrug(validate drug.getOwnerId())");
 
         JSONObject jsonDto = jsonObject;
         drug = ctx.getDrugDAO().transferDrug(jsonDto);
@@ -923,6 +923,9 @@ public class MedicalRecordContract implements ContractInterface {
             throw new ChaincodeException("ownerId not found",
                     ContractErrors.UNAUTHORIZED_VIEW_ACCESS.toString());
         }
+
+        String ownerId = jsonObject.getString("ownerId");
+        authorizeRequest(ctx, ownerId, "getListDrugByOwnerId(validate ownerId)");
 
         JSONObject jsonDto = jsonObject;
 

@@ -1,13 +1,8 @@
 package com.medicaldatasharing.controller;
 
-import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByDoctorQueryDto;
 import com.medicaldatasharing.dto.GetListAuthorizedMedicalRecordByManufacturerQueryDto;
 import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
-import com.medicaldatasharing.service.DoctorService;
-import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.ManufacturerService;
-import com.medicaldatasharing.service.UserService;
 import com.medicaldatasharing.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,20 +18,7 @@ import java.util.Date;
 @RequestMapping("/manufacturer")
 public class ManufacturerController {
     @Autowired
-    private DoctorService doctorService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private HyperledgerService hyperledgerService;
-
-    @Autowired
     private ManufacturerService manufacturerService;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
 
     @PostMapping("/send-view-request")
     public ResponseEntity<?> sendViewRequest(@Valid @ModelAttribute SendViewRequestForm sendViewRequestForm,

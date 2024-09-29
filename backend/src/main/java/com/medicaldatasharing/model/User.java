@@ -20,9 +20,9 @@ import java.util.Collection;
 @NoArgsConstructor
 public abstract class User implements Serializable, UserDetails {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(columnDefinition = "CHAR(32)")
+//    @GeneratedValue(generator = "uuid")
+//    @GenericGenerator(name = "uuid", strategy = "uuid")
+//    @Column(columnDefinition = "CHAR(32)")
     private String id;
 
     @Column(name = "USER_NAME", length = 100, unique = true)

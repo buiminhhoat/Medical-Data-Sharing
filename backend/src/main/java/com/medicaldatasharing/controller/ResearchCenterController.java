@@ -1,10 +1,8 @@
 package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.form.RegisterForm;
-import com.medicaldatasharing.repository.ResearchCenterRepository;
 import com.medicaldatasharing.security.dto.Response;
-import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
-import com.medicaldatasharing.service.*;
+import com.medicaldatasharing.service.ResearchCenterService;
 import com.medicaldatasharing.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,21 +20,6 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/research_center")
 public class ResearchCenterController {
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private DoctorService doctorService;
-
-    @Autowired
-    private AdminService adminService;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private ResearchCenterRepository researchCenterRepository;
-
     @Autowired
     private ResearchCenterService researchCenterService;
 

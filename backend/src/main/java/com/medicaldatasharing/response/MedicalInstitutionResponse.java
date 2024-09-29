@@ -1,11 +1,6 @@
 package com.medicaldatasharing.response;
 
-import com.medicaldatasharing.chaincode.dto.Medication;
-import com.medicaldatasharing.model.Manufacturer;
 import com.medicaldatasharing.model.MedicalInstitution;
-import com.owlike.genson.annotation.JsonProperty;
-
-import java.util.List;
 
 public class MedicalInstitutionResponse extends UserResponse {
     public MedicalInstitutionResponse(MedicalInstitution medicalInstitution) {

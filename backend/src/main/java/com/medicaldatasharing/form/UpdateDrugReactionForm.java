@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import javax.validation.constraints.NotBlank;
 import java.lang.reflect.Field;
-import java.util.Date;
 
 @Getter
 @Setter

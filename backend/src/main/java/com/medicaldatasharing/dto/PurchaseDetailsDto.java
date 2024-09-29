@@ -4,10 +4,6 @@ import com.medicaldatasharing.chaincode.dto.PurchaseDetails;
 import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
-import org.json.JSONObject;
-
-import java.lang.reflect.Field;
-import java.util.List;
 
 @Getter
 @Setter

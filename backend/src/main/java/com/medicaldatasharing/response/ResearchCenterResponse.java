@@ -1,6 +1,5 @@
 package com.medicaldatasharing.response;
 
-import com.medicaldatasharing.model.Manufacturer;
 import com.medicaldatasharing.model.ResearchCenter;
 
 public class ResearchCenterResponse extends UserResponse {

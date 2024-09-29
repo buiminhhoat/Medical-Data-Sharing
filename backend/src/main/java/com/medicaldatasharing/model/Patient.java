@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
 import java.util.Date;
 
 @Entity
@@ -16,4 +17,11 @@ import java.util.Date;
 public class Patient extends User {
     private String gender;
     private Date dateBirthday;
+
+    @PrePersist
+    private void addPrefixToId() {
+        if (this.getId() == null || this.getId().isEmpty()) {
+            this.setId("Patient-" + java.util.UUID.randomUUID().toString());
+        }
+    }
 }

@@ -3,9 +3,12 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.form.RegisterForm;
-import com.medicaldatasharing.model.*;
+import com.medicaldatasharing.model.Doctor;
+import com.medicaldatasharing.model.MedicalInstitution;
+import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.*;
-import com.medicaldatasharing.response.*;
+import com.medicaldatasharing.response.DoctorResponse;
+import com.medicaldatasharing.response.UserResponse;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
@@ -22,37 +25,13 @@ import java.util.List;
 @Service
 public class MedicalInstitutionService {
     @Autowired
-    private AdminRepository adminRepository;
-
-    @Autowired
     private DoctorRepository doctorRepository;
-
-    @Autowired
-    private DrugStoreRepository drugStoreRepository;
-
-    @Autowired
-    private InsuranceCompanyRepository insuranceCompanyRepository;
-
-    @Autowired
-    private ManufacturerRepository manufacturerRepository;
-
-    @Autowired
-    private ResearchCenterRepository researchCenterRepository;
-
-    @Autowired
-    private ScientistRepository scientistRepository;
 
     @Autowired
     private MedicalInstitutionRepository medicalInstitutionRepository;
 
     @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private HyperledgerService hyperledgerService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

@@ -4,8 +4,6 @@ import com.medicaldatasharing.util.AESUtil;
 import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @Setter
 @Builder

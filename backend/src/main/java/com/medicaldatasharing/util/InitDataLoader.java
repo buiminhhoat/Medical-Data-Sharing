@@ -11,7 +11,6 @@ import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.service.HyperledgerService;
 import com.owlike.genson.Genson;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;

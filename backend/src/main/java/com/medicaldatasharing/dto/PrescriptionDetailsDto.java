@@ -6,8 +6,6 @@ import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder

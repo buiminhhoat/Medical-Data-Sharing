@@ -1,16 +1,11 @@
 package com.medicaldatasharing.controller;
 
-import com.medicaldatasharing.chaincode.dto.MedicalRecord;
-import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
-import com.medicaldatasharing.service.DoctorService;
 import com.medicaldatasharing.service.PatientService;
 import com.medicaldatasharing.util.StringUtil;
 import com.medicaldatasharing.util.ValidationUtil;
-import com.owlike.genson.GenericType;
-import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.print.Doc;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/patient")
 public class PatientController {
-    @Autowired
-    private DoctorService doctorService;
-
     @Autowired
     private PatientService patientService;
 

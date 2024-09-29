@@ -1,9 +1,6 @@
 package com.medicaldatasharing.form;
 
-import com.owlike.genson.annotation.JsonProperty;
 import lombok.*;
-
-import java.util.Date;
 
 @Getter
 @Setter

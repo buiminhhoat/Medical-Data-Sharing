@@ -1,6 +1,5 @@
 package com.medicaldatasharing.repository;
 
-import com.medicaldatasharing.model.DrugStore;
 import com.medicaldatasharing.model.InsuranceCompany;
 import org.springframework.data.jpa.repository.JpaRepository;
 

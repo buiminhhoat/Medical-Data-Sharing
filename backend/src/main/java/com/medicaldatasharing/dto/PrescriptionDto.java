@@ -1,7 +1,5 @@
 package com.medicaldatasharing.dto;
 
-import com.medicaldatasharing.chaincode.dto.Prescription;
-import com.medicaldatasharing.chaincode.dto.PrescriptionDetails;
 import com.medicaldatasharing.enumeration.DrugReactionStatus;
 import com.medicaldatasharing.util.AESUtil;
 import com.owlike.genson.annotation.JsonProperty;

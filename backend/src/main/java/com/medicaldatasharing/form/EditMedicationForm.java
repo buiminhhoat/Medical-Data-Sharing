@@ -2,7 +2,6 @@ package com.medicaldatasharing.form;
 
 import com.medicaldatasharing.util.AESUtil;
 import lombok.*;
-import org.checkerframework.checker.units.qual.N;
 import org.json.JSONObject;
 
 import javax.validation.constraints.NotBlank;

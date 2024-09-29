@@ -7,10 +7,8 @@ import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.response.*;
-import com.medicaldatasharing.form.ChangePasswordForm;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
-import com.medicaldatasharing.util.StringUtil;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -312,7 +309,6 @@ public class UserService {
 
     public String getFullName(String id) throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
-        User user = getLoggedUser();
 
         List<Patient> patientList = patientRepository.findAllById(id);
         for (Patient patient: patientList) {

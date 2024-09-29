@@ -6,11 +6,13 @@ import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.response.GetUserDataResponse;
-import com.medicaldatasharing.security.dto.*;
+import com.medicaldatasharing.security.dto.JwtResponse;
+import com.medicaldatasharing.security.dto.LoginDto;
+import com.medicaldatasharing.security.dto.RegisterDto;
+import com.medicaldatasharing.security.dto.Response;
 import com.medicaldatasharing.security.jwt.JwtProvider;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.security.auth.message.AuthException;
-import javax.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -45,6 +44,11 @@ public class AuthRestAPIs {
 
     @Autowired
     private JwtProvider jwtProvider;
+
+    @GetMapping("/")
+    public String test() {
+        return "ok";
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@ModelAttribute RegisterDto registerDto, BindingResult result) {
@@ -67,9 +71,10 @@ public class AuthRestAPIs {
                 .enabled(true)
                 .role(Constants.ROLE_PATIENT)
                 .build();
-        Patient patientSaved = patientRepository.save(patient);
 
         try {
+            Patient patientSaved = patientRepository.save(patient);
+
             String userIdentityId = patientSaved.getId();
             RegisterUserHyperledger.enrollOrgAppUsers(patientSaved.getEmail(), Config.PATIENT_ORG, userIdentityId);
         } catch (Exception e) {

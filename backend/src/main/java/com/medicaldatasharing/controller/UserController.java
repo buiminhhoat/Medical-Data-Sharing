@@ -1,11 +1,9 @@
 package com.medicaldatasharing.controller;
 
-import com.medicaldatasharing.form.DefineRequestForm;
 import com.medicaldatasharing.form.ChangePasswordForm;
+import com.medicaldatasharing.form.DefineRequestForm;
 import com.medicaldatasharing.form.UpdateInformationForm;
 import com.medicaldatasharing.security.dto.Response;
-import com.medicaldatasharing.service.DoctorService;
-import com.medicaldatasharing.service.HyperledgerService;
 import com.medicaldatasharing.service.UserService;
 import com.medicaldatasharing.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +21,9 @@ import javax.validation.ValidationException;
 @RequestMapping("/public")
 public class UserController {
     @Autowired
-    private DoctorService doctorService;
-
-    @Autowired
     private UserService userService;
 
-    @Autowired
-    private HyperledgerService hyperledgerService;
-
+    /*  OK  */
     @GetMapping("/get-all-request")
     public ResponseEntity<?> getAllRequest() throws Exception {
         try {
@@ -42,6 +35,7 @@ public class UserController {
         }
     }
 
+    /*  OK  */
     @PostMapping("/get-request")
     public ResponseEntity<?> getRequest(HttpServletRequest httpServletRequest) throws Exception {
         String requestId = httpServletRequest.getParameter("requestId");
@@ -58,6 +52,7 @@ public class UserController {
         }
     }
 
+    /*  OK  */
     @PostMapping("/get-user-info")
     public ResponseEntity<?> getUserInfo(HttpServletRequest httpServletRequest) throws Exception {
         try {
@@ -82,6 +77,7 @@ public class UserController {
         }
     }
 
+    /*  OK  */
     @PostMapping("/define-request")
     public ResponseEntity<?> defineRequest(
             @Valid @ModelAttribute DefineRequestForm defineRequestForm,
@@ -100,6 +96,7 @@ public class UserController {
         }
     }
 
+    /*  OK  */
     @PostMapping("/get-all-doctor")
     public ResponseEntity<?> getAllDoctor() throws Exception {
         try {
@@ -111,6 +108,7 @@ public class UserController {
         }
     }
 
+    /*  OK  */
     @GetMapping("/get-list-drug-by-ownerId")
     public ResponseEntity<?> getListDrugByOwnerId() throws Exception {
         try {
@@ -122,6 +120,7 @@ public class UserController {
         }
     }
 
+    /*  OK  */
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(@ModelAttribute ChangePasswordForm changePasswordForm, BindingResult result) throws AuthException {
         if (result.hasErrors()) {
@@ -146,6 +145,7 @@ public class UserController {
         }
     }
 
+    /*  OK  */
     @PostMapping("/update-information")
     public ResponseEntity<?> updateInformation(@ModelAttribute UpdateInformationForm updateInformationForm, BindingResult result) throws AuthException {
         if (result.hasErrors()) {
@@ -162,17 +162,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
-//    @PostMapping("/sendRequest")
-//    public SendRequestDto sendRequest(
-//            @Valid @ModelAttribute SendRequestForm sendRequestForm,
-//            BindingResult result) throws Exception {
-//        if (result.hasErrors()) {
-//            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
-//            throw new ValidationException(errorMsg);
-//        }
-//
-//        return doctorService.sendRequest(sendRequestForm);
-//        return null;
-//    }
 }
