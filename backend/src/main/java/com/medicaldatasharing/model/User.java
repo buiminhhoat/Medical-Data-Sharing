@@ -22,7 +22,7 @@ public abstract class User implements Serializable, UserDetails {
     @Id
 //    @GeneratedValue(generator = "uuid")
 //    @GenericGenerator(name = "uuid", strategy = "uuid")
-//    @Column(columnDefinition = "CHAR(32)")
+    @Column(columnDefinition = "CHAR(100)")
     private String id;
 
     @Column(name = "USER_NAME", length = 100, unique = true)
