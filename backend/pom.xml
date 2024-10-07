@@ -8,11 +8,12 @@
         <version>2.3.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.healthcare</groupId>
+    <groupId>com.medicaldatasharing</groupId>
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>backend</name>
-    <description>Health Care</description>
+    <description>Medical Data Sharing</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -22,6 +23,11 @@
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
+    <modules>
+        <module>modules/user-service</module>
+        <module>modules/patient-service</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
