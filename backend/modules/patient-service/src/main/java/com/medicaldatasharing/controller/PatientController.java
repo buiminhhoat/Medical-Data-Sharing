@@ -2,6 +2,8 @@ package com.medicaldatasharing.controller;
 
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
+import com.medicaldatasharing.response.DoctorResponse;
+import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.security.dto.Response;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.service.PatientService;
@@ -41,6 +43,23 @@ public class PatientController {
         }
         catch (Exception e) {
             return "Không tìm thấy thông tin của người dùng " + id;
+        }
+    }
+
+    @GetMapping("/permit-all/get-patient-response/{id}")
+    public PatientResponse getPatientResponse(@PathVariable String id) {
+        return patientService.getPatientResponse(id);
+    }
+
+    @PostMapping("/get-full-name")
+    public ResponseEntity<?> getFullName(HttpServletRequest httpServletRequest) throws Exception {
+        try {
+            String id = httpServletRequest.getParameter("id");
+            String getFullName = patientService.getFullName(id);
+            return ResponseEntity.status(HttpStatus.OK).body(getFullName);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
@@ -84,7 +103,6 @@ public class PatientController {
         }
     }
 
-    // to-do
     @PostMapping("/send-appointment-request")
     public ResponseEntity<?> sendAppointmentRequest(@Valid @ModelAttribute SendAppointmentRequestForm sendAppointmentRequestForm, BindingResult result) throws Exception {
         try {
@@ -92,6 +110,8 @@ public class PatientController {
             sendAppointmentRequestForm.setDateModified(StringUtil.parseDate(new Date()));
 //            Doctor doctor = (Doctor) userDetailsService.getUserByUserId(sendAppointmentRequestForm.getRecipientId());
 //            sendAppointmentRequestForm.setMedicalInstitutionId(doctor.getMedicalInstitutionId());
+            DoctorResponse doctorResponse = patientService.getDoctorResponseFromDoctorService(sendAppointmentRequestForm.getRecipientId());
+            sendAppointmentRequestForm.setMedicalInstitutionId(doctorResponse.getMedicalInstitutionId());
             String appointmentRequestStr = patientService.sendAppointmentRequest(sendAppointmentRequestForm);
             return ResponseEntity.status(HttpStatus.OK).body(appointmentRequestStr);
         }

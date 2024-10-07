@@ -32,4 +32,15 @@ public class UserController {
             return "No found";
         }
     }
+
+    /*  OK  */
+    @PostMapping("/get-all-doctor")
+    public ResponseEntity<?> getAllDoctor() throws Exception {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.getAllDoctor());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 }

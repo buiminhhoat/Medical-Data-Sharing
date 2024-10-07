@@ -36,9 +36,6 @@ public class PatientService {
     private PatientRepository patientRepository;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
     private HyperledgerService hyperledgerService;
 
     @Autowired
@@ -55,8 +52,13 @@ public class PatientService {
         return restTemplate.getForObject(url, String.class);
     }
 
+    public DoctorResponse getDoctorResponseFromDoctorService(String id) {
+        String url = "http://localhost:9002/api/doctor/permit-all/get-doctor-response/" + id;
+        return restTemplate.getForObject(url, DoctorResponse.class);
+    }
+
     public String getFullName(String id) throws Exception {
-        String org = id.substring(0, 7);
+        String org = id.substring(0, id.indexOf("-"));
         if (org.equals("Patient")) {
             Patient patient = patientRepository.findPatientById(id);
             if (patient != null) {
@@ -346,12 +348,15 @@ public class PatientService {
             throw e;
         }
     }
-}
 
-@Configuration
-class RestTemplateConfig {
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public PatientResponse getPatientResponse(String id) {
+        Patient patient = patientRepository.findPatientById(id);
+        if (patient == null) return null;
+        PatientResponse patientResponse = new PatientResponse(patient);
+        return patientResponse;
+    }
+
+    public String getAllDoctor() {
+        return null;
     }
 }

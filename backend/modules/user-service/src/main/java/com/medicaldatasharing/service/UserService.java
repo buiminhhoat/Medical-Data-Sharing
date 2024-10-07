@@ -13,6 +13,7 @@ import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,10 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -63,6 +61,11 @@ public class UserService {
 
     public String getFullName(String id) throws Exception {
         return getUserFromOtherService(id);
+    }
+
+    public String getAllDoctor() {
+        String url = "http://localhost:9002/api/doctor/permit-all/get-all-doctor/";
+        return restTemplate.postForObject(url, null, String.class);
     }
 }
 

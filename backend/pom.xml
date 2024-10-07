@@ -26,6 +26,8 @@
     <modules>
         <module>modules/user-service</module>
         <module>modules/patient-service</module>
+        <module>modules/doctor-service</module>
+        <module>modules/medical_institution-service</module>
     </modules>
 
     <dependencies>
