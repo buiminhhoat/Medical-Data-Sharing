@@ -355,6 +355,7 @@ const SellingPrescriptionDrug = ({
           footer={null}
           centered
           width={"70%"}
+          // mask={false}
           // loading={loading}
         >
           <List>

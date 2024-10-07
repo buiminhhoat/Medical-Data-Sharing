@@ -68,6 +68,7 @@ const DrugList = ({ data, onClose, onSwitch }) => {
         footer={null}
         centered
         width={"65%"}
+        // mask={false}
         // loading={loading}
       >
         <StyledList

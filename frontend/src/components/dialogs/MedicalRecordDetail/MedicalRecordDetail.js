@@ -76,6 +76,11 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
   const closeModal = () => {
     setOpenDialog(null);
   };
+
+  const handleSwitchToOtherDialog = (dialogName) => {
+    onSwitch(dialogName);
+  };
+  
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState([]);

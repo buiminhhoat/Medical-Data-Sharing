@@ -233,6 +233,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
           centered
           width={"60%"}
           loading={loading}
+          // mask={false}
         >
           <Form
             name="basic"
