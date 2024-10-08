@@ -65,12 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers(Constants.PUBLIC_API).permitAll()
-                .antMatchers(Constants.PATIENT_API).hasAuthority(Constants.ROLE_PATIENT)
-                .antMatchers(Constants.DOCTOR_API).hasAuthority(Constants.ROLE_DOCTOR)
-                .antMatchers(Constants.MANUFACTURER_API).hasAuthority(Constants.ROLE_MANUFACTURER)
-                .antMatchers(Constants.DRUGSTORE_API).hasAuthority(Constants.ROLE_DRUG_STORE)
-                .antMatchers(Constants.ADMIN_API).hasAuthority(Constants.ROLE_ADMIN)
+                .antMatchers(Constants.MEDICAL_INSTITUTION_PERMIT_ALL_API).permitAll()
                 .antMatchers(Constants.MEDICAL_INSTITUTION_API).hasAuthority(Constants.ROLE_MEDICAL_INSTITUTION)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)

@@ -2,39 +2,130 @@ package com.medicaldatasharing.service;
 
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
-import com.medicaldatasharing.form.RegisterForm;
+import com.medicaldatasharing.chaincode.dto.Drug;
+import com.medicaldatasharing.chaincode.dto.Request;
+import com.medicaldatasharing.enumeration.RequestType;
+import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Doctor;
+import com.medicaldatasharing.model.Manufacturer;
 import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.*;
-import com.medicaldatasharing.response.DoctorResponse;
-import com.medicaldatasharing.response.UserResponse;
+import com.medicaldatasharing.response.*;
+import com.medicaldatasharing.security.jwt.JwtProvider;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.security.auth.message.AuthException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MedicalInstitutionService {
     @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
     private MedicalInstitutionRepository medicalInstitutionRepository;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private JwtProvider jwtProvider;
+
+    public String getFullNameFromUserService(String id) {
+        String url = "http://localhost:9000/api/user/get-full-name/" + id;
+        return restTemplate.getForObject(url, String.class);
+    }
+
+    public PatientResponse getPatientResponseFromPatientService(String id) {
+        String url = "http://localhost:9001/api/patient/permit-all/get-patient-response/" + id;
+        return restTemplate.getForObject(url, PatientResponse.class);
+    }
+
+    public List<DoctorResponse> getAllDoctorByMedicalInstitutionId(String medicalInstitutionId) {
+        String url = "http://localhost:9002/api/doctor/permit-all/get-all-doctor-by-medical-institution-id/{medicalInstitutionId}";
+        ResponseEntity<List<DoctorResponse>> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<List<DoctorResponse>>() {},
+                medicalInstitutionId
+        );
+        return response.getBody();
+    }
+
+    public String registerDoctor(RegisterForm registerForm) throws AuthException {
+        try {
+            User user = getLoggedUser();
+            String accessToken = jwtProvider.generateJwtToken(user.getId());
+            // Cấu hình header để thêm access_token
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + accessToken);
+
+            // Đóng gói RegisterForm vào HttpEntity
+            HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
+
+            // Gửi yêu cầu POST tới Service B
+            String url = "http://localhost:9002/api/doctor/register-user";
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            return response.getBody();
+//            Doctor doctor = Doctor
+//                    .builder()
+//                    .fullName(registerForm.getFullName())
+//                    .email(registerForm.getEmail())
+//                    .role(Constants.ROLE_DOCTOR)
+//                    .username(registerForm.getEmail())
+//                    .password(passwordEncoder.encode(registerForm.getPassword()))
+//                    .enabled(true)
+//                    .department(registerForm.getDepartment())
+//                    .medicalInstitutionId(getLoggedUser().getId())
+//                    .address(registerForm.getAddress())
+//                    .build();
+//            doctorRepository.save(doctor);
+//
+//            String appUserIdentityId = doctor.getEmail();
+//            String org = Config.DOCTOR_ORG;
+//            String userIdentityId = doctor.getId();
+//            RegisterUserHyperledger.enrollOrgAppUsers(appUserIdentityId, org, userIdentityId);
+//            return new Genson().serialize(doctor);
+        } catch (Exception e) {
+            throw new AuthException("Error while signUp in hyperledger");
+        }
+    }
+    
+    public String getFullName(String id) {
+        String org = id.substring(0, id.indexOf("-"));
+        if (org.equals("MedicalInstitution")) {
+            MedicalInstitution medicalInstitution = medicalInstitutionRepository.findMedicalInstitutionById(id);
+            if (medicalInstitution != null) {
+                return medicalInstitution.getFullName();
+            }
+        }
+
+        String fullName = getFullNameFromUserService(id);
+        return fullName;
+
+    }
 
     public User getUser(String email) {
         MedicalInstitution medicalInstitution = medicalInstitutionRepository.findMedicalInstitutionByEmail(email);
@@ -58,46 +149,15 @@ public class MedicalInstitutionService {
         }
     }
     public String getAllDoctorByMedicalInstitution() throws Exception {
-        List<UserResponse> userResponseList = new ArrayList<>();
         User user = getLoggedUser();
-
-        List<Doctor> doctorList = doctorRepository.findAllByMedicalInstitutionId(user.getId());
-        for (Doctor doctor: doctorList) {
-            DoctorResponse userResponse = new DoctorResponse(doctor);
-            userResponseList.add(userResponse);
-        }
+        
+        List<DoctorResponse> doctorResponseList = getAllDoctorByMedicalInstitutionId(user.getId());
 
         try {
-            return new Genson().serialize(userResponseList);
+            return new Genson().serialize(doctorResponseList);
         }
         catch (Exception e) {
             throw e;
-        }
-    }
-
-    public String registerDoctor(RegisterForm registerForm) throws AuthException {
-        try {
-            Doctor doctor = Doctor
-                    .builder()
-                    .fullName(registerForm.getFullName())
-                    .email(registerForm.getEmail())
-                    .role(Constants.ROLE_DOCTOR)
-                    .username(registerForm.getEmail())
-                    .password(passwordEncoder.encode(registerForm.getPassword()))
-                    .enabled(true)
-                    .department(registerForm.getDepartment())
-                    .medicalInstitutionId(getLoggedUser().getId())
-                    .address(registerForm.getAddress())
-                    .build();
-            doctorRepository.save(doctor);
-
-            String appUserIdentityId = doctor.getEmail();
-            String org = Config.DOCTOR_ORG;
-            String userIdentityId = doctor.getId();
-            RegisterUserHyperledger.enrollOrgAppUsers(appUserIdentityId, org, userIdentityId);
-            return new Genson().serialize(doctor);
-        } catch (Exception e) {
-            throw new AuthException("Error while signUp in hyperledger");
         }
     }
 
@@ -106,12 +166,12 @@ public class MedicalInstitutionService {
         User user = getLoggedUser();
 
         MedicalInstitution medicalInstitution = (MedicalInstitution) user;
-        List<Doctor> doctorList = doctorRepository.findDoctorByIdAndMedicalInstitutionId(id, medicalInstitution.getId());
+        List<DoctorResponse> doctorResponses = getAllDoctorByMedicalInstitutionId(medicalInstitution.getId());
 
-        for (Doctor doctor: doctorList) {
-            DoctorResponse userResponse = new DoctorResponse(doctor);
-            userResponse.setMedicalInstitutionName(userDetailsService.getUserByUserId(userResponse.getMedicalInstitutionId()).getFullName());
-            userResponseList.add(userResponse);
+        for (DoctorResponse doctorResponse: doctorResponses) {
+            if (!Objects.equals(doctorResponse.getDoctorId(), id)) continue;
+            doctorResponse.setMedicalInstitutionName(getFullName(doctorResponse.getMedicalInstitutionId()));
+            userResponseList.add(doctorResponse);
         }
 
         try {
@@ -127,4 +187,56 @@ public class MedicalInstitutionService {
         }
     }
 
+    public String changePassword(ChangePasswordForm changePasswordForm) throws Exception {
+        User user = getLoggedUser();
+        try {
+            Authentication authentication = null;
+            try {
+                authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                user.getEmail(),
+                                changePasswordForm.getOldPassword()
+                        )
+                );
+            } catch (AuthenticationException e) {
+                throw new Exception("Mật khẩu cũ không đúng");
+            }
+
+            user.setPassword(passwordEncoder.encode(changePasswordForm.getPassword()));
+            switch (user.getRole()) {
+                case Constants.ROLE_MEDICAL_INSTITUTION:
+                    medicalInstitutionRepository.save((MedicalInstitution) user);
+                    break;
+            }
+            return "Thành công";
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String updateInformation(UpdateInformationForm updateInformationForm) throws Exception {
+        User user = getLoggedUser();
+        try {
+            user.setFullName(updateInformationForm.getFullName());
+            user.setAddress(updateInformationForm.getAddress());
+
+            switch (user.getRole()) {
+                case Constants.ROLE_MEDICAL_INSTITUTION:
+                    medicalInstitutionRepository.save((MedicalInstitution) user);
+                    break;
+            }
+            return "Thành công";
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public MedicalInstitutionResponse getMedicalInstitutionResponse(String id) {
+        MedicalInstitution medicalInstitution = medicalInstitutionRepository.findMedicalInstitutionById(id);
+        if (medicalInstitution == null) return null;
+        MedicalInstitutionResponse medicalInstitutionResponse = new MedicalInstitutionResponse(medicalInstitution);
+        return medicalInstitutionResponse;
+    }
 }

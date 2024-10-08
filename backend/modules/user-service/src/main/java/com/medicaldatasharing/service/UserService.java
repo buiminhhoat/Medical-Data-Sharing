@@ -48,8 +48,12 @@ public class UserService {
             case "doctor":
                 port = "9002";
                 break;
-            case "scientist":
+            case "medicalinstitution":
+                org = "medical_institution";
                 port = "9003";
+                break;
+            case "scientist":
+                port = "9004";
                 break;
         }
         if (port.equals("")) {

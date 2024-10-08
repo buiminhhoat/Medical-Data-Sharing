@@ -48,7 +48,7 @@ public class PatientService {
     private RestTemplate restTemplate;
 
     public String getFullNameFromUserService(String id) {
-        String url = "http://localhost:9000/api/user/permit-all/get-full-name/" + id;
+        String url = "http://localhost:9000/api/user/get-full-name/" + id;
         return restTemplate.getForObject(url, String.class);
     }
 

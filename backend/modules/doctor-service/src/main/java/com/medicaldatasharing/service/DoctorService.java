@@ -46,7 +46,7 @@ public class DoctorService {
     private RestTemplate restTemplate;
 
     public String getFullNameFromUserService(String id) {
-        String url = "http://localhost:9000/api/user/permit-all/get-full-name/" + id;
+        String url = "http://localhost:9000/api/user/get-full-name/" + id;
         return restTemplate.getForObject(url, String.class);
     }
 
@@ -290,14 +290,29 @@ public class DoctorService {
         }
     }
 
-    // todo
     public String getAllDoctor() {
         try {
             List<Doctor> doctorList = doctorRepository.findAll();
             List<DoctorResponse> doctorResponseList = new ArrayList<>();
             for (Doctor doctor: doctorList) {
                 DoctorResponse doctorResponse = new DoctorResponse(doctor);
-//                doctorResponse.setMedicalInstitutionName(getFullName(doctor.getMedicalInstitutionId()));
+                doctorResponse.setMedicalInstitutionName(getFullName(doctor.getMedicalInstitutionId()));
+                doctorResponseList.add(doctorResponse);
+            }
+            return new Genson().serialize(doctorResponseList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getAllDoctorByMedicalInstitutionId(String medicalInstitutionId) {
+        try {
+            List<Doctor> doctorList = doctorRepository.findDoctorByMedicalInstitutionId(medicalInstitutionId);
+            List<DoctorResponse> doctorResponseList = new ArrayList<>();
+            for (Doctor doctor: doctorList) {
+                DoctorResponse doctorResponse = new DoctorResponse(doctor);
+                doctorResponse.setMedicalInstitutionName(getFullName(doctor.getMedicalInstitutionId()));
                 doctorResponseList.add(doctorResponse);
             }
             return new Genson().serialize(doctorResponseList);
