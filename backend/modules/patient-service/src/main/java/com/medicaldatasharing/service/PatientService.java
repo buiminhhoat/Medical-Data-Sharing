@@ -359,4 +359,32 @@ public class PatientService {
     public String getAllDoctor() {
         return null;
     }
+
+    public String getUserInfo(String id) throws Exception {
+        List<UserResponse> userResponseList = new ArrayList<>();
+        User user = getLoggedUser();
+
+        if (!Objects.equals(id, user.getId())) {
+            throw new Exception("Lỗi xác thực!!!");
+        }
+
+        List<Patient> patientList = new ArrayList<>();
+        patientList.add(patientRepository.findPatientById(id));
+        for (Patient patient: patientList) {
+            PatientResponse userResponse = new PatientResponse(patient);
+            userResponseList.add(userResponse);
+        }
+
+        try {
+            if (userResponseList.size() == 1) {
+                return new Genson().serialize(userResponseList.get(0));
+            }
+            else {
+                throw new Exception("Không tìm thấy thông tin của user " + id);
+            }
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
 }

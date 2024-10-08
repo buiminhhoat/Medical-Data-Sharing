@@ -1,0 +1,35 @@
+# user-service
+curl -i -X POST http://localhost:8001/services/  --data name=user-service   --data url='http://172.25.114.38:9000/api/user/'
+curl -i -X POST http://localhost:8001/services/user-service/routes --data paths[]=/api/user/
+
+# patient-service
+curl -i -X POST http://localhost:8001/services/  --data name=patient-service   --data url='http://172.25.114.38:9001/api/patient/'
+curl -i -X POST http://localhost:8001/services/patient-service/routes --data paths[]=/api/patient/
+
+# doctor-service
+curl -i -X POST http://localhost:8001/services/  --data name=doctor-service   --data url='http://172.25.114.38:9002/api/doctor/'
+curl -i -X POST http://localhost:8001/services/doctor-service/routes --data paths[]=/api/doctor/
+
+# medical_institution-service
+curl -i -X POST http://localhost:8001/services/  --data name=medical_institution-service   --data url='http://172.25.114.38:9003/api/medical_institution/'
+curl -i -X POST http://localhost:8001/services/medical_institution-service/routes --data paths[]=/api/medical_institution/
+
+# research_center-service
+curl -i -X POST http://localhost:8001/services/  --data name=research_center-service   --data url='http://172.25.114.38:9004/api/research_center/'
+curl -i -X POST http://localhost:8001/services/research_center-service/routes --data paths[]=/api/research_center/
+
+# scientist-service
+curl -i -X POST http://localhost:8001/services/  --data name=scientist-service   --data url='http://172.25.114.38:9005/api/scientist/'
+curl -i -X POST http://localhost:8001/services/scientist-service/routes --data paths[]=/api/scientist/
+
+# manufacturer-service
+curl -i -X POST http://localhost:8001/services/  --data name=manufacturer-service   --data url='http://172.25.114.38:9006/api/manufacturer/'
+curl -i -X POST http://localhost:8001/services/manufacturer-service/routes --data paths[]=/api/manufacturer/
+
+# drugstore-service
+curl -i -X POST http://localhost:8001/services/  --data name=drugstore-service   --data url='http://172.25.114.38:9007/api/drugstore/'
+curl -i -X POST http://localhost:8001/services/drugstore-service/routes --data paths[]=/api/drugstore/
+
+# admin-service
+curl -i -X POST http://localhost:8001/services/  --data name=admin-service   --data url='http://172.25.114.38:9008/api/admin/'
+curl -i -X POST http://localhost:8001/services/admin-service/routes --data paths[]=/api/admin/

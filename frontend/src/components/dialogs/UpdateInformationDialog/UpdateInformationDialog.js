@@ -23,7 +23,39 @@ const UpdateInformationDialog = ({ userId, onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token", "role"]);
   const access_token = cookies.access_token;
   const role = cookies.role;
-  const apiUpdateInformation = API.PUBLIC.UPDATE_INFORMATION;
+
+  let org = "";
+
+  switch (role) {
+    case "Bệnh nhân":
+      org = "patient";
+      break;
+    case "Bác sĩ":
+      org = "doctor";
+      break;
+    case "Cơ sở y tế":
+      org = "medical_institution";
+      break;
+    case "Trung tâm nghiên cứu":
+      org = "research_center";
+      break;
+    case "Nhà khoa học":
+      org = "scientist";
+      break;
+    case "Công ty sản xuất thuốc":
+      org = "manufacturer";
+      break;
+    case "Nhà thuốc":
+      org = "drugstore";
+      break;
+    case "Quản trị viên":
+      org = "admin";
+      break;
+    default:
+      org = "";
+  }
+
+  const apiUpdateInformation = "/api/" + org + "/update-information";
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleCancel = () => {
@@ -36,7 +68,6 @@ const UpdateInformationDialog = ({ userId, onClose, onSwitch }) => {
   };
 
   const [data, setData] = useState("");
-  let apiGetUserInfo = API.PUBLIC.GET_USER_INFO;
 
   const fetchGetUserInfo = async () => {
     if (access_token) {
@@ -46,6 +77,39 @@ const UpdateInformationDialog = ({ userId, onClose, onSwitch }) => {
 
       console.log(access_token);
 
+      let org = "";
+
+      switch (role) {
+        case "Bệnh nhân":
+          org = "patient";
+          break;
+        case "Bác sĩ":
+          org = "doctor";
+          break;
+        case "Cơ sở y tế":
+          org = "medical_institution";
+          break;
+        case "Trung tâm nghiên cứu":
+          org = "research_center";
+          break;
+        case "Nhà khoa học":
+          org = "scientist";
+          break;
+        case "Công ty sản xuất thuốc":
+          org = "manufacturer";
+          break;
+        case "Nhà thuốc":
+          org = "drugstore";
+          break;
+        case "Quản trị viên":
+          org = "admin";
+          break;
+        default:
+          org = "";
+      }
+    
+      let apiGetUserInfo = "/api/" + org + "/get-user-info";
+      
       try {
         const response = await fetch(apiGetUserInfo, {
           method: "POST",
@@ -122,6 +186,39 @@ const UpdateInformationDialog = ({ userId, onClose, onSwitch }) => {
 
   const handleUpdateInformationFormSubmit = async () => {
     if (access_token) {
+      let org = "";
+
+      switch (role) {
+        case "Bệnh nhân":
+          org = "patient";
+          break;
+        case "Bác sĩ":
+          org = "doctor";
+          break;
+        case "Cơ sở y tế":
+          org = "medical_institution";
+          break;
+        case "Trung tâm nghiên cứu":
+          org = "research_center";
+          break;
+        case "Nhà khoa học":
+          org = "scientist";
+          break;
+        case "Công ty sản xuất thuốc":
+          org = "manufacturer";
+          break;
+        case "Nhà thuốc":
+          org = "drugstore";
+          break;
+        case "Quản trị viên":
+          org = "admin";
+          break;
+        default:
+          org = "";
+      }
+    
+      let apiGetUserInfo = "/api/" + org + "/get-user-info";
+
       setIsConfirmModalOpen(false);
       setDisabledButton(true);
       const values = valuesForm;

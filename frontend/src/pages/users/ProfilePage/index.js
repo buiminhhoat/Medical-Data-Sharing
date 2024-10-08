@@ -77,7 +77,6 @@ const ProfilePage = () => {
 
   const [openDialog, setOpenDialog] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(true);
-  let apiGetUserInfo = API.PUBLIC.GET_USER_INFO;
 
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (placement, type, message, description, onClose) => {
@@ -90,8 +89,6 @@ const ProfilePage = () => {
       onClose: onClose,
     });
   };
-
-  console.log("apiGetUserInfo: ", apiGetUserInfo);
 
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
@@ -128,6 +125,39 @@ const ProfilePage = () => {
 
   const fetchGetUserInfo = async () => {
     if (access_token) {
+      let org = "";
+
+      switch (role) {
+        case "Bệnh nhân":
+          org = "patient";
+          break;
+        case "Bác sĩ":
+          org = "doctor";
+          break;
+        case "Cơ sở y tế":
+          org = "medical_institution";
+          break;
+        case "Trung tâm nghiên cứu":
+          org = "research_center";
+          break;
+        case "Nhà khoa học":
+          org = "scientist";
+          break;
+        case "Công ty sản xuất thuốc":
+          org = "manufacturer";
+          break;
+        case "Nhà thuốc":
+          org = "drugstore";
+          break;
+        case "Quản trị viên":
+          org = "admin";
+          break;
+        default:
+          org = "";
+      }
+    
+      let apiGetUserInfo = "/api/" + org + "/get-user-info";
+      
       console.log("id: ", userId);
       const formData = new FormData();
       formData.append("id", userId);

@@ -52,8 +52,20 @@ public class UserService {
                 org = "medical_institution";
                 port = "9003";
                 break;
-            case "scientist":
+            case "research_center":
                 port = "9004";
+                break;
+            case "scientist":
+                port = "9005";
+                break;
+            case "manufacturer":
+                port = "9006";
+                break;
+            case "drugstore":
+                port = "9007";
+                break;
+            case "admin":
+                port = "9008";
                 break;
         }
         if (port.equals("")) {

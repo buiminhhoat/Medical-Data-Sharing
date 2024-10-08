@@ -182,6 +182,18 @@ public class PatientController {
         }
     }
 
+    @PostMapping("/get-user-info")
+    public ResponseEntity<?> getUserInfo(HttpServletRequest httpServletRequest) throws Exception {
+        try {
+            String id = httpServletRequest.getParameter("id");
+            String getUserInfo = patientService.getUserInfo(id);
+            return ResponseEntity.status(HttpStatus.OK).body(getUserInfo);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @PostMapping("/get-list-medical-record-by-patientId")
     public ResponseEntity<?> getListMedicalRecordByPatientId(HttpServletRequest httpServletRequest) {
         try {

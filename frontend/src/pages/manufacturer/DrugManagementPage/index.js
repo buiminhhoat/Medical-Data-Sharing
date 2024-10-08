@@ -32,9 +32,41 @@ const DrugManagementPageStyle = styled.div`
 `;
 
 const DrugManagementPage = () => {
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token", "role"]);
   const access_token = cookies.access_token;
-  const apiGetListDrugByOwnerId = API.PUBLIC.GET_LIST_DRUG_BY_OWNER_ID;
+  const role = cookies.role;
+  let org = "";
+
+  switch (role) {
+    case "Bệnh nhân":
+      org = "patient";
+      break;
+    case "Bác sĩ":
+      org = "doctor";
+      break;
+    case "Cơ sở y tế":
+      org = "medical_institution";
+      break;
+    case "Trung tâm nghiên cứu":
+      org = "research_center";
+      break;
+    case "Nhà khoa học":
+      org = "scientist";
+      break;
+    case "Công ty sản xuất thuốc":
+      org = "manufacturer";
+      break;
+    case "Nhà thuốc":
+      org = "drugstore";
+      break;
+    case "Quản trị viên":
+      org = "admin";
+      break;
+    default:
+      org = "";
+  }
+
+  const apiGetListDrugByOwnerId = "/api/" + org + "/get-list-drug-by-ownerId";
 
   const [searchDrugId, setSearchDrugId] = useState("");
   const [searchMedicationId, setSearchMedicationId] = useState("");

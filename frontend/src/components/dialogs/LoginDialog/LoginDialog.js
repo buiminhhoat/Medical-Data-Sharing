@@ -14,7 +14,7 @@ const LoginDialogStyle = styled.div``;
 const LoginDialog = ({ onClose, onSwitch }) => {
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
-  const apiLoginUrl = API.PUBLIC.LOGIN;
+  
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleCancel = () => {
@@ -37,6 +37,8 @@ const LoginDialog = ({ onClose, onSwitch }) => {
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("organization", values.organization);
+
+    const apiLoginUrl = "/api/" + values.organization + "/permit-all/login";
 
     try {
       const response = await fetch(apiLoginUrl, {
@@ -121,6 +123,34 @@ const LoginDialog = ({ onClose, onSwitch }) => {
               ]}
             >
               <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              label="Tổ chức"
+              name="organization"
+
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng chọn tổ chức!",
+                },
+              ]}
+            >
+              <Select
+                // defaultValue="patient"
+                placeholder="Chọn tổ chức"
+
+                options={[
+                  { value: 'patient', label: 'Bệnh nhân' },
+                  { value: 'doctor', label: 'Bác sĩ' },
+                  { value: 'medical_institution', label: 'Cơ sở y tế' },
+                  { value: 'research_center', label: 'Trung tâm nghiên cứu'},
+                  { value: 'scientist', label: 'Nhà khoa học'},
+                  { value: 'manufacturer', label: 'Công ty sản xuất thuốc'},
+                  { value: 'drugstore', label: 'Nhà thuốc'},
+                  { value: 'admin', label: 'Quản trị viên'},
+                ]}
+              />
             </Form.Item>
 
             <Form.Item

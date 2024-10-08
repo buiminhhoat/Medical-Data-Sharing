@@ -42,7 +42,6 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;
-  const apiLoginUrl = API.PUBLIC.LOGIN;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState("");
@@ -50,8 +49,39 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
 
   const [openDialog, setOpenDialog] = useState(null);
 
-  const apiGetRequest = API.PUBLIC.GET_REQUEST;
-  const apiDefineRequest = API.PUBLIC.DEFINE_REQUEST;
+  let org = "";
+
+  switch (role) {
+    case "Bệnh nhân":
+      org = "patient";
+      break;
+    case "Bác sĩ":
+      org = "doctor";
+      break;
+    case "Cơ sở y tế":
+      org = "medical_institution";
+      break;
+    case "Trung tâm nghiên cứu":
+      org = "research_center";
+      break;
+    case "Nhà khoa học":
+      org = "scientist";
+      break;
+    case "Công ty sản xuất thuốc":
+      org = "manufacturer";
+      break;
+    case "Nhà thuốc":
+      org = "drugstore";
+      break;
+    case "Quản trị viên":
+      org = "admin";
+      break;
+    default:
+      org = "";
+  }
+
+  const apiGetRequest = "/api/" + org + "/get-request";
+  const apiDefineRequest = "/api/" + org + "/define-request";
 
   const handleCancel = () => {
     setIsModalOpen(false);

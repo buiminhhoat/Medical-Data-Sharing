@@ -18,9 +18,42 @@ const Context = React.createContext({
 });
 
 const ChangePasswordDialog = ({ userId, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token", "role"]);
   const access_token = cookies.access_token;
-  const apiChangePassword = API.PUBLIC.CHANGE_PASSWORD;
+  const role = cookies.role;
+
+  let org = "";
+
+  switch (role) {
+    case "Bệnh nhân":
+      org = "patient";
+      break;
+    case "Bác sĩ":
+      org = "doctor";
+      break;
+    case "Cơ sở y tế":
+      org = "medical_institution";
+      break;
+    case "Trung tâm nghiên cứu":
+      org = "research_center";
+      break;
+    case "Nhà khoa học":
+      org = "scientist";
+      break;
+    case "Công ty sản xuất thuốc":
+      org = "manufacturer";
+      break;
+    case "Nhà thuốc":
+      org = "drugstore";
+      break;
+    case "Quản trị viên":
+      org = "admin";
+      break;
+    default:
+      org = "";
+  }
+
+  const apiChangePassword = "/api/" + org + "/change-password";
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleCancel = () => {

@@ -34,9 +34,40 @@ const RequestPageStyle = styled.div`
 `;
 
 const RequestPage = () => {
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token", "role"]);
   const access_token = cookies.access_token;
-  const apiGetAllRequest = API.PUBLIC.GET_ALL_REQUEST;
+  const role = cookies.role;
+  let org = "";
+
+  switch (role) {
+    case "Bệnh nhân":
+      org = "patient";
+      break;
+    case "Bác sĩ":
+      org = "doctor";
+      break;
+    case "Cơ sở y tế":
+      org = "medical_institution";
+      break;
+    case "Trung tâm nghiên cứu":
+      org = "research_center";
+      break;
+    case "Nhà khoa học":
+      org = "scientist";
+      break;
+    case "Công ty sản xuất thuốc":
+      org = "manufacturer";
+      break;
+    case "Nhà thuốc":
+      org = "drugstore";
+      break;
+    case "Quản trị viên":
+      org = "admin";
+      break;
+    default:
+      org = "";
+  }
+  const apiGetAllRequest = "/api/" + org + "/get-all-request";
 
   const [filtersRequestType, setfiltersRequestType] = useState([]);
   const [filtersRequestStatus, setfiltersRequestStatus] = useState([

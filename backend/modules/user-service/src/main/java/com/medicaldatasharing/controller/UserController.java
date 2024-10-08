@@ -23,6 +23,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/get-full-name")
+    public ResponseEntity<?> getFullName(HttpServletRequest httpServletRequest) throws Exception {
+        try {
+            String id = httpServletRequest.getParameter("id");
+            String getFullName = userService.getFullName(id);
+            return ResponseEntity.status(HttpStatus.OK).body(getFullName);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @GetMapping("/get-full-name/{id}")
     public String getFullName(@PathVariable String id) throws Exception {
         try {

@@ -39,7 +39,7 @@ const RegisterDialog = ({ onClose, onSwitch }) => {
 
   const [cookies] = useCookies(["access_token"]);
   const access_token = cookies.access_token;
-  const apiRegisterUrl = API.PUBLIC.REGISTER;
+  const apiRegisterUrl = API.PATIENT.REGISTER;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleCancel = () => {

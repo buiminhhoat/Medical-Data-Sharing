@@ -288,10 +288,12 @@ const renderDrugStoreRouter = () => {
 };
 
 const RouterCustom = () => {
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token", "role"]);
   const accessToken = cookies.access_token;
 
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(cookies.role ? cookies.role : "");
+
+  console.log("role: " + role);
 
   const logout = useLogout();
 
@@ -299,7 +301,38 @@ const RouterCustom = () => {
     if (accessToken) {
       console.log(role);
       try {
-        const response = await fetch(API.PUBLIC.GET_USER_DATA, {
+        let org = "";
+
+        switch (role) {
+          case "Bệnh nhân":
+            org = "patient";
+            break;
+          case "Bác sĩ":
+            org = "doctor";
+            break;
+          case "Cơ sở y tế":
+            org = "medical_institution";
+            break;
+          case "Trung tâm nghiên cứu":
+            org = "research_center";
+            break;
+          case "Nhà khoa học":
+            org = "scientist";
+            break;
+          case "Công ty sản xuất thuốc":
+            org = "manufacturer";
+            break;
+          case "Nhà thuốc":
+            org = "drugstore";
+            break;
+          case "Quản trị viên":
+            org = "admin";
+            break;
+          default:
+            org = "";
+        }
+        const apiGetUserData = "/api/" + org + "/permit-all/get-user-data";
+        const response = await fetch(apiGetUserData, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,

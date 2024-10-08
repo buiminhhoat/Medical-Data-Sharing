@@ -25,22 +25,11 @@ export const DIALOGS = {
 
 export const API = {
   PUBLIC: {
-    LOGIN: "/api/public/login",
-    REGISTER: "/api/public/register",
-    GET_USER_DATA: "/api/public/get-user-data",
-    GET_ALL_REQUEST: "/api/public/get-all-request",
-    GET_REQUEST: "/api/public/get-request",
-    GET_ROLE: "/api/public/get-role",
-    SEND_REQUEST: "/api/public/send-request",
-    GET_ALL_DOCTOR: "/api/public/get-all-doctor",
-    GET_LIST_DRUG_BY_OWNER_ID: "/api/public/get-list-drug-by-ownerId",
-    DEFINE_REQUEST: "/api/public/define-request",
-    GET_USER_INFO: "/api/public/get-user-info",
-    CHANGE_PASSWORD: "/api/public/change-password",
-    UPDATE_INFORMATION: "/api/public/update-information",
+    GET_ALL_DOCTOR: "/api/user/get-all-doctor",
     GET_FULL_NAME: "/api/public/get-full-name",
   },
   PATIENT: {
+    REGISTER: "/api/patient/permit-all/register",
     GET_LIST_MEDICAL_RECORD:
       "/api/patient/get-list-medical-record-by-patientId",
     GET_LIST_MEDICAL_RECORD_BY_PATIENT_ID:
