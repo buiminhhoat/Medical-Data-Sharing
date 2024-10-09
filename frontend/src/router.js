@@ -293,6 +293,7 @@ const RouterCustom = () => {
 
   const [role, setRole] = useState(cookies.role ? cookies.role : "");
 
+  // console.log("accessToken: " + accessToken);
   console.log("role: " + role);
 
   const logout = useLogout();

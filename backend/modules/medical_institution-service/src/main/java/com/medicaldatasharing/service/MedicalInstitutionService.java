@@ -15,6 +15,7 @@ import com.medicaldatasharing.response.*;
 import com.medicaldatasharing.security.jwt.JwtProvider;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
+import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -56,21 +57,18 @@ public class MedicalInstitutionService {
         return restTemplate.getForObject(url, String.class);
     }
 
-    public PatientResponse getPatientResponseFromPatientService(String id) {
-        String url = "http://localhost:9001/api/patient/permit-all/get-patient-response/" + id;
-        return restTemplate.getForObject(url, PatientResponse.class);
-    }
-
     public List<DoctorResponse> getAllDoctorByMedicalInstitutionId(String medicalInstitutionId) {
         String url = "http://localhost:9002/api/doctor/permit-all/get-all-doctor-by-medical-institution-id/{medicalInstitutionId}";
-        ResponseEntity<List<DoctorResponse>> response = restTemplate.exchange(
+        ResponseEntity<String> response = restTemplate.exchange(
                 url,
                 HttpMethod.POST,
                 HttpEntity.EMPTY,
-                new ParameterizedTypeReference<List<DoctorResponse>>() {},
+                new ParameterizedTypeReference<String>() {},
                 medicalInstitutionId
         );
-        return response.getBody();
+        List<DoctorResponse> doctorResponseList = new Genson().deserialize(response.getBody(),
+                new GenericType<List<DoctorResponse>>() {});
+        return doctorResponseList;
     }
 
     public String registerDoctor(RegisterForm registerForm) throws AuthException {
