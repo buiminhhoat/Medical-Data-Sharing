@@ -52,10 +52,10 @@ public class UserService {
                 org = "medical_institution";
                 port = "9003";
                 break;
-            case "research_center":
+            case "scientist":
                 port = "9004";
                 break;
-            case "scientist":
+            case "research_center":
                 port = "9005";
                 break;
             case "manufacturer":

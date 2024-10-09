@@ -3,9 +3,12 @@ package com.medicaldatasharing.controller;
 import com.medicaldatasharing.form.ChangePasswordForm;
 import com.medicaldatasharing.form.DefineRequestForm;
 import com.medicaldatasharing.form.UpdateInformationForm;
+import com.medicaldatasharing.response.PatientResponse;
+import com.medicaldatasharing.response.UserResponse;
 import com.medicaldatasharing.security.dto.Response;
 import com.medicaldatasharing.service.UserService;
 import com.medicaldatasharing.util.ValidationUtil;
+import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +48,6 @@ public class UserController {
         }
     }
 
-    /*  OK  */
     @PostMapping("/get-all-doctor")
     public ResponseEntity<?> getAllDoctor() throws Exception {
         try {

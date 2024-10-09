@@ -67,7 +67,6 @@ public class DoctorService {
 
         String fullName = getFullNameFromUserService(id);
         return fullName;
-
     }
 
     public User getUser(String email) {

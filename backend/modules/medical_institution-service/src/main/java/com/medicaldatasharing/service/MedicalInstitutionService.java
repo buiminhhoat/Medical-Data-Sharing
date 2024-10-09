@@ -75,37 +75,16 @@ public class MedicalInstitutionService {
         try {
             User user = getLoggedUser();
             String accessToken = jwtProvider.generateJwtToken(user.getId());
-            // Cấu hình header để thêm access_token
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("Authorization", "Bearer " + accessToken);
+            headers.set("Authorization-Service", "Bearer " + accessToken);
 
-            // Đóng gói RegisterForm vào HttpEntity
             HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
 
-            // Gửi yêu cầu POST tới Service B
-            String url = "http://localhost:9002/api/doctor/register-user";
-            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            String url = "http://localhost:9002/api/doctor/permit-all/register-user";
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+
             return response.getBody();
-//            Doctor doctor = Doctor
-//                    .builder()
-//                    .fullName(registerForm.getFullName())
-//                    .email(registerForm.getEmail())
-//                    .role(Constants.ROLE_DOCTOR)
-//                    .username(registerForm.getEmail())
-//                    .password(passwordEncoder.encode(registerForm.getPassword()))
-//                    .enabled(true)
-//                    .department(registerForm.getDepartment())
-//                    .medicalInstitutionId(getLoggedUser().getId())
-//                    .address(registerForm.getAddress())
-//                    .build();
-//            doctorRepository.save(doctor);
-//
-//            String appUserIdentityId = doctor.getEmail();
-//            String org = Config.DOCTOR_ORG;
-//            String userIdentityId = doctor.getId();
-//            RegisterUserHyperledger.enrollOrgAppUsers(appUserIdentityId, org, userIdentityId);
-//            return new Genson().serialize(doctor);
         } catch (Exception e) {
             throw new AuthException("Error while signUp in hyperledger");
         }

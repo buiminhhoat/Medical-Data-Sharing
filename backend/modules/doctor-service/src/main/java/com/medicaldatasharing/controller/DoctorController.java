@@ -110,7 +110,7 @@ public class DoctorController {
 
     @PostMapping("/permit-all/register-user")
     public ResponseEntity<String> registerUser(@RequestBody RegisterForm registerForm,
-                                               @RequestHeader("Authorization") String accessToken) throws Exception {
+                                               @RequestHeader("Authorization-Service") String accessToken) throws Exception {
         // Xử lý RegisterForm và access_token
         accessToken = accessToken.replace("Bearer ", "");
 

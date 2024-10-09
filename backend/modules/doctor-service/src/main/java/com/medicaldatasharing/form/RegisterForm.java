@@ -9,7 +9,6 @@ import java.lang.reflect.Field;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class RegisterForm {
     @NotBlank
@@ -33,6 +32,9 @@ public class RegisterForm {
 
     String businessLicenseNumber;
 
+    public RegisterForm() {
+
+    }
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
         Field[] fields = this.getClass().getDeclaredFields();

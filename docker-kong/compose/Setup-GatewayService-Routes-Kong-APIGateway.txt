@@ -14,13 +14,14 @@ curl -i -X POST http://localhost:8001/services/doctor-service/routes --data path
 curl -i -X POST http://localhost:8001/services/  --data name=medical_institution-service   --data url='http://172.25.114.38:9003/api/medical_institution/'
 curl -i -X POST http://localhost:8001/services/medical_institution-service/routes --data paths[]=/api/medical_institution/
 
+# scientist-service
+curl -i -X POST http://localhost:8001/services/  --data name=scientist-service   --data url='http://172.25.114.38:9004/api/scientist/'
+curl -i -X POST http://localhost:8001/services/scientist-service/routes --data paths[]=/api/scientist/
+
 # research_center-service
-curl -i -X POST http://localhost:8001/services/  --data name=research_center-service   --data url='http://172.25.114.38:9004/api/research_center/'
+curl -i -X POST http://localhost:8001/services/  --data name=research_center-service   --data url='http://172.25.114.38:9005/api/research_center/'
 curl -i -X POST http://localhost:8001/services/research_center-service/routes --data paths[]=/api/research_center/
 
-# scientist-service
-curl -i -X POST http://localhost:8001/services/  --data name=scientist-service   --data url='http://172.25.114.38:9005/api/scientist/'
-curl -i -X POST http://localhost:8001/services/scientist-service/routes --data paths[]=/api/scientist/
 
 # manufacturer-service
 curl -i -X POST http://localhost:8001/services/  --data name=manufacturer-service   --data url='http://172.25.114.38:9006/api/manufacturer/'
