@@ -30,6 +30,7 @@
         <module>modules/medical_institution-service</module>
         <module>modules/scientist-service</module>
         <module>modules/research_center-service</module>
+        <module>modules/manufacturer-service</module>
     </modules>
 
     <dependencies>

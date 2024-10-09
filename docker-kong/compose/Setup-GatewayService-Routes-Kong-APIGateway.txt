@@ -22,7 +22,6 @@ curl -i -X POST http://localhost:8001/services/scientist-service/routes --data p
 curl -i -X POST http://localhost:8001/services/  --data name=research_center-service   --data url='http://172.25.114.38:9005/api/research_center/'
 curl -i -X POST http://localhost:8001/services/research_center-service/routes --data paths[]=/api/research_center/
 
-
 # manufacturer-service
 curl -i -X POST http://localhost:8001/services/  --data name=manufacturer-service   --data url='http://172.25.114.38:9006/api/manufacturer/'
 curl -i -X POST http://localhost:8001/services/manufacturer-service/routes --data paths[]=/api/manufacturer/
