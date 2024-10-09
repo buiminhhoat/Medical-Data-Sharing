@@ -76,7 +76,7 @@ public class PatientController {
     }
 
     @GetMapping("/permit-all/get-patient-response/{id}")
-    public PatientResponse getPatientResponse(@PathVariable String id) {
+    public String getPatientResponse(@PathVariable String id) {
         return patientService.getPatientResponse(id);
     }
 

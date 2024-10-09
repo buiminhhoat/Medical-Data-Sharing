@@ -34,7 +34,6 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.Objects;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/medical_institution")
 public class MedicalInstitutionController {

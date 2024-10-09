@@ -349,11 +349,11 @@ public class PatientService {
         }
     }
 
-    public PatientResponse getPatientResponse(String id) {
+    public String getPatientResponse(String id) {
         Patient patient = patientRepository.findPatientById(id);
         if (patient == null) return null;
         PatientResponse patientResponse = new PatientResponse(patient);
-        return patientResponse;
+        return new Genson().serialize(patientResponse);
     }
 
     public String getAllDoctor() {

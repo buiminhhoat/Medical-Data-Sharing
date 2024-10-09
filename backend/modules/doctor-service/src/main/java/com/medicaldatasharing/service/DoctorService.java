@@ -52,7 +52,8 @@ public class DoctorService {
 
     public PatientResponse getPatientResponseFromPatientService(String id) {
         String url = "http://localhost:9001/api/patient/permit-all/get-patient-response/" + id;
-        return restTemplate.getForObject(url, PatientResponse.class);
+        String patientResponseStr = restTemplate.getForObject(url, String.class);
+        return new Genson().deserialize(patientResponseStr, PatientResponse.class);
     }
 
     public String getFullName(String id) {

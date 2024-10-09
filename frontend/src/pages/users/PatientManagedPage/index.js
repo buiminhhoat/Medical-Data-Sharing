@@ -137,9 +137,10 @@ const PatientManagedPage = () => {
 
         if (response.status === 200) {
           const json = await response.json();
+          console.log(json);
           setData(json);
           handleData(json);
-          console.log(json);
+          console.log(data);
         }
       } catch (e) {}
     }
