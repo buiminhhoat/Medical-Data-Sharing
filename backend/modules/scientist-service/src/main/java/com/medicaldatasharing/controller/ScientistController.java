@@ -81,7 +81,6 @@ public class ScientistController {
         return scientistService.getScientistResponse(id);
     }
 
-
     @PostMapping("/permit-all/get-all-scientist-by-research-center-id/{researchCenterId}")
     public String getAllScientistByResearchCenterId(@PathVariable String researchCenterId) throws Exception {
         try {

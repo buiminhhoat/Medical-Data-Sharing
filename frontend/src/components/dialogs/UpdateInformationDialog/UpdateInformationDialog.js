@@ -347,7 +347,7 @@ const UpdateInformationDialog = ({ userId, onClose, onSwitch }) => {
                 </Form.Item>
               )}
 
-              {(role === "Cửa hàng thuốc" ||
+              {(role === "Nhà thuốc" ||
                 role === "Công ty sản xuất thuốc") && (
                 <Form.Item
                   label="Giấy phép kinh doanh"

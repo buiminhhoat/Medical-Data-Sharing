@@ -126,7 +126,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
     if (options === null) {
       if (role === "Bệnh nhân") setOptions(patientOptions);
       if (role === "Bác sĩ") setOptions(doctorOptions);
-      if (role === "Cửa hàng thuốc") setOptions(drugStoreOptions);
+      if (role === "Nhà thuốc") setOptions(drugStoreOptions);
       if (role === "Công ty sản xuất thuốc") setOptions(manufacturerOptions);
       if (role === "Nhà khoa học") setOptions(scientistOptions);
     }

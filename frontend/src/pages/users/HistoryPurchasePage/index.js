@@ -45,7 +45,7 @@ const HistoryPurchasePage = () => {
     apiGetListPurchase = API.PATIENT.GET_LIST_PURCHASE_BY_PATIENT_ID;
   }
 
-  if (role === "Cửa hàng thuốc") {
+  if (role === "Nhà thuốc") {
     apiGetListPurchase = API.DRUGSTORE.GET_LIST_PURCHASE_BY_DRUGSTORE_ID;
   }
 
@@ -407,7 +407,7 @@ const HistoryPurchasePage = () => {
           </span>
         </Popover>
       ),
-      hidden: role === "Cửa hàng thuốc",
+      hidden: role === "Nhà thuốc",
     },
     {
       title: "Tên cửa hàng thuốc",
@@ -415,7 +415,7 @@ const HistoryPurchasePage = () => {
       width: "15%",
       align: "center",
       onFilter: (value, record) => record.drugStoreName.indexOf(value) === 0,
-      hidden: role === "Cửa hàng thuốc",
+      hidden: role === "Nhà thuốc",
     },
     {
       title: "Ngày tạo",

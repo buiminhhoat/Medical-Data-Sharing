@@ -345,7 +345,7 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
     //             </Button>
     //           </>
     //         )}
-    //         {data.senderId === userId && role === "Cửa hàng thuốc" && (
+    //         {data.senderId === userId && role === "Nhà thuốc" && (
     //           <Button
     //             style={{ marginRight: "3%" }}
     //             onClick={() => openSellingPrescriptionDrug(data.prescriptionId)}

@@ -61,7 +61,7 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
     apiGetPurchaseByPurchaseId = API.PATIENT.GET_PURCHASE_BY_PURCHASE_ID;
   }
 
-  if (role === "Cửa hàng thuốc") {
+  if (role === "Nhà thuốc") {
     apiGetPurchaseByPurchaseId = API.DRUGSTORE.GET_PURCHASE_BY_PURCHASE_ID;
   }
 

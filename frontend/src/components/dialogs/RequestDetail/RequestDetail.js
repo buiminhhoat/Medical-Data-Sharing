@@ -386,7 +386,7 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
               </>
             )}
 
-            {data.senderId === userId && role === "Cửa hàng thuốc" && (
+            {data.senderId === userId && role === "Nhà thuốc" && (
               <Button
                 style={{ marginRight: "3%" }}
                 onClick={() => openSellingPrescriptionDrug(data.prescriptionId)}

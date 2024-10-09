@@ -200,7 +200,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (role === "Cửa hàng thuốc") {
+      if (role === "Nhà thuốc") {
         drugStoreMenuItems.map((item, key) => {
           items.push({
             key: item.path,

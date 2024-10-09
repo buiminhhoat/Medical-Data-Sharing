@@ -61,7 +61,7 @@ const PrescriptionDetail = ({ prescriptionId, onClose, onSwitch }) => {
     apiGetPrescriptionByPrescriptionId = API.DOCTOR.GET_PRESCRIPTION_BY_DOCTOR;
   }
 
-  if (role === "Cửa hàng thuốc") {
+  if (role === "Nhà thuốc") {
     apiGetPrescriptionByPrescriptionId =
       API.DRUGSTORE.GET_PRESCRIPTION_BY_DRUG_STORE;
   }

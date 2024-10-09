@@ -364,7 +364,7 @@ const RouterCustom = () => {
     (role === "Bác sĩ" && renderDoctorRouter()) ||
     (role === "Quản trị viên" && renderAdminRouter()) ||
     (role === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
-    (role === "Cửa hàng thuốc" && renderDrugStoreRouter()) ||
+    (role === "Nhà thuốc" && renderDrugStoreRouter()) ||
     (role === "Cơ sở y tế" && renderMedicalInstitutionRouter()) ||
     (role === "Trung tâm nghiên cứu" && renderResearchCenterRouter()) ||
     (role === "Nhà khoa học" && renderScientistRouter())

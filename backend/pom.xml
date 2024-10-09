@@ -31,6 +31,7 @@
         <module>modules/scientist-service</module>
         <module>modules/research_center-service</module>
         <module>modules/manufacturer-service</module>
+        <module>modules/drugstore-service</module>
     </modules>
 
     <dependencies>
