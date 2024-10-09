@@ -47,7 +47,7 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
   const userId = cookies.userId;
   const role = cookies.role;
   const [apiSendRequest, setApiSendRequest] = useState("");
-  const [apiGetFullName, setGetFullName] = useState(API.PUBLIC.GET_FULL_NAME);
+  const [apiGetFullName, setGetFullName] = useState("/api/user/get-full-name");
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
@@ -166,7 +166,8 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
         });
         if (response.status === 200) {
           console.log("data");
-          let data = await response.json();
+          // let data = await response.json();
+          let data = await response.text();
           console.log(data);
           openNotification(
             "topRight",
@@ -206,7 +207,8 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
         });
 
         if (response.status === 200) {
-          let data = await response.json();
+          // let data = await response.json();
+          let data = await response.text();
           return data;
         } else {
           return "Không tìm thấy người dùng";

@@ -298,7 +298,9 @@ const RequestDetail = ({ request, onClose, onSwitch }) => {
             {(data.requestStatus === "Chờ xử lý" ||
               data.requestStatus === "Chấp thuận") && (
               <>
-                <Button style={{ marginRight: "3%" }} disabled={disabledButton}>
+                <Button style={{ marginRight: "3%" }} disabled={disabledButton}
+                  onClick={() => handleConfirm("Thu hồi")}
+                >
                   Thu hồi
                 </Button>
               </>
