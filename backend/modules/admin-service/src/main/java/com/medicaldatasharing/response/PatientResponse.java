@@ -20,6 +20,9 @@ public class PatientResponse extends UserResponse {
     @JsonProperty("address")
     protected String address;
 
+    public PatientResponse() {
+
+    }
     public PatientResponse(Patient patient) {
         this.id = patient.getId();
         this.patientId = patient.getId();

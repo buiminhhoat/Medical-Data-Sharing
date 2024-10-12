@@ -3,13 +3,11 @@ package com.medicaldatasharing.controller;
 import com.medicaldatasharing.chaincode.Config;
 import com.medicaldatasharing.chaincode.client.RegisterUserHyperledger;
 import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.response.DoctorResponse;
 import com.medicaldatasharing.response.GetUserDataResponse;
-import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.security.dto.JwtResponse;
 import com.medicaldatasharing.security.dto.LoginDto;
 import com.medicaldatasharing.security.dto.RegisterDto;
@@ -78,6 +76,11 @@ public class PatientController {
     @GetMapping("/permit-all/get-patient-response/{id}")
     public String getPatientResponse(@PathVariable String id) {
         return patientService.getPatientResponse(id);
+    }
+
+    @PostMapping("/admin-service/get-all-patient-response")
+    public String getAllPatientResponse() {
+        return patientService.getAllPatientResponse();
     }
 
     @PostMapping("/permit-all/register")

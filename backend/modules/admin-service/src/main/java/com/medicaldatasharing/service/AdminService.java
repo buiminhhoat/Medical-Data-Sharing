@@ -11,6 +11,7 @@ import com.medicaldatasharing.response.*;
 import com.medicaldatasharing.security.jwt.JwtProvider;
 import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
+import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -48,15 +49,33 @@ public class AdminService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    public List<PatientResponse> getAllPatientResponseFromPatientService() {
+        try {
+            String url = "http://localhost:8000/api/patient/admin-service/admin-service/get-all-patient-response/";
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("apikey", "admin-service");
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            String patientResponseStr = restTemplate.postForObject(url, entity, String.class);
+
+            List<PatientResponse> patientResponseList = new Genson().deserialize(patientResponseStr,
+                    new GenericType<List<PatientResponse>>() {
+                    });
+            return patientResponseList;
+        }
+        catch (Exception exception) {
+            System.out.println(exception);
+            return null;
+        }
+    }
+
     // todo
     public String getAllUserByAdmin() throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
         User user = getLoggedUser();
-//        List<Patient> patientList = patientRepository.findAll();
-//        for (Patient patient: patientList) {
-//            PatientResponse userResponse = new PatientResponse(patient);
-//            userResponseList.add(userResponse);
-//        }
+        List<PatientResponse> patientResponseList = getAllPatientResponseFromPatientService();
+        for (PatientResponse patientResponse: patientResponseList) {
+            userResponseList.add(patientResponse);
+        }
 //
 //        List<Doctor> doctorList = doctorRepository.findAll();
 //        for (Doctor doctor: doctorList) {

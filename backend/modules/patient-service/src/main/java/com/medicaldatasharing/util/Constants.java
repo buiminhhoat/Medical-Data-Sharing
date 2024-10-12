@@ -2,6 +2,7 @@ package com.medicaldatasharing.util;
 
 public class Constants {
     public static final String PATIENT_PERMIT_ALL_API = "/patient/permit-all/**";
+    public static final String PATIENT_ADMIN_SERVICE_API = "/patient/admin-service/**";
 
     public static final String PATIENT_API = "/patient/**";
 

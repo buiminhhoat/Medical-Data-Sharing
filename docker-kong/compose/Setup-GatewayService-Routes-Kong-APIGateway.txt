@@ -2,9 +2,11 @@
 curl -i -X POST http://localhost:8001/services/  --data name=user-service   --data url='http://172.25.114.38:9000/api/user/'
 curl -i -X POST http://localhost:8001/services/user-service/routes --data paths[]=/api/user/
 
-# patient-service
+# patient-service 
 curl -i -X POST http://localhost:8001/services/  --data name=patient-service   --data url='http://172.25.114.38:9001/api/patient/'
 curl -i -X POST http://localhost:8001/services/patient-service/routes --data paths[]=/api/patient/
+ROUTE_ID=$(curl -s -X POST http://localhost:8001/services/patient-service/routes --data paths[]=/api/patient/admin-service/ | jq -r '.id')
+curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'name=key-auth'
 
 # doctor-service
 curl -i -X POST http://localhost:8001/services/  --data name=doctor-service   --data url='http://172.25.114.38:9002/api/doctor/'
@@ -33,3 +35,5 @@ curl -i -X POST http://localhost:8001/services/drugstore-service/routes --data p
 # admin-service
 curl -i -X POST http://localhost:8001/services/  --data name=admin-service   --data url='http://172.25.114.38:9008/api/admin/'
 curl -i -X POST http://localhost:8001/services/admin-service/routes --data paths[]=/api/admin/
+curl -i -X POST --url http://localhost:8001/consumers/ --data 'username=admin-service'
+curl -i -X POST --url http://localhost:8001/consumers/admin-service/key-auth/ --data 'key=admin-service'

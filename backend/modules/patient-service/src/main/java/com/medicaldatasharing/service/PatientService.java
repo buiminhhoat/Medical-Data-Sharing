@@ -9,12 +9,9 @@ import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.PatientRepository;
 import com.medicaldatasharing.response.*;
-import com.medicaldatasharing.security.service.UserDetailsServiceImpl;
 import com.medicaldatasharing.util.Constants;
 import com.owlike.genson.Genson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -354,6 +351,16 @@ public class PatientService {
         if (patient == null) return null;
         PatientResponse patientResponse = new PatientResponse(patient);
         return new Genson().serialize(patientResponse);
+    }
+
+    public String getAllPatientResponse() {
+        List<Patient> patientList = patientRepository.findAll();
+        List<PatientResponse> patientResponseList = new ArrayList<>();
+        for (Patient patient: patientList) {
+            PatientResponse patientResponse = new PatientResponse(patient);
+            patientResponseList.add(patientResponse);
+        }
+        return new Genson().serialize(patientResponseList);
     }
 
     public String getAllDoctor() {
