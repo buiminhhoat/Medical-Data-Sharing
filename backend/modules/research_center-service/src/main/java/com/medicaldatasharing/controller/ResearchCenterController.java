@@ -3,7 +3,9 @@ package com.medicaldatasharing.controller;
 import com.medicaldatasharing.form.ChangePasswordForm;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.form.UpdateInformationForm;
+import com.medicaldatasharing.model.ResearchCenter;
 import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.repository.ResearchCenterRepository;
 import com.medicaldatasharing.response.GetUserDataResponse;
 import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.response.ResearchCenterResponse;
@@ -26,6 +28,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +51,12 @@ public class ResearchCenterController {
 
     @Autowired
     private JwtProvider jwtProvider;
+
+    @Autowired
+    private ResearchCenterRepository researchCenterRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/permit-all/check-health")
     public String checkHealth() {
@@ -153,8 +162,36 @@ public class ResearchCenterController {
         }
     }
 
-    @PostMapping("/register-user")
-    public ResponseEntity<?> registerUser(@Valid @ModelAttribute RegisterForm registerForm,
+    @PostMapping("/admin-service/register-user")
+    public ResponseEntity<?> registerUser(@RequestBody RegisterForm registerForm) {
+        try {
+            ResearchCenter researchCenter = null;
+            try {
+                researchCenter = ResearchCenter
+                        .builder()
+                        .fullName(registerForm.getFullName())
+                        .email(registerForm.getEmail())
+                        .username(registerForm.getEmail())
+                        .password(passwordEncoder.encode(registerForm.getPassword()))
+                        .address(registerForm.getAddress())
+                        .role(Constants.ROLE_RESEARCH_CENTER)
+                        .enabled(true)
+                        .build();
+
+                researchCenterRepository.save(researchCenter);
+                return ResponseEntity.ok(new Genson().serialize(researchCenter));
+            } catch (Exception e) {
+                researchCenterRepository.delete(researchCenter);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/register-scientist")
+    public ResponseEntity<?> registerScientist(@Valid @ModelAttribute RegisterForm registerForm,
                                           BindingResult result) {
         try {
             String registerUser = "";

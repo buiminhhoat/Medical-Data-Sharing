@@ -142,10 +142,10 @@ public class AdminService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("Authorization-Service", "Bearer " + accessToken);
+            headers.set("apikey", "admin-service");
 
             HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
-
-            String url = "http://localhost:9003/api/medical_institution/permit-all/register-user";
+            String url = "http://localhost:8000/api/medical_institution/admin-service/admin-service/register-user";
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
 
             return response.getBody();
@@ -161,10 +161,11 @@ public class AdminService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("Authorization-Service", "Bearer " + accessToken);
+            headers.set("apikey", "admin-service");
 
             HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
 
-            String url = "http://localhost:9006/api/manufacturer/permit-all/register-user";
+            String url = "http://localhost:8000/api/manufacturer/admin-service/admin-service/register-user";
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
 
             return response.getBody();
@@ -180,10 +181,11 @@ public class AdminService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("Authorization-Service", "Bearer " + accessToken);
+            headers.set("apikey", "admin-service");
 
             HttpEntity<RegisterForm> request = new HttpEntity<>(registerForm, headers);
 
-            String url = "http://localhost:9005/api/research_center/permit-all/register-user";
+            String url = "http://localhost:8000/api/research_center/admin-service/admin-service/register-user";
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
 
             return response.getBody();

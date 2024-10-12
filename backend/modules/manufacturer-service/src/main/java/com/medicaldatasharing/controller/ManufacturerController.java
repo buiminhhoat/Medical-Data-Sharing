@@ -85,7 +85,7 @@ public class ManufacturerController {
         return manufacturerService.getAllUserResponse();
     }
 
-    @PostMapping("/permit-all/register-user")
+    @PostMapping("/admin-service/register-user")
     public ResponseEntity<String> registerUser(@RequestBody RegisterForm registerForm,
                                                @RequestHeader("Authorization-Service") String accessToken) throws Exception {
         // Xử lý RegisterForm và access_token

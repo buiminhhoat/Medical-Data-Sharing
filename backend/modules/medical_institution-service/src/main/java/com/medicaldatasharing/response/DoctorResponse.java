@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.print.Doc;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,6 +21,9 @@ public class DoctorResponse extends UserResponse {
     private String medicalInstitutionName;
     private String gender;
 
+    public DoctorResponse() {
+
+    }
     public DoctorResponse(Doctor doctor) {
         this.id = doctor.getId();
         this.doctorId = doctor.getId();

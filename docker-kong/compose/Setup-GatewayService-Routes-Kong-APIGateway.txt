@@ -17,22 +17,32 @@ curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'na
 # medical_institution-service
 curl -i -X POST http://localhost:8001/services/  --data name=medical_institution-service   --data url='http://172.25.114.38:9003/api/medical_institution/'
 curl -i -X POST http://localhost:8001/services/medical_institution-service/routes --data paths[]=/api/medical_institution/
+ROUTE_ID=$(curl -s -X POST http://localhost:8001/services/medical_institution-service/routes --data paths[]=/api/medical_institution/admin-service/ | jq -r '.id')
+curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'name=key-auth'
 
 # scientist-service
 curl -i -X POST http://localhost:8001/services/  --data name=scientist-service   --data url='http://172.25.114.38:9004/api/scientist/'
 curl -i -X POST http://localhost:8001/services/scientist-service/routes --data paths[]=/api/scientist/
+ROUTE_ID=$(curl -s -X POST http://localhost:8001/services/scientist-service/routes --data paths[]=/api/scientist/admin-service/ | jq -r '.id')
+curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'name=key-auth'
 
 # research_center-service
 curl -i -X POST http://localhost:8001/services/  --data name=research_center-service   --data url='http://172.25.114.38:9005/api/research_center/'
 curl -i -X POST http://localhost:8001/services/research_center-service/routes --data paths[]=/api/research_center/
+ROUTE_ID=$(curl -s -X POST http://localhost:8001/services/research_center-service/routes --data paths[]=/api/research_center/admin-service/ | jq -r '.id')
+curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'name=key-auth'
 
 # manufacturer-service
 curl -i -X POST http://localhost:8001/services/  --data name=manufacturer-service   --data url='http://172.25.114.38:9006/api/manufacturer/'
 curl -i -X POST http://localhost:8001/services/manufacturer-service/routes --data paths[]=/api/manufacturer/
+ROUTE_ID=$(curl -s -X POST http://localhost:8001/services/manufacturer-service/routes --data paths[]=/api/manufacturer/admin-service/ | jq -r '.id')
+curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'name=key-auth'
 
 # drugstore-service
 curl -i -X POST http://localhost:8001/services/  --data name=drugstore-service   --data url='http://172.25.114.38:9007/api/drugstore/'
 curl -i -X POST http://localhost:8001/services/drugstore-service/routes --data paths[]=/api/drugstore/
+ROUTE_ID=$(curl -s -X POST http://localhost:8001/services/drugstore-service/routes --data paths[]=/api/drugstore/admin-service/ | jq -r '.id')
+curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'name=key-auth'
 
 # admin-service
 curl -i -X POST http://localhost:8001/services/  --data name=admin-service   --data url='http://172.25.114.38:9008/api/admin/'

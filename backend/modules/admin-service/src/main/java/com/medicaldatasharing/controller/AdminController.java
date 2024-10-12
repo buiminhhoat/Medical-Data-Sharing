@@ -160,7 +160,6 @@ public class AdminController {
         }
     }
 
-    // todo: Need check medical institution, research center
     @PostMapping("/register-user")
     public ResponseEntity<?> registerUser(@Valid @ModelAttribute RegisterForm registerForm,
                                           BindingResult result) {

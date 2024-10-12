@@ -143,11 +143,13 @@ public class MedicalInstitutionService {
         List<DoctorResponse> doctorResponses = getAllDoctorByMedicalInstitutionId(medicalInstitution.getId());
 
         for (DoctorResponse doctorResponse: doctorResponses) {
-            if (!Objects.equals(doctorResponse.getDoctorId(), id)) continue;
+            String doctorId = doctorResponse.getId();
+            if (!Objects.equals(doctorId, id)) continue;
             doctorResponse.setMedicalInstitutionName(getFullName(doctorResponse.getMedicalInstitutionId()));
             userResponseList.add(doctorResponse);
         }
 
+        System.out.println(userResponseList.size());
         try {
             if (userResponseList.size() == 1) {
                 return new Genson().serialize(userResponseList.get(0));

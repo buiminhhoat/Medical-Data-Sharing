@@ -93,14 +93,14 @@ export const API = {
     GET_ALL_DOCTOR_BY_MEDICAL_INSTITUTION:
       "/api/medical_institution/get-all-doctor-by-medical-institution",
     GET_USER_INFO: "/api/medical_institution/get-user-info",
-    REGISTER_USER: "/api/medical_institution/register-user",
+    REGISTER_USER: "/api/medical_institution/register-doctor",
   },
 
   RESEARCH_CENTER: {
     GET_ALL_SCIENTIST_BY_RESEARCH_CENTER:
       "/api/research_center/get-all-scientist-by-research-center",
     GET_USER_INFO: "/api/research_center/get-user-info",
-    REGISTER_USER: "/api/research_center/register-user",
+    REGISTER_USER: "/api/research_center/register-scientist",
   },
 
   SCIENTIST: {

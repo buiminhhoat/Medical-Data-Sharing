@@ -4,7 +4,9 @@ import com.medicaldatasharing.form.ChangePasswordForm;
 import com.medicaldatasharing.form.DefineRequestForm;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.form.UpdateInformationForm;
+import com.medicaldatasharing.model.MedicalInstitution;
 import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.repository.MedicalInstitutionRepository;
 import com.medicaldatasharing.response.DoctorResponse;
 import com.medicaldatasharing.response.GetUserDataResponse;
 import com.medicaldatasharing.response.MedicalInstitutionResponse;
@@ -25,6 +27,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.Objects;
+import com.owlike.genson.Genson;
 
 @RestController
 @RequestMapping("/medical_institution")
@@ -45,6 +49,12 @@ public class MedicalInstitutionController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private MedicalInstitutionRepository medicalInstitutionRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtProvider jwtProvider;
@@ -153,10 +163,32 @@ public class MedicalInstitutionController {
         }
     }
 
+    @PostMapping("/admin-service/register-user")
+    public ResponseEntity<String> registerUser(@RequestBody RegisterForm registerForm) {
+        MedicalInstitution medicalInstitution = null;
+        try {
+            medicalInstitution = MedicalInstitution
+                    .builder()
+                    .fullName(registerForm.getFullName())
+                    .email(registerForm.getEmail())
+                    .role(Constants.ROLE_MEDICAL_INSTITUTION)
+                    .username(registerForm.getEmail())
+                    .password(passwordEncoder.encode(registerForm.getPassword()))
+                    .address(registerForm.getAddress())
+                    .enabled(true)
+                    .build();
+            medicalInstitutionRepository.save(medicalInstitution);
+            return ResponseEntity.ok(new Genson().serialize(medicalInstitution));
+        }
+        catch (Exception exception) {
+            medicalInstitutionRepository.delete(medicalInstitution);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
+        }
+    }
+
     // todo
-    @PostMapping("/register-user")
-    public ResponseEntity<?> registerUser(@Valid @ModelAttribute RegisterForm registerForm,
-                                          BindingResult result) {
+    @PostMapping("/register-doctor")
+    public ResponseEntity<?> registerDoctor(@Valid @ModelAttribute RegisterForm registerForm) {
         try {
             String registerUser = "";
 
