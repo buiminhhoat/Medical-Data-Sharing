@@ -12,6 +12,7 @@ public class Constants {
     public static final String ADMIN_API = "/admin/**";
     public static final String MEDICAL_INSTITUTION_API = "/medical_institution/**";
     public static final String MEDICAL_INSTITUTION_PERMIT_ALL_API = "/medical_institution/permit-all/**";
+    public static final String MEDICAL_INSTITUTION_ADMIN_SERVICE_API = "/medical_institution/admin-service/**";
 
     public static final String ROLE_PATIENT = "Bệnh nhân";
     public static final String ROLE_ADMIN = "Quản trị viên";

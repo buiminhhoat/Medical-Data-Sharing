@@ -83,6 +83,11 @@ public class PatientController {
         return patientService.getAllPatientResponse();
     }
 
+    @PostMapping("/admin-service/get-all-user-response")
+    public String getAllUserResponse() {
+        return patientService.getAllUserResponse();
+    }
+
     @PostMapping("/permit-all/register")
     public ResponseEntity<?> register(@ModelAttribute RegisterDto registerDto, BindingResult result) {
         if (result.hasErrors()) {

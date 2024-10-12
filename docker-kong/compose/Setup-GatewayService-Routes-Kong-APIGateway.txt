@@ -11,6 +11,8 @@ curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'na
 # doctor-service
 curl -i -X POST http://localhost:8001/services/  --data name=doctor-service   --data url='http://172.25.114.38:9002/api/doctor/'
 curl -i -X POST http://localhost:8001/services/doctor-service/routes --data paths[]=/api/doctor/
+ROUTE_ID=$(curl -s -X POST http://localhost:8001/services/doctor-service/routes --data paths[]=/api/doctor/admin-service/ | jq -r '.id')
+curl -i -X POST --url http://localhost:8001/routes/$ROUTE_ID/plugins/ --data 'name=key-auth'
 
 # medical_institution-service
 curl -i -X POST http://localhost:8001/services/  --data name=medical_institution-service   --data url='http://172.25.114.38:9003/api/medical_institution/'

@@ -2,7 +2,13 @@ package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.owlike.genson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class MedicationResponse {
     @JsonProperty("medicationId")
     private String medicationId;

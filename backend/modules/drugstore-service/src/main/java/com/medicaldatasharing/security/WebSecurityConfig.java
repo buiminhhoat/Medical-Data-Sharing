@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers(Constants.DRUGSTORE_PERMIT_ALL_API).permitAll()
+                .antMatchers(Constants.DRUGSTORE_ADMIN_SERVICE_API).permitAll()
                 .antMatchers(Constants.DRUGSTORE_API).hasAuthority(Constants.ROLE_DRUG_STORE)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)

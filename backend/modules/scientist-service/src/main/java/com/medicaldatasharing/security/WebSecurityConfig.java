@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers(Constants.SCIENTIST_PERMIT_ALL_API).permitAll()
+                .antMatchers(Constants.SCIENTIST_ADMIN_SERVICE_API).permitAll()
                 .antMatchers(Constants.SCIENTIST_API).hasAuthority(Constants.ROLE_SCIENTIST)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)

@@ -1,5 +1,11 @@
 package com.medicaldatasharing.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class GetUserDataResponse {
     private String fullName;
     private String role;

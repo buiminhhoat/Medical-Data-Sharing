@@ -2,11 +2,13 @@ package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.model.User;
 import com.owlike.genson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class UserResponse {
     @JsonProperty("id")
     protected String id;

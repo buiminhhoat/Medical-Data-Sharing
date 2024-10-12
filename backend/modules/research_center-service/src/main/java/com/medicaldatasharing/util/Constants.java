@@ -13,6 +13,7 @@ public class Constants {
     public static final String MEDICAL_INSTITUTION_API = "/medical_institution/**";
     public static final String RESEARCH_CENTER_API = "/research_center/**";
     public static final String RESEARCH_CENTER_PERMIT_ALL_API = "/research_center/permit-all/**";
+    public static final String RESEARCH_CENTER_ADMIN_SERVICE_API = "/research_center/admin-service/**";
 
 
     public static final String ROLE_PATIENT = "Bệnh nhân";

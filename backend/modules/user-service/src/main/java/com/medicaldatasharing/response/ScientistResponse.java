@@ -2,11 +2,13 @@ package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.model.Scientist;
 import com.medicaldatasharing.util.StringUtil;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ScientistResponse extends UserResponse {
     private String doctorId;
 

@@ -4,9 +4,15 @@ import com.medicaldatasharing.chaincode.dto.Purchase;
 import com.medicaldatasharing.dto.PurchaseDetailsDto;
 import com.medicaldatasharing.dto.PurchaseDto;
 import com.owlike.genson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class PurchaseResponse {
     @JsonProperty("purchaseId")
     private String purchaseId;

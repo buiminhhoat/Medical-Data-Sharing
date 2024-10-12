@@ -6,10 +6,7 @@ import com.medicaldatasharing.chaincode.dto.Drug;
 import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.*;
-import com.medicaldatasharing.model.Doctor;
-import com.medicaldatasharing.model.Manufacturer;
-import com.medicaldatasharing.model.MedicalInstitution;
-import com.medicaldatasharing.model.User;
+import com.medicaldatasharing.model.*;
 import com.medicaldatasharing.repository.*;
 import com.medicaldatasharing.response.*;
 import com.medicaldatasharing.security.jwt.JwtProvider;
@@ -215,5 +212,15 @@ public class MedicalInstitutionService {
         if (medicalInstitution == null) return null;
         MedicalInstitutionResponse medicalInstitutionResponse = new MedicalInstitutionResponse(medicalInstitution);
         return medicalInstitutionResponse;
+    }
+
+    public String getAllUserResponse() {
+        List<MedicalInstitution> medicalInstitutionList = medicalInstitutionRepository.findAll();
+        List<MedicalInstitutionResponse> medicalInstitutionResponses = new ArrayList<>();
+        for (MedicalInstitution medicalInstitution: medicalInstitutionList) {
+            MedicalInstitutionResponse medicalInstitutionResponse = new MedicalInstitutionResponse(medicalInstitution);
+            medicalInstitutionResponses.add(medicalInstitutionResponse);
+        }
+        return new Genson().serialize(medicalInstitutionResponses);
     }
 }

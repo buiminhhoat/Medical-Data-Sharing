@@ -48,6 +48,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/get-user-response/{id}")
+    public String getUserResponse(@PathVariable String id) throws Exception {
+        try {
+            return userService.getUserResponse(id);
+        }
+        catch (Exception e) {
+            return "No found";
+        }
+    }
+
     @PostMapping("/get-all-doctor")
     public ResponseEntity<?> getAllDoctor() throws Exception {
         try {

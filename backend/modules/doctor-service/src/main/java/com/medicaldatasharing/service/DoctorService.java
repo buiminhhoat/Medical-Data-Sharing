@@ -403,4 +403,14 @@ public class DoctorService {
         DoctorResponse doctorResponse = new DoctorResponse(doctor);
         return doctorResponse;
     }
+
+    public String getAllUserResponse() {
+        List<Doctor> doctorList = doctorRepository.findAll();
+        List<DoctorResponse> doctorResponseList = new ArrayList<>();
+        for (Doctor doctor: doctorList) {
+            DoctorResponse doctorResponse = new DoctorResponse(doctor);
+            doctorResponseList.add(doctorResponse);
+        }
+        return new Genson().serialize(doctorResponseList);
+    }
 }

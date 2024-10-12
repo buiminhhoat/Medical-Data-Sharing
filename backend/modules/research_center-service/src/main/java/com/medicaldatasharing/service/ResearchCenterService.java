@@ -3,10 +3,12 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.form.ChangePasswordForm;
 import com.medicaldatasharing.form.RegisterForm;
 import com.medicaldatasharing.form.UpdateInformationForm;
+import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.ResearchCenter;
 import com.medicaldatasharing.model.Scientist;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.ResearchCenterRepository;
+import com.medicaldatasharing.response.PatientResponse;
 import com.medicaldatasharing.response.ResearchCenterResponse;
 import com.medicaldatasharing.response.ScientistResponse;
 import com.medicaldatasharing.response.UserResponse;
@@ -85,6 +87,16 @@ public class ResearchCenterService {
         if (researchCenter == null) return null;
         ResearchCenterResponse researchCenterResponse = new ResearchCenterResponse(researchCenter);
         return new Genson().serialize(researchCenterResponse);
+    }
+
+    public String getAllUserResponse() {
+        List<ResearchCenter> researchCenterList = researchCenterRepository.findAll();
+        List<ResearchCenterResponse> researchCenterResponses = new ArrayList<>();
+        for (ResearchCenter researchCenter: researchCenterList) {
+            ResearchCenterResponse researchCenterResponse = new ResearchCenterResponse(researchCenter);
+            researchCenterResponses.add(researchCenterResponse);
+        }
+        return new Genson().serialize(researchCenterResponses);
     }
 
     public ScientistResponse getScientistResponseResponseFromScientistResponseService(String id) {

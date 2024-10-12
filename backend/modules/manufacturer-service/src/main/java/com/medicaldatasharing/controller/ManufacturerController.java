@@ -80,6 +80,11 @@ public class ManufacturerController {
         return manufacturerService.getManufacturerResponse(id);
     }
 
+    @PostMapping("/admin-service/get-all-user-response")
+    public String getAllUserResponse() {
+        return manufacturerService.getAllUserResponse();
+    }
+
     @PostMapping("/permit-all/register-user")
     public ResponseEntity<String> registerUser(@RequestBody RegisterForm registerForm,
                                                @RequestHeader("Authorization-Service") String accessToken) throws Exception {

@@ -206,6 +206,16 @@ public class ManufacturerService {
         return new Genson().serialize(manufacturerResponse);
     }
 
+    public String getAllUserResponse() {
+        List<Manufacturer> manufacturerList = manufacturerRepository.findAll();
+        List<ManufacturerResponse> manufacturerResponseList = new ArrayList<>();
+        for (Manufacturer manufacturer: manufacturerList) {
+            ManufacturerResponse manufacturerResponse = new ManufacturerResponse(manufacturer);
+            manufacturerResponseList.add(manufacturerResponse);
+        }
+        return new Genson().serialize(manufacturerResponseList);
+    }
+
     public String getAllRequest() throws Exception {
         User user = getLoggedUser();
         try {

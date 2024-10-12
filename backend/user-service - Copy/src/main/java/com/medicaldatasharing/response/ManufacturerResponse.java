@@ -3,9 +3,15 @@ package com.medicaldatasharing.response;
 import com.medicaldatasharing.chaincode.dto.Medication;
 import com.medicaldatasharing.model.Manufacturer;
 import com.owlike.genson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class ManufacturerResponse extends UserResponse {
     @JsonProperty("manufacturerId")
     private String manufacturerId;

@@ -64,9 +64,14 @@ public class MedicalInstitutionController {
         }
     }
 
-    @GetMapping("/permit-all/get-doctor-response/{id}")
+    @GetMapping("/permit-all/get-medical_institution-response/{id}")
     public MedicalInstitutionResponse getMedicalInstitutionResponse(@PathVariable String id) {
         return medicalInstitutionService.getMedicalInstitutionResponse(id);
+    }
+
+    @PostMapping("/admin-service/get-all-user-response")
+    public String getAllUserResponse() {
+        return medicalInstitutionService.getAllUserResponse();
     }
 
     @PostMapping("/permit-all/login")

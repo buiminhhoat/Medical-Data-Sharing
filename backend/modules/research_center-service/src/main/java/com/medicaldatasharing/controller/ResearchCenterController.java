@@ -64,9 +64,14 @@ public class ResearchCenterController {
         }
     }
 
-    @GetMapping("/permit-all/get-research-center-response/{id}")
-    public String getScientistResponse(@PathVariable String id) {
+    @GetMapping("/permit-all/get-research_center-response/{id}")
+    public String getResearchCenterResponse(@PathVariable String id) {
         return researchCenterService.getResearchCenterResponse(id);
+    }
+
+    @PostMapping("/admin-service/get-all-user-response")
+    public String getAllUserResponse() {
+        return researchCenterService.getAllUserResponse();
     }
 
     @PostMapping("/permit-all/login")

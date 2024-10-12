@@ -330,6 +330,16 @@ public class ScientistService {
         return new Genson().serialize(scientistResponse);
     }
 
+    public String getAllUserResponse() {
+        List<Scientist> scientistList = scientistRepository.findAll();
+        List<ScientistResponse> scientistResponseList = new ArrayList<>();
+        for (Scientist scientist: scientistList) {
+            ScientistResponse scientistResponse = new ScientistResponse(scientist);
+            scientistResponseList.add(scientistResponse);
+        }
+        return new Genson().serialize(scientistResponseList);
+    }
+
     public String getAllScientistByResearchCenterId(String researchCenterId) {
         try {
             List<Scientist> scientistList = scientistRepository.findScientistByResearchCenterId(researchCenterId);

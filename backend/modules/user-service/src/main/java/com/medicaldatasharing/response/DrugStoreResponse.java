@@ -1,11 +1,13 @@
 package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.model.DrugStore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class DrugStoreResponse extends UserResponse {
     private String drugStoreId;
     private String businessLicenseNumber;

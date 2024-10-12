@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers(Constants.MANUFACTURER_PERMIT_ALL_API).permitAll()
+                .antMatchers(Constants.MANUFACTURER_ADMIN_SERVICE_API).permitAll()
                 .antMatchers(Constants.MANUFACTURER_API).hasAuthority(Constants.ROLE_MANUFACTURER)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)

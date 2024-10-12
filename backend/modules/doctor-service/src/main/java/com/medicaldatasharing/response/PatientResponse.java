@@ -3,7 +3,13 @@ package com.medicaldatasharing.response;
 import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.util.StringUtil;
 import com.owlike.genson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class PatientResponse extends UserResponse {
     @JsonProperty("patientId")
     protected String patientId;
@@ -23,7 +29,6 @@ public class PatientResponse extends UserResponse {
     public PatientResponse() {
 
     }
-
     public PatientResponse(Patient patient) {
         this.id = patient.getId();
         this.patientId = patient.getId();

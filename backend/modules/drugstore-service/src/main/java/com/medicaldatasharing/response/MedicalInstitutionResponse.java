@@ -1,7 +1,13 @@
 package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.model.MedicalInstitution;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class MedicalInstitutionResponse extends UserResponse {
     public MedicalInstitutionResponse(MedicalInstitution medicalInstitution) {
         this.id = medicalInstitution.getId();

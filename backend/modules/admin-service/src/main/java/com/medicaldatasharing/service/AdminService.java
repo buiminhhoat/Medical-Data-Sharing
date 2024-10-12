@@ -68,50 +68,46 @@ public class AdminService {
         }
     }
 
-    // todo
+    public List<UserResponse> getAllUserResponseFromOtherService(String org) {
+        try {
+            String url = "http://localhost:8000/api/" + org + "/admin-service/admin-service/get-all-user-response/";
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("apikey", "admin-service");
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            String userResponseStr = restTemplate.postForObject(url, entity, String.class);
+
+            List<UserResponse> userResponseList = new Genson().deserialize(userResponseStr,
+                    new GenericType<List<UserResponse>>() {
+                    });
+            return userResponseList;
+        }
+        catch (Exception exception) {
+            System.out.println(exception);
+            return null;
+        }
+    }
+
+    public UserResponse getUserResponse(String id) {
+        String url = "http://localhost:8000/api/user/get-user-response/" + id;
+        try {
+            String userResponseStr = restTemplate.getForObject(url, String.class);
+            return new Genson().deserialize(userResponseStr, UserResponse.class);
+        }
+        catch (Exception exception) {
+            return null;
+        }
+    }
+
     public String getAllUserByAdmin() throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
         User user = getLoggedUser();
-        List<PatientResponse> patientResponseList = getAllPatientResponseFromPatientService();
-        for (PatientResponse patientResponse: patientResponseList) {
-            userResponseList.add(patientResponse);
-        }
-//
-//        List<Doctor> doctorList = doctorRepository.findAll();
-//        for (Doctor doctor: doctorList) {
-//            DoctorResponse userResponse = new DoctorResponse(doctor);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<DrugStore> drugStoreList = drugStoreRepository.findAll();
-//        for (DrugStore drugStore: drugStoreList) {
-//            DrugStoreResponse userResponse = new DrugStoreResponse(drugStore);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<Manufacturer> manufacturerList = manufacturerRepository.findAll();
-//        for (Manufacturer manufacturer: manufacturerList) {
-//            ManufacturerResponse userResponse = new ManufacturerResponse(manufacturer);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<MedicalInstitution> medicalInstitutionList = medicalInstitutionRepository.findAll();
-//        for (MedicalInstitution medicalInstitution: medicalInstitutionList) {
-//            MedicalInstitutionResponse userResponse = new MedicalInstitutionResponse(medicalInstitution);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<ResearchCenter> researchCenterList = researchCenterRepository.findAll();
-//        for (ResearchCenter researchCenter: researchCenterList) {
-//            ResearchCenterResponse userResponse = new ResearchCenterResponse(researchCenter);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<Scientist> scientistList = scientistRepository.findAll();
-//        for (Scientist scientist: scientistList) {
-//            ScientistResponse userResponse = new ScientistResponse(scientist);
-//            userResponseList.add(userResponse);
-//        }
+        userResponseList.addAll(getAllUserResponseFromOtherService("patient"));
+        userResponseList.addAll(getAllUserResponseFromOtherService("doctor"));
+        userResponseList.addAll(getAllUserResponseFromOtherService("drugstore"));
+        userResponseList.addAll(getAllUserResponseFromOtherService("manufacturer"));
+        userResponseList.addAll(getAllUserResponseFromOtherService("medical_institution"));
+        userResponseList.addAll(getAllUserResponseFromOtherService("research_center"));
+        userResponseList.addAll(getAllUserResponseFromOtherService("scientist"));
 
         try {
             return new Genson().serialize(userResponseList);
@@ -121,52 +117,10 @@ public class AdminService {
         }
     }
 
-    // todo
     public String getUserInfo(String id) throws Exception {
         List<UserResponse> userResponseList = new ArrayList<>();
         User user = getLoggedUser();
-//        List<Patient> patientList = patientRepository.findAllById(id);
-//        for (Patient patient: patientList) {
-//            PatientResponse userResponse = new PatientResponse(patient);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<Doctor> doctorList = doctorRepository.findAllById(id);
-//        for (Doctor doctor: doctorList) {
-//            DoctorResponse userResponse = new DoctorResponse(doctor);
-//            userResponse.setMedicalInstitutionName(userDetailsService.getUserByUserId(userResponse.getMedicalInstitutionId()).getFullName());
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<DrugStore> drugStoreList = drugStoreRepository.findAllById(id);
-//        for (DrugStore drugStore: drugStoreList) {
-//            DrugStoreResponse userResponse = new DrugStoreResponse(drugStore);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<Manufacturer> manufacturerList = manufacturerRepository.findAllById(id);
-//        for (Manufacturer manufacturer: manufacturerList) {
-//            ManufacturerResponse userResponse = new ManufacturerResponse(manufacturer);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<MedicalInstitution> medicalInstitutionList = medicalInstitutionRepository.findAllById(id);
-//        for (MedicalInstitution medicalInstitution: medicalInstitutionList) {
-//            MedicalInstitutionResponse userResponse = new MedicalInstitutionResponse(medicalInstitution);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<ResearchCenter> researchCenterList = researchCenterRepository.findAllById(id);
-//        for (ResearchCenter researchCenter: researchCenterList) {
-//            ResearchCenterResponse userResponse = new ResearchCenterResponse(researchCenter);
-//            userResponseList.add(userResponse);
-//        }
-//
-//        List<Scientist> scientistList = scientistRepository.findAllById(id);
-//        for (Scientist scientist: scientistList) {
-//            ScientistResponse userResponse = new ScientistResponse(scientist);
-//            userResponseList.add(userResponse);
-//        }
+        userResponseList.add(getUserResponse(id));
 
         try {
             if (userResponseList.size() == 1) {

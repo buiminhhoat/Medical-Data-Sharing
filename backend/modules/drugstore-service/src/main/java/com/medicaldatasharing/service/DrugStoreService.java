@@ -9,6 +9,7 @@ import com.medicaldatasharing.dto.PurchaseDto;
 import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.DrugStore;
+import com.medicaldatasharing.model.Patient;
 import com.medicaldatasharing.model.User;
 import com.medicaldatasharing.repository.DrugStoreRepository;
 import com.medicaldatasharing.response.*;
@@ -178,6 +179,16 @@ public class DrugStoreService {
         if (drugStore == null) return null;
         DrugStoreResponse drugStoreResponse = new DrugStoreResponse(drugStore);
         return new Genson().serialize(drugStoreResponse);
+    }
+
+    public String getAllUserResponse() {
+        List<DrugStore> drugStoreList = drugStoreRepository.findAll();
+        List<DrugStoreResponse> drugStoreResponseList = new ArrayList<>();
+        for (DrugStore patient: drugStoreList) {
+            DrugStoreResponse drugStoreResponse = new DrugStoreResponse(patient);
+            drugStoreResponseList.add(drugStoreResponse);
+        }
+        return new Genson().serialize(drugStoreResponseList);
     }
 
     public String getAllRequest() throws Exception {

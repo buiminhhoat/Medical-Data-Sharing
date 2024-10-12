@@ -5,9 +5,15 @@ import com.medicaldatasharing.chaincode.dto.Request;
 import com.medicaldatasharing.chaincode.dto.ViewPrescriptionRequest;
 import com.medicaldatasharing.enumeration.RequestType;
 import com.owlike.genson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class RequestResponse {
     @JsonProperty("requestId")
     protected String requestId;

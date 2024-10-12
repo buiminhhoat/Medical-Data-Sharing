@@ -86,6 +86,11 @@ public class DoctorController {
         return doctorService.getDoctorResponse(id);
     }
 
+    @PostMapping("/admin-service/get-all-user-response")
+    public String getAllUserResponse() {
+        return doctorService.getAllUserResponse();
+    }
+
     @PostMapping("/permit-all/get-all-doctor")
     public String getAllDoctor() throws Exception {
         try {

@@ -79,6 +79,49 @@ public class UserService {
         return getUserFromOtherService(id);
     }
 
+    public String getUserResponseFromOtherService(String id) {
+        String org = id.substring(0, id.indexOf("-"));
+        org = org.toLowerCase(Locale.ROOT);
+        String port = "";
+        switch (org) {
+            case "patient":
+                port = "9001";
+                break;
+            case "doctor":
+                port = "9002";
+                break;
+            case "medicalinstitution":
+                org = "medical_institution";
+                port = "9003";
+                break;
+            case "scientist":
+                port = "9004";
+                break;
+            case "researchcenter":
+                org = "research_center";
+                port = "9005";
+                break;
+            case "manufacturer":
+                port = "9006";
+                break;
+            case "drugstore":
+                port = "9007";
+                break;
+            case "admin":
+                port = "9008";
+                break;
+        }
+        if (port.equals("")) {
+            return "Not found";
+        }
+        String url = "http://localhost:" + port + "/api/" + org + "/permit-all/get-" + org + "-response/" + id;
+        return restTemplate.getForObject(url, String.class);
+    }
+
+    public String getUserResponse(String id) throws Exception {
+        return getUserResponseFromOtherService(id);
+    }
+
     public String getAllDoctor() {
         String url = "http://localhost:9002/api/doctor/permit-all/get-all-doctor/";
         return restTemplate.postForObject(url, null, String.class);

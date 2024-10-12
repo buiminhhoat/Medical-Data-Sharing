@@ -363,6 +363,16 @@ public class PatientService {
         return new Genson().serialize(patientResponseList);
     }
 
+    public String getAllUserResponse() {
+        List<Patient> patientList = patientRepository.findAll();
+        List<PatientResponse> patientResponseList = new ArrayList<>();
+        for (Patient patient: patientList) {
+            PatientResponse patientResponse = new PatientResponse(patient);
+            patientResponseList.add(patientResponse);
+        }
+        return new Genson().serialize(patientResponseList);
+    }
+
     public String getAllDoctor() {
         return null;
     }

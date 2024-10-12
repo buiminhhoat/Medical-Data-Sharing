@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers(Constants.DOCTOR_PERMIT_ALL_API).permitAll()
+                .antMatchers(Constants.DOCTOR_ADMIN_SERVICE_API).permitAll()
                 .antMatchers(Constants.DOCTOR_API).hasAuthority(Constants.ROLE_DOCTOR)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)

@@ -2,11 +2,13 @@ package com.medicaldatasharing.response;
 
 import com.medicaldatasharing.model.Doctor;
 import com.medicaldatasharing.util.StringUtil;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class DoctorResponse extends UserResponse {
     private String doctorId;
 
@@ -16,10 +18,6 @@ public class DoctorResponse extends UserResponse {
     private String medicalInstitutionId;
     private String medicalInstitutionName;
     private String gender;
-
-    public DoctorResponse() {
-
-    }
 
     public DoctorResponse(Doctor doctor) {
         this.id = doctor.getId();
