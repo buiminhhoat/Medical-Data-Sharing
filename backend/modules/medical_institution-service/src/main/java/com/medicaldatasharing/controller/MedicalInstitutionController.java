@@ -186,7 +186,6 @@ public class MedicalInstitutionController {
         }
     }
 
-    // todo
     @PostMapping("/register-doctor")
     public ResponseEntity<?> registerDoctor(@Valid @ModelAttribute RegisterForm registerForm) {
         try {

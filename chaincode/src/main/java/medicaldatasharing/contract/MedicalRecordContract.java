@@ -136,6 +136,10 @@ public class MedicalRecordContract implements ContractInterface {
             throw new ChaincodeException("request.getRecipientId() does not match doctorId",
                     ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
         }
+        if (!Objects.equals(appointmentRequest.getMedicalInstitutionId(), medicalInstitutionId)) {
+            throw new ChaincodeException("request.getMedicalInstitutionId() does not match medicalInstitutionId",
+                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+        }
         if (!Objects.equals(appointmentRequest.getRequestType(), RequestType.APPOINTMENT)) {
             throw new ChaincodeException("request.getRequestType() does not match RequestType.APPOINTMENT",
                     ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());

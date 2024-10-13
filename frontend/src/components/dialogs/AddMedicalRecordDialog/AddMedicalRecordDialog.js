@@ -221,6 +221,17 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
     setIsConfirmModalOpen(false);
   };
 
+  const handleError = (valuesForm) => {
+    openNotification(
+      "topRight",
+      "error",
+      "Thất bại",
+      "Dữ liệu nhập vào không hợp lệ, yêu cầu chưa được gửi đi!"
+    );
+    // setIsConfirmModalOpen(true);
+    // setValuesForm(valuesForm);
+  };
+
   return (
     <Context.Provider value={"Thêm hồ sơ y tế"}>
       {contextHolder}
@@ -259,7 +270,8 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
               remember: true,
             }}
             onFinish={handleConfirm}
-            onFinishFailed={onFinishFailed}
+            onError={handleError}
+            onFinishFailed={handleError}
             autoComplete="on"
           >
             <div style={{ width: "100%" }}>
@@ -292,9 +304,16 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                     required: true,
                     message: "Vui lòng điền tên xét nghiệm!",
                   },
+                  {
+                    max: 100, // Giới hạn độ dài tối đa là 100 ký tự
+                    message: 'Độ dài tối đa là 100 ký tự',
+                  },
                 ]}
               >
-                <Input />
+                <Input count={{
+                  show: true,
+                  max: 100,
+                }}/>
               </Form.Item>
 
               <Form.Item
@@ -305,9 +324,16 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                     required: true,
                     message: "Vui lòng điền chi tiết xét nghiệm!",
                   },
+                  {
+                    max: 100, // Giới hạn độ dài tối đa là 100 ký tự
+                    message: 'Độ dài tối đa là 100 ký tự',
+                  },
                 ]}
               >
-                <Input />
+                <Input count={{
+                  show: true,
+                  max: 100,
+                }}/>
               </Form.Item>
 
               <Form.Item
@@ -387,6 +413,12 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                                   required: true,
                                   message: "Chọn số lượng",
                                 },
+                                {
+                                  validator: (_, value) =>
+                                    value > 0 && Number.isInteger(value)
+                                      ? Promise.resolve()
+                                      : Promise.reject(new Error('Số lượng phải là số nguyên và lớn hơn 0')),
+                                }
                               ]}
                             >
                               <InputNumber
@@ -424,6 +456,10 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                                   required: true,
                                   message: "Vui lòng điền cách dùng",
                                 },
+                                {
+                                  max: 100, // Giới hạn độ dài tối đa là 100 ký tự
+                                  message: 'Độ dài tối đa là 100 ký tự',
+                                },
                               ]}
                             >
                               <Input
@@ -433,6 +469,10 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                                 }}
                                 placeholder="Cách dùng"
                                 value={value}
+                                count={{
+                                  show: true,
+                                  max: 100,
+                                }}
                               />
                             </Form.Item>
                           </div>
