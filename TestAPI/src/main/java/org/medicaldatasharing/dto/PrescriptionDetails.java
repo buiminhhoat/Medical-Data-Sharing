@@ -1,8 +1,7 @@
-package com.medicaldatasharing.chaincode.dto;
+package org.medicaldatasharing.dto;
 
 import com.owlike.genson.annotation.JsonProperty;
 
-import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class PrescriptionDetails {
@@ -22,7 +21,6 @@ public class PrescriptionDetails {
     private String purchasedQuantity;
 
     @JsonProperty("details")
-    @Size(max = 100)
     private String details;
 
     @JsonProperty("entityName")

@@ -11,6 +11,7 @@ import com.medicaldatasharing.repository.DoctorRepository;
 import com.medicaldatasharing.response.DoctorResponse;
 import com.medicaldatasharing.response.GetUserDataResponse;
 import com.medicaldatasharing.response.PatientResponse;
+import com.medicaldatasharing.response.UserResponse;
 import com.medicaldatasharing.security.dto.JwtResponse;
 import com.medicaldatasharing.security.dto.LoginDto;
 import com.medicaldatasharing.security.dto.Response;
@@ -41,6 +42,7 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/doctor")
@@ -246,10 +248,18 @@ public class DoctorController {
     }
 
     @PostMapping("/add-medical-record")
-    public ResponseEntity<?> addMedicalRecord(@Valid @ModelAttribute AddMedicalRecordForm addMedicalRecordForm, BindingResult result) throws Exception {
+    public ResponseEntity<?> addMedicalRecord(@Valid @ModelAttribute AddMedicalRecordForm addMedicalRecordForm,
+                                              BindingResult result) throws Exception {
+        if (result.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             addMedicalRecordForm.setDateCreated(StringUtil.parseDate(new Date()));
             addMedicalRecordForm.setDateModified(StringUtil.parseDate(new Date()));
+            UserResponse doctorResponse = doctorService.getUserResponse(addMedicalRecordForm.getDoctorId());
+            if (!Objects.equals(doctorResponse.getMedicalInstitutionId(), addMedicalRecordForm.getMedicalInstitutionId())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
             String addPrescription = addMedicalRecordForm.getAddPrescription();
             List<PrescriptionDetails>  prescriptionDetailsList = new Genson().deserialize(addPrescription,
                             new GenericType<List<PrescriptionDetails>>() {});

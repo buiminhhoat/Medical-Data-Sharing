@@ -56,6 +56,17 @@ public class DoctorService {
         return new Genson().deserialize(patientResponseStr, PatientResponse.class);
     }
 
+    public UserResponse getUserResponse(String id) {
+        String url = "http://localhost:8000/api/user/get-user-response/" + id;
+        try {
+            String userResponseStr = restTemplate.getForObject(url, String.class);
+            return new Genson().deserialize(userResponseStr, UserResponse.class);
+        }
+        catch (Exception exception) {
+            return null;
+        }
+    }
+
     public String getFullName(String id) {
         String org = id.substring(0, id.indexOf("-"));
         if (org.equals("Doctor")) {

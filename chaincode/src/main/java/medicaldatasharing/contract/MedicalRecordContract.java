@@ -130,25 +130,25 @@ public class MedicalRecordContract implements ContractInterface {
         System.out.println(patientId);
         if (!Objects.equals(appointmentRequest.getSenderId(), patientId)) {
             throw new ChaincodeException("request.getSenderId() does not match patientId",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED.toString());
         }
         if (!Objects.equals(appointmentRequest.getRecipientId(), doctorId)) {
             throw new ChaincodeException("request.getRecipientId() does not match doctorId",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED.toString());
         }
         if (!Objects.equals(appointmentRequest.getMedicalInstitutionId(), medicalInstitutionId)) {
             throw new ChaincodeException("request.getMedicalInstitutionId() does not match medicalInstitutionId",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED.toString());
         }
         if (!Objects.equals(appointmentRequest.getRequestType(), RequestType.APPOINTMENT)) {
             throw new ChaincodeException("request.getRequestType() does not match RequestType.APPOINTMENT",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED.toString());
         }
         if (!Objects.equals(appointmentRequest.getRequestStatus(), RequestStatus.PENDING)
                 && !Objects.equals(appointmentRequest.getRequestStatus(), RequestStatus.APPROVED)
         ) {
             throw new ChaincodeException("request.getRequestStatus() does not match RequestStatus.PENDING",
-                    ContractErrors.UNAUTHORIZED_EDIT_ACCESS.toString());
+                    ContractErrors.UNAUTHORIZED.toString());
         }
         authorizeRequest(ctx, doctorId, "addMedicalRecord(validate doctorId)");
         String medicalRecordId = ctx.getStub().getTxId();
@@ -942,7 +942,7 @@ public class MedicalRecordContract implements ContractInterface {
     public Prescription addPrescription(
             MedicalRecordContext ctx,
             String jsonString
-    ) {
+    ) throws ChaincodeException {
         JSONObject jsonObject = new JSONObject(jsonString);
         String prescriptionDetailsListStr = jsonObject.getString("prescriptionDetailsList");
 
@@ -953,6 +953,26 @@ public class MedicalRecordContract implements ContractInterface {
         List<PrescriptionDetails> prescriptionDetailsList = new Genson().deserialize(prescriptionDetailsListStr,
                 new GenericType<List<PrescriptionDetails>>() {});
         System.out.println("prescriptionDetailsListStr.size(): " + prescriptionDetailsList.size());
+
+        for (PrescriptionDetails prescriptionDetails : prescriptionDetailsList) {
+//            Medication medication = ctx.getMedicationDAO().getMedication(prescriptionDetails.getMedicationId());
+            if (!ctx.getMedicationDAO().medicationExist(prescriptionDetails.getMedicationId())) {
+                System.out.println("medicationId not exist");
+                throw new ChaincodeException("medicationId not exist",
+                        ContractErrors.UNAUTHORIZED.toString());
+            }
+            if (prescriptionDetails.getQuantity().isEmpty()
+                    || Integer.parseInt(prescriptionDetails.getQuantity()) <= 0) {
+                throw new ChaincodeException("quantity is invalid",
+                        ContractErrors.UNAUTHORIZED.toString());
+            }
+            if (prescriptionDetails.getDetails().isEmpty()
+            || prescriptionDetails.getDetails().length() > 100) {
+                throw new ChaincodeException("details is invalid",
+                        ContractErrors.UNAUTHORIZED.toString());
+            }
+        }
+
 
         int id = 0;
         for (PrescriptionDetails prescriptionDetails: prescriptionDetailsList) {
@@ -1982,6 +2002,7 @@ public class MedicalRecordContract implements ContractInterface {
     public enum ContractErrors {
         MEDICAL_RECORD_NOT_FOUND,
         REQUEST_NOT_FOUND,
+        UNAUTHORIZED,
         UNAUTHORIZED_VIEW_ACCESS,
         UNAUTHORIZED_VIEW_PRESCRIPTION_ACCESS,
         UNAUTHORIZED_EDIT_ACCESS,
