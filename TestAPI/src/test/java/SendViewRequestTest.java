@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SendViewRequestTest {
@@ -32,6 +33,7 @@ public class SendViewRequestTest {
     private static String RECIPIENT_ID_NOT_PATIENT = "Doctor-305f5d47-b01b-4a3e-b2e5-ea36fa950ecf";
     private static String SENDER_ID = "Doctor-76a1c4e7-bc03-4d97-b183-750bf5603f77";
     private static String SENDER_ID_NOT_DOCTOR = "Scientist-ae411d24-df5c-4015-835a-d2a05dd141b9";
+    private static String SENDER_ID_NOT_ACCESS_TOKEN = "Doctor-d63de258-8b68-482f-b8ef-9d68099d14d1";
 
     private static String API_URL = "http://localhost:8000/api/doctor/send-view-request";
 
@@ -80,12 +82,14 @@ public class SendViewRequestTest {
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
-    // Kiểm tra thông tin đăng nhập không phải là của người gửi yêu cầu
+    // Kiểm tra thông tin đăng nhập không phải là của người gửi yêu cầu (ID người gửi tồn tại nhưng không phải là access token)
     @Test
     @Order(2)
     public void testSendViewRequest_LoginNotMatchSenderId() {
         SendViewRequestForm sendViewRequestForm = new SendViewRequestForm();
-        ResponseEntity<?> responseEntity = sendViewRequest(ACCESS_TOKEN_NOT_SENDER_ID, sendViewRequestForm);
+        sendViewRequestForm.setSenderId(SENDER_ID_NOT_ACCESS_TOKEN);
+        sendViewRequestForm.setRecipientId(RECIPIENT_ID);
+        ResponseEntity<?> responseEntity = sendViewRequest(ACCESS_TOKEN, sendViewRequestForm);
         assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
@@ -148,6 +152,7 @@ public class SendViewRequestTest {
 
         System.out.println("viewRequest: " + viewRequestStr);
         ViewRequest viewRequest = new Genson().deserialize(viewRequestStr, ViewRequest.class);
+        assertNotEquals("", viewRequest.getRequestId());
         assertEquals(SENDER_ID, viewRequest.getSenderId());
         assertEquals(RECIPIENT_ID, viewRequest.getRecipientId());
         assertEquals(StringUtil.parseDate(new Date()), viewRequest.getDateCreated());
