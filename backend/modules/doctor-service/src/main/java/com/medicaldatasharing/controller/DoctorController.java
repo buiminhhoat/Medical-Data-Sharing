@@ -42,6 +42,7 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @RestController
@@ -276,6 +277,29 @@ public class DoctorController {
 
     @PostMapping("/send-view-request")
     public ResponseEntity<?> sendViewRequest(@Valid @ModelAttribute SendViewRequestForm sendViewRequestForm, BindingResult result) throws Exception {
+        if (result.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String orgSenderId = sendViewRequestForm.getSenderId().substring(0, sendViewRequestForm.getSenderId().indexOf("-"));
+        orgSenderId = orgSenderId.toLowerCase(Locale.ROOT);
+
+        if (!orgSenderId.equals("doctor")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String orgRecipientId = sendViewRequestForm.getRecipientId().substring(0, sendViewRequestForm.getRecipientId().indexOf("-"));
+        orgRecipientId = orgRecipientId.toLowerCase(Locale.ROOT);
+
+        if (!orgRecipientId.equals("patient")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        UserResponse senderResponse = doctorService.getUserResponse(sendViewRequestForm.getSenderId());
+        UserResponse recipientResponse = doctorService.getUserResponse(sendViewRequestForm.getRecipientId());
+
+        if (senderResponse == null || recipientResponse == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             sendViewRequestForm.setDateCreated(StringUtil.parseDate(new Date()));
             sendViewRequestForm.setDateModified(StringUtil.parseDate(new Date()));
