@@ -3,6 +3,7 @@ package com.medicaldatasharing.service;
 import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.dto.PurchaseDto;
+import com.medicaldatasharing.enumeration.RequestStatus;
 import com.medicaldatasharing.enumeration.RequestType;
 import com.medicaldatasharing.form.*;
 import com.medicaldatasharing.model.Patient;
@@ -267,6 +268,13 @@ public class PatientService {
             if (Objects.equals(defineRequestForm.getRequestType(), RequestType.VIEW_PRESCRIPTION.toString())) {
                 DefineViewPrescriptionRequestForm viewPrescriptionRequestForm = new DefineViewPrescriptionRequestForm(defineRequestForm);
                 request = hyperledgerService.defineViewPrescriptionRequest(user, viewPrescriptionRequestForm);
+            }
+
+            if (!Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.ACCEPTED)
+                    && !Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.PENDING)
+                    && !Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.APPROVED)
+                    && !Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.DECLINED)) {
+                throw new Exception("Request Status does not exist");
             }
 
             RequestResponse requestResponse = new RequestResponse(request);

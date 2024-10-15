@@ -15,6 +15,10 @@ public class DefineRequestForm {
     private String requestStatus;
     private String requestType;
 
+    public DefineRequestForm() {
+
+    }
+
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
         Field[] fields = this.getClass().getDeclaredFields();

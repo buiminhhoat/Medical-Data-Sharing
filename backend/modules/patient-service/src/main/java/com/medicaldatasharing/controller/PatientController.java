@@ -370,7 +370,7 @@ public class PatientController {
             BindingResult result) throws Exception {
         if (result.hasErrors()) {
             String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
-            throw new ValidationException(errorMsg);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMsg);
         }
 
         try {

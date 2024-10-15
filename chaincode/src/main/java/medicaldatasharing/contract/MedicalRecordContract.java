@@ -530,6 +530,15 @@ public class MedicalRecordContract implements ContractInterface {
                     ContractErrors.REQUEST_NOT_FOUND.toString());
         }
 
+        if (!Objects.equals(requestStatus, RequestStatus.ACCEPTED)
+                && !Objects.equals(requestStatus, RequestStatus.REVOKED)
+                && !Objects.equals(requestStatus, RequestStatus.PENDING)
+                && !Objects.equals(requestStatus, RequestStatus.APPROVED)
+                && !Objects.equals(requestStatus, RequestStatus.DECLINED)) {
+            throw new ChaincodeException("Request Status does not exist",
+                    ContractErrors.UNAUTHORIZED.toString());
+        }
+
         ViewRequest viewRequest = viewRequestDAO.getViewRequest(requestId);
         if (!Objects.equals(requestStatus, RequestStatus.REVOKED)) {
             authorizeRequest(ctx, viewRequest.getRecipientId(), "defineViewRequest(validate recipientId");
