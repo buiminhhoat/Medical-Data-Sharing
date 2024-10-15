@@ -27,7 +27,7 @@ public class ShareMedicalRecordTest {
     private static String UNAUTHORIZED_ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWh1eTVjMjAwM0BnbWFpbC5jb20iLCJpYXQiOjE3MjkwMDgzNzgsImV4cCI6MTc4OTQ4ODM3OH0.FPFtyLBIj_sHnX_nlkGFqvUSqDZaaDp_zmsnGGv-inNGFW4H8oSCkFD3AK6rR45_C14MPQ58r11VO_pk1W-biA";
     private static String ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW9xdWFuZ3ZpbmhAZ21haWwuY29tIiwiaWF0IjoxNzI5MDA4Nzk0LCJleHAiOjE3ODk0ODg3OTR9.x7wFF87wHY-dW6Sdw_ZrBbEVlmuyMgXdIdGfB6R1nsRML8Qo_M-Dev4zS_ruCJ9sVxup1COv1yPJ1bmEyO2qCQ";
 
-    private static String REQUEST_ID = "9579daf3b1ae94d728db8ee723c0aad7ee1b317863653cdbc31e65ded4ca4525";
+    private static String REQUEST_ID = "8e16c2d5445dd1e291f24de4978eada44e7a0ff1fdc0d912be5205ee41aa0544";
     private static String INVALID_REQUEST_ID = "44f7a95c4201ac4a8de3bc8822af431877aa3ae0556d1649d4c0dea7aedf373c";
 
     private static String REQUEST_STATUS_ACCEPTED = "Đồng ý";
