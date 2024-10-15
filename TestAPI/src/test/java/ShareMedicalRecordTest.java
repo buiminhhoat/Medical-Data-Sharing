@@ -1,15 +1,59 @@
+import org.json.JSONObject;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.medicaldatasharing.form.DefineRequestForm;
 import org.medicaldatasharing.form.SendViewRequestForm;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ShareMedicalRecordTest {
+
+    private static String API_URL = "http://localhost:8000/api/patient/define-request";
+    private ResponseEntity<?> shareMedicalRecord(String accessToken, DefineRequestForm defineRequestForm) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        JSONObject jsonObject = defineRequestForm.toJSONObject();
+        Iterator<String> keys = jsonObject.keys();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            String value = jsonObject.get(key).toString();
+            builder.queryParam(key, value);
+        }
+
+        // Tạo headers cho yêu cầu POST
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        headers.setBearerAuth(accessToken);
+
+        String uriString = builder.build().encode().toUriString();
+        String formUrlEncodedData = !uriString.isEmpty() ? uriString.substring(1) : "";
+        HttpEntity<String> request = new HttpEntity<>(formUrlEncodedData, headers);
+
+        try {
+            // Gửi yêu cầu POST và nhận phản hồi
+            ResponseEntity<?> responseEntity = restTemplate.exchange(API_URL, HttpMethod.POST, request, String.class);
+            return responseEntity;
+        }
+        catch (HttpClientErrorException exception) {
+            System.out.println(exception);
+            return ResponseEntity
+                    .status(exception.getStatusCode())
+                    .body(exception.getMessage());
+        }
+    }
 
     // Kiểm tra sử dụng thông tin đăng nhập không hợp lệ
     @Test
