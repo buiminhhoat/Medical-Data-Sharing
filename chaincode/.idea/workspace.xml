@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction">
-      <change afterPath="$PROJECT_DIR$/../TestAPI/src/main/java/org/medicaldatasharing/dto/Drug.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/medicaldatasharing/util/StringUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestAPI/src/test/java/AddDrugTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TestAPI/src/test/java/AddDrugTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/chaincode/dto/Drug.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/chaincode/dto/Drug.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/controller/ManufacturerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/controller/ManufacturerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/form/AddDrugForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/form/AddDrugForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend_save/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_save/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/admin-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/admin-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/doctor-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/doctor-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/drugstore-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/drugstore-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/manufacturer-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/manufacturer-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/medical_institution-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/medical_institution-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/patient-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/patient-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/research_center-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/research_center-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/scientist-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/scientist-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/user-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-service - Copy/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-service - Copy/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +101,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/buiminhhoat/Medical-Data-Sharing/chaincode/src/main/java/medicaldatasharing",
+    "last_opened_file_path": "/home/buiminhhoat/Medical-Data-Sharing/backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -313,7 +314,8 @@
       <workItem from="1728809743765" duration="4118000" />
       <workItem from="1728836072441" duration="6801000" />
       <workItem from="1729008887212" duration="2647000" />
-      <workItem from="1729088715375" duration="2207000" />
+      <workItem from="1729088715375" duration="3348000" />
+      <workItem from="1729094279809" duration="388000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
