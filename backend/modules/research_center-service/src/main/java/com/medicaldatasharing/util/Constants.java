@@ -20,7 +20,7 @@ public class Constants {
     public static final String ROLE_ADMIN = "Quản trị viên";
     public static final String ROLE_DOCTOR = "Bác sĩ";
     public static final String ROLE_MANUFACTURER = "Công ty sản xuất thuốc";
-    public static final String ROLE_DRUG_STORE = "Cửa hàng thuốc";
+    public static final String ROLE_DRUG_STORE = "Nhà thuốc";
     public static final String ROLE_SCIENTIST = "Nhà khoa học";
     public static final String ROLE_INSURANCE_COMPANY = "Công ty bảo hiểm";
     public static final String ROLE_MEDICAL_INSTITUTION = "Cơ sở y tế";

@@ -217,17 +217,15 @@ public class DrugStoreController {
     }
 
     @PostMapping("/add-purchase")
-    public ResponseEntity<?> addPurchase(@RequestParam("sellingPrescriptionDrug") String sellingDrugJson,
-                                                     @RequestParam("prescriptionId") String prescriptionId,
-                                                     @RequestParam("patientId") String patientId) throws Exception {
+    public ResponseEntity<?> addPurchase(@Valid @ModelAttribute AddPurchaseForm addPurchaseForm, BindingResult result) throws Exception {
         try {
-            List<MedicationPurchaseDto> medicationPurchaseDtoList = new ObjectMapper().readValue(sellingDrugJson,
+            List<MedicationPurchaseDto> medicationPurchaseDtoList = new ObjectMapper().readValue(addPurchaseForm.getSellingPrescriptionDrug(),
                     new TypeReference<List<MedicationPurchaseDto>>() {});
 
             PurchaseDto purchaseDto = new PurchaseDto();
-            purchaseDto.setPrescriptionId(prescriptionId);
+            purchaseDto.setPrescriptionId(addPurchaseForm.getPrescriptionId());
             purchaseDto.setMedicationPurchaseList(new Genson().serialize(medicationPurchaseDtoList));
-            purchaseDto.setPatientId(patientId);
+            purchaseDto.setPatientId(addPurchaseForm.getPatientId());
             purchaseDto.setDrugStoreId(drugStoreService.getLoggedUser().getId());
             purchaseDto.setDateCreated(StringUtil.parseDate(new Date()));
             purchaseDto.setDateModified(StringUtil.parseDate(new Date()));
