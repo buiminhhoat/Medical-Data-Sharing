@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction">
-      <change afterPath="$PROJECT_DIR$/../TestAPI/src/main/java/org/medicaldatasharing/form/AddDrugForm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TestAPI/src/test/java/AddDrugTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../TestAPI/src/main/java/org/medicaldatasharing/dto/Drug.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/medicaldatasharing/util/StringUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestAPI/src/test/java/AddDrugTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TestAPI/src/test/java/AddDrugTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/chaincode/dto/Drug.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/chaincode/dto/Drug.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/controller/ManufacturerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/controller/ManufacturerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/form/AddDrugForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/java/com/medicaldatasharing/form/AddDrugForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend_save/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_save/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,37 +82,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.AppointmentRequest.executor&quot;: &quot;Run&quot;,
-    &quot;Application.EditRequest.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.healthInformationSharing.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [checkstyleMain].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [dependencies].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [deployPreparation].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [shadowJar].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [test].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/buiminhhoat/Medical-Data-Sharing/chaincode&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;/home/buiminhhoat/Medical-Data-Sharing/chaincode/src/main/java/healthInformationSharing/entity/Request.java&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AppointmentRequest.executor": "Run",
+    "Application.EditRequest.executor": "Debug",
+    "Application.Main.executor": "Run",
+    "Application.healthInformationSharing.Main.executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.chaincode [checkstyleMain].executor": "Run",
+    "Gradle.chaincode [dependencies].executor": "Run",
+    "Gradle.chaincode [deployPreparation].executor": "Run",
+    "Gradle.chaincode [shadowJar].executor": "Run",
+    "Gradle.chaincode [test].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/buiminhhoat/Medical-Data-Sharing/chaincode/src/main/java/medicaldatasharing",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "two.files.diff.last.used.file": "/home/buiminhhoat/Medical-Data-Sharing/chaincode/src/main/java/healthInformationSharing/entity/Request.java",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
@@ -154,6 +161,7 @@
       <recent name="healthInformationSharing.component" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/medicaldatasharing" />
       <recent name="$PROJECT_DIR$/src/main/java/healthInformationSharing/dao" />
       <recent name="$PROJECT_DIR$/index/META-INF/statedb/couchdb/indexes" />
       <recent name="$PROJECT_DIR$" />
@@ -305,7 +313,7 @@
       <workItem from="1728809743765" duration="4118000" />
       <workItem from="1728836072441" duration="6801000" />
       <workItem from="1729008887212" duration="2647000" />
-      <workItem from="1729088715375" duration="777000" />
+      <workItem from="1729088715375" duration="2207000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
@@ -463,7 +471,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java</url>
-          <line>1902</line>
+          <line>1911</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>

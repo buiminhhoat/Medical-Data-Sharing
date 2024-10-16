@@ -1,4 +1,4 @@
-package com.medicaldatasharing.chaincode.dto;
+package org.medicaldatasharing.dto;
 
 import com.owlike.genson.annotation.JsonProperty;
 
@@ -24,6 +24,9 @@ public class Drug {
     @JsonProperty("entityName")
     private String entityName;
 
+    public Drug() {
+
+    }
     public String getDrugId() {
         return drugId;
     }

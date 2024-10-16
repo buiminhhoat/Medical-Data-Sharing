@@ -354,7 +354,25 @@ public class ManufacturerController {
 
     @PostMapping("/add-drug")
     public ResponseEntity<?> addDrug(@Valid @ModelAttribute AddDrugForm addDrugForm, BindingResult result) throws Exception {
+        if (result.hasErrors()) {
+            String errorMsg = ValidationUtil.formatValidationErrorMessages(result.getAllErrors());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+
         try {
+            Long quantity = Long.parseLong(addDrugForm.getQuantity());
+            if (quantity <= 0) {
+                throw new Exception();
+            }
+
+            Date manufactureDate = StringUtil.createDate(addDrugForm.getManufactureDate());
+            Date expirationDate = StringUtil.createDate(addDrugForm.getExpirationDate());
+
+            if (expirationDate.before(manufactureDate)) {
+                throw new Exception();
+            }
+
             String addDrug = manufacturerService.addDrug(addDrugForm);
             return ResponseEntity.status(HttpStatus.OK).body(addDrug);
         }

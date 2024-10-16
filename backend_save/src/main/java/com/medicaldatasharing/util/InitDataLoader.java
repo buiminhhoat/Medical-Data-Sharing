@@ -392,6 +392,12 @@ public class InitDataLoader implements CommandLineRunner {
                     sendAppointmentRequestForm);
             System.out.println("appointmentRequest: " + appointmentRequest);
 
+            for (int i = 1; i <= 5; ++i) {
+                appointmentRequest = hyperledgerService.sendAppointmentRequest(
+                        patient,
+                        sendAppointmentRequestForm);
+            }
+
             appointmentRequest = hyperledgerService.sendAppointmentRequest(
                     patient,
                     sendAppointmentRequestForm);

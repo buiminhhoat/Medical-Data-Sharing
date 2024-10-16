@@ -6,6 +6,7 @@ import medicaldatasharing.component.MedicalRecordContext;
 import medicaldatasharing.dao.*;
 import medicaldatasharing.dto.*;
 import medicaldatasharing.entity.*;
+import medicaldatasharing.util.*;
 import medicaldatasharing.enumeration.DrugReactionStatus;
 import medicaldatasharing.enumeration.MedicalRecordStatus;
 import medicaldatasharing.enumeration.RequestStatus;
@@ -880,15 +881,23 @@ public class MedicalRecordContract implements ContractInterface {
     public String addDrug(
             MedicalRecordContext ctx,
             String jsonString
-    ) {
+    ) throws ParseException {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             String medicationId = jsonObject.getString("medicationId");
-            String manufactureDate = jsonObject.getString("manufactureDate");
-            String expirationDate = jsonObject.getString("expirationDate");
+            String manufactureDateStr = jsonObject.getString("manufactureDate");
+            String expirationDateStr = jsonObject.getString("expirationDate");
             String quantity = jsonObject.getString("quantity");
 
             if (!ctx.getMedicationDAO().medicationExist(medicationId)) {
+                throw new ChaincodeException("Medication " + medicationId + " does not exist",
+                        ContractErrors.MEDICATION_NOT_FOUND.toString());
+            }
+
+            Date manufactureDate = StringUtil.createDate(manufactureDateStr);
+            Date expirationDate = StringUtil.createDate(expirationDateStr);
+
+            if (expirationDate.before(manufactureDate)) {
                 throw new ChaincodeException("Medication " + medicationId + " does not exist",
                         ContractErrors.MEDICATION_NOT_FOUND.toString());
             }

@@ -4,6 +4,7 @@ import lombok.*;
 import org.json.JSONObject;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.lang.reflect.Field;
 
 @Getter
@@ -25,6 +26,7 @@ public class AddDrugForm {
     String quantity;
 
     @NotBlank
+    @Size(max = 20)
     String unit;
 
     public JSONObject toJSONObject() {
