@@ -1446,6 +1446,7 @@ public class MedicalRecordContract implements ContractInterface {
         return true;
     }
 
+    // todo 
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String addPurchase(
             MedicalRecordContext ctx,
