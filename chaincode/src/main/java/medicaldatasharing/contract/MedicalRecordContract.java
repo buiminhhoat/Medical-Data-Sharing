@@ -1446,7 +1446,6 @@ public class MedicalRecordContract implements ContractInterface {
         return true;
     }
 
-    // todo 
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String addPurchase(
             MedicalRecordContext ctx,
@@ -1471,6 +1470,37 @@ public class MedicalRecordContract implements ContractInterface {
                 medicationPurchaseListStr,
                 new GenericType<List<MedicationPurchaseDto>>() {}
         );
+
+        for (MedicationPurchaseDto medicationPurchaseDto: medicationPurchaseList) {
+            String prescriptionDetailId = medicationPurchaseDto.getPrescriptionDetailId();
+            PrescriptionDetails prescriptionDetails = ctx.getPrescriptionDetailsDAO().getPrescriptionDetails(prescriptionDetailId);
+            List<String> drugIdList = medicationPurchaseDto.getDrugIdList();
+            int count = 0;
+            for (String drugId: drugIdList) {
+                Drug drug = ctx.getDrugDAO().getDrug(drugId);
+                if (!Objects.equals(drug.getMedicationId(), medicationPurchaseDto.getMedicationId())) {
+                    throw new ChaincodeException("drug.getMedicationId() != medicationPurchaseDto.getMedicationId()",
+                            ContractErrors.UNAUTHORIZED.toString());
+                }
+
+                if (checkDrugConditions(drug, dateCreated, drugStoreId)) {
+                    ++count;
+                }
+                else {
+                    throw new ChaincodeException("The drug is not qualified for sale",
+                            ContractErrors.NOT_QUALIFIED_FOR_SALE.toString());
+                }
+
+            }
+            Long newPurchasedQuantity = Long.parseLong(prescriptionDetails.getPurchasedQuantity()) + count;
+            if (newPurchasedQuantity <= Long.parseLong(prescriptionDetails.getQuantity())) {
+                prescriptionDetails.setPurchasedQuantity(newPurchasedQuantity.toString());
+            }
+            else {
+                throw new ChaincodeException("The quantity purchased is more than the quantity prescribed in the Prescription Details",
+                        ContractErrors.EXCEEDED_THE_QUANTITY_PURCHASED_IN_THE_PRESCRIPTION_DETAILS.toString());
+            }
+        }
 
         List<PrescriptionDetails> updatePrescriptionDetailsList = new ArrayList<>();
         List<PurchaseDetails> createPurchaseDetailsList = new ArrayList<>();

@@ -428,6 +428,7 @@ public class InitDataLoader implements CommandLineRunner {
 
             AddDrugForm addDrugForm = new AddDrugForm();
             addDrugForm.setMedicationId(medication.getMedicationId());
+//            addDrugForm.setMedicationId("fc2987a8acfc1a141acbea8b4c17bdfd607801887aa7c6f6105c2bf59b311544");
             addDrugForm.setManufactureDate(StringUtil.parseDate(StringUtil.createDate("2024-01-01")));
             addDrugForm.setExpirationDate(StringUtil.parseDate(StringUtil.createDate("2024-12-31")));
             addDrugForm.setQuantity("10");

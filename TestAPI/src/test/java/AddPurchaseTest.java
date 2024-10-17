@@ -24,16 +24,22 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddPurchaseTest {
-    private static String INVALID_ACCESS_TOKEN = "INVALID_ACCESS_TOKEN";
+    private static String INVALID_ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb25ndHlkdW9jcGhhbWFAZ21haWwuY29tIiwiaWF0IjoxNzI5MTc3Mjg4LCJleHAiOjE3ODk2NTcyODh9.9k-lNWfpceJjHIMkUhFUnbsAs1Sc66o4KPyLRRHDP540u-ZCB8kUVtJdGzpLURFetHnzLDtR44C0u9sATrXGHA";
     private static String ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGF0aHVvY2FAZ21haWwuY29tIiwiaWF0IjoxNzI5MDk3MTk0LCJleHAiOjE3ODk1NzcxOTR9.Lns_1LmizOSab3fEzvNR1NL_eLhNHhFkpPPQ5s_C8Bof2LOI2H1iU7YELpZYxlO5xi3-gEi3xAi2qy94UWDPlg";
+    private static String UNAUTHORIZED_ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW50aGFuaGhhaUBnbWFpbC5jb20iLCJpYXQiOjE3Mjg4MzkyNzksImV4cCI6MTc4OTMxOTI3OX0.XfCNwunqThSHv97dymFBerCpsuw316tqd0R_EnQDN78zGsmnLUq0Dn5lBLahEzjyYLy7nJcPG6tiIzbYnY7h5g";
 
-    private static final String PATIENT_ID = "Patient-2e910383-ac0e-47ab-bf93-fc45ade8381a";
-    private static final String DRUGSTORE_ID = "DrugStore-e9fa961d-22ee-4259-a67a-d7de2eb2c40d";
-    private static final String MEDICATION_ID = "fc2987a8acfc1a141acbea8b4c17bdfd607801887aa7c6f6105c2bf59b311544";
-    private static final String PRESCRIPTION_ID = "29a0a1de3175d909de6f0173fe9ddddfed350855dc8ecf9c66935a63b8967940";
-    private static final String PRESCRIPTION_DETAIL_ID = "29a0a1de3175d909de6f0173fe9ddddfed350855dc8ecf9c66935a63b8967940-0";
-    private static final String DRUG_ID_1 = "9a3d6911a56dae6c622ea45fabe7938f1e71bc075fcf6fdb987aced1f2040ba54";
-    private static final String DRUG_ID_2 = "9a3d6911a56dae6c622ea45fabe7938f1e71bc075fcf6fdb987aced1f2040ba55";
+    private static final String PATIENT_ID = "Patient-1e9003d0-5722-4bb0-967a-8877881424a9";
+    private static final String DRUGSTORE_ID = "DrugStore-1127bd7c-9d9e-481b-b03e-1400fdfba3c8";
+    private static final String MEDICATION_ID = "169447afae779c377ca46dd8a97dc46297fc53555f4d6da2e42836cc10a0e88e";
+    private static final String PRESCRIPTION_ID = "c17fdff869ce6afccfc41e477fa7378a31606c3693dafa67ce13e3a4868edc21";
+    private static final String PRESCRIPTION_DETAIL_ID = "c17fdff869ce6afccfc41e477fa7378a31606c3693dafa67ce13e3a4868edc21-0";
+    private static final String DRUG_ID_1 = "cd7ca71df0dfde275c13d68bf997d1a5ce8396894f8577dfdbaa26e73f56eda85";
+    private static final String DRUG_ID_2 = "cd7ca71df0dfde275c13d68bf997d1a5ce8396894f8577dfdbaa26e73f56eda86";
+
+    private static final String INVALID_MEDICATION_ID = "fc2987a8acfc1a141acbea8b4c17bdfd607801887aa7c6f6105c2bf59b311555";
+    private static final String INVALID_PRESCRIPTION_DETAIL_ID = "29a0a1de3175d909de6f0173fe9ddddfed350855dc8ecf9c66935a63b8967951-0";
+    private static final String DRUG_ID_INVALID = "9a3d6911a56dae6c622ea45fabe7938f1e71bc075fcf6fdb987aced1f2040bb86";
+    private static final String DRUG_ID_NOT_OWNER_BY_DRUGSTORE = "cd7ca71df0dfde275c13d68bf997d1a5ce8396894f8577dfdbaa26e73f56eda82";
 
     private static String API_URL = "http://localhost:8000/api/drugstore/add-purchase";
 
@@ -77,41 +83,173 @@ public class AddPurchaseTest {
     @Test
     @Order(1)
     public void testAddPurchase_InvalidLogin() {
+        MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+        medicationPurchaseDto.setMedicationId(MEDICATION_ID);
+        medicationPurchaseDto.setPrescriptionDetailId(PRESCRIPTION_DETAIL_ID);
+        medicationPurchaseDto.setDrugIdList(List.of(DRUG_ID_1, DRUG_ID_2));
+
+        List<MedicationPurchaseDto> medicationPurchaseDtoList = new ArrayList<>();
+        medicationPurchaseDtoList.add(medicationPurchaseDto);
+
+        AddPurchaseForm addPurchaseForm = new AddPurchaseForm();
+        addPurchaseForm.setPatientId(PATIENT_ID);
+        addPurchaseForm.setPrescriptionId(PRESCRIPTION_ID);
+        addPurchaseForm.setSellingPrescriptionDrug(new Genson().serialize(medicationPurchaseDtoList));
+
+        ResponseEntity<?> responseEntity = addPurchase(INVALID_ACCESS_TOKEN, addPurchaseForm);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     // Kiểm tra người đang thực hiện bán thuốc không phải là nhà thuốc
     @Test
     @Order(2)
     public void testAddPurchase_SellerNotDrugStore() {
+        MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+        medicationPurchaseDto.setMedicationId(MEDICATION_ID);
+        medicationPurchaseDto.setPrescriptionDetailId(PRESCRIPTION_DETAIL_ID);
+        medicationPurchaseDto.setDrugIdList(List.of(DRUG_ID_1, DRUG_ID_2));
+
+        List<MedicationPurchaseDto> medicationPurchaseDtoList = new ArrayList<>();
+        medicationPurchaseDtoList.add(medicationPurchaseDto);
+
+        AddPurchaseForm addPurchaseForm = new AddPurchaseForm();
+        addPurchaseForm.setPatientId(PATIENT_ID);
+        addPurchaseForm.setPrescriptionId(PRESCRIPTION_ID);
+        addPurchaseForm.setSellingPrescriptionDrug(new Genson().serialize(medicationPurchaseDtoList));
+
+        ResponseEntity<?> responseEntity = addPurchase(UNAUTHORIZED_ACCESS_TOKEN, addPurchaseForm);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     // Kiểm tra ID loại thuốc không hợp lệ
     @Test
     @Order(3)
     public void testAddPurchase_InvalidMedicationId() {
+        MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+        medicationPurchaseDto.setMedicationId(INVALID_MEDICATION_ID);
+        medicationPurchaseDto.setPrescriptionDetailId(PRESCRIPTION_DETAIL_ID);
+        medicationPurchaseDto.setDrugIdList(List.of(DRUG_ID_1, DRUG_ID_2));
+
+        List<MedicationPurchaseDto> medicationPurchaseDtoList = new ArrayList<>();
+        medicationPurchaseDtoList.add(medicationPurchaseDto);
+
+        AddPurchaseForm addPurchaseForm = new AddPurchaseForm();
+        addPurchaseForm.setPatientId(PATIENT_ID);
+        addPurchaseForm.setPrescriptionId(PRESCRIPTION_ID);
+        addPurchaseForm.setSellingPrescriptionDrug(new Genson().serialize(medicationPurchaseDtoList));
+
+        ResponseEntity<?> responseEntity = addPurchase(ACCESS_TOKEN, addPurchaseForm);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+    }
+
+    // Kiểm tra ID loại thuốc bị trống
+    @Test
+    @Order(4)
+    public void testAddPurchase_EmptyMedicationId() {
+        MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+        medicationPurchaseDto.setMedicationId("");
+        medicationPurchaseDto.setPrescriptionDetailId(PRESCRIPTION_DETAIL_ID);
+        medicationPurchaseDto.setDrugIdList(List.of(DRUG_ID_1, DRUG_ID_2));
+
+        List<MedicationPurchaseDto> medicationPurchaseDtoList = new ArrayList<>();
+        medicationPurchaseDtoList.add(medicationPurchaseDto);
+
+        AddPurchaseForm addPurchaseForm = new AddPurchaseForm();
+        addPurchaseForm.setPatientId(PATIENT_ID);
+        addPurchaseForm.setPrescriptionId(PRESCRIPTION_ID);
+        addPurchaseForm.setSellingPrescriptionDrug(new Genson().serialize(medicationPurchaseDtoList));
+
+        ResponseEntity<?> responseEntity = addPurchase(ACCESS_TOKEN, addPurchaseForm);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     // Kiểm tra ID chi tiết đơn thuốc không hợp lệ
     @Test
-    @Order(4)
+    @Order(5)
     public void testAddPurchase_InvalidPrescriptionDetailId() {
+        MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+        medicationPurchaseDto.setMedicationId(MEDICATION_ID);
+        medicationPurchaseDto.setPrescriptionDetailId(INVALID_PRESCRIPTION_DETAIL_ID);
+        medicationPurchaseDto.setDrugIdList(List.of(DRUG_ID_1, DRUG_ID_2));
+
+        List<MedicationPurchaseDto> medicationPurchaseDtoList = new ArrayList<>();
+        medicationPurchaseDtoList.add(medicationPurchaseDto);
+
+        AddPurchaseForm addPurchaseForm = new AddPurchaseForm();
+        addPurchaseForm.setPatientId(PATIENT_ID);
+        addPurchaseForm.setPrescriptionId(PRESCRIPTION_ID);
+        addPurchaseForm.setSellingPrescriptionDrug(new Genson().serialize(medicationPurchaseDtoList));
+
+        ResponseEntity<?> responseEntity = addPurchase(ACCESS_TOKEN, addPurchaseForm);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
+    }
+
+    // Kiểm tra ID chi tiết đơn thuốc không hợp lệ
+    @Test
+    @Order(6)
+    public void testAddPurchase_EmptyPrescriptionDetailId() {
+        MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+        medicationPurchaseDto.setMedicationId(MEDICATION_ID);
+        medicationPurchaseDto.setPrescriptionDetailId("");
+        medicationPurchaseDto.setDrugIdList(List.of(DRUG_ID_1, DRUG_ID_2));
+
+        List<MedicationPurchaseDto> medicationPurchaseDtoList = new ArrayList<>();
+        medicationPurchaseDtoList.add(medicationPurchaseDto);
+
+        AddPurchaseForm addPurchaseForm = new AddPurchaseForm();
+        addPurchaseForm.setPatientId(PATIENT_ID);
+        addPurchaseForm.setPrescriptionId(PRESCRIPTION_ID);
+        addPurchaseForm.setSellingPrescriptionDrug(new Genson().serialize(medicationPurchaseDtoList));
+
+        ResponseEntity<?> responseEntity = addPurchase(ACCESS_TOKEN, addPurchaseForm);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     // Kiểm tra ID thuốc được bán không hợp lệ
     @Test
-    @Order(5)
+    @Order(7)
     public void testAddPurchase_InvalidSoldDrugId() {
+        MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+        medicationPurchaseDto.setMedicationId(MEDICATION_ID);
+        medicationPurchaseDto.setPrescriptionDetailId(PRESCRIPTION_DETAIL_ID);
+        medicationPurchaseDto.setDrugIdList(List.of(DRUG_ID_INVALID));
+
+        List<MedicationPurchaseDto> medicationPurchaseDtoList = new ArrayList<>();
+        medicationPurchaseDtoList.add(medicationPurchaseDto);
+
+        AddPurchaseForm addPurchaseForm = new AddPurchaseForm();
+        addPurchaseForm.setPatientId(PATIENT_ID);
+        addPurchaseForm.setPrescriptionId(PRESCRIPTION_ID);
+        addPurchaseForm.setSellingPrescriptionDrug(new Genson().serialize(medicationPurchaseDtoList));
+
+        ResponseEntity<?> responseEntity = addPurchase(ACCESS_TOKEN, addPurchaseForm);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     // Kiểm tra ID thuốc được bán không thuộc quyền sở hữu của nhà thuốc
     @Test
-    @Order(6)
-    public void testAddPurchase_SoldMedicineNotOwnedByDrugStore() {
+    @Order(8)
+    public void testAddPurchase_SoldDrugNotOwnedByDrugStore() {
+        MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
+        medicationPurchaseDto.setMedicationId(MEDICATION_ID);
+        medicationPurchaseDto.setPrescriptionDetailId(PRESCRIPTION_DETAIL_ID);
+        medicationPurchaseDto.setDrugIdList(List.of(DRUG_ID_NOT_OWNER_BY_DRUGSTORE));
+
+        List<MedicationPurchaseDto> medicationPurchaseDtoList = new ArrayList<>();
+        medicationPurchaseDtoList.add(medicationPurchaseDto);
+
+        AddPurchaseForm addPurchaseForm = new AddPurchaseForm();
+        addPurchaseForm.setPatientId(PATIENT_ID);
+        addPurchaseForm.setPrescriptionId(PRESCRIPTION_ID);
+        addPurchaseForm.setSellingPrescriptionDrug(new Genson().serialize(medicationPurchaseDtoList));
+
+        ResponseEntity<?> responseEntity = addPurchase(ACCESS_TOKEN, addPurchaseForm);
+        assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
     }
 
     // Kiểm tra bán thuốc thành công
     @Test
-    @Order(7)
+    @Order(9)
     public void testAddPurchase_Success() {
         MedicationPurchaseDto medicationPurchaseDto = new MedicationPurchaseDto();
         medicationPurchaseDto.setMedicationId(MEDICATION_ID);
