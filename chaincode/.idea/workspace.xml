@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction">
-      <change beforePath="$PROJECT_DIR$/../TestAPI/src/test/java/AddPurchaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TestAPI/src/test/java/AddPurchaseTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend_save/src/main/java/com/medicaldatasharing/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_save/src/main/java/com/medicaldatasharing/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend_save/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_save/src/main/java/com/medicaldatasharing/util/InitDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/doctor-service/src/main/java/com/medicaldatasharing/form/AddMedicalRecordForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/doctor-service/src/main/java/com/medicaldatasharing/form/AddMedicalRecordForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -312,7 +308,7 @@
       <workItem from="1729088715375" duration="3348000" />
       <workItem from="1729094279809" duration="388000" />
       <workItem from="1729099922798" duration="941000" />
-      <workItem from="1729176086723" duration="2128000" />
+      <workItem from="1729176086723" duration="2133000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

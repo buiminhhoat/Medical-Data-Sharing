@@ -23,10 +23,8 @@ public class AddMedicalRecordForm {
     @NotBlank
     private String medicalInstitutionId;
 
-    @NotBlank
     private String dateCreated;
 
-    @NotBlank
     private String dateModified;
 
     @NotBlank
@@ -41,7 +39,6 @@ public class AddMedicalRecordForm {
 
     private String prescriptionId;
 
-    @NotBlank
     private String hashFile;
 
     private String medicalRecordStatus;
@@ -91,20 +88,20 @@ public class AddMedicalRecordForm {
         return this;
     }
 
-    public @NotBlank String getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public AddMedicalRecordForm setDateCreated(@NotBlank String dateCreated) {
+    public AddMedicalRecordForm setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
         return this;
     }
 
-    public @NotBlank String getDateModified() {
+    public String getDateModified() {
         return dateModified;
     }
 
-    public AddMedicalRecordForm setDateModified(@NotBlank String dateModified) {
+    public AddMedicalRecordForm setDateModified(String dateModified) {
         this.dateModified = dateModified;
         return this;
     }
@@ -145,11 +142,11 @@ public class AddMedicalRecordForm {
         return this;
     }
 
-    public @NotBlank String getHashFile() {
+    public String getHashFile() {
         return hashFile;
     }
 
-    public AddMedicalRecordForm setHashFile(@NotBlank String hashFile) {
+    public AddMedicalRecordForm setHashFile(String hashFile) {
         this.hashFile = hashFile;
         return this;
     }
