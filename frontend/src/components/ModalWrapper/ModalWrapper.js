@@ -9,7 +9,7 @@ const ScrollBar = styled.div`
 
   &::-webkit-scrollbar {
     width: 5px;
-    height: 50px;
+    height: 5px;
   }
 
   &::-webkit-scrollbar-track {
