@@ -203,6 +203,7 @@ const RequestPage = () => {
     setSearchDateModified("");
     setSearchRequestType("");
     setSearchRequestStatus("");
+    setSearchRecipientId("");
   };
 
   const fetGetAllRequest = async () => {
