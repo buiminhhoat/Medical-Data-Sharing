@@ -309,14 +309,13 @@ const SendRequestDialog = ({ values, onClose, onSwitch }) => {
 
   useEffect(() => {
     async function fetchAndSet() {
-      if (senderId.length >= 32) {
+      if (senderId.split('-').slice(1).join('-').length >= 36) {
         const senderName = await fetchGetFullName(senderId);
         form.setFieldsValue({ senderName: senderName });
       } else {
         form.setFieldsValue({ senderName: "" });
       }
-      if (recipientId.length >= 32) {
-        console.log("recipientName");
+      if (recipientId.split('-').slice(1).join('-').length >= 36) {
         const recipientName = await fetchGetFullName(recipientId);
         form.setFieldsValue({ recipientName: recipientName });
       } else {
