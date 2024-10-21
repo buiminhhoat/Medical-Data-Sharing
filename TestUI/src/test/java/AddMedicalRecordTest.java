@@ -29,7 +29,7 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class AddMedicalRecordTest {
-    private static final long SLEEP_TIME = 2000;
+    private static final long SLEEP_TIME = 5000;
     private WebDriver driver;
 
     private WebDriverWait wait;
@@ -46,16 +46,6 @@ public class AddMedicalRecordTest {
     @After
     public void tearDown() {
         driver.quit();
-    }
-
-    public boolean isButtonVisibleAndClickable(By locator) {
-        try {
-            WebElement button = driver.findElement(locator);
-            return button.isDisplayed() && button.isEnabled();
-        } catch (Exception e) {
-            System.out.println("Nút không hiển thị hoặc không thể bấm: " + e.getMessage());
-            return false;
-        }
     }
 
     @Test
@@ -112,7 +102,11 @@ public class AddMedicalRecordTest {
         sleep(SLEEP_TIME);
         assertThat(driver.findElement(By.xpath("//span[contains(text(),'Quản lý yêu cầu')]")).getText(), is("Quản lý yêu cầu"));
         driver.findElement(By.xpath("//span[contains(text(),'Quản lý yêu cầu')]")).click();
+
         sleep(SLEEP_TIME);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ant-table-cell:nth-child(6) .ant-dropdown-trigger")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".ant-table-cell:nth-child(6) .ant-dropdown-trigger")));
+
         driver.findElement(By.cssSelector(".ant-table-cell:nth-child(6) .ant-dropdown-trigger")).click();
         driver.findElement(By.cssSelector("body > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(2) > span:nth-child(1) > span:nth-child(2)")).click();
         driver.findElement(By.cssSelector(".ant-btn-primary > span")).click();
@@ -141,7 +135,7 @@ public class AddMedicalRecordTest {
         driver.findElement(By.cssSelector("#basic > div > .ant-btn > span")).click();
         sleep(SLEEP_TIME);
         driver.findElement(By.cssSelector(".ant-modal-footer > .ant-btn-primary > span")).click();
-        sleep(SLEEP_TIME * 2);
+        sleep(SLEEP_TIME);
         driver.findElement(By.cssSelector(".ant-notification-notice-success .ant-notification-notice-with-icon")).click();
         assertThat(driver.findElement(By.cssSelector(".ant-notification-notice-success .ant-notification-notice-message")).getText(), is("Thành công"));
     }
@@ -160,7 +154,11 @@ public class AddMedicalRecordTest {
         sleep(SLEEP_TIME);
         assertThat(driver.findElement(By.xpath("//span[contains(text(),'Quản lý yêu cầu')]")).getText(), is("Quản lý yêu cầu"));
         driver.findElement(By.xpath("//span[contains(text(),'Quản lý yêu cầu')]")).click();
+
         sleep(SLEEP_TIME);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ant-table-cell:nth-child(6) .ant-dropdown-trigger")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".ant-table-cell:nth-child(6) .ant-dropdown-trigger")));
+
         driver.findElement(By.cssSelector(".ant-table-cell:nth-child(6) .ant-dropdown-trigger")).click();
         driver.findElement(By.cssSelector("body > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(2) > span:nth-child(1) > span:nth-child(2)")).click();
         driver.findElement(By.cssSelector(".ant-btn-primary > span")).click();
@@ -189,7 +187,7 @@ public class AddMedicalRecordTest {
         driver.findElement(By.cssSelector("#basic > div > .ant-btn > span")).click();
         sleep(SLEEP_TIME);
         driver.findElement(By.cssSelector(".ant-modal-footer > .ant-btn-primary > span")).click();
-        sleep(SLEEP_TIME * 2);
+        sleep(SLEEP_TIME);
         driver.findElement(By.cssSelector(".ant-notification-notice-success .ant-notification-notice-with-icon")).click();
         assertThat(driver.findElement(By.cssSelector(".ant-notification-notice-success .ant-notification-notice-message")).getText(), is("Thành công"));
 
@@ -209,5 +207,67 @@ public class AddMedicalRecordTest {
         assertEquals(driver.findElement(By.xpath("//div[contains(text(),'Trạng thái')]")).getText(), "Trạng thái");
         assertEquals(driver.findElement(By.cssSelector("div:nth-child(10) div:nth-child(2)")).getText(), "Đặt lịch khám");
         assertEquals(driver.findElement(By.cssSelector("div:nth-child(11) div:nth-child(2)")).getText(), "Đồng ý");
+    }
+
+    @Test
+    public void checkSearchButton() throws InterruptedException {
+        driver.get("http://localhost:3000/");
+        driver.manage().window().setSize(new Dimension(1552, 832));
+        driver.findElement(By.cssSelector("div[class='ant-space css-dev-only-do-not-override-k6wk4u ant-space-horizontal ant-space-align-center'] div[class='ant-space-item']")).click();
+        driver.findElement(By.id("basic_email")).sendKeys("nguyenthanhhai@gmail.com");
+        driver.findElement(By.id("basic_password")).sendKeys("nguyenthanhhai@gmail.com");
+        driver.findElement(By.id("basic_organization")).click();
+        driver.findElement(By.cssSelector("body > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)")).click();
+        driver.findElement(By.cssSelector("button[type='submit'] span")).click();
+
+        sleep(SLEEP_TIME);
+        assertThat(driver.findElement(By.xpath("//span[contains(text(),'Quản lý yêu cầu')]")).getText(), is("Quản lý yêu cầu"));
+        driver.findElement(By.xpath("//span[contains(text(),'Quản lý yêu cầu')]")).click();
+        sleep(SLEEP_TIME);
+
+        driver.findElement(By.cssSelector("input[placeholder='Tên người gửi']")).sendKeys("Đào Quang Vinh");
+        driver.findElement(By.cssSelector("input[placeholder='Tên người nhận']")).sendKeys("Nguyễn Thanh Hải");
+        driver.findElement(By.cssSelector("input[placeholder='Loại yêu cầu']")).sendKeys("Đặt lịch khám");
+        driver.findElement(By.cssSelector("body > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > button:nth-child(1)")).click();
+
+        sleep(SLEEP_TIME);
+        assertEquals(driver.findElement(By.cssSelector("tbody tr:nth-child(1) td:nth-child(2)")).getText(), "Đào Quang Vinh");
+        assertEquals(driver.findElement(By.cssSelector("tbody tr:nth-child(1) td:nth-child(3)")).getText(), "Nguyễn Thanh Hải");
+        assertEquals(driver.findElement(By.cssSelector("tbody tr:nth-child(1) td:nth-child(6)")).getText(), "Đặt lịch khám");
+    }
+
+    @Test
+    public void checkClearButton() throws InterruptedException {
+        driver.get("http://localhost:3000/");
+        driver.manage().window().setSize(new Dimension(1552, 832));
+        driver.findElement(By.cssSelector("div[class='ant-space css-dev-only-do-not-override-k6wk4u ant-space-horizontal ant-space-align-center'] div[class='ant-space-item']")).click();
+        driver.findElement(By.id("basic_email")).sendKeys("nguyenthanhhai@gmail.com");
+        driver.findElement(By.id("basic_password")).sendKeys("nguyenthanhhai@gmail.com");
+        driver.findElement(By.id("basic_organization")).click();
+        driver.findElement(By.cssSelector("body > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)")).click();
+        driver.findElement(By.cssSelector("button[type='submit'] span")).click();
+
+        sleep(SLEEP_TIME);
+        assertThat(driver.findElement(By.xpath("//span[contains(text(),'Quản lý yêu cầu')]")).getText(), is("Quản lý yêu cầu"));
+        driver.findElement(By.xpath("//span[contains(text(),'Quản lý yêu cầu')]")).click();
+        sleep(SLEEP_TIME);
+
+        driver.findElement(By.cssSelector("input[placeholder='Mã yêu cầu']")).sendKeys("0b19cafdd264fbb958dc04b884b97694efedbc90c62a22497bb54c9b2c3ca278");
+        driver.findElement(By.cssSelector("input[placeholder='Mã người gửi']")).sendKeys("Doctor-ca20c5ef-56dc-4d48-8872-76429612b3a5");
+        driver.findElement(By.cssSelector("input[placeholder='Tên người gửi']")).sendKeys("Đào Quang Vinh");
+        driver.findElement(By.cssSelector("input[placeholder='Mã người nhận']")).sendKeys("Patient-097bc462-b4dd-42f7-a8a2-1256477a5963");
+        driver.findElement(By.cssSelector("input[placeholder='Tên người nhận']")).sendKeys("Nguyễn Thanh Hải");
+        driver.findElement(By.cssSelector("input[placeholder='Loại yêu cầu']")).sendKeys("Xem hồ sơ y tế");
+        driver.findElement(By.cssSelector("input[placeholder='Trạng thái']")).sendKeys("Đồng ý");
+        driver.findElement(By.cssSelector("body > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > button:nth-child(1)")).click();
+
+        sleep(SLEEP_TIME);
+        assertEquals(driver.findElement(By.cssSelector("input[placeholder='Mã yêu cầu']")).getText(), "");
+        assertEquals(driver.findElement(By.cssSelector("input[placeholder='Mã người gửi']")).getText(), "");
+        assertEquals(driver.findElement(By.cssSelector("input[placeholder='Tên người gửi']")).getText(), "");
+        assertEquals(driver.findElement(By.cssSelector("input[placeholder='Mã người nhận']")).getText(), "");
+        assertEquals(driver.findElement(By.cssSelector("input[placeholder='Tên người nhận']")).getText(), "");
+        assertEquals(driver.findElement(By.cssSelector("input[placeholder='Loại yêu cầu']")).getText(), "");
+        assertEquals(driver.findElement(By.cssSelector("input[placeholder='Trạng thái']")).getText(), "");
     }
 }
