@@ -273,7 +273,8 @@ public class PatientService {
             if (!Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.ACCEPTED)
                     && !Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.PENDING)
                     && !Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.APPROVED)
-                    && !Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.DECLINED)) {
+                    && !Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.DECLINED)
+                    && !Objects.equals(defineRequestForm.getRequestStatus(), RequestStatus.INVOKED)) {
                 throw new Exception("Request Status does not exist");
             }
 
