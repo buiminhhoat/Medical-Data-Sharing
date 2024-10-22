@@ -508,6 +508,15 @@ public class InitDataLoader implements CommandLineRunner {
             sendViewRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             sendViewRequestForm.setDateModified(StringUtil.parseDate(dateModified));
 
+            for (int i = 1; i <= 10; ++i) {
+                SendViewRequestForm sendViewRequestForm2 = new SendViewRequestForm();
+                sendViewRequestForm2.setSenderId(doctor1Id);
+                sendViewRequestForm2.setRecipientId(patientId);
+                sendViewRequestForm2.setDateCreated(StringUtil.parseDate(dateCreated));
+                sendViewRequestForm2.setDateModified(StringUtil.parseDate(dateModified));
+                hyperledgerService.sendViewRequest(doctor1, sendViewRequestForm2);
+            }
+
             ViewRequest viewRequest = hyperledgerService.sendViewRequest(doctor2, sendViewRequestForm);
             System.out.println(viewRequest);
 
