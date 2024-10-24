@@ -231,6 +231,7 @@ const ProfilePage = () => {
                 justifyContent: "center",
                 justifyItems: "center",
                 justifySelf: "center",
+                width: "70%"
               }}
             >
               <Card
@@ -244,7 +245,7 @@ const ProfilePage = () => {
                   </h1>
                 }
                 style={{
-                  width: "70%",
+                  width: "100%",
                   marginTop: "30px",
                 }}
               >
