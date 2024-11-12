@@ -1,10 +1,9 @@
-import { useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import { useNavigate } from "react-router-dom";
 import { notification } from "antd";
 
 export function useLogout(api, contextHolder) {
   const navigate = useNavigate();
-  const [cookies, , removeCookie] = useCookies();
 
   const openNotification = (placement, type, message, description, onClose) => {
     api[type]({
@@ -20,21 +19,8 @@ export function useLogout(api, contextHolder) {
   return async () => {
     try {
       console.log("logout");
-      // Xóa tất cả các cookies
-      const cookieNames = Object.keys(cookies);
-      for (const cookieName of cookieNames) {
-        await removeCookie(cookieName, { path: "/" });
-      }
 
-      // Xóa toàn bộ caches
-      if ("caches" in window) {
-        const cacheNames = await caches.keys();
-        await Promise.all(
-          cacheNames.map(async function (cacheName) {
-            return await caches.delete(cacheName);
-          })
-        );
-      }
+      Storage.clearData();
 
       navigate("/");
       if (api && contextHolder) {

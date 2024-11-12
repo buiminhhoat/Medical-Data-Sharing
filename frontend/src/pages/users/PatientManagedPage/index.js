@@ -20,7 +20,7 @@ import {
   ClearOutlined,
 } from "@ant-design/icons";
 import { Calendar, theme } from "antd";
-import { useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
@@ -31,10 +31,10 @@ const PatientManagedPageStyle = styled.div`
 `;
 
 const PatientManagedPage = () => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const userId = cookies.userId;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
+  
 
   let apiGetAllPatientManaged = API.DOCTOR.GET_ALL_PATIENT_MANAGED_BY_DOCTOR;
 

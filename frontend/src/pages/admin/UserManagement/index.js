@@ -19,7 +19,7 @@ import {
   ClearOutlined,
 } from "@ant-design/icons";
 import { Calendar, theme } from "antd";
-import { useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
@@ -32,9 +32,9 @@ const UserManagementPageStyle = styled.div`
 `;
 
 const UserManagementPage = () => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
 
   let apiGetAllUser = API.ADMIN.GET_ALL_USER_BY_ADMIN;
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Cookies, useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -46,10 +46,10 @@ const StyledList = styled(List)`
 `;
 
 const DrugList = ({ data, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const userId = cookies.userId;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
+  
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [loading, setLoading] = useState(true);

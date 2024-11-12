@@ -8,7 +8,7 @@ import RequestManagementPage from "./pages/users/RequestManagementPage";
 import MedicalRecordManagementPage from "./pages/users/MedicalRecordManagementPage";
 
 import { API } from "@Const";
-import { useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import PatientManagedPage from "./pages/users/PatientManagedPage";
 import UserManagement from "./pages/admin/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
@@ -288,23 +288,24 @@ const renderDrugStoreRouter = () => {
 };
 
 const RouterCustom = () => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
+  const { access_token, userId,  } = Storage.getData();
 
-  const [role, setRole] = useState(cookies.role ? cookies.role : "");
-  console.log("cookies - router: ", cookies)
-  console.log("accessToken - router: " + cookies.access_token);
-  console.log("role - router: " + cookies.role);
+  const [role, setRole] = useState(Storage.getItem("role"));
+
+  console.log("access_token: ", access_token);
+  console.log("userId: ", userId);
+  console.log("role: ", role);
 
   const logout = useLogout();
 
-  console.log(":)", cookies.role === undefined);
+  console.log(":)", Storage.getItem("role") === null);
   const fetchGetUserData = async () => {
-    if (cookies.access_token) {
-      console.log("***", cookies.role);
+    if (Storage.getItem("access_token")) {
+      console.log("***", Storage.getItem("role"));
       try {
         let org = "";
 
-        switch (cookies.role) {
+        switch (Storage.getItem("role")) {
           case "Bệnh nhân":
             org = "patient";
             break;
@@ -336,7 +337,7 @@ const RouterCustom = () => {
         const response = await fetch(apiGetUserData, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${cookies.access_token}`,
+            Authorization: `Bearer ${Storage.getItem("access_token")}`,
           },
         });
 
@@ -359,16 +360,16 @@ const RouterCustom = () => {
   }, []);
 
   return (
-    (cookies.role === undefined && renderUserRouter()) ||
-    (cookies.role === "" && renderUserRouter()) || 
-    (cookies.role === "Bệnh nhân" && renderPatientRouter()) ||
-    (cookies.role === "Bác sĩ" && renderDoctorRouter()) ||
-    (cookies.role === "Quản trị viên" && renderAdminRouter()) ||
-    (cookies.role === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
-    (cookies.role === "Nhà thuốc" && renderDrugStoreRouter()) ||
-    (cookies.role === "Cơ sở y tế" && renderMedicalInstitutionRouter()) ||
-    (cookies.role === "Trung tâm nghiên cứu" && renderResearchCenterRouter()) ||
-    (cookies.role === "Nhà khoa học" && renderScientistRouter())
+    (Storage.getItem("role") === null && renderUserRouter()) ||
+    (Storage.getItem("role") === "" && renderUserRouter()) || 
+    (Storage.getItem("role") === "Bệnh nhân" && renderPatientRouter()) ||
+    (Storage.getItem("role") === "Bác sĩ" && renderDoctorRouter()) ||
+    (Storage.getItem("role") === "Quản trị viên" && renderAdminRouter()) ||
+    (Storage.getItem("role") === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
+    (Storage.getItem("role") === "Nhà thuốc" && renderDrugStoreRouter()) ||
+    (Storage.getItem("role") === "Cơ sở y tế" && renderMedicalInstitutionRouter()) ||
+    (Storage.getItem("role") === "Trung tâm nghiên cứu" && renderResearchCenterRouter()) ||
+    (Storage.getItem("role") === "Nhà khoa học" && renderScientistRouter())
   );
 };
 

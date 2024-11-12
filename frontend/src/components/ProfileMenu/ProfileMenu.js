@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import { UserOutlined } from "@ant-design/icons";
 import { Alert, Avatar, Dropdown, Popover, Space } from "antd";
 import { API, DIALOGS } from "@Const";
@@ -31,10 +31,10 @@ const Context = React.createContext({
 });
 
 const ProfileMenu = ({ setMenuItems, openModal }) => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
+  const { access_token, userId, role } = Storage.getData();
+  
   const [fullName, setFullName] = useState("");
-  // const [role, setRole] = useState(cookies.role ? cookies.role : "");
+  // const [role, setRole] = useState(Storage.getItem("role") ? Storage.getItem("role") : "");
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (placement, type, message, description, onClose) => {
     api[type]({
@@ -46,8 +46,6 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
       onClose: onClose,
     });
   };
-
-  console.log("cookies - Header: ", cookies);
 
   const logout = useLogout(api, contextHolder);
 
@@ -61,7 +59,7 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
 
   let org = "";
 
-  switch (cookies.role) {
+  switch (Storage.getItem("role")) {
     case "Bệnh nhân":
       org = "patient";
       break;
@@ -144,7 +142,7 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
           <div>
             <ul style={{ marginRight: 20, textAlign: "right" }}>
               <li>{fullName}</li>
-              <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>{cookies.role}</li>
+              <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>{Storage.getItem("role")}</li>
             </ul>
           </div>
 

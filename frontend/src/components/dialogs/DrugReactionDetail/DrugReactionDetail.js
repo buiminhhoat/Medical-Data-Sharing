@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from 'react-cookie';
+import Storage from '@Utils/Storage';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, Space, Table } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -55,10 +55,10 @@ const DrugReactionDetail = ({
   onClose,
   onSwitch,
 }) => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const userId = cookies.userId;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
+  
 
   let apiGetPrescriptionByPrescriptionId =
     API.MANUFACTURER.GET_PRESCRIPTION_BY_MANUFACTURER;

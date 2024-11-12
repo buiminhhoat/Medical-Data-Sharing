@@ -21,7 +21,7 @@ import {
   ClearOutlined,
 } from "@ant-design/icons";
 import { Calendar, theme } from "antd";
-import { useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import RequestDetail from "../../../components/dialogs/RequestDetail/RequestDetail";
@@ -34,9 +34,9 @@ const RequestPageStyle = styled.div`
 `;
 
 const RequestPage = () => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
   let org = "";
 
   switch (role) {

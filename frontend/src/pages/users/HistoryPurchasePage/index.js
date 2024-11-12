@@ -21,7 +21,7 @@ import {
   ClearOutlined,
 } from "@ant-design/icons";
 import { Calendar, theme } from "antd";
-import { useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import PurchaseDetail from "../../../components/dialogs/PurchaseDetail/PurchaseDetail";
@@ -34,10 +34,10 @@ const HistoryPurchasePageStyle = styled.div`
 `;
 
 const HistoryPurchasePage = () => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const userId = cookies.userId;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
+  
   let apiGetListPurchase = API.PATIENT.GET_LIST_PURCHASE_BY_PATIENT_ID;
 
   console.log("role: ", role);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from 'react-cookie';
+import Storage from '@Utils/Storage';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -19,7 +19,7 @@ const Context = React.createContext({
 const LoginDialogStyle = styled.div``;
 
 const LoginDialog = ({ onClose, onSwitch }) => {
-  const [cookies, setCookies] = useCookies(["access_token", "userId", "role"]);
+  const { access_token, userId, role } = Storage.getData();
   
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -73,22 +73,24 @@ const LoginDialog = ({ onClose, onSwitch }) => {
 
         console.log(access_token);
 
-        setCookies("access_token", access_token, { path: "/" });
-        setCookies("userId", userId, { path: "/" });
-        setCookies("role", role, { path: "/" });
+        Storage.setItem("access_token", access_token);
+        Storage.setItem("userId", userId);
+        Storage.setItem("role", role);
 
         console.log(role);
 
-        openNotification(
-          "topRight",
-          "success",
-          "Đăng nhập thành công",
-          "Đăng nhập thành công",
-          () => {
-            window.location.reload();
-          },
-          1
-        );
+        // openNotification(
+        //   "topRight",
+        //   "success",
+        //   "Đăng nhập thành công",
+        //   "Đăng nhập thành công",
+        //   () => {
+        //     window.location.reload();
+        //   },
+        //   1
+        // );
+
+        window.location.reload();
       }
       else {
         openNotification(

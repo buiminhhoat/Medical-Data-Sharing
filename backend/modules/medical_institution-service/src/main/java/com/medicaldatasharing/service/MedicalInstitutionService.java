@@ -140,6 +140,7 @@ public class MedicalInstitutionService {
         User user = getLoggedUser();
 
         MedicalInstitution medicalInstitution = (MedicalInstitution) user;
+        if (Objects.equals(medicalInstitution.getId(), id)) userResponseList.add(new MedicalInstitutionResponse(medicalInstitution));
         List<DoctorResponse> doctorResponses = getAllDoctorByMedicalInstitutionId(medicalInstitution.getId());
 
         for (DoctorResponse doctorResponse: doctorResponses) {

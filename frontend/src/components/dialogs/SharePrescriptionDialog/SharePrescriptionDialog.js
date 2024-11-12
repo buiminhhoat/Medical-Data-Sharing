@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from 'react-cookie';
+import Storage from '@Utils/Storage';
 import { UserOutlined, CloseOutlined } from "@ant-design/icons";
 import { Avatar, Flex, InputNumber, Space, TreeSelect } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -42,10 +42,10 @@ const SharePrescriptionDialogStyle = styled.div`
 `;
 
 const SharePrescriptionDialog = ({ prescriptionId, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const userId = cookies.userId;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
+  
   const [apiSharePrescription, setApiSharePrescription] = useState(
     API.PATIENT.SHARE_PRESCRIPTION_BY_PATIENT
   );

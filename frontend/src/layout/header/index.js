@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import theme from "../../styles/pages/theme";
-import { useCookies } from 'react-cookie';
+import Storage from '@Utils/Storage';
 import { DIALOGS } from "@Const";
 import ProfileMenu from "@Components/ProfileMenu/ProfileMenu";
 import LoginDialog from "@Components/dialogs/LoginDialog/LoginDialog";
@@ -71,11 +71,11 @@ const HeaderStyle = styled.div`
 const HeaderLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
+  const { access_token, userId, role } = Storage.getData();
   const [current, setCurrent] = useState(null);
-  // const access_token = cookies.access_token;
-  // const userId = cookies.userId;
-  // const role = cookies.role;
+  // 
+  // 
+  // 
 
   const [patientMenuItems, setPatientMenuItems] = useState([
     {
@@ -183,7 +183,7 @@ const HeaderLayout = () => {
     if (!menuItems) {
       let items = [];
 
-      if (cookies.role === "Bệnh nhân") {
+      if (Storage.getItem("role") === "Bệnh nhân") {
         patientMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -192,7 +192,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (cookies.role === "Bác sĩ") {
+      if (Storage.getItem("role") === "Bác sĩ") {
         doctorMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -201,7 +201,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (cookies.role === "Nhà thuốc") {
+      if (Storage.getItem("role") === "Nhà thuốc") {
         drugStoreMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -210,7 +210,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (cookies.role === "Quản trị viên") {
+      if (Storage.getItem("role") === "Quản trị viên") {
         adminMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -219,7 +219,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (cookies.role === "Công ty sản xuất thuốc") {
+      if (Storage.getItem("role") === "Công ty sản xuất thuốc") {
         manufacturerMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -228,7 +228,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (cookies.role === "Cơ sở y tế") {
+      if (Storage.getItem("role") === "Cơ sở y tế") {
         medicalInstitutionMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -237,7 +237,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (cookies.role === "Trung tâm nghiên cứu") {
+      if (Storage.getItem("role") === "Trung tâm nghiên cứu") {
         researchCenterMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -246,7 +246,7 @@ const HeaderLayout = () => {
         });
       }
 
-      if (cookies.role === "Nhà khoa học") {
+      if (Storage.getItem("role") === "Nhà khoa học") {
         scientistMenuItems.map((item, key) => {
           items.push({
             key: item.path,
@@ -281,7 +281,6 @@ const HeaderLayout = () => {
     setCurrent(e.key);
   };
 
-  console.log("cookies - header: ", cookies);
   console.log(openDialog);
   return (
     <HeaderStyle>

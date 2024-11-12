@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from 'react-cookie';
+import Storage from '@Utils/Storage';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, Popover, QRCode, Space, Table } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -48,10 +48,10 @@ const StyledList = styled(List)`
 `;
 
 const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const userId = cookies.userId;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
+  
 
   const purchaseId = purchase.purchaseId;
 

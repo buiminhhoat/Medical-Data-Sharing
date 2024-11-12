@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ConfigProvider, Space, Table, Tag } from "antd";
 import { Calendar, theme } from "antd";
-import { useCookies } from "react-cookie";
+import Storage from '@Utils/Storage';
 import { API } from "@Const";
 
 const HomePageStyle = styled.div`
@@ -11,8 +11,8 @@ const HomePageStyle = styled.div`
 `;
 
 const HomePage = () => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
+  const { access_token, userId, role } = Storage.getData();
+  
 
   return <HomePageStyle></HomePageStyle>;
 };

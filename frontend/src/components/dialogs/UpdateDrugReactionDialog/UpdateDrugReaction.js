@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from 'react-cookie';
+import Storage from '@Utils/Storage';
 import { UserOutlined, CloseOutlined } from "@ant-design/icons";
 import { Avatar, Flex, InputNumber, Space, TreeSelect } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -43,10 +43,10 @@ const UpdateDrugReactionDialogStyle = styled.div`
 `;
 
 const UpdateDrugReactionDialog = ({ prescription, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "userId", "role"]);
-  const access_token = cookies.access_token;
-  const userId = cookies.userId;
-  const role = cookies.role;
+  const { access_token, userId, role } = Storage.getData();
+  
+  
+  
   const [apiUpdateDrugReaction, setApiUpdateDrugReaction] = useState(
     API.PATIENT.UPDATE_DRUG_REACTION_BY_PATIENT
   );
