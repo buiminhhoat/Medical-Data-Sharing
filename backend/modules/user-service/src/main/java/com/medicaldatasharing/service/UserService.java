@@ -71,7 +71,8 @@ public class UserService {
         if (port.equals("")) {
             return "Not found";
         }
-        String url = "http://localhost:" + port + "/api/" + org + "/permit-all/get-full-name/" + id;
+//        String url = "http://localhost:" + port + "/api/" + org + "/permit-all/get-full-name/" + id;
+        String url = "http://localhost:8000" + "/api/" + org + "/permit-all/get-full-name/" + id;
         return restTemplate.getForObject(url, String.class);
     }
 
