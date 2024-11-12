@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Cookies, useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 import {
   UserOutlined,
   CloseOutlined,

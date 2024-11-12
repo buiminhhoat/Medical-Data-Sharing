@@ -49,7 +49,7 @@ const AppointmentPageStyle = styled.div`
 `;
 
 const AppointmentPage = () => {
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
 
   const [doctorList, setDoctorList] = useState([]);

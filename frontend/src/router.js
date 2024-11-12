@@ -288,23 +288,23 @@ const renderDrugStoreRouter = () => {
 };
 
 const RouterCustom = () => {
-  const [cookies] = useCookies(["access_token", "role"]);
-  const accessToken = cookies.access_token;
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
 
   const [role, setRole] = useState(cookies.role ? cookies.role : "");
-
-  console.log("accessToken: " + accessToken);
-  console.log("role: " + role);
+  console.log("cookies - router: ", cookies)
+  console.log("accessToken - router: " + cookies.access_token);
+  console.log("role - router: " + cookies.role);
 
   const logout = useLogout();
 
+  console.log(":)", cookies.role === undefined);
   const fetchGetUserData = async () => {
-    if (accessToken) {
-      console.log(role);
+    if (cookies.access_token) {
+      console.log("***", cookies.role);
       try {
         let org = "";
 
-        switch (role) {
+        switch (cookies.role) {
           case "Bệnh nhân":
             org = "patient";
             break;
@@ -336,7 +336,7 @@ const RouterCustom = () => {
         const response = await fetch(apiGetUserData, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${cookies.access_token}`,
           },
         });
 
@@ -359,15 +359,16 @@ const RouterCustom = () => {
   }, []);
 
   return (
-    (role === "" && renderUserRouter()) ||
-    (role === "Bệnh nhân" && renderPatientRouter()) ||
-    (role === "Bác sĩ" && renderDoctorRouter()) ||
-    (role === "Quản trị viên" && renderAdminRouter()) ||
-    (role === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
-    (role === "Nhà thuốc" && renderDrugStoreRouter()) ||
-    (role === "Cơ sở y tế" && renderMedicalInstitutionRouter()) ||
-    (role === "Trung tâm nghiên cứu" && renderResearchCenterRouter()) ||
-    (role === "Nhà khoa học" && renderScientistRouter())
+    (cookies.role === undefined && renderUserRouter()) ||
+    (cookies.role === "" && renderUserRouter()) || 
+    (cookies.role === "Bệnh nhân" && renderPatientRouter()) ||
+    (cookies.role === "Bác sĩ" && renderDoctorRouter()) ||
+    (cookies.role === "Quản trị viên" && renderAdminRouter()) ||
+    (cookies.role === "Công ty sản xuất thuốc" && renderManufacturerRouter()) ||
+    (cookies.role === "Nhà thuốc" && renderDrugStoreRouter()) ||
+    (cookies.role === "Cơ sở y tế" && renderMedicalInstitutionRouter()) ||
+    (cookies.role === "Trung tâm nghiên cứu" && renderResearchCenterRouter()) ||
+    (cookies.role === "Nhà khoa học" && renderScientistRouter())
   );
 };
 

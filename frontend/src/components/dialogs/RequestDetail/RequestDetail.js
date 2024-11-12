@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Cookies, useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, Popover, QRCode, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";

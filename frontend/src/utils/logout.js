@@ -19,6 +19,7 @@ export function useLogout(api, contextHolder) {
 
   return async () => {
     try {
+      console.log("logout");
       // Xóa tất cả các cookies
       const cookieNames = Object.keys(cookies);
       for (const cookieName of cookieNames) {
@@ -34,10 +35,7 @@ export function useLogout(api, contextHolder) {
           })
         );
       }
-      // Redirect về trang chính của bạn (localhost:3000)
-      // toast.success(MESSAGE.LOGOUT_SUCCESS);
-      //   <Alert message="Đăng xuất thành công!" type="success"></Alert>;
-      //   alert("Đăng xuất thành công!");
+
       navigate("/");
       if (api && contextHolder) {
         openNotification(

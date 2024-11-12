@@ -34,7 +34,7 @@ const RequestPageStyle = styled.div`
 `;
 
 const RequestPage = () => {
-  const [cookies] = useCookies(["access_token", "role"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const role = cookies.role;
   let org = "";

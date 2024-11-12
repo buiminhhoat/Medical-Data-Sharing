@@ -32,9 +32,8 @@ const UserManagementPageStyle = styled.div`
 `;
 
 const UserManagementPage = () => {
-  const [cookies] = useCookies(["access_token", "id", "role"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
-  const id = cookies.id;
   const role = cookies.role;
 
   let apiGetAllUser = API.ADMIN.GET_ALL_USER_BY_ADMIN;

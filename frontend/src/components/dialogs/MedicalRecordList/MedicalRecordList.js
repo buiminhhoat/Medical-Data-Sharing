@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Cookies, useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -77,7 +77,7 @@ const Context = React.createContext({
 });
 
 const MedicalRecordList = ({ patientId, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "userId"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const role = cookies.role;

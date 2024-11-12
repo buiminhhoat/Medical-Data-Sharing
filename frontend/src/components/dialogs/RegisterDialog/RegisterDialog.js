@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Cookies, useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, DatePicker, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -37,7 +37,7 @@ const RegisterDialog = ({ onClose, onSwitch }) => {
     });
   };
 
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const apiRegisterUrl = API.PATIENT.REGISTER;
   const [isModalOpen, setIsModalOpen] = useState(true);

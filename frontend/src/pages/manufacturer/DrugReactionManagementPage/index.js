@@ -35,7 +35,7 @@ const DrugReactionManagementPageStyle = styled.div`
 `;
 
 const DrugReactionManagementPage = () => {
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const apiGetListDrugReactionByManufacturer =
     API.MANUFACTURER.GET_LIST_DRUG_REACTION_BY_MANUFACTURER;

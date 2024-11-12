@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Cookies, useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space, notification } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
@@ -18,7 +18,7 @@ const Context = React.createContext({
 });
 
 const ChangePasswordDialog = ({ userId, onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token", "role"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const role = cookies.role;
 

@@ -31,7 +31,7 @@ const MedicalRecordManagementPageStyle = styled.div`
 `;
 
 const MedicalRecordManagementPage = () => {
-  const [cookies] = useCookies(["access_token", "userId"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const userId = cookies.userId;
   const apiGetListMedicalRecordByPatientId =

@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction">
-      <change beforePath="$PROJECT_DIR$/../backend/modules/doctor-service/src/main/java/com/medicaldatasharing/form/AddMedicalRecordForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/doctor-service/src/main/java/com/medicaldatasharing/form/AddMedicalRecordForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -112,7 +109,7 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21633051" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21638381" />
       <window_info id="Commit" order="1" weight="0.21640626" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
@@ -309,6 +306,7 @@
       <workItem from="1729094279809" duration="388000" />
       <workItem from="1729099922798" duration="941000" />
       <workItem from="1729176086723" duration="2133000" />
+      <workItem from="1729789219250" duration="314000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />

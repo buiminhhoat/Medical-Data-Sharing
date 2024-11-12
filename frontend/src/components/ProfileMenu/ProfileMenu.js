@@ -31,10 +31,10 @@ const Context = React.createContext({
 });
 
 const ProfileMenu = ({ setMenuItems, openModal }) => {
-  const [cookies] = useCookies(["access_token", "role"]);
+  const [cookies] = useCookies(["access_token", "userId", "role"]);
   const access_token = cookies.access_token;
   const [fullName, setFullName] = useState("");
-  const [role, setRole] = useState(cookies.role ? cookies.role : "");
+  // const [role, setRole] = useState(cookies.role ? cookies.role : "");
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (placement, type, message, description, onClose) => {
     api[type]({
@@ -46,6 +46,8 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
       onClose: onClose,
     });
   };
+
+  console.log("cookies - Header: ", cookies);
 
   const logout = useLogout(api, contextHolder);
 
@@ -59,7 +61,7 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
 
   let org = "";
 
-  switch (role) {
+  switch (cookies.role) {
     case "Bệnh nhân":
       org = "patient";
       break;
@@ -103,9 +105,9 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
           const json = await response.json();
           console.log(json);
           const fullName = json.fullName;
-          const role = json.role;
+          // const role = json.role;
           setFullName(fullName);
-          setRole(role);
+          // setRole(role);
         } else {
           handleLogout();
         }
@@ -142,7 +144,7 @@ const ProfileMenu = ({ setMenuItems, openModal }) => {
           <div>
             <ul style={{ marginRight: 20, textAlign: "right" }}>
               <li>{fullName}</li>
-              <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>{role}</li>
+              <li style={{ fontFamily: "Poppins", fontWeight: 300 }}>{cookies.role}</li>
             </ul>
           </div>
 

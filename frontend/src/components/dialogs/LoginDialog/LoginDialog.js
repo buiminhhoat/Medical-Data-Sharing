@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Cookies, useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
 import styled from "styled-components";
 import { CgEnter } from "react-icons/cg";
 import { Button, Modal, Checkbox, Form, Input, Select } from "antd";
+import { Alert, notification } from "antd";
+
 import ModalWrapper from "../../ModalWrapper/ModalWrapper";
 const { Option } = Select;
 
+const Context = React.createContext({
+  name: "LoginDialogContext",
+});
+
 const LoginDialogStyle = styled.div``;
+
 const LoginDialog = ({ onClose, onSwitch }) => {
-  const [cookies] = useCookies(["access_token"]);
-  const access_token = cookies.access_token;
+  const [cookies, setCookies] = useCookies(["access_token", "userId", "role"]);
   
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -30,8 +36,20 @@ const LoginDialog = ({ onClose, onSwitch }) => {
     console.log("Failed:", errorInfo);
   };
 
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (placement, type, message, description, onClose, duration) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement,
+      showProgress: true,
+      pauseOnHover: true,
+      onClose: onClose,
+      duration: duration
+    });
+  };
+
   const handleLoginFormSubmit = async (values) => {
-    console.log(values);
 
     const formData = new FormData();
     formData.append("email", values.email);
@@ -55,20 +73,54 @@ const LoginDialog = ({ onClose, onSwitch }) => {
 
         console.log(access_token);
 
-        const cookies = new Cookies();
-        cookies.set("access_token", access_token, { path: "/" });
-        cookies.set("userId", userId, { path: "/" });
-        cookies.set("role", role);
+        setCookies("access_token", access_token, { path: "/" });
+        setCookies("userId", userId, { path: "/" });
+        setCookies("role", role, { path: "/" });
 
         console.log(role);
-        window.location.reload();
+
+        openNotification(
+          "topRight",
+          "success",
+          "Đăng nhập thành công",
+          "Đăng nhập thành công",
+          () => {
+            window.location.reload();
+          },
+          1
+        );
+      }
+      else {
+        openNotification(
+          "topRight",
+          "error",
+          "Đăng nhập thất bại",
+          "Vui lòng kiểm tra lại thông tin đăng nhập!",
+          () => {
+
+          },
+          3
+        );
       }
     } catch (e) {
+      console.log(e);
+      openNotification(
+        "topRight",
+        "error",
+        "Đăng nhập thất bại",
+        "Vui lòng kiểm tra lại thông tin đăng nhập!",
+        () => {
+            
+        },
+        3
+      );
     } finally {
     }
   };
 
   return (
+    <Context.Provider value={"Tạo thuốc"}>
+      {contextHolder}
     <LoginDialogStyle>
       <>
         <ModalWrapper
@@ -190,6 +242,7 @@ const LoginDialog = ({ onClose, onSwitch }) => {
         </ModalWrapper>
       </>
     </LoginDialogStyle>
+  </Context.Provider>
   );
 };
 
