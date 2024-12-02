@@ -935,6 +935,33 @@ public class MedicalRecordContract implements ContractInterface {
         return new Genson().serialize(drug);
     }
 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String transferDrugs(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String drugIdListString = jsonObject.getString("drugIds");
+        String newOwnerId = jsonObject.getString("drugStoreId");
+
+        List<String> drugIdList = new Genson().deserialize(drugIdListString, new GenericType<List<String>>() {});
+        for (String drugId: drugIdList) {
+            Drug drug = ctx.getDrugDAO().getDrug(drugId);
+            authorizeRequest(ctx, drug.getOwnerId(), "transferDrugs(validate drug.getOwnerId())");
+        }
+
+
+        List<Drug> drugList = new ArrayList<>();
+        for (String drugId: drugIdList) {
+            JSONObject jsonDto = jsonObject;
+            jsonDto.put("drugId", drugId);
+            jsonDto.put("newOwnerId", newOwnerId);
+            Drug drug = ctx.getDrugDAO().transferDrug(jsonDto);
+            drugList.add(drug);
+        }
+        return new Genson().serialize(drugList);
+    }
+
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getListDrugByOwnerId(
             MedicalRecordContext ctx,

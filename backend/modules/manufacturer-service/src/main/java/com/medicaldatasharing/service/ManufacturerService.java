@@ -402,4 +402,15 @@ public class ManufacturerService {
             throw e;
         }
     }
+
+    public String transferDrugs(TransferDrugsForm transferDrugsForm) throws Exception {
+        User user = getLoggedUser();
+        try {
+            List<Drug> drugList = hyperledgerService.transferDrugs(user, transferDrugsForm);
+            return new Genson().serialize(drugList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
 }

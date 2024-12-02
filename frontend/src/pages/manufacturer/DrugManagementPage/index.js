@@ -24,6 +24,7 @@ import { API } from "@Const";
 import { DIALOGS } from "@Const";
 import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 import ScanInput from "../../../components/ScanInput/ScanInput";
+import TransferDrug from "../../../components/dialogs/TransferDrug/TransferDrug";
 // import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 
 const DrugManagementPageStyle = styled.div`
@@ -201,6 +202,11 @@ const DrugManagementPage = () => {
 
   const openAddDrug = () => {
     openModal(DIALOGS.ADD_DRUG);
+  };
+
+  const openSellDrug = () => {
+    console.log("SELL_DRUG");
+    openModal(DIALOGS.SELL_DRUG);
   };
 
   const [highlightedText, setHighlightedText] = useState(null);
@@ -479,6 +485,7 @@ const DrugManagementPage = () => {
                 }}
               >
                 <Button onClick={() => openAddDrug()}>Tạo thuốc mới</Button>
+                <Button onClick={() => openSellDrug()} style={{marginLeft: "20px"}}>Bán thuốc</Button>
               </div>
             </div>
             <ConfigProvider
@@ -516,6 +523,15 @@ const DrugManagementPage = () => {
         <div className="modal-overlay">
           <AddDrugDialog
             values={selectedMedication}
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
+
+      {openDialog === DIALOGS.SELL_DRUG && (
+        <div className="modal-overlay">
+          <TransferDrug
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />

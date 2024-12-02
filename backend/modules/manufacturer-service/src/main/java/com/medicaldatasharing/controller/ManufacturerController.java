@@ -339,6 +339,17 @@ public class ManufacturerController {
         }
     }
 
+    @PostMapping("/transfer-drugs")
+    public ResponseEntity<?> transferDrugs(@Valid @ModelAttribute TransferDrugsForm transferDrugsForm, BindingResult result) throws Exception {
+        try {
+            String transferDrugs = manufacturerService.transferDrugs(transferDrugsForm);
+            return ResponseEntity.status(HttpStatus.OK).body(transferDrugs);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @PostMapping("/add-medication")
     public ResponseEntity<?> addMedication(@Valid @ModelAttribute AddMedicationForm addMedicationForm, BindingResult result) throws Exception {
         try {
