@@ -91,6 +91,10 @@ const HeaderLayout = () => {
       path: ROUTERS.PATIENT.HISTORY_PURCHASE,
     },
     {
+      name: "Quản lý thuốc",
+      path: ROUTERS.PATIENT.DRUG_MANAGEMENT_PAGE,
+    },
+    {
       name: "Quản lý yêu cầu",
       path: ROUTERS.USER.REQUEST,
     },

@@ -1315,4 +1315,33 @@ public class HyperledgerService {
         String errorMsg = msg.substring(msg.lastIndexOf(":") + 1);
         throw new Exception(errorMsg);
     }
+
+    public Medication getMedication(User user, String medicationId) throws Exception {
+        Medication medication = null;
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("medicationId", medicationId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getMedication",
+                    jsonObject.toString()
+            );
+
+            String medicationStr = new String(result);
+            medication = new Genson().deserialize(
+                    medicationStr,
+                    new GenericType<Medication>() {
+                    }
+            );
+
+            medication.decrypt();
+            LOG.info("result: " + medication);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medication;
+    }
+
 }

@@ -413,4 +413,17 @@ public class PatientService {
             throw e;
         }
     }
+
+    public String getMedication(String medicationId) throws Exception {
+        User user = getLoggedUser();
+        try {
+            Medication medication = hyperledgerService.getMedication(user, medicationId);
+            MedicationResponse medicationResponse = new MedicationResponse(medication);
+            medicationResponse.setManufacturerName(getFullName(medication.getManufacturerId()));
+            return new Genson().serialize(medicationResponse);
+        }
+        catch (Exception exception) {
+            throw exception;
+        }
+    }
 }

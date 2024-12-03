@@ -12,7 +12,7 @@ import Storage from '@Utils/Storage';
 import PatientManagedPage from "./pages/users/PatientManagedPage";
 import UserManagement from "./pages/admin/UserManagement";
 import MedicationManagementPage from "./pages/manufacturer/MedicationManagementPage";
-import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
+import DrugManagementPage from "./pages/users/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
 import ProfilePage from "./pages/users/ProfilePage";
 import DrugReactionManagementPage from "./pages/manufacturer/DrugReactionManagementPage";
@@ -42,6 +42,10 @@ const patientRouters = [
   {
     path: ROUTERS.PATIENT.HISTORY_PURCHASE,
     component: <HistoryPurchasePage></HistoryPurchasePage>,
+  },
+  {
+    path: ROUTERS.PATIENT.DRUG_MANAGEMENT_PAGE,
+    component: <DrugManagementDrugStorePage></DrugManagementDrugStorePage>,
   },
   {
     path: ROUTERS.USER.REQUEST,

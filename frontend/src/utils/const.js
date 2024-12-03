@@ -47,7 +47,7 @@ export const API = {
     SHARE_PRESCRIPTION_BY_PATIENT: "/api/patient/share-prescription-by-patient",
     UPDATE_DRUG_REACTION_BY_PATIENT:
       "/api/patient/update-drug-reaction-by-patient",
-    GET_DRUG_BY_DRUG_ID: "/api/patient/get-drug-by-drugId"
+    GET_MEDICATION: "/api/patient/get-medication"
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
