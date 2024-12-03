@@ -18,7 +18,7 @@ public class MedicationResponse {
 
     @JsonProperty("manufacturerName")
     private String manufacturerName;
-    
+
     @JsonProperty("medicationName")
     private String medicationName;
 
