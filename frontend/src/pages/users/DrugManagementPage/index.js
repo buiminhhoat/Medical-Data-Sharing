@@ -25,7 +25,7 @@ import { DIALOGS } from "@Const";
 import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 import ScanInput from "../../../components/ScanInput/ScanInput";
 import TransferDrug from "../../../components/dialogs/TransferDrug/TransferDrug";
-// import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
+import DrugDetail from "../../../components/dialogs/DrugDetail/DrugDetail";
 
 const DrugManagementPageStyle = styled.div`
   width: 100%;
@@ -175,7 +175,7 @@ const DrugManagementPage = () => {
   ]);
 
   const [openDialog, setOpenDialog] = useState(null);
-  const [selectedMedication, setSelectedRequest] = useState(null);
+  const [selectedDrug, setSelectedDrug] = useState(null);
 
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
@@ -193,11 +193,11 @@ const DrugManagementPage = () => {
     setOpenDialog(null);
   };
 
-  const openDrugDetail = (request) => {
+  const openDrugDetail = (drug) => {
     console.log("openDrugDetail");
-    console.log(request);
+    console.log(drug);
     openModal(DIALOGS.DRUG_DETAIL);
-    setSelectedRequest(request);
+    setSelectedDrug(drug);
   };
 
   const openAddDrug = () => {
@@ -512,7 +512,7 @@ const DrugManagementPage = () => {
       {/* {openDialog === DIALOGS.DRUG_DETAIL && (
         <div className="modal-overlay">
           <DrugDetail
-            request={selectedMedication}
+            request={selectedDrug}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
@@ -522,7 +522,7 @@ const DrugManagementPage = () => {
       {openDialog === DIALOGS.ADD_DRUG && (
         <div className="modal-overlay">
           <AddDrugDialog
-            values={selectedMedication}
+            values={selectedDrug}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
@@ -532,6 +532,16 @@ const DrugManagementPage = () => {
       {openDialog === DIALOGS.SELL_DRUG && (
         <div className="modal-overlay">
           <TransferDrug
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )}
+
+      {openDialog === DIALOGS.DRUG_DETAIL && (
+        <div className="modal-overlay">
+          <DrugDetail
+            drug={selectedDrug}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
