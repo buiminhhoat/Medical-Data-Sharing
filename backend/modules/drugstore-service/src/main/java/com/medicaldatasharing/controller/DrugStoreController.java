@@ -375,4 +375,15 @@ public class DrugStoreController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @GetMapping("/get-list-drug-by-ownerId")
+    public ResponseEntity<?> getListDrugByOwnerId() throws Exception {
+        try {
+            String getListDrugByOwnerId = drugStoreService.getListDrugByOwnerId();
+            return ResponseEntity.status(HttpStatus.OK).body(getListDrugByOwnerId);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 }

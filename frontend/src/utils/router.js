@@ -27,6 +27,7 @@ export const ROUTERS = {
   },
   DRUGSTORE: {
     HISTORY_PURCHASE: "/drugstore/history-purchase",
+    DRUG_MANAGEMENT_PAGE: "/drugstore/drug-management-page",
   },
   MEDICAL_INSTITUTION: {
     DOCTOR_MANAGEMENT_PAGE: "/medical_institution/doctor-management-page",

@@ -342,4 +342,17 @@ public class DrugStoreService {
             throw e;
         }
     }
+
+    public String getListDrugByOwnerId() throws Exception {
+        User user = getLoggedUser();
+        try {
+            SearchDrugForm searchDrugForm = new SearchDrugForm();
+            searchDrugForm.setOwnerId(user.getId());
+            List<Drug> drugList = hyperledgerService.getListDrugByOwnerId(user, searchDrugForm);
+            return new Genson().serialize(drugList);
+        }
+        catch (Exception e) {
+            throw e;
+        }
+    }
 }

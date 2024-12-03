@@ -16,6 +16,7 @@ import DrugManagementPage from "./pages/manufacturer/DrugManagementPage";
 import HistoryPurchasePage from "./pages/users/HistoryPurchasePage";
 import ProfilePage from "./pages/users/ProfilePage";
 import DrugReactionManagementPage from "./pages/manufacturer/DrugReactionManagementPage";
+import DrugManagementDrugStorePage from "./pages/drugstore/DrugManagementDrugStorePage";
 import { useLogout } from "./utils/logout";
 
 const userRouters = [
@@ -150,6 +151,10 @@ const drugStoreRouters = [
   {
     path: ROUTERS.USER.REQUEST,
     component: <RequestManagementPage></RequestManagementPage>,
+  },
+  {
+    path: ROUTERS.DRUGSTORE.DRUG_MANAGEMENT_PAGE,
+    component: <DrugManagementDrugStorePage></DrugManagementDrugStorePage>,
   },
 ];
 

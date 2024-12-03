@@ -3,7 +3,7 @@
 # Thiết lập thông tin kết nối
 DB_USER="root"
 DB_PASSWORD=""
-DB_HOST="192.168.1.246"
+DB_HOST="192.168.1.12"
 
 # Tên cơ sở dữ liệu để xóa
 DB_NAME="health-information-sharing"

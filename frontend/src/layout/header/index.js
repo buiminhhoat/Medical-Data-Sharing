@@ -166,6 +166,10 @@ const HeaderLayout = () => {
 
   const [drugStoreMenuItems, setDrugStoreItems] = useState([
     {
+      name: "Quản lý thuốc",
+      path: ROUTERS.DRUGSTORE.DRUG_MANAGEMENT_PAGE,
+    },
+    {
       name: "Lịch sử giao dịch",
       path: ROUTERS.DRUGSTORE.HISTORY_PURCHASE,
     },
