@@ -5,20 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae6cf23e-f649-4101-82ed-649cf74ed2db" name="Changes" comment="Add Update Drug Reaction">
-      <change beforePath="$PROJECT_DIR$/../backend/modules/admin-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/admin-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/doctor-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/doctor-service/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/java/com/medicaldatasharing/controller/DrugStoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/java/com/medicaldatasharing/controller/DrugStoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/java/com/medicaldatasharing/response/MedicationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/java/com/medicaldatasharing/response/MedicationResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/java/com/medicaldatasharing/service/DrugStoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/java/com/medicaldatasharing/service/DrugStoreService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/manufacturer-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/medical_institution-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/medical_institution-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/patient-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/patient-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/research_center-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/research_center-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/scientist-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/scientist-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/modules/user-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/user-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/user-service - Copy/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-service - Copy/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/modules/drugstore-service/src/main/java/com/medicaldatasharing/service/HyperledgerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend_save/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_save/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fabric-samples/test-network/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../fabric-samples/test-network/start.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaincode.tar.gz" beforeDir="false" afterPath="$PROJECT_DIR$/chaincode.tar.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/drugstore/DrugManagementDrugStorePage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/drugstore/DrugManagementDrugStorePage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/utils/const.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/utils/const.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +38,11 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="chaincode" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="chaincode" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
               </path>
             </expand>
             <select />
@@ -86,37 +87,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.AppointmentRequest.executor&quot;: &quot;Run&quot;,
-    &quot;Application.EditRequest.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.healthInformationSharing.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [checkstyleMain].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [dependencies].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [deployPreparation].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [shadowJar].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.chaincode [test].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/buiminhhoat/Medical-Data-Sharing/chaincode&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;/home/buiminhhoat/Medical-Data-Sharing/chaincode/src/main/java/healthInformationSharing/entity/Request.java&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AppointmentRequest.executor": "Run",
+    "Application.EditRequest.executor": "Debug",
+    "Application.Main.executor": "Run",
+    "Application.healthInformationSharing.Main.executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.chaincode [checkstyleMain].executor": "Run",
+    "Gradle.chaincode [dependencies].executor": "Run",
+    "Gradle.chaincode [deployPreparation].executor": "Run",
+    "Gradle.chaincode [shadowJar].executor": "Run",
+    "Gradle.chaincode [test].executor": "Run",
+    "Maven. [clean,install].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/buiminhhoat/Medical-Data-Sharing/chaincode",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "two.files.diff.last.used.file": "/home/buiminhhoat/Medical-Data-Sharing/chaincode/src/main/java/healthInformationSharing/entity/Request.java",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
@@ -124,8 +126,8 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21647134" />
-      <window_info id="Commit" order="1" weight="0.21640626" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19108072" />
+      <window_info id="Commit" order="1" weight="0.21647134" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
@@ -139,7 +141,7 @@
       <window_info anchor="bottom" id="Terminal" order="3" weight="0.22120097" />
       <window_info anchor="bottom" id="Build" order="4" weight="0.2689951" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.2689951" />
-      <window_info anchor="bottom" id="Run" order="6" weight="0.2689951" />
+      <window_info anchor="bottom" id="Run" order="6" weight="0.41237745" />
       <window_info anchor="bottom" id="Services" order="7" />
       <window_info anchor="bottom" id="Duplicates" order="8" weight="0.3302696" />
       <window_info anchor="bottom" id="Analyze Dataflow to" order="9" weight="0.30453432" />
@@ -152,8 +154,8 @@
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Notifications" order="0" weight="0.25" />
       <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
-      <window_info anchor="right" id="Database" order="2" weight="0.25" />
-      <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
+      <window_info anchor="right" id="Database" order="2" weight="0.32975262" />
+      <window_info anchor="right" id="Gradle" order="3" weight="0.24316406" />
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
       <window_info anchor="right" id="Hierarchy" order="5" weight="0.32975262" />
     </layout>
@@ -181,6 +183,40 @@
       <recent name="healthInformationSharing.entity" />
       <recent name="healthInformationSharing.component" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean install" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="chaincode [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.chaincode [dependencies]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -322,7 +358,8 @@
       <workItem from="1729099922798" duration="941000" />
       <workItem from="1729176086723" duration="2133000" />
       <workItem from="1729789219250" duration="314000" />
-      <workItem from="1733156974555" duration="3716000" />
+      <workItem from="1733156974555" duration="3744000" />
+      <workItem from="1733240012351" duration="1159000" />
     </task>
     <task id="LOCAL-00001" summary="Update Medical Data Sharing &amp; Add fabric-samples">
       <option name="closed" value="true" />
@@ -480,7 +517,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/medicaldatasharing/contract/MedicalRecordContract.java</url>
-          <line>1969</line>
+          <line>1984</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>

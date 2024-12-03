@@ -610,6 +610,34 @@ public class HyperledgerService {
         return medicationList;
     }
 
+    public Medication getMedication(User user, String medicationId) throws Exception {
+        Medication medication = null;
+        try {
+            Contract contract = getContract(user);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("medicationId", medicationId);
+
+            byte[] result = contract.evaluateTransaction(
+                    "getMedication",
+                    jsonObject.toString()
+            );
+
+            String medicationStr = new String(result);
+            medication = new Genson().deserialize(
+                    medicationStr,
+                    new GenericType<Medication>() {
+                    }
+            );
+
+            medication.decrypt();
+            LOG.info("result: " + medication);
+        } catch (Exception e) {
+            formatExceptionMessage(e);
+        }
+        return medication;
+    }
+
     public List<Drug> getListDrugByOwnerId(
             User user,
             SearchDrugForm searchDrugForm

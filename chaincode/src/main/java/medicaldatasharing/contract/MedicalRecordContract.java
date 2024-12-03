@@ -851,6 +851,21 @@ public class MedicalRecordContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getMedication(
+            MedicalRecordContext ctx,
+            String jsonString
+    ) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        String medicationId = jsonObject.getString("medicationId");
+
+        JSONObject jsonDto = jsonObject;
+
+        Medication medication = ctx.getMedicationDAO().getMedication(medicationId);
+
+        return new Genson().serialize(medication);
+    }
+
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String getAllMedication(
             MedicalRecordContext ctx
     ) {

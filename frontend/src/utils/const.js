@@ -47,6 +47,7 @@ export const API = {
     SHARE_PRESCRIPTION_BY_PATIENT: "/api/patient/share-prescription-by-patient",
     UPDATE_DRUG_REACTION_BY_PATIENT:
       "/api/patient/update-drug-reaction-by-patient",
+    GET_DRUG_BY_DRUG_ID: "/api/patient/get-drug-by-drugId"
   },
   DOCTOR: {
     GET_LIST_MEDICAL_RECORD: "/api/doctor/get-list-medical-record-by-patientId",
@@ -89,6 +90,7 @@ export const API = {
     GET_LIST_PURCHASE_BY_DRUGSTORE_ID:
       "/api/drugstore/get-list-purchase-by-drugStoreId",
     GET_PURCHASE_BY_PURCHASE_ID: "/api/drugstore/get-purchase-by-purchaseId",
+    GET_MEDICATION: "/api/drugstore/get-medication"
   },
   MEDICAL_INSTITUTION: {
     GET_ALL_DOCTOR_BY_MEDICAL_INSTITUTION:

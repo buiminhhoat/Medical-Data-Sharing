@@ -1,9 +1,6 @@
 package com.medicaldatasharing.service;
 
-import com.medicaldatasharing.chaincode.dto.Drug;
-import com.medicaldatasharing.chaincode.dto.Purchase;
-import com.medicaldatasharing.chaincode.dto.Request;
-import com.medicaldatasharing.chaincode.dto.ViewPrescriptionRequest;
+import com.medicaldatasharing.chaincode.dto.*;
 import com.medicaldatasharing.dto.PrescriptionDto;
 import com.medicaldatasharing.dto.PurchaseDto;
 import com.medicaldatasharing.enumeration.RequestType;
@@ -353,6 +350,19 @@ public class DrugStoreService {
         }
         catch (Exception e) {
             throw e;
+        }
+    }
+
+    public String getMedication(String medicationId) throws Exception {
+        User user = getLoggedUser();
+        try {
+            Medication medication = hyperledgerService.getMedication(user, medicationId);
+            MedicationResponse medicationResponse = new MedicationResponse(medication);
+            medicationResponse.setManufacturerName(getFullName(medication.getManufacturerId()));
+            return new Genson().serialize(medicationResponse);
+        }
+        catch (Exception exception) {
+            throw exception;
         }
     }
 }

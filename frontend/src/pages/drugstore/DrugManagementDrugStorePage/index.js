@@ -26,6 +26,7 @@ import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
 import ScanInput from "../../../components/ScanInput/ScanInput";
 import TransferDrug from "../../../components/dialogs/TransferDrug/TransferDrug";
 // import AddDrugDialog from "../../../components/dialogs/AddDrug/AddDrug";
+import DrugDetail from "../../../components/dialogs/DrugDetail/DrugDetail";
 
 const DrugManagementDrugStorePageStyle = styled.div`
   width: 100%;
@@ -175,7 +176,7 @@ const DrugManagementDrugStorePage = () => {
   ]);
 
   const [openDialog, setOpenDialog] = useState(null);
-  const [selectedMedication, setSelectedRequest] = useState(null);
+  const [selectedDrug, setSelectedDrug] = useState(null);
 
   const handleDialogSwitch = (dialogName) => {
     openModal(dialogName);
@@ -193,11 +194,11 @@ const DrugManagementDrugStorePage = () => {
     setOpenDialog(null);
   };
 
-  const openDrugDetail = (request) => {
+  const openDrugDetail = (drug) => {
     console.log("openDrugDetail");
-    console.log(request);
+    console.log(drug);
     openModal(DIALOGS.DRUG_DETAIL);
-    setSelectedRequest(request);
+    setSelectedDrug(drug);
   };
 
   const openAddDrug = () => {
@@ -508,7 +509,7 @@ const DrugManagementDrugStorePage = () => {
         </div>
       )} */}
 
-      {openDialog === DIALOGS.ADD_DRUG && (
+      {/* {openDialog === DIALOGS.ADD_DRUG && (
         <div className="modal-overlay">
           <AddDrugDialog
             values={selectedMedication}
@@ -521,6 +522,16 @@ const DrugManagementDrugStorePage = () => {
       {openDialog === DIALOGS.SELL_DRUG && (
         <div className="modal-overlay">
           <TransferDrug
+            onClose={handleDialogClose}
+            onSwitch={handleDialogSwitch}
+          />
+        </div>
+      )} */}
+
+      {openDialog === DIALOGS.DRUG_DETAIL && (
+        <div className="modal-overlay">
+          <DrugDetail
+            drug={selectedDrug}
             onClose={handleDialogClose}
             onSwitch={handleDialogSwitch}
           />
