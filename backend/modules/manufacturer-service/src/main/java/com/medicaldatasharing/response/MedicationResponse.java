@@ -16,6 +16,9 @@ public class MedicationResponse {
     @JsonProperty("manufacturerId")
     private String manufacturerId;
 
+    @JsonProperty("manufacturerName")
+    private String manufacturerName;
+    
     @JsonProperty("medicationName")
     private String medicationName;
 

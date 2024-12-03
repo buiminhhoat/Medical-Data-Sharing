@@ -64,6 +64,10 @@ const DrugDetail = ({ drug, onClose, onSwitch }) => {
     apiGetMedication = API.DRUGSTORE.GET_MEDICATION;
   }
 
+  if (role === "Công ty sản xuất thuốc") {
+    apiGetMedication = API.MANUFACTURER.GET_MEDICATION;
+  }
+
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [data, setData] = useState(null);

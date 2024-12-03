@@ -425,4 +425,16 @@ public class ManufacturerController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("/get-medication")
+    public ResponseEntity<?> getMedication(HttpServletRequest httpServletRequest) throws Exception {
+        try {
+            String medicationId = httpServletRequest.getParameter("medicationId");
+            String getMedication = manufacturerService.getMedication(medicationId);
+            return ResponseEntity.status(HttpStatus.OK).body(getMedication);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 }

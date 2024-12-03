@@ -78,6 +78,7 @@ export const API = {
     GET_ALL_PATIENT_MANAGED_BY_MANUFACTURER:
       "/api/manufacturer/get-all-patient-managed-by-manufacturerId",
     SEND_VIEW_REQUEST: "/api/manufacturer/send-view-request",
+    GET_MEDICATION: "/api/manufacturer/get-medication"
   },
   DRUGSTORE: {
     GET_PRESCRIPTION_BY_DRUG_STORE:
