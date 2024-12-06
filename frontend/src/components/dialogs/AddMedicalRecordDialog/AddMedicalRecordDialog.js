@@ -36,7 +36,6 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
   const { access_token, userId, role } = Storage.getData();
   
   
-  
   let apiAddMedicalRecord = API.DOCTOR.ADD_MEDICAL_RECORD;
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -152,6 +151,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
 
   useEffect(() => {
     if (medicationList) {
+      console.log("medicationList: ", medicationList);
       const value = medicationList.map((manufacturer) => ({
         title:
           manufacturer.manufacturerName + " | " + manufacturer.manufacturerId,
@@ -176,23 +176,49 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
         })),
       }));
 
-      console.log("value");
-      console.log(value);
+      // console.log("value");
+      // console.log(value);
       setTreeData(value);
+      
       setLoading(false);
     }
   }, [medicationList]);
 
+  const [isSelected, setIsSelected] = useState([]);
   const [value, setValue] = useState();
+
   const onChange = (newValue) => {
-    console.log(newValue);
+    const prescriptionDetailsList = form.getFieldsValue().prescriptionDetailsList || [];
+    const medicationIds = prescriptionDetailsList.map(item => item?.medicationId); 
+    setIsSelected(medicationIds);
+     
     setValue(newValue);
   };
+
+  useEffect(() => {
+    console.log("isSelected", isSelected);
+
+  }, [isSelected]);
+
+  const getTreeDataWithDisabled = (data) => {
+    return data.map((item) => {
+      const isDisabled = isSelected.includes(item.value); 
+
+      const newItem = {
+        ...item,
+        disabled: isDisabled, 
+        children: item.children ? getTreeDataWithDisabled(item.children) : undefined, 
+      };
+
+      return newItem;
+    });
+  };
+
   const onPopupScroll = (e) => {
     console.log("onPopupScroll", e);
   };
 
-  console.log(request);
+  // console.log(request);
 
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (placement, type, message, description, onClose) => {
@@ -247,6 +273,7 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
           // mask={false}
         >
           <Form
+            form={form}
             name="basic"
             labelCol={{
               span: 5,
@@ -396,9 +423,10 @@ const AddMedicalRecordDialog = ({ request, onClose, onSwitch }) => {
                                 allowClear
                                 treeDefaultExpandAll
                                 onChange={onChange}
-                                treeData={treeData}
+                                treeData={getTreeDataWithDisabled(treeData)} 
                                 onPopupScroll={onPopupScroll}
-                              />
+                                />
+                                
                             </Form.Item>
 
                             <Form.Item
