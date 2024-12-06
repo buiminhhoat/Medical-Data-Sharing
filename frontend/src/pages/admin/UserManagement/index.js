@@ -212,6 +212,10 @@ const UserManagementPage = () => {
       value: "Trung tâm nghiên cứu",
     },
     {
+      text: "Nhà thuốc",
+      value: "Nhà thuốc",
+    },
+    {
       text: "Công ty sản xuất thuốc",
       value: "Công ty sản xuất thuốc",
     },

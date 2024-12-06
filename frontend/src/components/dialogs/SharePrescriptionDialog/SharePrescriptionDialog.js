@@ -44,8 +44,6 @@ const SharePrescriptionDialogStyle = styled.div`
 const SharePrescriptionDialog = ({ prescriptionId, onClose, onSwitch }) => {
   const { access_token, userId, role } = Storage.getData();
   
-  
-  
   const [apiSharePrescription, setApiSharePrescription] = useState(
     API.PATIENT.SHARE_PRESCRIPTION_BY_PATIENT
   );
@@ -53,7 +51,7 @@ const SharePrescriptionDialog = ({ prescriptionId, onClose, onSwitch }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [recipientId, setRecipientId] = useState();
+  const [recipientId, setRecipientId] = useState("");
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -102,6 +100,50 @@ const SharePrescriptionDialog = ({ prescriptionId, onClose, onSwitch }) => {
   const [form] = Form.useForm();
 
   const [valuesForm, setValuesForm] = useState();
+
+  const [apiGetFullName, setGetFullName] = useState("/api/user/get-full-name");
+  const fetchGetFullName = async (id) => {
+    if (access_token) {
+      form.setFieldsValue({ recipientName: "Loading" });
+      const formData = new FormData();
+      formData.append("id", id);
+
+      try {
+        const response = await fetch(apiGetFullName, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+          body: formData,
+        });
+
+        if (response.status === 200) {
+          // let data = await response.json();
+          let data = await response.text();
+          return data;
+        } else {
+          return "Không tìm thấy người dùng";
+        }
+      } catch (e) {
+        console.log(e);
+        return "Không tìm thấy người dùng";
+      }
+    }
+  };
+  
+  useEffect(() => {
+    async function fetchAndSet() {
+      console.log("recipientId: ", recipientId);
+      if (recipientId != null && recipientId.split('-').slice(1).join('-').length >= 36) {
+        const recipientName = await fetchGetFullName(recipientId);
+        form.setFieldsValue({ recipientName: recipientName });
+      } else {
+        form.setFieldsValue({ recipientName: "" });
+      }
+    }
+
+    fetchAndSet();
+  }, [recipientId]);
 
   const handleFormSubmit = async () => {
     if (access_token) {
@@ -264,7 +306,7 @@ const SharePrescriptionDialog = ({ prescriptionId, onClose, onSwitch }) => {
                           },
                         ]}
                       >
-                        <Input />
+                        <Input onChange={(e) => setRecipientId(e.target.value)} />
                       </Form.Item>
                     </Col>
 
