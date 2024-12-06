@@ -344,7 +344,7 @@ const DrugManagementPage = () => {
   };
 
   const onPanelChange = (value, mode) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
+    console.log(value.format("YYYY-MM-DD HH:mm"), mode);
   };
 
   return (
@@ -406,7 +406,7 @@ const DrugManagementPage = () => {
 
                       <DatePicker
                         format={{
-                          format: "YYYY-MM-DD",
+                          format: "YYYY-MM-DD HH:mm",
                         }}
                         placeholder="Ngày sản xuất"
                         // value={searchManufactureDate}
@@ -418,7 +418,7 @@ const DrugManagementPage = () => {
 
                       <DatePicker
                         format={{
-                          format: "YYYY-MM-DD",
+                          format: "YYYY-MM-DD HH:mm",
                         }}
                         placeholder="Ngày hết hạn"
                         onChange={(_, value) => {

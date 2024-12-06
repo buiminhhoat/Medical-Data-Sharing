@@ -303,7 +303,7 @@ const MedicalRecordManagementPage = () => {
     {
       title: "Ngày chỉnh sửa",
       dataIndex: "dateModified",
-      width: "15%",
+      width: "13%",
       align: "center",
       sorter: (a, b) => new Date(a.dateModified) - new Date(b.dateModified),
       sortDirections: ["descend", "ascend"],

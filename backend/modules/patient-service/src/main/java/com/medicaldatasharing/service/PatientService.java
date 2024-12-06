@@ -344,6 +344,7 @@ public class PatientService {
                 Patient patient = (Patient) user;
                 patient.setGender(updateInformationForm.getGender());
                 patient.setDateBirthday(updateInformationForm.getDateBirthday());
+                patientRepository.save(patient);
             }
             else {
                 throw new Exception("User must be patient");

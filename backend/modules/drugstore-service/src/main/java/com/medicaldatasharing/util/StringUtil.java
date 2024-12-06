@@ -19,7 +19,7 @@ public class StringUtil {
     }
 
     public static String parseDate(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         if (date == null) return "";
         return simpleDateFormat.format(date);
     }
@@ -28,7 +28,7 @@ public class StringUtil {
         if (stringDate.isEmpty() || stringDate.equals("X")) {
             return null;
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return simpleDateFormat.parse(stringDate);
     }
 

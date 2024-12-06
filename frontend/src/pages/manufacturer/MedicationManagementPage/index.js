@@ -287,7 +287,7 @@ const MedicationManagementPage = () => {
   };
 
   const onPanelChange = (value, mode) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
+    console.log(value.format("YYYY-MM-DD HH:mm"), mode);
   };
 
   return (
@@ -350,7 +350,7 @@ const MedicationManagementPage = () => {
 
                       <DatePicker
                         format={{
-                          format: "YYYY-MM-DD",
+                          format: "YYYY-MM-DD HH:mm",
                         }}
                         placeholder="Ngày tạo"
                         // value={searchDateCreated}
@@ -362,7 +362,7 @@ const MedicationManagementPage = () => {
 
                       <DatePicker
                         format={{
-                          format: "YYYY-MM-DD",
+                          format: "YYYY-MM-DD HH:mm",
                         }}
                         placeholder="Ngày chỉnh sửa"
                         onChange={(_, value) => {

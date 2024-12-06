@@ -86,11 +86,11 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
 
       formData.append(
         "manufactureDate",
-        values.manufactureDate.format("YYYY-MM-DD")
+        values.manufactureDate.format("YYYY-MM-DD HH:mm")
       );
       formData.append(
         "expirationDate",
-        values.expirationDate.format("YYYY-MM-DD")
+        values.expirationDate.format("YYYY-MM-DD HH:mm")
       );
 
       setLoading(true);
@@ -274,7 +274,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
               >
                 <DatePicker
                   format={{
-                    format: "YYYY-MM-DD",
+                    format: "YYYY-MM-DD HH:mm",
                   }}
                   placeholder="Ngày sản xuất"
                   style={{ width: "100%" }}
@@ -293,7 +293,7 @@ const AddDrugDialog = ({ values, onClose, onSwitch }) => {
               >
                 <DatePicker
                   format={{
-                    format: "YYYY-MM-DD",
+                    format: "YYYY-MM-DD HH:mm",
                   }}
                   placeholder="Ngày hết hạn"
                   style={{ width: "100%" }}

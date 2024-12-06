@@ -15,6 +15,7 @@ import TextWithQRCode from "../../../components/TextWithQRCode/TextWithQRCode";
 import ChangePasswordDialog from "../../../components/dialogs/ChangePasswordDialog/ChangePasswordDialog";
 import UpdateInformationDialog from "../../../components/dialogs/UpdateInformationDialog/UpdateInformationDialog";
 import { useLogout } from "../../../utils/logout";
+import dayjs from "dayjs";
 
 const ProfilePageStyle = styled.div`
   .fullName {
@@ -319,7 +320,7 @@ const ProfilePage = () => {
                     {data.dateBirthday && (
                       <Info>
                         <div className="field">Ngày sinh</div>
-                        <div>{data.dateBirthday}</div>
+                        <div>{dayjs(data.dateBirthday).format('YYYY-MM-DD')}</div>
                       </Info>
                     )}
 

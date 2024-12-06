@@ -3,7 +3,7 @@
 # Thiết lập thông tin kết nối
 DB_USER="root"
 DB_PASSWORD="root"
-DB_HOST="192.168.52.90"
+DB_HOST="192.168.1.11"
 DB_PORT="3306"  # Thêm thông tin cổng kết nối MySQL
 
 # Tên cơ sở dữ liệu để xóa

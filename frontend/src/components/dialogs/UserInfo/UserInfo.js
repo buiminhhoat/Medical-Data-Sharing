@@ -17,6 +17,8 @@ import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import { ScanOutlined } from "@ant-design/icons";
 import TextWithQRCode from "../../TextWithQRCode/TextWithQRCode";
 import ModalWrapper from "../../ModalWrapper/ModalWrapper";
+import dayjs from "dayjs";
+
 const { Option } = Select;
 
 const UserInfoStyle = styled.div``;
@@ -486,7 +488,7 @@ const UserInfo = ({ user, onClose, onSwitch }) => {
             {data.dateBirthday && (
               <Info>
                 <div className="field">Ngày sinh</div>
-                <div>{data.dateBirthday}</div>
+                <div>{dayjs(data.dateBirthday).format('YYYY-MM-DD')}</div>
               </Info>
             )}
 
