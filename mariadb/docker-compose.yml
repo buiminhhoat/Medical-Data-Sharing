@@ -1,0 +1,165 @@
+services:
+  mariadb-3306:
+    image: mariadb:10.4.32
+    container_name: mariadb-3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: health-information-sharing
+    ports:
+      - "3306:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3306-data:/var/lib/mysql
+    command: --server-id=1 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3307:
+    image: mariadb:10.4.32
+    container_name: mariadb-3307
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3307-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=2 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3308:
+    image: mariadb:10.4.32
+    container_name: mariadb-3308
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3308:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3308-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=3 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3309:
+    image: mariadb:10.4.32
+    container_name: mariadb-3309
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3309:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3309-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=4 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3310:
+    image: mariadb:10.4.32
+    container_name: mariadb-3310
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3310:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3310-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=5 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3311:
+    image: mariadb:10.4.32
+    container_name: mariadb-3311
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3311:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3311-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=6 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3312:
+    image: mariadb:10.4.32
+    container_name: mariadb-3312
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3312:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3312-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=7 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3313:
+    image: mariadb:10.4.32
+    container_name: mariadb-3313
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3313:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3313-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=8 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3314:
+    image: mariadb:10.4.32
+    container_name: mariadb-3314
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3314:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3314-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=9 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  mariadb-3315:
+    image: mariadb:10.4.32
+    container_name: mariadb-3315
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3315:3306"
+    networks:
+      - mariadb-network
+    volumes:
+      - mariadb-3315-data:/var/lib/mysql
+    depends_on:
+      - mariadb-3306
+    command: --server-id=10 --log-bin=mariadb-bin --binlog-do-db=health-information-sharing --gtid-strict-mode=ON --log-slave-updates=TRUE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+networks:
+  mariadb-network:
+    driver: bridge
+
+volumes:
+  mariadb-3306-data:
+  mariadb-3307-data:
+  mariadb-3308-data:
+  mariadb-3309-data:
+  mariadb-3310-data:
+  mariadb-3311-data:
+  mariadb-3312-data:
+  mariadb-3313-data:
+  mariadb-3314-data:
+  mariadb-3315-data:

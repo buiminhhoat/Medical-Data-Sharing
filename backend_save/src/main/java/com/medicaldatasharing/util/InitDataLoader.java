@@ -392,7 +392,7 @@ public class InitDataLoader implements CommandLineRunner {
                     sendAppointmentRequestForm);
             System.out.println("appointmentRequest: " + appointmentRequest);
 
-            for (int i = 1; i <= 5; ++i) {
+            for (int i = 1; i <= 2; ++i) {
                 appointmentRequest = hyperledgerService.sendAppointmentRequest(
                         patient,
                         sendAppointmentRequestForm);
@@ -508,7 +508,7 @@ public class InitDataLoader implements CommandLineRunner {
             sendViewRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             sendViewRequestForm.setDateModified(StringUtil.parseDate(dateModified));
 
-            for (int i = 1; i <= 10; ++i) {
+            for (int i = 1; i <= 2; ++i) {
                 SendViewRequestForm sendViewRequestForm2 = new SendViewRequestForm();
                 sendViewRequestForm2.setSenderId(doctor1Id);
                 sendViewRequestForm2.setRecipientId(patientId);

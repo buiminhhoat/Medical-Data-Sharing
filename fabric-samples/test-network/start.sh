@@ -2,28 +2,25 @@
 
 # Thiết lập thông tin kết nối
 DB_USER="root"
-DB_PASSWORD=""
-DB_HOST="192.168.1.12"
+DB_PASSWORD="root"
+DB_HOST="192.168.52.90"
+DB_PORT="3306"  # Thêm thông tin cổng kết nối MySQL
 
 # Tên cơ sở dữ liệu để xóa
 DB_NAME="health-information-sharing"
 
 # Lệnh xóa cơ sở dữ liệu
 if [ -z "$DB_PASSWORD" ]; then
-	mysql -h "$DB_HOST" -u "$DB_USER" -e "DROP DATABASE \`$DB_NAME\`;"
-
+	mysql -h "$DB_HOST" -P "$DB_PORT" --ssl-mode=DISABLED -u "$DB_USER" -e "DROP DATABASE \`$DB_NAME\`;"
 	echo "Database '$DB_NAME' has been dropped at $DB_HOST."
 
-	mysql -h "$DB_HOST" -u "$DB_USER" -e "CREATE DATABASE \`$DB_NAME\`;"
-
+	mysql -h "$DB_HOST" -P "$DB_PORT" --ssl-mode=DISABLED -u "$DB_USER" -e "CREATE DATABASE \`$DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
 	echo "Database '$DB_NAME' has been created at $DB_HOST."
 else 
-	mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "DROP DATABASE \`$DB_NAME\`;"
-
+	mysql -h "$DB_HOST" -P "$DB_PORT" --ssl-mode=DISABLED -u "$DB_USER" -p"$DB_PASSWORD" -e "DROP DATABASE \`$DB_NAME\`;"
 	echo "Database '$DB_NAME' has been dropped at $DB_HOST."
 
-	mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "CREATE DATABASE \`$DB_NAME\`;"
-
+	mysql -h "$DB_HOST" -P "$DB_PORT" --ssl-mode=DISABLED -u "$DB_USER" -p"$DB_PASSWORD" -e "CREATE DATABASE \`$DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
 	echo "Database '$DB_NAME' has been created at $DB_HOST."
 fi
 
@@ -65,3 +62,5 @@ cd ../fabric-samples/test-network
 ./network.sh deployCC -c healthcare -ccn chaincode -ccp ../../chaincode/ -ccl java
 
 rm -rf ../../backend/wallet/*
+
+rm -rf ../../backend_save/wallet/*
