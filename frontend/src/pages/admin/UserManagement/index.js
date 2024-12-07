@@ -61,7 +61,7 @@ const UserManagementPage = () => {
   const handleData = (json) => {
     json.map((user, index) => {
       user.shortenedUserId =
-        user.id.substring(0, 4) + "..." + user.id.substring(user.id.length - 4);
+        user.id.split('-')[1].substring(0, 4) + "..." + user.id.substring(user.id.length - 4);
       user.key = user.id;
     });
 

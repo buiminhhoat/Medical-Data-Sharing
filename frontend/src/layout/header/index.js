@@ -91,7 +91,7 @@ const HeaderLayout = () => {
       path: ROUTERS.PATIENT.HISTORY_PURCHASE,
     },
     {
-      name: "Quản lý thuốc",
+      name: "Danh sách thuốc",
       path: ROUTERS.PATIENT.DRUG_MANAGEMENT_PAGE,
     },
     {
@@ -170,7 +170,7 @@ const HeaderLayout = () => {
 
   const [drugStoreMenuItems, setDrugStoreItems] = useState([
     {
-      name: "Quản lý thuốc",
+      name: "Kho thuốc",
       path: ROUTERS.DRUGSTORE.DRUG_MANAGEMENT_PAGE,
     },
     {

@@ -77,12 +77,12 @@ const HistoryPurchasePage = () => {
         record.prescriptionId.substring(record.prescriptionId.length - 4);
 
       record.shortenedPatientId =
-        record.patientId.substring(0, 4) +
+        record.patientId.split('-')[1].substring(0, 4) +
         "..." +
         record.patientId.substring(record.patientId.length - 4);
 
       record.shortenedDrugStoreId =
-        record.drugStoreId.substring(0, 4) +
+        record.drugStoreId.split('-')[1].substring(0, 4) +
         "..." +
         record.drugStoreId.substring(record.drugStoreId.length - 4);
 

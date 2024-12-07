@@ -226,7 +226,13 @@ const ProfilePage = () => {
         style={{ backgroundColor: "rgb(250, 250, 250)", height: "100%" }}
       >
         <div className="page">
-          <div className="container">
+          <div className="container" style={{
+            display: "flex",
+            justifyContent: "center",
+            justifyItems: "center",
+            justifySelf: "center",
+            width: "80%"
+          }}>
             <div
               style={{
                 display: "flex",

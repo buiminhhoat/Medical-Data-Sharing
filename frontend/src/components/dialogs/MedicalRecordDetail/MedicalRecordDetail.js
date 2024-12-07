@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Storage from '@Utils/Storage';
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, FileTextOutlined, FileTextFilled } from "@ant-design/icons";
 import { Avatar, Flex, Space } from "antd";
 import { API, LOGIN, DIALOGS } from "@Const";
 import styled from "styled-components";
@@ -14,7 +14,7 @@ import {
   Input,
   Select,
   List,
-  Typography,
+  Typography
 } from "antd";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import PrescriptionDetail from "../PrescriptionDetail/PrescriptionDetail";
@@ -263,8 +263,11 @@ const MedicalRecordDetail = ({ medicalRecord, onClose, onSwitch }) => {
                   {item.hashFile && (
                     <Info>
                       <div className="field">File</div>
-                      <a href={GATEWAY_IPFS + item.hashFile} target="_blank">
+                      <a href={GATEWAY_IPFS + item.hashFile} target="_blank" >
                         {item.hashFile}
+                        {/* <span style={{ marginLeft: '8px', fontSize: '20px' }}>
+                          <FileTextOutlined />
+                        </span> */}
                       </a>
                     </Info>
                   )}

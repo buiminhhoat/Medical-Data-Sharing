@@ -64,7 +64,7 @@ const DrugReactionManagementPage = () => {
         record.medicationId.substring(record.medicationId.length - 4);
 
       record.shortenedPatientId =
-        record.patientId.substring(0, 4) +
+        record.patientId.split('-')[1].substring(0, 4) +
         "..." +
         record.patientId.substring(record.patientId.length - 4);
     });

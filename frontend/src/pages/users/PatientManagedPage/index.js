@@ -62,7 +62,7 @@ const PatientManagedPage = () => {
   const handleData = (json) => {
     json.map((patient, index) => {
       patient.shortenedPatientId =
-        patient.patientId.substring(0, 4) +
+        patient.patientId.split('-')[1].substring(0, 4) +
         "..." +
         patient.patientId.substring(patient.patientId.length - 4);
       patient.key = index;
