@@ -184,6 +184,7 @@ const SellingPrescriptionDrug = ({
                 details: item.details,
                 options: options,
                 prescriptionDetailId: item.prescriptionDetailId,
+                drugIdList: item.drugIdList || [],
               };
             })
           );
@@ -203,9 +204,9 @@ const SellingPrescriptionDrug = ({
 
   const [form, setForm] = useState();
   const handleChange = (value, medicationId) => {
-    // console.log("dataSource: ", dataSource);
-    // console.log("value: ", value);
-    // console.log("medicationId: ", medicationId);
+    console.log("dataSource: ", dataSource);
+    console.log("value: ", value);
+    console.log("medicationId: ", medicationId);
     const newData = dataSource.map((item) => {
       if (item.medicationId === medicationId) {
         return { ...item, drugIdList: value };
@@ -214,6 +215,7 @@ const SellingPrescriptionDrug = ({
     });
     console.log("newData: ", newData);
     setForm(newData);
+    setDataSource(newData);
   };
 
   const SellingDrug = async () => {
@@ -224,7 +226,7 @@ const SellingPrescriptionDrug = ({
       let sellingPrescriptionDrug = [];
       if (form != null) {
         form.map((item) => {
-          console.log("item: ", item);
+          console.log("***item: ", item);
           sellingPrescriptionDrug.push({
             medicationId: item.medicationId,
             prescriptionDetailId: item.prescriptionDetailId,

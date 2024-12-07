@@ -23,6 +23,8 @@ import { Calendar, theme } from "antd";
 import Storage from '@Utils/Storage';
 import { API } from "@Const";
 import { DIALOGS } from "@Const";
+import dayjs from "dayjs";
+
 import MedicalRecordList from "../../../components/dialogs/MedicalRecordList/MedicalRecordList";
 
 const PatientManagedPageStyle = styled.div`
@@ -64,6 +66,7 @@ const PatientManagedPage = () => {
         "..." +
         patient.patientId.substring(patient.patientId.length - 4);
       patient.key = index;
+      patient.dateBirthday = dayjs(data.dateBirthday).format('YYYY-MM-DD');
     });
 
     setDataSource(json);

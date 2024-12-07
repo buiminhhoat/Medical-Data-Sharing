@@ -411,7 +411,6 @@ const PurchaseDetail = ({ purchase, onClose, onSwitch }) => {
           )}
           loading={loading}
         />
-        ;
         <div
           style={{
             display: "flex",

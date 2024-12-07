@@ -16,6 +16,7 @@ import java.util.List;
 public class PurchaseDto {
     @JsonProperty("purchaseId")
     private String purchaseId;
+
     @JsonProperty("prescriptionId")
     private String prescriptionId;
 

@@ -216,7 +216,7 @@ public class InitDataLoader implements CommandLineRunner {
                 .fullName("Đào Quang Vinh")
                 .address("144 Xuân Thủy, Cầu Giấy, Hà Nội")
                 .gender("Nam")
-                .dateBirthday(StringUtil.createDate("2023-03-03"))
+                .dateBirthday(StringUtil.createDate("2003-03-03"))
                 .username("daoquangvinh@gmail.com")
                 .email("daoquangvinh@gmail.com")
                 .password(passwordEncoder.encode("daoquangvinh@gmail.com"))
@@ -392,12 +392,6 @@ public class InitDataLoader implements CommandLineRunner {
                     sendAppointmentRequestForm);
             System.out.println("appointmentRequest: " + appointmentRequest);
 
-            for (int i = 1; i <= 2; ++i) {
-                appointmentRequest = hyperledgerService.sendAppointmentRequest(
-                        patient,
-                        sendAppointmentRequestForm);
-            }
-
             appointmentRequest = hyperledgerService.sendAppointmentRequest(
                     patient,
                     sendAppointmentRequestForm);
@@ -407,8 +401,19 @@ public class InitDataLoader implements CommandLineRunner {
 
             AddMedicationForm addMedicationForm = new AddMedicationForm();
             addMedicationForm.setManufacturerId(manufacturer.getId());
+            addMedicationForm.setMedicationName("Tiffy");
+            addMedicationForm.setDescription("Điều trị cảm cúm");
+            addMedicationForm.setHashFile("bafybeigl5et74kzdwegfxwmmogi2o6khcaes37jmiudsj6ooqncqzbtagy");
+            addMedicationForm.setDateCreated(StringUtil.parseDate(dateCreated));
+            addMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
+
+            Medication tiffy = hyperledgerService.addMedication(manufacturer, addMedicationForm);
+
+            addMedicationForm = new AddMedicationForm();
+            addMedicationForm.setManufacturerId(manufacturer.getId());
             addMedicationForm.setMedicationName("Paracetamol");
             addMedicationForm.setDescription("Điều trị đau đầu");
+            addMedicationForm.setHashFile("bafybeig33wdx3b4qu73ju25di2u4sf7nph4nxsdqp73wlgx6si3ieojq2i");
             addMedicationForm.setDateCreated(StringUtil.parseDate(dateCreated));
             addMedicationForm.setDateModified(StringUtil.parseDate(dateModified));
 
@@ -427,32 +432,37 @@ public class InitDataLoader implements CommandLineRunner {
             System.out.println("medication: " + medication);
 
             AddDrugForm addDrugForm = new AddDrugForm();
-            addDrugForm.setMedicationId(medication.getMedicationId());
-//            addDrugForm.setMedicationId("fc2987a8acfc1a141acbea8b4c17bdfd607801887aa7c6f6105c2bf59b311544");
+            addDrugForm.setMedicationId(tiffy.getMedicationId());
             addDrugForm.setManufactureDate(StringUtil.parseDate(StringUtil.createDate("2024-01-01 00:00")));
             addDrugForm.setExpirationDate(StringUtil.parseDate(StringUtil.createDate("2024-12-31 23:59")));
-            addDrugForm.setQuantity("10");
+            addDrugForm.setQuantity("5");
+            addDrugForm.setUnit("Viên");
+
+            addDrugForm = new AddDrugForm();
+            addDrugForm.setMedicationId(medication.getMedicationId());
+            addDrugForm.setManufactureDate(StringUtil.parseDate(StringUtil.createDate("2024-01-01 00:00")));
+            addDrugForm.setExpirationDate(StringUtil.parseDate(StringUtil.createDate("2024-12-31 23:59")));
+            addDrugForm.setQuantity("5");
             addDrugForm.setUnit("Viên");
 
             List<Drug> drugList = hyperledgerService.addDrug(manufacturer, addDrugForm);
 
             System.out.println("drugList: " + drugList);
 
-            drugList = hyperledgerService.addDrug(manufacturer, addDrugForm);
-
-            System.out.println("drugList: " + drugList);
             Drug drug = drugList.get(0);
             System.out.println(drug);
             AddPrescriptionForm addPrescriptionForm = new AddPrescriptionForm();
             List<PrescriptionDetails> prescriptionDetailsList = new ArrayList<>();
             prescriptionDetailsList.add(new PrescriptionDetails("", "",
                     medication.getMedicationId(), "10", "Uống 2 viên vào mỗi trưa và tối"));
+            prescriptionDetailsList.add(new PrescriptionDetails("", "",
+                    tiffy.getMedicationId(), "10", "Uống 2 viên vào mỗi trưa và tối"));
 
             addPrescriptionForm.setPrescriptionDetailsList(new Genson().serialize(prescriptionDetailsList));
 
-            String testName = "Cardiovascular Test";
+            String testName = "Xét nghiệm tim mạch";
 
-            String details = "relevant Parameters";
+            String details = "Tất cả các chỉ số đều bình thường";
 
             AddMedicalRecordForm medicalRecordDto = new AddMedicalRecordForm();
             medicalRecordDto.setRequestId(appointmentRequest.getRequestId());
@@ -463,7 +473,7 @@ public class InitDataLoader implements CommandLineRunner {
             medicalRecordDto.setDateModified(StringUtil.parseDate(dateModified));
             medicalRecordDto.setTestName(testName);
             medicalRecordDto.setDetails(details);
-            medicalRecordDto.setHashFile("");
+            medicalRecordDto.setHashFile("bafkreiha5wezrhii3do4lck6e4ergyahttfcendvtuzwhw2ng4pxoejeba");
             medicalRecordDto.setAddPrescription(addPrescriptionForm.toJSONObject().toString());
 
             MedicalRecord medicalRecord = hyperledgerService.addMedicalRecord(doctor1, medicalRecordDto);
@@ -542,7 +552,6 @@ public class InitDataLoader implements CommandLineRunner {
             List<Medication> medicationList = hyperledgerService.getListMedication(doctor1, searchMedicationForm);
             System.out.println(medicationList);
 
-
             DrugStore drugStore = drugStoreRepository.findDrugStoreByEmail("nhathuoca@gmail.com");
 
             SendViewPrescriptionRequestForm sendViewPrescriptionRequestForm = new SendViewPrescriptionRequestForm();
@@ -589,7 +598,6 @@ public class InitDataLoader implements CommandLineRunner {
 
             List<Drug> drugList2 = hyperledgerService.addDrug(manufacturer, addDrugForm);
 
-            drugList2 = hyperledgerService.addDrug(manufacturer, addDrugForm);
             for (Drug drug2: drugList2) {
                 TransferDrugDto transferDrugDto2 = new TransferDrugDto();
                 transferDrugDto2.setDrugId(drug2.getDrugId());
@@ -629,6 +637,7 @@ public class InitDataLoader implements CommandLineRunner {
                     drugStore,
                     purchaseDto
             );
+
             System.out.println(purchase);
 
             UpdateDrugReactionForm updateDrugReactionForm = new UpdateDrugReactionForm();

@@ -29,6 +29,9 @@ public class StringUtil {
             return null;
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        if (stringDate.length() == 10) {
+            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        }
         return simpleDateFormat.parse(stringDate);
     }
 

@@ -1486,16 +1486,22 @@ public class MedicalRecordContract implements ContractInterface {
                 purchaseDto.toJSONObject()
         );
 
+        System.out.println("medicationPurchaseList.size(): " + medicationPurchaseList.size());
+        System.out.println("medicationPurchaseList: " + medicationPurchaseList);
+        int countPurchaseDetails = 0;
         for (MedicationPurchaseDto medicationPurchaseDto: medicationPurchaseList) {
+            System.out.println("medicationPurchaseDto: " + medicationPurchaseDto);
             String medicationId = medicationPurchaseDto.getMedicationId();
             String prescriptionDetailId = medicationPurchaseDto.getPrescriptionDetailId();
             PrescriptionDetails prescriptionDetails = ctx.getPrescriptionDetailsDAO().getPrescriptionDetails(prescriptionDetailId);
             List<String> drugIdList = medicationPurchaseDto.getDrugIdList();
+            System.out.println("drugIdList: " + drugIdList);
             int count = 0;
             for (String drugId: drugIdList) {
                 Drug drug = ctx.getDrugDAO().getDrug(drugId);
                 if (checkDrugConditions(drug, dateCreated, drugStoreId)) {
                     ++count;
+                    ++countPurchaseDetails;
                 }
                 else {
                     throw new ChaincodeException("The drug is not qualified for sale",
@@ -1506,7 +1512,7 @@ public class MedicalRecordContract implements ContractInterface {
 
                 PurchaseDetails purchaseDetails = new PurchaseDetails();
                 purchaseDetails.setPurchaseId(purchase.getPurchaseId());
-                purchaseDetails.setPurchaseDetailId(purchase.getPurchaseId() + String.valueOf(count));
+                purchaseDetails.setPurchaseDetailId(purchase.getPurchaseId() + String.valueOf(countPurchaseDetails));
                 purchaseDetails.setPrescriptionDetailId(prescriptionDetailId);
                 purchaseDetails.setMedicationId(medicationId);
                 purchaseDetails.setDrugId(drugId);
@@ -1530,8 +1536,11 @@ public class MedicalRecordContract implements ContractInterface {
             prescriptionDetails = ctx.getPrescriptionDetailsDAO().updatePrescriptionDetails(prescriptionDetails);
         }
 
+        System.out.println("createPurchaseDetailsList: " + createPurchaseDetailsList);
         for (PurchaseDetails purchaseDetails: createPurchaseDetailsList) {
-            purchaseDetails = ctx.getPurchaseDetailsDAO().addPurchaseDetails(purchaseDetails.toJSONObject());
+            System.out.println("purchaseDetails: " + purchaseDetails.toJSONObject());
+            PurchaseDetails addPurchaseDetails = ctx.getPurchaseDetailsDAO().addPurchaseDetails(purchaseDetails.toJSONObject());
+            System.out.println("after purchaseDetails:" + addPurchaseDetails.toJSONObject());
         }
 
         for (Drug drug: transferDrug) {
