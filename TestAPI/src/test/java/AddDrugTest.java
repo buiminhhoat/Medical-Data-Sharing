@@ -29,10 +29,10 @@ public class AddDrugTest {
     private static String INVALID_ACCESS_TOKEN = "INVALID_ACCESS_TOKEN";
     private static String ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb25ndHlkdW9jcGhhbWFAZ21haWwuY29tIiwiaWF0IjoxNzI5MDg5NDc1LCJleHAiOjE3ODk1Njk0NzV9.9wuHJjBaEemSJ2V-0ZiiL2L34yex92VhSCg9ce3haOFXeYeHnPv4VWbT2GCm2eKqD5ueyN0UmDmUB_3aklEGyQ";
 
-    private static final String MANUFACTURER_ID = "Manufacturer-3fe465a1-2d7b-4360-8063-a752ab0d2330";
-    private static final String MEDICATION_ID = "fc2987a8acfc1a141acbea8b4c17bdfd607801887aa7c6f6105c2bf59b311544";
-    private static final String MANUFACTURE_DATE = "2024-10-16";
-    private static final String EXPIRATION_DATE = "2028-10-16";
+    private static final String MANUFACTURER_ID = "Manufacturer-786fac6e-b317-4816-8916-3748805cd2b9";
+    private static final String MEDICATION_ID = "98d14ac0b53ece8dd0baed9dac2730dcc80b7850cec55f543362c3b8c3fcc7e6";
+    private static final String MANUFACTURE_DATE = "2024-10-16 00:00";
+    private static final String EXPIRATION_DATE = "2028-10-16 23:59";
     private static final String QUANTITY = "10";
     private static final String UNIT = "Viên";
 

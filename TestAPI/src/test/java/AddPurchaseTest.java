@@ -28,13 +28,13 @@ public class AddPurchaseTest {
     private static String ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGF0aHVvY2FAZ21haWwuY29tIiwiaWF0IjoxNzI5MDk3MTk0LCJleHAiOjE3ODk1NzcxOTR9.Lns_1LmizOSab3fEzvNR1NL_eLhNHhFkpPPQ5s_C8Bof2LOI2H1iU7YELpZYxlO5xi3-gEi3xAi2qy94UWDPlg";
     private static String UNAUTHORIZED_ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW50aGFuaGhhaUBnbWFpbC5jb20iLCJpYXQiOjE3Mjg4MzkyNzksImV4cCI6MTc4OTMxOTI3OX0.XfCNwunqThSHv97dymFBerCpsuw316tqd0R_EnQDN78zGsmnLUq0Dn5lBLahEzjyYLy7nJcPG6tiIzbYnY7h5g";
 
-    private static final String PATIENT_ID = "Patient-1e9003d0-5722-4bb0-967a-8877881424a9";
-    private static final String DRUGSTORE_ID = "DrugStore-1127bd7c-9d9e-481b-b03e-1400fdfba3c8";
-    private static final String MEDICATION_ID = "169447afae779c377ca46dd8a97dc46297fc53555f4d6da2e42836cc10a0e88e";
-    private static final String PRESCRIPTION_ID = "c17fdff869ce6afccfc41e477fa7378a31606c3693dafa67ce13e3a4868edc21";
-    private static final String PRESCRIPTION_DETAIL_ID = "c17fdff869ce6afccfc41e477fa7378a31606c3693dafa67ce13e3a4868edc21-0";
-    private static final String DRUG_ID_1 = "cd7ca71df0dfde275c13d68bf997d1a5ce8396894f8577dfdbaa26e73f56eda85";
-    private static final String DRUG_ID_2 = "cd7ca71df0dfde275c13d68bf997d1a5ce8396894f8577dfdbaa26e73f56eda86";
+    private static final String PATIENT_ID = "Patient-7a293550-bd59-49c7-b00e-2c5156a776d6";
+    private static final String DRUGSTORE_ID = "DrugStore-6fcaabb0-5c1d-4afd-acef-92fb6ee5b217";
+    private static final String MEDICATION_ID = "98d14ac0b53ece8dd0baed9dac2730dcc80b7850cec55f543362c3b8c3fcc7e6";
+    private static final String PRESCRIPTION_ID = "f1b03cae347598a8bea9a1acadc0c96f575043a41945928e3a981a0b830a1c12";
+    private static final String PRESCRIPTION_DETAIL_ID = "f1b03cae347598a8bea9a1acadc0c96f575043a41945928e3a981a0b830a1c12-0";
+    private static final String DRUG_ID_1 = "cb5289695728cdc57dd99969526f95a2cd2b8df653087754d9caf444ce59e8f94";
+    private static final String DRUG_ID_2 = "cb5289695728cdc57dd99969526f95a2cd2b8df653087754d9caf444ce59e8f95";
 
     private static final String INVALID_MEDICATION_ID = "fc2987a8acfc1a141acbea8b4c17bdfd607801887aa7c6f6105c2bf59b311555";
     private static final String INVALID_PRESCRIPTION_DETAIL_ID = "29a0a1de3175d909de6f0173fe9ddddfed350855dc8ecf9c66935a63b8967951-0";

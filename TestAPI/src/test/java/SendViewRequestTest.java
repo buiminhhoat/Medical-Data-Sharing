@@ -21,17 +21,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SendViewRequestTest {
     private static String INVALID_ACCESS_TOKEN = "INVALID_ACCESS_TOKEN";
     private static String ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW50aGFuaGhhaUBnbWFpbC5jb20iLCJpYXQiOjE3Mjg5MjMzMDAsImV4cCI6MTc4OTQwMzMwMH0.wyu1ftGWD0UHI8GFcYiU3rSeuVHPK_N4JTR0apOUvjiCE7d595K4Wa9M2Y1IqqM3VCVrgGqMRbN8ulYjDRbr9A";
     private static String ACCESS_TOKEN_NOT_SENDER_ID = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW9xdWFuZ3ZpbmhAZ21haWwuY29tIiwiaWF0IjoxNzI4OTI0Njk3LCJleHAiOjE3ODk0MDQ2OTd9.YbqZMLF4C48EM4wdq_qbzCNTR2FBh6MXxaN49qIyJIzW0qrwsApRMFFE-UO1UkW2udvie7ZYfqIQHHY3WYLQHg";
-    private static String RECIPIENT_ID = "Patient-305f5d47-b01b-4a3e-b2e5-ea36fa950ecf";
+    private static String RECIPIENT_ID = "Patient-7a293550-bd59-49c7-b00e-2c5156a776d6";
     private static String RECIPIENT_ID_NOT_PATIENT = "Doctor-305f5d47-b01b-4a3e-b2e5-ea36fa950ecf";
-    private static String SENDER_ID = "Doctor-76a1c4e7-bc03-4d97-b183-750bf5603f77";
+    private static String SENDER_ID = "Doctor-ac93df6c-2705-4e39-817e-2e08c3c993f1";
     private static String SENDER_ID_NOT_DOCTOR = "Scientist-ae411d24-df5c-4015-835a-d2a05dd141b9";
     private static String SENDER_ID_NOT_ACCESS_TOKEN = "Doctor-d63de258-8b68-482f-b8ef-9d68099d14d1";
 
@@ -155,8 +154,10 @@ public class SendViewRequestTest {
         assertNotEquals("", viewRequest.getRequestId());
         assertEquals(SENDER_ID, viewRequest.getSenderId());
         assertEquals(RECIPIENT_ID, viewRequest.getRecipientId());
-        assertEquals(StringUtil.parseDate(new Date()), viewRequest.getDateCreated());
-        assertEquals(StringUtil.parseDate(new Date()), viewRequest.getDateModified());
+        assertTrue(viewRequest.getDateCreated().contains(StringUtil.parseDate(new Date())));
+        assertTrue(viewRequest.getDateModified().contains(StringUtil.parseDate(new Date())));
+//        assertEquals(StringUtil.parseDate(new Date()), viewRequest.getDateCreated());
+//        assertEquals(StringUtil.parseDate(new Date()), viewRequest.getDateModified());
         assertEquals("Xem hồ sơ y tế", viewRequest.getRequestType());
         assertEquals("Chờ xử lý", viewRequest.getRequestStatus());
     }

@@ -392,10 +392,12 @@ public class InitDataLoader implements CommandLineRunner {
                     sendAppointmentRequestForm);
             System.out.println("appointmentRequest: " + appointmentRequest);
 
-            appointmentRequest = hyperledgerService.sendAppointmentRequest(
-                    patient,
-                    sendAppointmentRequestForm);
-            System.out.println("appointmentRequest2: " + appointmentRequest);
+            for (int i = 1; i <= 3; ++i) {
+                appointmentRequest = hyperledgerService.sendAppointmentRequest(
+                        patient,
+                        sendAppointmentRequestForm);
+                System.out.println("appointmentRequest: " + appointmentRequest);
+            }
 
             Manufacturer manufacturer = manufacturerRepository.findManufacturerByEmail("congtyduocphama@gmail.com");
 
@@ -518,7 +520,7 @@ public class InitDataLoader implements CommandLineRunner {
             sendViewRequestForm.setDateCreated(StringUtil.parseDate(dateCreated));
             sendViewRequestForm.setDateModified(StringUtil.parseDate(dateModified));
 
-            for (int i = 1; i <= 2; ++i) {
+            for (int i = 1; i <= 3; ++i) {
                 SendViewRequestForm sendViewRequestForm2 = new SendViewRequestForm();
                 sendViewRequestForm2.setSenderId(doctor1Id);
                 sendViewRequestForm2.setRecipientId(patientId);

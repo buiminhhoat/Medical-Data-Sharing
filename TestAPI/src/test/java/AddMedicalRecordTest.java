@@ -23,14 +23,14 @@ public class AddMedicalRecordTest {
     private static String INVALID_ACCESS_TOKEN = "INVALID_ACCESS_TOKEN";
     private static String ACCESS_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW50aGFuaGhhaUBnbWFpbC5jb20iLCJpYXQiOjE3Mjg4MzkyNzksImV4cCI6MTc4OTMxOTI3OX0.XfCNwunqThSHv97dymFBerCpsuw316tqd0R_EnQDN78zGsmnLUq0Dn5lBLahEzjyYLy7nJcPG6tiIzbYnY7h5g";
 
-    private static String REQUEST_ID = "f760c43d1514c8045989c41b15a5e39593992119a3da5f61a66c3c64d8049343";
-    private static String PATIENT_ID = "Patient-305f5d47-b01b-4a3e-b2e5-ea36fa950ecf";
-    private static String DOCTOR_ID = "Doctor-76a1c4e7-bc03-4d97-b183-750bf5603f77";
-    private static String MEDICAL_INSTITUTION_ID = "MedicalInstitution-da886f1d-9185-4344-b3ae-70f4a2dfad49";
+    private static String REQUEST_ID = "c982199b26bc49243e1a5af38e15c583752e739f184d95f1ffcb0927b9e76d85";
+    private static String PATIENT_ID = "Patient-7a293550-bd59-49c7-b00e-2c5156a776d6";
+    private static String DOCTOR_ID = "Doctor-ac93df6c-2705-4e39-817e-2e08c3c993f1";
+    private static String MEDICAL_INSTITUTION_ID = "MedicalInstitution-647b6466-9bfc-4030-abbc-f95263497b93";
     private static String TEST_NAME = "Xét nghiệm máu";
     private static String MEDICAL_RECORD_DETAILS = "Tất cả các chỉ số bình thường";
-    private static String HASH_FILE = "QmZBhK3zL59mrspzjyZaTkXokNp5DjZunrEdu7wcuZ5ctM";
-    private static String MEDICATION_ID = "e493d0d38a97fea26d068fe059dcfdbd1a59ecb1f12cba78f25f3786f57606c7";
+    private static String HASH_FILE = "bafkreiha5wezrhii3do4lck6e4ergyahttfcendvtuzwhw2ng4pxoejeba";
+    private static String MEDICATION_ID = "1c292f34eac58b31a88dd5ac7e2ae0746e05ace3f2be910d3da90d27d0bfc8e3";
     private static String QUANTITY = "10";
     private static String DETAILS = "Uống 2 viên vào mỗi trưa và tối";
 
