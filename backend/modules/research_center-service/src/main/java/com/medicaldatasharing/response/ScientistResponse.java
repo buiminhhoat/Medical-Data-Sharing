@@ -18,6 +18,10 @@ public class ScientistResponse extends UserResponse {
     private String dateBirthday;
     private String gender;
 
+    public ScientistResponse() {
+
+    }
+
     public ScientistResponse(Scientist scientist) {
         this.id = scientist.getId();
         this.doctorId = scientist.getId();

@@ -106,7 +106,7 @@ public class ResearchCenterService {
     }
 
     public String getAllScientistByResearchCenter(String researchCenterId) throws Exception {
-        String url = "http://localhost:9004/api/scientist/permit-all/get-all-scientist-by-research-center-id/{researchCenterId}";
+        String url = "http://localhost:9004/api/scientist/permit-all/get-all-scientist-by-research-center-id/" + researchCenterId;
         ResponseEntity<String> response = restTemplate.exchange(
                 url,
                 HttpMethod.POST,
